@@ -97,6 +97,8 @@
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
