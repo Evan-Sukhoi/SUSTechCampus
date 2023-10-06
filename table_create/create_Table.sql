@@ -45,13 +45,20 @@ CREATE TABLE Buildings (
     name VARCHAR(255),
     open_time TIME,
     close_time TIME,
-    image BLOB,
-    location_name VARCHAR(255),
     video BLOB,
     introduction TEXT,
     nearest_station VARCHAR(255),
+    comment_ID INT,
     PRIMARY KEY (building_ID)
 );
+-- 建筑对应图片 一对多需要新建表
+CREATE TABLE Buildings_Image (
+    building_ID INT,
+    image_ID INT
+);
+
+
+
 
 -- 房间表
 CREATE TABLE Room (
@@ -66,10 +73,15 @@ CREATE TABLE Room (
 CREATE TABLE Room_type (
     room_type_ID INT AUTO_INCREMENT,
     type VARCHAR(255),
-    image BLOB,
     capacity INT,
     PRIMARY KEY (room_type_ID)
 );
+-- Room_type对应图片 一对多需要新建表
+CREATE TABLE Room_type_Image (
+    room_type_ID INT,
+    image_ID INT
+);
+
 
 -- 巴士线路表
 CREATE TABLE bus_line (
@@ -80,17 +92,29 @@ CREATE TABLE bus_line (
    PRIMARY KEY (bus_line_ID)
 );
 
+
+
 -- 评价表
 CREATE TABLE Comment (
    comment_ID INT AUTO_INCREMENT,
    user_ID INT,
    time TIMESTAMP,
    text TEXT,
-   image BLOB,
    building_ID INT,
    score DECIMAL(3,2),
    admin_ID INT,
    PRIMARY KEY (comment_ID)
+);
+-- comment_ID对应图片 一对多需要新建表
+CREATE TABLE comment_ID_Image (
+    comment_ID INT,
+    image_ID INT
+);
+
+-- 创建图片表
+CREATE TABLE image (
+    image_ID INT AUTO_INCREMENT PRIMARY KEY,
+    image BLOB
 );
 
 -- 预订表

@@ -1,18 +1,23 @@
 package com.sustech.campus.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
 
+    @Id
     private int id;  //id
     private String name;   //姓名
-    private String pwd;   //密码
+    private String password;   //密码
 
     public User(){
 
     }
-    public User(int id, String name, String pwd) {
+    public User(int id, String name, String password) {
         this.id = id;
         this.name = name;
-        this.pwd = pwd;
+        this.password = password;
     }
 
     public int getId() {
@@ -31,12 +36,12 @@ public class User {
         this.name = name;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", pwd='" + pwd + '\'' +
+                ", pwd='" + password + '\'' +
                 '}';
     }
 }
