@@ -21,7 +21,7 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
     // 添加 Image
     @Modifying
     @Query("INSERT INTO Image (image) VALUES (:imageData)")
-    void customAddImage(@Param("imageData") byte[] imageData);
+    void addImage(@Param("imageData") byte[] imageData);
 
     // 更新 Image 数据
     @Modifying

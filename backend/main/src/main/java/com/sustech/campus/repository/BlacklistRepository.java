@@ -22,6 +22,10 @@ public interface BlacklistRepository extends JpaRepository<Blacklist, Integer> {
     @Query("SELECT b FROM Blacklist b WHERE b.userId = :userId")
     List<Blacklist> customFindByUserId(@Param("listId") Integer userId);
 
+    @Query("SELECT b FROM Blacklist b WHERE b.adminId = :userId")
+    List<Blacklist> customFindByAdminId(Integer adminId);
+
+
     // 根据主键删除
     @Modifying
     @Query("DELETE FROM Blacklist b WHERE b.listId = :listId")
@@ -41,5 +45,8 @@ public interface BlacklistRepository extends JpaRepository<Blacklist, Integer> {
     @Modifying
     @Query("UPDATE Blacklist b SET b.adminId = :adminId WHERE b.listId = :listId")
     void customUpdateAdminId(@Param("listId") Integer listId, @Param("adminId") Integer adminId);
+
+
+
 }
 

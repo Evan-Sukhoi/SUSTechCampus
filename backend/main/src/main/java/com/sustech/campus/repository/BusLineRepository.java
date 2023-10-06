@@ -21,7 +21,7 @@ public interface BusLineRepository extends JpaRepository<BusLine, Integer> {
     // 添加 BusLine
     @Modifying
     @Query("INSERT INTO BusLine (lineId, station, index) VALUES (:lineId, :station, :index)")
-    void customAddBusLine(@Param("lineId") Integer lineId, @Param("station") String station, @Param("index") Integer index);
+    void addBusLine(@Param("lineId") Integer lineId, @Param("station") String station, @Param("index") Integer index);
 
     // 修改站点名称
     @Modifying
@@ -32,5 +32,6 @@ public interface BusLineRepository extends JpaRepository<BusLine, Integer> {
     @Modifying
     @Query("UPDATE BusLine b SET b.index = :index WHERE b.busLineId = :busLineId")
     void customUpdateIndex(@Param("busLineId") Integer busLineId, @Param("index") Integer index);
+
 }
 

@@ -7,12 +7,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
     // 根据主键查询
     @Query("SELECT a FROM Admin a WHERE a.adminId = :adminId")
     Admin customFindById(@Param("adminId") Integer adminId);
+
+    // 根据姓名查询
+    @Query("SELECT a FROM Admin a WHERE a.name = :name")
+    List<Admin> findByName(String name);
 
     // 根据主键删除
     @Modifying
@@ -22,7 +28,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
     // 添加 Admin
     @Modifying
     @Query("INSERT INTO Admin (name, phone, email, password) VALUES (:name, :phone, :email, :password)")
-    void customAddAdmin(@Param("name") String name, @Param("phone") String phone, @Param("email") String email, @Param("password") String password);
+    void addAdmin(@Param("name") String name, @Param("phone") String phone, @Param("email") String email, @Param("password") String password);
 
     // 修改姓名
     @Modifying
@@ -43,5 +49,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
     @Modifying
     @Query("UPDATE Admin a SET a.password = :password WHERE a.adminId = :adminId")
     void customUpdatePassword(@Param("adminId") Integer adminId, @Param("password") String password);
+
+
 }
 

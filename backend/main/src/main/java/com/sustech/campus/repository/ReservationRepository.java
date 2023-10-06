@@ -12,12 +12,19 @@ import org.springframework.stereotype.Repository;
 import com.sustech.campus.model.Reservation;
 
 import java.security.Timestamp;
+import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     // 根据主键查询
     @Query("SELECT r FROM Reservation r WHERE r.reservationId = :reservationId")
     Reservation customFindById(@Param("reservationId") Integer reservationId);
+
+    @Query("SELECT r FROM Reservation r WHERE r.userId = :userID")
+    List<Reservation> findByUserID(Integer userID);
+
+    @Query("SELECT r FROM Reservation r WHERE r.roomId = :userID")
+    List<Reservation> findByRoomID(Integer roomID);
 
     // 根据主键删除
     @Modifying
@@ -27,7 +34,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     // 添加 Reservation
     @Modifying
     @Query("INSERT INTO Reservation (room_ID, start_time, end_time, user_ID) VALUES (:roomId, :startTime, :endTime, :userId)")
-    void customAddReservation(@Param("roomId") Integer roomId, @Param("startTime") Timestamp startTime, @Param("endTime") Timestamp endTime, @Param("userId") Integer userId);
+    void addReservation(@Param("roomId") Integer roomId, @Param("startTime") Timestamp startTime, @Param("endTime") Timestamp endTime, @Param("userId") Integer userId);
 
     // 修改房间ID
     @Modifying
@@ -48,5 +55,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Modifying
     @Query("UPDATE Reservation r SET r.userId = :userId WHERE r.reservationId = :reservationId")
     void customUpdateUserId(@Param("reservationId") Integer reservationId, @Param("userId") Integer userId);
+
+
+
 }
 

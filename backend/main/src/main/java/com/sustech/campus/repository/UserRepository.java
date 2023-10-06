@@ -7,11 +7,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     // 根据主键查询
     @Query("SELECT u FROM User u WHERE u.userId = :userId")
     User customFindById(@Param("userId") Integer userId);
+
+
+    // 根据名字查询
+    @Query("SELECT u FROM User u WHERE u.name = :name")
+    List<User> findByName(String name);
 
     // 根据主键删除
     @Modifying
@@ -42,5 +49,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("UPDATE User u SET u.password = :password WHERE u.userId = :userId")
     void customUpdatePassword(@Param("userId") Integer userId, @Param("password") String password);
+
+
 }
 

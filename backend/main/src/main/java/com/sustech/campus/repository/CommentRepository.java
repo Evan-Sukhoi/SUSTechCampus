@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.security.Timestamp;
 import java.sql.Blob;
+import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
@@ -21,6 +22,11 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Modifying
     @Query("DELETE FROM Comment c WHERE c.commentId = :commentId")
     void customDeleteById(@Param("commentId") Integer commentId);
+
+
+    //根据建筑id查询评论
+    @Query("SELECT c FROM Comment c WHERE c.buildingId = :buildingId")
+    List<Comment> findByBuildingId(Integer buildingId);
 
     // 添加评论
     @Modifying
@@ -40,5 +46,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Modifying
     @Query("UPDATE Comment c SET c.score = :score WHERE c.commentId = :commentId")
     void customUpdateScore(@Param("commentId") Integer commentId, @Param("score") BigDecimal score);
+
+
 }
 

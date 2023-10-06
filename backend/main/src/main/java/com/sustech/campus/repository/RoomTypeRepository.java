@@ -7,11 +7,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
     // 根据主键查询
     @Query("SELECT r FROM RoomType r WHERE r.roomTypeId = :roomTypeId")
     RoomType customFindById(@Param("roomTypeId") Integer roomTypeId);
+
+    // 根据容量查询房间类型
+    @Query("SELECT r FROM RoomType r WHERE r.capacity = :capacity")
+    List<RoomType> findByCapacity(Integer capacity);
 
     // 根据主键删除
     @Modifying
@@ -21,7 +27,7 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
     // 添加 RoomType
     @Modifying
     @Query("INSERT INTO RoomType (type, capacity) VALUES (:type, :capacity)")
-    void customAddRoomType(@Param("type") String type, @Param("capacity") Integer capacity);
+    void addRoomType(@Param("type") String type, @Param("capacity") Integer capacity);
 
     // 修改类型
     @Modifying
@@ -32,5 +38,7 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
     @Modifying
     @Query("UPDATE RoomType r SET r.capacity = :capacity WHERE r.roomTypeId = :roomTypeId")
     void customUpdateCapacity(@Param("roomTypeId") Integer roomTypeId, @Param("capacity") Integer capacity);
+
+
 }
 

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Repository
@@ -24,7 +23,7 @@ public interface BuildingRepository extends JpaRepository<Building, Integer> {
     // 添加 Building
     @Modifying
     @Query("INSERT INTO Building (name, openTime, closeTime, video, introduction, nearestStation) VALUES (:name, :openTime, :closeTime, :video, :introduction, :nearestStation)")
-    void customAddBuilding(@Param("name") String name, @Param("openTime") Timestamp openTime, @Param("closeTime") Timestamp closeTime, @Param("video") byte[] video, @Param("introduction") String introduction, @Param("nearestStation") String nearestStation);
+    void addBuilding(@Param("name") String name, @Param("openTime") Timestamp openTime, @Param("closeTime") Timestamp closeTime, @Param("video") byte[] video, @Param("introduction") String introduction, @Param("nearestStation") String nearestStation);
 
     // 修改建筑名称
     @Modifying
