@@ -37,7 +37,6 @@ public class Reservation {
     }
 
     // Getter和Setter方法
-
     public int getReservationId() {
         return reservationId;
     }

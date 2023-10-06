@@ -2,6 +2,8 @@ package com.sustech.campus.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "Buildings")
 public class Building {
@@ -14,10 +16,10 @@ public class Building {
     private String name;
 
     @Column(name = "open_time")
-    private java.sql.Time openTime;
+    private Timestamp openTime;
 
     @Column(name = "close_time")
-    private java.sql.Time closeTime;
+    private Timestamp closeTime;
 
     @Lob
     @Column(name = "video")
@@ -38,7 +40,7 @@ public class Building {
 
     }
 
-    public Building(int buildingId, String name, java.sql.Time openTime, java.sql.Time closeTime, byte[] video, String introduction, String nearestStation, int commentId) {
+    public Building(int buildingId, String name, Timestamp openTime, Timestamp closeTime, byte[] video, String introduction, String nearestStation, int commentId) {
         this.buildingId = buildingId;
         this.name = name;
         this.openTime = openTime;
@@ -67,19 +69,19 @@ public class Building {
         this.name = name;
     }
 
-    public java.sql.Time getOpenTime() {
+    public Timestamp getOpenTime() {
         return openTime;
     }
 
-    public void setOpenTime(java.sql.Time openTime) {
+    public void setOpenTime(Timestamp openTime) {
         this.openTime = openTime;
     }
 
-    public java.sql.Time getCloseTime() {
+    public Timestamp getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(java.sql.Time closeTime) {
+    public void setCloseTime(Timestamp closeTime) {
         this.closeTime = closeTime;
     }
 

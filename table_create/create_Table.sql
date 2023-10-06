@@ -2,7 +2,7 @@ git /*
 假设:
 所有的varchar默认不会超过255个字符
 长文本（比如introduction使用text）
-所有的时间都是以24小时制表示
+所有的时间都是TIMESTAMP
 所有的图片和视频都以BLOB类型存储
 所有的分数都是小数，最多有两位小数
 所有的表都没有外键
@@ -43,8 +43,8 @@ CREATE TABLE Blacklist (
 CREATE TABLE Buildings (
     building_ID INT AUTO_INCREMENT,
     name VARCHAR(255),
-    open_time TIME,
-    close_time TIME,
+    open_time TIMESTAMP,
+    close_time TIMESTAMP,
     video BLOB,
     introduction TEXT,
     nearest_station VARCHAR(255),

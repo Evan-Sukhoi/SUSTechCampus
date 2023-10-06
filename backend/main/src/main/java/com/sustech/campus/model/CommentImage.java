@@ -5,14 +5,11 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "comment_ID_Image")
 public class CommentImage {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
 
     @Column(name = "comment_ID")
     private int commentId;
 
+    @Id
     @Column(name = "image_ID")
     private int imageId;
 
@@ -21,22 +18,12 @@ public class CommentImage {
 
     }
 
-    public CommentImage(int id, int commentId, int imageId) {
-        this.id = id;
+    public CommentImage(int commentId, int imageId) {
         this.commentId = commentId;
         this.imageId = imageId;
     }
 
     // Getter和Setter方法
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getCommentId() {
         return commentId;
     }
@@ -56,7 +43,6 @@ public class CommentImage {
     @Override
     public String toString() {
         return "CommentImage{" +
-                "id=" + id +
                 ", commentId=" + commentId +
                 ", imageId=" + imageId +
                 '}';
