@@ -1,14 +1,13 @@
 package com.sustech.campus.model;
 
 import jakarta.persistence.*;
-
 @Entity
-@Table(name = "Users")
-public class User {
+@Table(name = "Admins")
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_ID")
-    private int userId;
+    @Column(name = "admin_ID")
+    private int adminId;
 
     @Column(name = "name", length = 255)
     private String name;
@@ -27,12 +26,12 @@ public class User {
     private byte[] image;
 
     // 构造函数
-    public User() {
+    public Admin() {
 
     }
 
-    public User(int userId, String name, String phone, String email, String password, byte[] image) {
-        this.userId = userId;
+    public Admin(int adminId, String name, String phone, String email, String password, byte[] image) {
+        this.adminId = adminId;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -42,12 +41,12 @@ public class User {
 
     // Getter和Setter方法
 
-    public int getUserId() {
-        return userId;
+    public int getAdminId() {
+        return adminId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     public String getName() {
@@ -92,15 +91,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
+        return "Admin{" +
+                "adminId=" + adminId +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
-
 }
-
-
