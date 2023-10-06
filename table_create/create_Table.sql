@@ -1,4 +1,4 @@
-/*
+git /*
 假设:
 所有的varchar默认不会超过255个字符
 长文本（比如introduction使用text）

@@ -1,5 +1,5 @@
 <template>
-  <div class="center examplex">
+  <div class="center_examples">
     <vs-navbar v-model="active" not-line>
       <template #left>
         <a href="https://www.sustech.edu.cn/"><img src="../assets/logo/NKLogo.png" style="width: 50px; height: 50px"></a>
@@ -65,6 +65,10 @@ export default {
 </script>
 
 <style>
+.center_examples {
+  height: 40px;
+}
+
 .lang {
   cursor: pointer;
 }
