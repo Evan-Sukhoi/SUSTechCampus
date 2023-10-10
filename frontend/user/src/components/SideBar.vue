@@ -36,7 +36,7 @@
           Massage Wall
         </vs-sidebar-item>
 
-        <vs-sidebar-item id="return">
+        <vs-sidebar-item id="return" @click.native="handleLink('building')">
           <template #icon>
             <i class='bx bx-home'></i>
           </template>

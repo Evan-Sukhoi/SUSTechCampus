@@ -1,12 +1,16 @@
 <template>
   <div>
-    <p>
+
+    <div><p>
       hello intro
-    </p>
+    </p></div>
   </div>
+
+
 </template>
 
 <script>
+
 
 </script>
 
