@@ -11,7 +11,7 @@
          <div>
            <el-row :gutter="20">
              <el-col v-for="building in buildings" :key="building.id" :span="6">
-               <router-link :key="building.name" :to="`/building/${building.id}`">
+               <router-link :key="building.name" :to="`/building/${building.id}/intro`">
                  <vs-card type=2>
                    <template #title>
                      <h3>{{ building.name}}</h3>

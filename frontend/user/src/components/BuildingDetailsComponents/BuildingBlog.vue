@@ -1,23 +1,30 @@
 <template>
   <div id="blog">
-    <vs-row>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6">
-        <div class="blog-post" v-for="post in posts" :key="post.id">
-          <h1 class="post-title">{{ post.title }}</h1>
-          <div class="post-meta">
-            <span class="post-date">{{ formatDate(post.date) }}</span>
-            <span class="post-author">by {{ post.author }}</span>
-          </div>
-          <div class="post-content">
-            <div v-html="post.content"></div>
-          </div>
-        </div>
-      </vs-col>
+    <div id="blogcards">
+      <vs-row v-for="post in posts" :key="post.id">
+        <vs-card type="3">
+          <template #title>
+            <h3>{{post.title}}</h3>
+          </template>
+          <template #img>
+            <img :src="post.src" alt="">
+          </template>
+          <template #text>
+            <p>
+              {{post.content}}
+            </p>
+          </template>
+          <template #interactions>
+            <vs-button danger icon>
+              <i class='bx bx-heart'></i>
+            </vs-button>
+          </template>
+        </vs-card>
+      </vs-row>
 
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6">
+    </div>
 
-      </vs-col>
-    </vs-row>
+
 
 
   </div>
@@ -30,9 +37,15 @@ export default {
   data() {
     return {
       posts: [
-        {title: "hello", author: "jjjj", date: "2023/09/11", content: "ni hao", id: 1},
-        {title: "hell", author: "jjjj", date: "2023/09/11", content: "ni hao", id: 2},
-        {title: "hel", author: "jjjj", date: "2023/09/11", content: "ni hao", id: 3},
+        {title: "hello", author: "jjjj", date: "2023/09/11", content: "ni hao kdifjsidfnisdnfdnfidf ldkfodfk diofjidfji dfsjdfoj", id: 1, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hell", author: "jjjj", date: "2023/09/11", content: "ni hao dfsd  dfe df gdg", id: 2, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hel", author: "jjjj", date: "2023/09/11", content: "ni hao", id: 3, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hello", author: "jjjj", date: "2023/09/11", content: "ni hao kdifjsidfnisdnfdnfidf ldkfodfk diofjidfji dfsjdfoj", id: 4, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hell", author: "jjjj", date: "2023/09/11", content: "ni hao dfsd  dfe df gdg", id: 5, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hel", author: "jjjj", date: "2023/09/11", content: "ni hao", id: 6, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hello", author: "jjjj", date: "2023/09/11", content: "ni hao kdifjsidfnisdnfdnfidf ldkfodfk diofjidfji dfsjdfoj", id: 7, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hell", author: "jjjj", date: "2023/09/11", content: "ni hao dfsd  dfe df gdg", id: 8, src: require("@/assets/pad(canDelete)/background/keli.png")},
+        {title: "hel", author: "jjjj", date: "2023/09/11", content: "ni hao", id: 9, src: require("@/assets/pad(canDelete)/background/keli.png")},
 
       ]
     }
@@ -47,41 +60,12 @@ export default {
 </script>
 
 <style scoped>
-.blog-post {
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+#blog {
+  display: flex;
+  flex-direction: row;
 }
 
-.post-title {
-  font-size: 24px;
-  margin: 0;
-  padding: 0;
-  color: #333;
+#blogcards {
+  width: 50%;
 }
-
-.post-meta {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #666;
-}
-
-.post-content {
-  margin-top: 20px;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #333;
-}
-
-.post-author {
-  margin-left: 20px;
-}
-
-.post-date {
-  margin-right: 20px;
-}
-
 </style>
