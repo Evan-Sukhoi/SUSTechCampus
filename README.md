@@ -9,7 +9,7 @@
 
 ## 后端数据持久化方法简介
 ### DAO（data access object）
-此类文件位于package com.sustech.campus.database.dao
+此类文件位于backend/database/src/main/java/com/sustech/campus/database/dao
 
 每个文件实现了一个DAO接口，该接口继承自MPJBaseMapper<City>，这是一个泛型接口，其使用了MyBatis Plus框架。
 
@@ -19,7 +19,7 @@ MyBatis Plus是MyBatis的一个增强工具，用于简化MyBatis的操作。MPJ
 
 ### PO（persistent object）
 
-此类文件位于package com.sustech.campus.database.po
+此类文件位于backend/database/src/main/java/com/sustech/campus/database/po
 
 每个文件都实现了一个PO（Persistence Object）类，也可以称为实体类。在持久层开发中，PO类通常用于表示数据库中的表结构，每个PO类的字段对应数据库表中的列。
 
