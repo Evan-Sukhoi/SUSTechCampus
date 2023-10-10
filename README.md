@@ -31,8 +31,8 @@ MyBatis Plus注解： @TableId 和 @IdType.AUTO 是MyBatis Plus的注解。@Tabl
 
 字段定义： 该类包含了一些属性，如 id、name、provinceId 和 isProvincialCapital，这些属性对应了数据库表中的列。例如，id 属性对应了城市表中的主键列，name 属性对应了城市名，provinceId 属性对应了省份ID，isProvincialCapital 属性对应了城市是否为省会的信息。
 
-### 接下来后端需要做的工作
+## 接下来后端需要做的工作
 
 根据数据库的设计，仿照学习链接，完成Dao和Po的填充。
 
-学习链接：[](https://github.com/QuanQuan-CHO/SUSTech-Regency)
+学习链接：[https://github.com/QuanQuan-CHO/SUSTech-Regency](https://github.com/QuanQuan-CHO/SUSTech-Regency)
