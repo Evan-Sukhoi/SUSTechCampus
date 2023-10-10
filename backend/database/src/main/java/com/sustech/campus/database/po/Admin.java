@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class admins implements Displayable {
+public class Admin implements Displayable {
     @TableId(type = IdType.AUTO)
     private short admin_ID;
     private String name;
