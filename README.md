@@ -29,7 +29,7 @@ Lombok注解： 自动生成常见的Java类方法，如Getter、Setter、构造
 
 MyBatis Plus注解： @TableId 和 @IdType.AUTO 是MyBatis Plus的注解。@TableId 用于标识实体类中的主键字段，@IdType.AUTO 表示主键的生成策略是自增长（通常用于自动递增的主键字段）。
 
-字段定义： 该类包含了一些属性，如 id、name、provinceId 和 isProvincialCapital，这些属性对应了数据库表中的列。例如，id 属性对应了城市表中的主键列，name 属性对应了城市名，provinceId 属性对应了省份ID，isProvincialCapital 属性对应了城市是否为省会的信息。
+字段定义： 比如一个City类，它包含了一些属性，如 id、name、provinceId 和 isProvincialCapital，这些属性对应了数据库表中的列。
 
 ## 接下来后端需要做的工作
 
