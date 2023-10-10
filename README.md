@@ -7,8 +7,8 @@
 后端管理使用mybatis（无需安装，在maven中执行即可）
 
 
-### 后端数据持久化方法简介
-#### DAO（data access object）
+## 后端数据持久化方法简介
+### DAO（data access object）
 此类文件位于package com.sustech.campus.database.dao
 
 每个文件实现了一个DAO接口，该接口继承自MPJBaseMapper<City>，这是一个泛型接口，其使用了MyBatis Plus框架。
@@ -17,7 +17,7 @@ MyBatis Plus是MyBatis的一个增强工具，用于简化MyBatis的操作。MPJ
 
 因此，这个DAO接口使用了MyBatis Plus框架用于与数据库进行交互，并且它将实体（PO中）与数据库中的表进行了映射。这意味着可以使用这个接口来执行与城市表相关的数据库操作，而不必手动编写SQL查询和更新语句。 MyBatis Plus会帮助生成和执行这些SQL语句。
 
-#### PO（persistent object）
+### PO（persistent object）
 
 此类文件位于package com.sustech.campus.database.po
 
