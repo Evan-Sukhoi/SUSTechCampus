@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import sideBar from "@/components/SideBar.vue";
+import sideBar from "@/components/userComponents/BuildingComponents/BuildingSideBar.vue";
 export default {
   name: "buildingDetails",
   components: {

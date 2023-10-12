@@ -13,7 +13,7 @@ export default {
 #back{
   width: 100%;
   height: 1000px;
-  background-image: url("../assets/pad(canDelete)/background/甘雨.jpg");
+  background-image: url("../../assets/pad(canDelete)/background/甘雨.jpg");
   background-size: cover;
 }
 </style>

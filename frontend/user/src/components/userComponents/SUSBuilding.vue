@@ -11,7 +11,7 @@
          <div>
            <el-row :gutter="20">
              <el-col v-for="building in buildings" :key="building.id" :span="6">
-               <router-link :key="building.name" :to="`/building/${building.id}/intro`">
+               <router-link :key="building.name" :to="`/user/building/${building.id}/intro`">
                  <vs-card type=2>
                    <template #title>
                      <h3>{{ building.name}}</h3>
@@ -53,12 +53,12 @@ export default {
       buildings: [
         {id: 1, name: "the first teaching building", description: "study here and learn more", src: require("@/assets/pad(canDelete)/background/youla.jpg")},
         {id: 2, name: "the second teaching building", description: "study here and learn more", src: require("@/assets/pad(canDelete)/background/youla.jpg")},
-        {id: 3, name: "the third teaching building", description: "study here and learn more", src: require("../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 4, name: "the fourth teaching building", description: "study here and learn more", src: require("../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 5, name: "the fifth teaching building", description: "study here and learn more", src: require("../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 6, name: "the sixth teaching building", description: "study here and learn more", src: require("../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 7, name: "the seventh teaching building", description: "study here and learn more", src: require("../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 8, name: "the eighth teaching building", description: "study here and learn more", src: require("../assets/pad(canDelete)/background/youla.jpg")},
+        {id: 3, name: "the third teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
+        {id: 4, name: "the fourth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
+        {id: 5, name: "the fifth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
+        {id: 6, name: "the sixth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
+        {id: 7, name: "the seventh teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
+        {id: 8, name: "the eighth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
       ]
     }
   }
@@ -69,7 +69,6 @@ export default {
 #back {
   width: 100%;
   height: 1000px;
-//background-image: url("../assets/pad(canDelete)/background/提瓦特.jpg"); background-size: cover;
 }
 
 ul {

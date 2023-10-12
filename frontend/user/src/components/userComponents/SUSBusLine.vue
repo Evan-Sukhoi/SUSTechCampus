@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: "SUSAppointment"
+  name: "SUSBusLine"
 }
 </script>
 
@@ -13,7 +13,7 @@ export default {
 #back{
   width: 100%;
   height: 1000px;
-  background-image: url("../assets/pad(canDelete)/background/神里.png");
+  background-image: url("../../assets/pad(canDelete)/background/狐狸.jpg");
   background-size: cover;
 }
 </style>

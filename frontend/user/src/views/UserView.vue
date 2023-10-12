@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import TopBar from "@/components/TopBar";
+import TopBar from "@/components/userComponents/UserTopBar.vue";
 
 export default {
-  name: 'HomeView',
+  name: 'UserView',
   components: {
     TopBar
   }

@@ -25,7 +25,9 @@
 </template>
 
 <script>
-
+export default {
+  name: "BuildingIntro"
+}
 
 </script>
 
