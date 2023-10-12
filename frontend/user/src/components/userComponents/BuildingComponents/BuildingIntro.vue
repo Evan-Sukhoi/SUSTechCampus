@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <div class="intro">
+
     <div id="buildingName">
       <h3 style="text-align: center">
         hello world
@@ -14,32 +15,20 @@
       </el-carousel>
     </div>
 
-    <div class="detail">
-      <div id="sidebar">
-        <sideBar></sideBar>
-      </div>
-
-      <div id="route">
-        <transition name="fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
-      </div>
-
-    </div>
-
+    <div><p>
+      hello intro
+    </p></div>
 
   </div>
+
 
 </template>
 
 <script>
-import sideBar from "@/components/SideBar.vue";
 export default {
-  name: "buildingDetails",
-  components: {
-    sideBar,
-  },
+  name: "BuildingIntro"
 }
+
 </script>
 
 <style scoped>
@@ -67,18 +56,8 @@ export default {
   opacity: 0;
 }
 
-.detail {
-  display: flex;
-  flex-direction: row;
+.intro {
+  position: relative;
+  width: 100%;
 }
-
-#sidebar {
-  width: 30%;
-}
-
-#route {
-  width: 70%;
-}
-
-
 </style>

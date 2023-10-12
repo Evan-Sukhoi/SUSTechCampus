@@ -2,14 +2,14 @@
   <div class="center_examples">
     <vs-navbar v-model="active" not-line>
       <template #left>
-        <a href="https://www.sustech.edu.cn/"><img src="../assets/logo/NKLogo.png" style="width: 50px; height: 50px"></a>
+        <a href="https://www.sustech.edu.cn/"><img src="../../assets/logo/NKLogo.png" style="width: 50px; height: 50px"></a>
         <nav>
           <h5 style="float: left" @click="changeLanguage('zh-CN')" class="lang">中文</h5>
           <h5 style="float: left">|</h5>
           <h5 style="float: left" @click="changeLanguage('en-US')" class="lang">En</h5>
         </nav>
       </template>
-      <vs-navbar-item :active="active === 'home'" id="home" @click="handleLink('home')">
+      <vs-navbar-item :active="active === 'home'" id="home" @click="handleLink('userHome')">
         {{$t('lang.homePage')}}
       </vs-navbar-item>
       <vs-navbar-item :active="active === 'building'" id="building" @click="handleLink('building')">
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import LoginRegister from "@/components/LoginRegister";
+import LoginRegister from "@/components/userComponents/LoginRegister.vue";
 export default {
   name:'TopBar',
   components: {

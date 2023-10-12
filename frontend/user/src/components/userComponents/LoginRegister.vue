@@ -6,7 +6,7 @@
     <vs-tooltip shadow interactivity bottom style="float: right; margin-right: 10px">
       <vs-avatar circle :badge="isLogin" badge-color="success" >
         <i class="bx bx-question-mark" v-if="!isLogin"></i>
-        <img src="../assets/pad(canDelete)/photo/img.png" alt="" v-if="isLogin">
+        <img src="../../assets/pad(canDelete)/photo/img.png" alt="" v-if="isLogin">
       </vs-avatar>
       <template #tooltip>
         <div v-if="isLogin">
