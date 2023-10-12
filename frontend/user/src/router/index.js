@@ -8,6 +8,10 @@ import BuildingDetails from "@/components/BuildingDetails";
 import SUSMap from "@/components/SUSMap";
 import SUSService from "@/components/SUSService";
 import SUSBusLine from "@/components/SUSBusLine";
+import BuildingIntro from "@/components/BuildingDetailsComponents/BuildingIntro.vue";
+import BuildingBlog from "@/components/BuildingDetailsComponents/BuildingBlog.vue";
+import BuildingRoom from "@/components/BuildingDetailsComponents/BuildingRoom.vue";
+import BuildingMassageWall from "@/components/BuildingDetailsComponents/BuildingMassageWall.vue";
 
 Vue.use(VueRouter)
 
@@ -22,7 +26,15 @@ const routes = [
       {path:'/bus', name:'bus', component: SUSBusLine},
       {path:'/service', name:'service', component: SUSService},
       {path: '/building', name:'building', component: SUSBuilding},
-      {path: '/building/:id', name: 'buildingDetails', component: BuildingDetails},
+      {path: '/building/:id', name: 'buildingDetails', component: BuildingDetails,
+      children: [
+        {path: '/building/:id/intro', name: 'intro', component: BuildingIntro},
+        {path: '/building/:id/blog', name: 'blog', component: BuildingBlog},
+        {path: '/building/:id/room', name: 'room', component: BuildingRoom},
+        {path: '/building/:id/mass', name: 'mass', component: BuildingMassageWall}
+      ]
+
+      },
       {path: '#', component: HomePage}
     ],
     component: HomeView
