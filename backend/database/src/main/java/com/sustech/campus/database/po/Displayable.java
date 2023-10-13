@@ -4,10 +4,10 @@ public interface Displayable {
     /**
      * 获取图片的UUID
      */
-    String getImageId();
+    Integer getImageId();
 
     /**
      * 设置图片的UUID
      */
-    void setImageId(String imageId);
+    void setImageId(Integer imageId);
 }

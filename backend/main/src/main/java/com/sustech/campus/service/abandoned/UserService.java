@@ -1,4 +1,4 @@
-package com.sustech.campus.service;
+package com.sustech.campus.service.abandoned;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

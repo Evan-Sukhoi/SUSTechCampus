@@ -1,5 +1,4 @@
 package com.sustech.campus.database.po;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,22 +10,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Admin implements Displayable {
+public class Users {
     @TableId(type = IdType.AUTO)
-    private short admin_ID;
+    private Integer userId;
     private String name;
     private String phone;
     private String email;
     private String password;
-    private Integer imageID;
-
-    @Override
-    public Integer getImageId() {
-        return imageID;
-    }
-
-    @Override
-    public void setImageId(Integer imageId) {
-        this.imageID = imageId;
-    }
+    private String image;
 }

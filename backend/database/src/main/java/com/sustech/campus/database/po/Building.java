@@ -6,27 +6,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.sql.Time;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Admin implements Displayable {
+public class Building implements Displayable {
     @TableId(type = IdType.AUTO)
-    private short admin_ID;
+    private Integer building_ID;
     private String name;
-    private String phone;
-    private String email;
-    private String password;
-    private Integer imageID;
+    private Time openTime;
+    private Time closeTime;
+    private String location_name;
+    private String introduction;
+    private String nearest_station;
+    private String video_url;
+    private Integer cover_ID;
 
     @Override
     public Integer getImageId() {
-        return imageID;
+        return cover_ID;
     }
 
     @Override
     public void setImageId(Integer imageId) {
-        this.imageID = imageId;
+        this.cover_ID = imageId;
     }
 }
