@@ -1,4 +1,5 @@
 package com.sustech.campus.database.po;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +11,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoomType {
+public class Blacklist {
     @TableId(type = IdType.AUTO)
-    private Integer roomTypeId;
-    private String type;
-    private Integer capacity;
+    private Integer list_ID;
+    private Integer user_ID;
+    private Integer admin_ID;
+
 }
+
+

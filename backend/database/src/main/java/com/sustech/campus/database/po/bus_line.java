@@ -10,9 +10,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoomType {
+public class bus_line {
     @TableId(type = IdType.AUTO)
-    private Integer roomTypeId;
-    private String type;
-    private Integer capacity;
+    private Integer bus_line_ID;
+    private Integer line_ID;
+    private String station;
+    private Integer _index_;
 }

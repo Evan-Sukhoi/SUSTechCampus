@@ -6,13 +6,21 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import java.sql.Time;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoomType {
+public class Comment {
     @TableId(type = IdType.AUTO)
-    private Integer roomTypeId;
-    private String type;
-    private Integer capacity;
+    private Integer comment_ID;
+    private Integer user_ID;
+    private Time time;
+    private String text;
+    private Integer building_ID;
+//    DECIMAL(3,2)
+    private Double score;
+    private Integer admin_ID;
 }
+

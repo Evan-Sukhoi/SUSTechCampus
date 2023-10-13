@@ -10,9 +10,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoomType {
+public class comment_ID_Image {
     @TableId(type = IdType.AUTO)
-    private Integer roomTypeId;
-    private String type;
-    private Integer capacity;
+    private Integer image_ID;
+    private Integer comment_ID;
 }
