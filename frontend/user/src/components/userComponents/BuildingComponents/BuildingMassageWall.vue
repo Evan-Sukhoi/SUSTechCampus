@@ -1,71 +1,48 @@
 <template>
-  <div>
-    <div>
-      <p>
-        hello massage
-      </p>
-    </div>
-
-    <div id="word-cloud"></div>
-  </div>
-
+  <div id="word-cloud"></div>
 </template>
+
 <script>
-import * as d3 from 'd3'
-import cloud from 'd3-cloud'
+import * as d3 from "d3";
+
 export default {
-  data() {
-    return {
-      words: [
-        { text: "Hello", size: 40 },
-        { text: "World", size: 30 },
-        { text: "D3", size: 50 },
-        { text: "Vue", size: 25 },
-        { text: "Word", size: 20 },
-        { text: "Cloud", size: 35 },
-      ],
-    };
+  props: {
+    words: Array, // 输入的词云数据
   },
   mounted() {
-    this.createWordCloud();
+    this.drawWordCloud();
   },
   methods: {
-    createWordCloud() {
-      const data = this.words;
+    drawWordCloud() {
+      const words = this.words;
       const width = 500;
       const height = 300;
 
-      const layout = cloud()
-          .size([width, height])
-          .words(data)
-          .padding(5)
-          .fontSize(d => d.size)
-          .on("end", draw);
+      const svg = d3.select("#word-cloud")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
 
-      layout.start();
+      const g = svg.append("g")
+          .attr("transform", `translate(${width / 2},${height / 2})`);
 
-      function draw(words) {
-        d3.select("#word-cloud")
-            .append("svg")
-            .attr("width", layout.size()[0])
-            .attr("height", layout.size()[1])
-            .append("g")
-            .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-            .selectAll("text")
-            .data(words)
-            .enter()
-            .append("text")
-            .style("font-size", d => d.size)
-            .style("fill", () => d3.schemeCategory10[Math.floor(Math.random() * d3.schemeCategory10.length)])
-            .attr("text-anchor", "middle")
-            .attr("transform", d => "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")")
-            .text(d => d.text);
-      }
-    },
-  },
-};
+      g.selectAll("text")
+          .data(words)
+          .enter()
+          .append("text")
+          .style("font-size", d => `${d.size}px`)
+          .style("fill", d => d.color)
+          .attr("text-anchor", "middle")
+          .attr("transform", (d, i) => `translate(${i * 30},${i * 20}) rotate(${i * 20})`)
+          .text(d => d.text);
+    }
+  }
+}
 </script>
 
 <style>
-
+/* 添加一些样式 */
+#word-cloud svg {
+  background-color: #f0f0f0;
+}
 </style>

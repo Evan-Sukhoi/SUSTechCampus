@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
   <title>位置经纬度 + 驾车规划路线</title>
-  <style type="text/css">
+  <style>
     html,
     body,
     #container {
@@ -13,7 +13,7 @@
       height: 100%;
     }
   </style>
-  <style type="text/css">
+  <style>
     #panel {
       position: fixed;
       background-color: white;
@@ -68,21 +68,20 @@
     map: map
   });
 
-  //构造路线导航类
-  // var driving = new AMap.Driving({
-  //   map: map,
-  //   panel: "panel"
-  // });
-  // // 根据起终点经纬度规划驾车导航路线
-  // driving.search(new AMap.LngLat(113.99843,22.59508), new AMap.LngLat(113.99823,22.597689), function(status, result) {
-  //   // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
-  //   if (status === 'complete') {
-  //     log.success('绘制驾车路线完成')
-  //   } else {
-  //     log.error('获取驾车数据失败：' + result)
-  //   }
-  // });
-  //步行导航
+
+  var driving = new AMap.Driving({
+    map: map,
+    panel: "panel"
+  });
+  // 根据起终点经纬度规划驾车导航路线
+  driving.search(new AMap.LngLat(113.99843,22.59508), new AMap.LngLat(113.99823,22.597689), function(status, result) {
+    // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+    if (status === 'complete') {
+      log.success('绘制驾车路线完成')
+    } else {
+      log.error('获取驾车数据失败：' + result)
+    }
+  });
   var walking = new AMap.Walking({
     map: map,
     panel: "panel"

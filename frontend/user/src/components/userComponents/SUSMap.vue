@@ -1,30 +1,30 @@
 <template>
   <div>
-    <div id="container"></div>
-    <div id="panel"></div>
+    <h3 class="title">{{msg}}</h3>
+    <div class="amap-wrapper">
+      <el-amap class="amap-box" :vid="'amap-vue'"></el-amap>
+    </div>
   </div>
 </template>
 
 <script>
-import { Loader } from '@amap/amap-jsapi-loader';
-
 export default {
-  mounted() {
-    Loader.load().then((AMap) => {
-      const map = new AMap.Map('map-container', {
-        zoom: 13,
-        center: [114.000725, 22.595509],
-      });
+  data () {
+    return {
+      msg: 'vue-amap向你问好'
+    }
+  }
+}
 
-      // 添加标记
-      const marker = new AMap.Marker({
-        position: [114.000725, 22.595509],
-        title: '标记位置',
-      });
-      marker.setMap(map);
-
-      // 绘制路线、其他地图操作等
-    });
-  },
-};
 </script>
+<style>
+.amap-wrapper {
+  width: 50%;
+  height: 500px;
+}
+
+.amap-box {
+  width: 100%;
+  height: 100%;
+}
+</style>
