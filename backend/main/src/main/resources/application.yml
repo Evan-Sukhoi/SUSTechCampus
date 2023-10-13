@@ -19,8 +19,6 @@ spring:
           use_jdbc_metadata_defaults: true
   error:
     include-message: always
-
-
   data:
     redis:
       host: localhost
