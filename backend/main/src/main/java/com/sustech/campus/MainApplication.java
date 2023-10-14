@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 //@MapperScan("com.sustech.campus.service")
+@MapperScan("com.sustech.campus.database.dao")
 @SpringBootApplication
 public class MainApplication extends SpringBootServletInitializer {
 

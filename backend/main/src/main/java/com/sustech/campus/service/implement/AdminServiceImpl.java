@@ -8,7 +8,9 @@ import com.sustech.campus.database.dao.BuildingDao;
 import com.sustech.campus.database.dao.RoomDao;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.service.AdminService;
-import jakarta.annotation.Resource;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
         Building building = buildingDao.selectOne(queryWrapper);
         if (building == null) {
             return false;
-        }else {
+        } else {
             buildingDao.deleteById(buildingId);
             return true;
         }
@@ -64,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
         Room room = roomDao.selectOne(queryWrapper);
         if (room == null) {
             return false;
-        }else {
+        } else {
             roomDao.deleteById(roomId);
             return true;
         }

@@ -2,6 +2,7 @@ package com.sustech.campus.web.annotation;
 
 
 import org.springframework.core.annotation.AliasFor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
 @RequestMapping
+@Validated
 public @interface MappingController {
     @AliasFor(annotation = RequestMapping.class, attribute="path")
-    String value() default "";
+    String[] value() default {};
 }

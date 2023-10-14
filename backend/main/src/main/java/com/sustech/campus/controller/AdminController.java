@@ -5,7 +5,9 @@ import com.sustech.campus.database.po.Room;
 import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
-import jakarta.annotation.Resource;
+
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,7 +22,8 @@ public class AdminController {
 
     @ApiOperation("管理员新建一个建筑")
     @PostMapping("/building/add")
-    public ApiResponse<Boolean> addBuilding(@ApiParam("建筑名称") String name,
+    public ApiResponse<Boolean> addBuilding(
+                                            @ApiParam("建筑名称") String name,
                                             @ApiParam("建筑简介") String introduction,
                                             @ApiParam("开放时间") Time openTime,
                                             @ApiParam("关闭时间") Time closeTime,
