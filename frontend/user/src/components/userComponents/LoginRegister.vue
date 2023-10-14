@@ -15,29 +15,71 @@
         </div>
       </template>
     </vs-tooltip>
-    <vs-dialog v-model="active">
+    <vs-dialog v-model="active" prevent-close width="300px">
       <template #header>
-        <h4 class="not-margin">
-          {{$t('lang.welcome')}}
-        </h4>
+        <div v-if="!isRegister">
+          <h4 class="not-margin">
+            {{$t('lang.welcome')}}
+          </h4>
+        </div>
+        <div v-if="isRegister">
+          <h4 class="not-margin">
+            {{$t('lang.registerTitle')}}
+          </h4>
+        </div>
       </template>
-      <div class="con-form">
-        <el-input v-model="username" :placeholder="$t('lang.username')" class="userInput"></el-input>
-        <el-input type="password" v-model="password" :placeholder="$t('lang.password')" class="userInput"></el-input>
-        <div class="flex">
-          <vs-checkbox v-model="remember" class="checkbox">{{$t('lang.remember')}}</vs-checkbox>
-          <a class="labels" href="#">{{$t('lang.forget')}}</a>
+      <div v-if="!isRegister">
+        <div class="con-form">
+          <el-input v-model="username" :placeholder="$t('lang.username')" class="userInput" prefix-icon="el-icon-user"></el-input>
+          <el-input type="password" v-model="password" :placeholder="$t('lang.password')" class="userInput" prefix-icon="el-icon-lock"></el-input>
+          <div class="flex">
+            <vs-checkbox v-model="remember" class="checkbox">{{$t('lang.remember')}}</vs-checkbox>
+            <a class="labels" href="#">{{$t('lang.forget')}}</a>
+          </div>
+        </div>
+      </div>
+      <div v-if="isRegister">
+        <div class="con-form">
+          <h3 style="float: left">{{$t('lang.chooseAvatar')}}</h3>
+          <vs-avatar circle :badge="isLogin" badge-color="success" style="float: left; margin-left: 10px">
+            <el-upload
+                class="avatar-uploader"
+                action=""
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i class="bx bx-up-arrow-alt" v-else></i>
+            </el-upload>
+          </vs-avatar>
+          <el-input v-model="username" :placeholder="$t('lang.username')" class="userInput" prefix-icon="el-icon-user"></el-input>
+          <el-input type="password" v-model="password" :placeholder="$t('lang.password')" class="userInput" prefix-icon="el-icon-lock"></el-input>
+          <el-input type="password" v-model="passwordAgain" :placeholder="$t('lang.passwordAgain')" class="userInput" prefix-icon="el-icon-check"></el-input>
+          <el-input v-model="email" :placeholder="$t('lang.email')" class="userInput" prefix-icon="el-icon-message"></el-input>
+          <el-input v-model="phoneNumber" :placeholder="$t('lang.phoneNumber')" class="userInput" prefix-icon="el-icon-mobile-phone"></el-input>
         </div>
       </div>
 
       <template #footer>
-        <div class="footer-dialog">
-          <vs-button block @click="login">
-            {{$t('lang.sign')}}
-          </vs-button>
+        <div v-if="!isRegister">
+          <div class="footer-dialog">
+            <vs-button block @click="login">
+              {{$t('lang.sign')}}
+            </vs-button>
 
-          <div class="new">
-            {{$t('lang.hint')}}<a class="labels" href="#">{{$t('lang.newCount')}}</a>
+            <div class="new">
+              {{$t('lang.hint')}}<a class="labels" @click="createAccount">{{$t('lang.newCount')}}</a>
+            </div>
+          </div>
+        </div>
+        <div v-if="isRegister">
+          <div class="footer-dialog">
+            <vs-button block @click="register">
+              {{$t('lang.register')}}
+            </vs-button>
+            <vs-button block @click="back">
+              {{$t('lang.back')}}
+            </vs-button>
           </div>
         </div>
       </template>
@@ -52,9 +94,15 @@ export default {
       active: false,
       username: '',
       password: '',
+      passwordAgain: '',
+      email: '',
+      phoneNumber: '',
       remember: false,
       isLogin: false,
       photo: '',
+      isRegister:false,
+      isChose:false,
+      imageUrl: ''
     }
   },
   methods:{
@@ -91,7 +139,44 @@ export default {
       }
       localStorage.removeItem('photo')
       localStorage.removeItem('isLogin')
-    }
+    },
+    createAccount(){
+      this.isRegister = true
+    },
+    back(){
+      this.isRegister = false
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)// need to be changed
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      this.imageUrl = window.URL.createObjectURL(file) // need to be changed
+      return isJPG && isLt2M
+    },
+    register(){
+      this.username = ''
+      this.password = ''
+      this.passwordAgain = ''
+      this.email = ''
+      this.phoneNumber = ''
+      this.imageUrl = ''
+      this.active = false
+      this.isRegister = false
+      this.$vs.notification({
+        position: 'top-center',
+        title: this.$t('lang.registerState'),
+        text: '',
+      })
+    },
   },
   beforeMount() {
     this.username = localStorage.getItem('username') || ''
@@ -117,6 +202,7 @@ export default {
 }
 .con-form{
   width: 100%;
+  align-items: center;
 }
 .checkbox.labels{
   font-size: .8rem;
@@ -137,5 +223,11 @@ export default {
   flex-direction: column;
   width: calc(100%);
 }
-
+a{
+  cursor: pointer;
+  color: hotpink;
+}
+a:hover{
+  color: royalblue;
+}
 </style>
