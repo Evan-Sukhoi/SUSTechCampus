@@ -14,9 +14,9 @@ import java.sql.Time;
 @Builder
 public class Reservation {
     @TableId(type = IdType.AUTO)
-    private Integer reservationId;
-    private Integer roomId;
-    private Time startTime;
-    private Time endTime;
-    private Integer userId;
+    private Integer reservation_id;
+    private Integer room_id;
+    private Time start_time;
+    private Time end_time;
+    private Integer user_id;
 }

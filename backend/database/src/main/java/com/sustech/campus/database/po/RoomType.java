@@ -15,4 +15,8 @@ public class RoomType {
     private Integer roomTypeId;
     private String type;
     private Integer capacity;
+
+    public Integer getRoom_type_ID() {
+        return roomTypeId;
+    }
 }
