@@ -10,7 +10,7 @@ git /*
 */
 
 -- 用户表
-CREATE TABLE Users (
+CREATE TABLE User (
     user_ID INT AUTO_INCREMENT,
     name VARCHAR(255),
     phone VARCHAR(255),
@@ -21,7 +21,7 @@ CREATE TABLE Users (
 );
 
 -- 管理员表
-CREATE TABLE Admins (
+CREATE TABLE Admin (
     admin_ID INT AUTO_INCREMENT,
     name VARCHAR(255),
     phone VARCHAR(255),
@@ -40,25 +40,24 @@ CREATE TABLE Blacklist (
 );
 
 -- 建筑表
-CREATE TABLE Buildings (
-    building_ID INT AUTO_INCREMENT,
-    name VARCHAR(255),
-    open_time TIMESTAMP,
-    close_time TIMESTAMP,
-    video BLOB,
-    introduction TEXT,
-    nearest_station VARCHAR(255),
-    comment_ID INT,
-    PRIMARY KEY (building_ID)
+CREATE TABLE Building (
+                          building_ID INT AUTO_INCREMENT,
+                          name VARCHAR(255),
+                          open_time TIME,
+                          close_time TIME,
+                          location_name VARCHAR(255),
+                          introduction TEXT,
+                          nearest_station VARCHAR(255),
+                          video_url VARCHAR(255),
+                          cover_ID INT,
+                          PRIMARY KEY (building_ID)
 );
+
 -- 建筑对应图片 一对多需要新建表
 CREATE TABLE Buildings_Image (
     building_ID INT,
     image_ID INT
 );
-
-
-
 
 -- 房间表
 CREATE TABLE Room (
@@ -84,7 +83,7 @@ CREATE TABLE Room_type_Image (
 
 
 -- 巴士线路表
-CREATE TABLE bus_line (
+CREATE TABLE Bus_line (
    bus_line_ID INT AUTO_INCREMENT,
    line_ID INT,
    station VARCHAR(255),
@@ -106,13 +105,13 @@ CREATE TABLE Comment (
    PRIMARY KEY (comment_ID)
 );
 -- comment_ID对应图片 一对多需要新建表
-CREATE TABLE comment_ID_Image (
+CREATE TABLE Comment_ID_Image (
     comment_ID INT,
     image_ID INT
 );
 
 -- 创建图片表
-CREATE TABLE image (
+CREATE TABLE Image (
     image_ID INT AUTO_INCREMENT PRIMARY KEY,
     image BLOB
 );
