@@ -27,6 +27,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<BuildingInfo> getAllBuilding() {
+        System.out.println("getSqlSegment: ");
+        System.out.println((new MPJLambdaWrapper<BuildingInfo> ()
+                .select(Building::getBuilding_ID, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_ID)
+        ).getSqlSegment());
+
+
         return buildingDao.selectJoinList(
                 BuildingInfo.class,
                 new MPJLambdaWrapper<BuildingInfo>()

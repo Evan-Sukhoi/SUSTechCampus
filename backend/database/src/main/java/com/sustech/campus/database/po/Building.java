@@ -1,5 +1,6 @@
 package com.sustech.campus.database.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,12 +8,11 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Time;
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@TableName("building")
 public class Building implements Displayable {
     @TableId(type = IdType.AUTO)
     private Integer building_ID;

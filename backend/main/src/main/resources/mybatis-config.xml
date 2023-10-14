@@ -18,6 +18,6 @@
 
     <!--每一个Mapper.XML都需要在Mybatis核心配置文件中注册！-->
     <mappers>
-        <mapper resource="com/ooad/sustechcampus/dao/UserMapper.xml"/>
+        <mapper class="com.sustech.campus.database.dao.BuildingDao"/>
     </mappers>
 </configuration>

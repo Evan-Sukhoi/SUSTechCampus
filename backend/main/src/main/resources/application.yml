@@ -23,3 +23,13 @@ spring:
     redis:
       host: localhost
       port: 6379
+  mybatis:
+    configuration:
+      map-underscore-to-camel-case: true
+
+mybatis-plus:
+  configuration:
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #https://www.cnblogs.com/zhaodalei/p/16850870.html
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  mapper-locations: classpath*:/dao/**/*.xml
