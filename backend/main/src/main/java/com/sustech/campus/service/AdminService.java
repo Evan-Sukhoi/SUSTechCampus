@@ -3,6 +3,7 @@ package com.sustech.campus.service;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,8 @@ public interface AdminService {
      */
     Boolean uploadRoom(Room room);
 
+
+    List<RoomInfo> getAllRoom();
 
     /**
      * 删除建筑信息

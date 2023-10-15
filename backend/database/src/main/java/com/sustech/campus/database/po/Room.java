@@ -14,8 +14,8 @@ import java.sql.Time;
 @Builder
 public class Room{
     @TableId(type = IdType.AUTO)
-    private Integer room_ID;
-    private Integer building_ID;
+    private Integer room_id;
+    private Integer building_id;
     private Integer number;
-    private Integer room_type_ID;
+    private Integer room_type_id;
 }

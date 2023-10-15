@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Time;
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,23 +17,23 @@ import java.sql.Time;
 @TableName("building")
 public class Building implements Displayable {
     @TableId(type = IdType.AUTO)
-    private Integer building_ID;
+    private Integer building_id;
     private String name;
-    private Time openTime;
-    private Time closeTime;
+    private Time open_time;
+    private Time close_time;
     private String location_name;
     private String introduction;
     private String nearest_station;
     private String video_url;
-    private Integer cover_ID;
+    private Integer cover_id;
 
     @Override
     public Integer getImageId() {
-        return cover_ID;
+        return cover_id;
     }
 
     @Override
     public void setImageId(Integer imageId) {
-        this.cover_ID = imageId;
+        this.cover_id = imageId;
     }
 }
