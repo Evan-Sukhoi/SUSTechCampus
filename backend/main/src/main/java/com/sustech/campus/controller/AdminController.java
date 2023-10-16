@@ -46,8 +46,8 @@ public class AdminController {
                 adminService.uploadBuilding(Building.builder()
                         .name(name)
                         .introduction(introduction)
-                        .openTime(openTime)
-                        .closeTime(closeTime)
+                        .open_time(openTime)
+                        .close_time(closeTime)
                         .location_name(location_name)
                         .nearest_station(nearest_station)
                         .build()));
@@ -68,9 +68,9 @@ public class AdminController {
     ) {
         return ApiResponse.success(
                 adminService.uploadRoom(Room.builder()
-                        .building_ID(buildingId)
+                        .building_id(buildingId)
                         .number(number)
-                        .room_type_ID(roomTypeId)
+                        .room_type_id(roomTypeId)
                         .build()));
     }
 

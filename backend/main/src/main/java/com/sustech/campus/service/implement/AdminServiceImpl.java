@@ -7,6 +7,7 @@ import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.dao.BuildingDao;
 import com.sustech.campus.database.dao.RoomDao;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
 
 import javax.annotation.Resource;
@@ -29,14 +30,17 @@ public class AdminServiceImpl implements AdminService {
     public List<BuildingInfo> getAllBuilding() {
         System.out.println("getSqlSegment: ");
         System.out.println((new MPJLambdaWrapper<BuildingInfo> ()
-                .select(Building::getBuilding_ID, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_ID)
+                .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
         ).getSqlSegment());
+
+        System.out.println(buildingDao.selectList(null));
 
 
         return buildingDao.selectJoinList(
                 BuildingInfo.class,
-                new MPJLambdaWrapper<BuildingInfo>()
-                        .select(Building::getBuilding_ID, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_ID)
+                new MPJLambdaWrapper<Building>()
+                        .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
+                        .eq(Building::getBuilding_id, 1)
         );
     }
 
@@ -50,6 +54,17 @@ public class AdminServiceImpl implements AdminService {
     public Boolean uploadRoom(Room room) {
         roomDao.insert(room);
         return true;
+    }
+
+    @Override
+    public List<RoomInfo> getAllRoom() {
+        return roomDao.selectJoinList(
+                RoomInfo.class,
+                new MPJLambdaWrapper<Room>()
+                        .selectAll(Room.class)
+                        .select(Building::getName, Building::getBuilding_id)
+                        .leftJoin(Building.class, Building::getBuilding_id, Room::getBuilding_id)
+        );
     }
 
     @Override
