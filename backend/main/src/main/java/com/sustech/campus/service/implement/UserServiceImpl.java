@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         return buildingDao.selectJoinList(
                 Building.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_ID, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_ID)
+                        .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
         );
     }
 
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
         return roomDao.selectJoinList(
                 Room.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoom_ID, Room::getBuilding_ID, Room::getNumber, Room::getRoom_type_ID)
+                        .select(Room::getRoom_id, Room::getBuilding_id, Room::getNumber, Room::getRoom_type_id)
         );
     }
 
@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService {
         return roomDao.selectJoinList(
                 Room.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoom_ID, Room::getBuilding_ID, Room::getNumber, Room::getRoom_type_ID)
-                        .eq(Room::getBuilding_ID, buildingId)
+                        .select(Room::getRoom_id, Room::getBuilding_id, Room::getNumber, Room::getRoom_type_id)
+                        .eq(Room::getBuilding_id, buildingId)
         );
     }
 
@@ -107,8 +107,8 @@ public class UserServiceImpl implements UserService {
         return roomDao.selectJoinList(
                 Room.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoom_ID, Room::getBuilding_ID, Room::getNumber, Room::getRoom_type_ID)
-                        .eq(Room::getRoom_type_ID, roomType.getRoom_type_ID())
+                        .select(Room::getRoom_id, Room::getBuilding_id, Room::getNumber, Room::getRoom_type_id)
+                        .eq(Room::getRoom_type_id, roomType.getRoom_type_ID())
         );
     }
 
@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService {
         return roomDao.selectJoinOne(
                 Room.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoom_ID, Room::getBuilding_ID, Room::getNumber, Room::getRoom_type_ID)
-                        .eq(Room::getRoom_ID, roomId)
+                        .select(Room::getRoom_id, Room::getBuilding_id, Room::getNumber, Room::getRoom_type_id)
+                        .eq(Room::getRoom_id, roomId)
         );
     }
 

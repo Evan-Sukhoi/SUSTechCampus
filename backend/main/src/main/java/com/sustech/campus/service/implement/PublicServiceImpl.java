@@ -23,7 +23,7 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinList(
                 Building.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_ID, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_ID)
+                        .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
         );
     }
 
