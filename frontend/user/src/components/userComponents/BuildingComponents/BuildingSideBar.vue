@@ -12,35 +12,35 @@
           <template #icon>
             <i class='bx bx-drink'></i>
           </template>
-          Introduction
+          I{{$t('lang.introduction')}}
         </vs-sidebar-item>
 
         <vs-sidebar-item id="blog" @click.native="handleLink('blog')">
           <template #icon>
             <i class='bx bx-group'></i>
           </template>
-          Blog
+          {{$t('lang.blog')}}
         </vs-sidebar-item>
 
         <vs-sidebar-item id="room" @click.native="handleLink('room')">
           <template #icon>
             <i class='bx bx-grid-alt'></i>
           </template>
-          Room
+          {{$t('lang.room')}}
         </vs-sidebar-item>
 
         <vs-sidebar-item id="mass" @click.native="handleLink('mass')">
           <template #icon>
             <i class='bx bx-chat'></i>
           </template>
-          Massage Wall
+          {{$t('lang.messageWall')}}
         </vs-sidebar-item>
 
         <vs-sidebar-item id="return" @click.native="handleLink('building')">
           <template #icon>
             <i class='bx bx-home'></i>
           </template>
-          Return
+          {{$t('lang.return')}}
         </vs-sidebar-item>
       </vs-sidebar>
     </div>

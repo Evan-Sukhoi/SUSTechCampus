@@ -26,5 +26,19 @@ export const lang = {
   register: '注册',
   back: '返回',
   chooseAvatar:'选择头像',
-  registerState: '注册成功！'
+  registerState: '注册成功！',
+
+  /*building*/
+  blog: '博客',
+  introduction: '介绍',
+  room: '房间/档口/场地',
+  messageWall: '留言墙',
+  return: '返回',
+
+  /*building details*/
+  canteen: '食堂',
+  library: '图书馆',
+  teachingBuilding: '教学楼',
+  playGround: '运动场',
+
 }
