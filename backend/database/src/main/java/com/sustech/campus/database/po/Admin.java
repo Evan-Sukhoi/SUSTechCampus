@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class Admin implements Displayable {
     @TableId(type = IdType.AUTO)
-    private short admin_ID;
+    private short admin_id;
     private String name;
     private String phone;
     private String email;

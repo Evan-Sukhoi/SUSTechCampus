@@ -23,6 +23,4 @@ public class MybatisTest {
         Assert.isTrue(1 == userList.size(), "");
         userList.forEach(System.out::println);
     }
-
 }
-

@@ -14,13 +14,13 @@ import java.sql.Time;
 @Builder
 public class Comment {
     @TableId(type = IdType.AUTO)
-    private Integer comment_ID;
-    private Integer user_ID;
+    private Integer comment_id;
+    private Integer user_id;
     private Time time;
     private String text;
-    private Integer building_ID;
+    private Integer building_id;
 //    DECIMAL(3,2)
     private Double score;
-    private Integer admin_ID;
+    private Integer admin_id;
 }
 
