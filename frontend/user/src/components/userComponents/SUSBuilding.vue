@@ -5,7 +5,7 @@
      <ul>
        <li>
          <div>
-           <h1>Canteen</h1>
+           <h1>{{$t('lang.canteen')}}</h1>
          </div>
 
          <div>
@@ -36,7 +36,7 @@
 
        <li>
          <div>
-           <h1>Library</h1>
+           <h1>{{$t('lang.library')}}</h1>
          </div>
        </li>
      </ul>

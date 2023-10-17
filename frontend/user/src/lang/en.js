@@ -26,6 +26,20 @@ export const lang = {
   register: 'Register',
   back: 'Back',
   chooseAvatar:'Select your profile',
-  registerState: 'Registered successfully!'
+  registerState: 'Registered successfully!',
+
+  /*building*/
+  blog: 'Blog',
+  introduction: 'Introduction',
+  room: 'Room/Stall/Area',
+  messageWall: 'MessageWall',
+  return: 'Return',
+
+  /*building details*/
+  canteen: 'Canteen',
+  library: 'Library',
+  teachingBuilding: 'TeachingBuilding',
+  playground: 'Playground',
+
 
 }
