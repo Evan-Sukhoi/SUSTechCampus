@@ -68,10 +68,10 @@
 
                 <div style="display: flex; align-items: center;">
                   <vs-button flat icon>
-                    <i class='bx bx-lock-open-alt'></i>
+                    <i class='bx bxs-face-mask'></i>
                   </vs-button>
                   <vs-button flat icon>
-                    Send Email
+                    Edit
                   </vs-button>
                   <vs-button border danger>
                     Remove User

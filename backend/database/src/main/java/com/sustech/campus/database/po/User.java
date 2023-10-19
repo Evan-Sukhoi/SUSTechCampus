@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Users {
+public class User {
     @TableId(type = IdType.AUTO)
     private Integer userId;
     private String name;
