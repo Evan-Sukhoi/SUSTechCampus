@@ -124,7 +124,7 @@
 
 
 <script>
-import axios from "core-js/internals/queue";
+import axios from 'axios';
 
 export default {
   created() {
@@ -133,7 +133,7 @@ export default {
   methods: {
     fetchUsers() {
       // 使用axios或fetch发送GET请求获取后端数据
-      axios.get('/admin/user/all') // 根据你的后端API端点进行设置
+      axios.get('http://localhost:8081/admin/user/all') // 根据你的后端API端点进行设置
           .then(response => {
             this.users = response.data; // 将后端数据赋值给前端users数据
           })
