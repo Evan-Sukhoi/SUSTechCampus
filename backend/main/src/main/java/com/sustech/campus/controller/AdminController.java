@@ -2,6 +2,7 @@ package com.sustech.campus.controller;
 
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Room;
+import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
@@ -25,6 +26,12 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
+
+    @ApiOperation("管理员获取所有用户")
+    @RequestMapping("/user/all")
+    public List<User> getAllUsers() {
+        return adminService.getAllUsers();
+    }
 
     @ApiOperation("管理员获取所有建筑")
     @RequestMapping("/building/all")

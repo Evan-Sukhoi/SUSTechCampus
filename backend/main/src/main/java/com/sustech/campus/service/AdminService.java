@@ -2,6 +2,7 @@ package com.sustech.campus.service;
 
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Room;
+import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,12 @@ import java.util.List;
 
 
 public interface AdminService {
+
+    /**
+     * 获取所有用户信息
+     * @return 返回所有用户信息
+     */
+    List<User> getAllUsers();
 
     /**
      * 获取所有建筑信息

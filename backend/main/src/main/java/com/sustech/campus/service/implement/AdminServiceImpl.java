@@ -2,10 +2,12 @@ package com.sustech.campus.service.implement;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.sustech.campus.database.dao.UserDao;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.dao.BuildingDao;
 import com.sustech.campus.database.dao.RoomDao;
+import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
@@ -26,9 +28,16 @@ public class AdminServiceImpl implements AdminService {
     @Resource
     private RoomDao roomDao;
 
+    @Resource
+    private UserDao usersDao;
+
+    @Override
+    public List<User> getAllUsers() {
+        return usersDao.selectList(null);
+    }
+
     @Override
     public List<BuildingInfo> getAllBuilding() {
-        System.out.println("getSqlSegment: ");
         System.out.println((new MPJLambdaWrapper<BuildingInfo> ()
                 .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
         ).getSqlSegment());
