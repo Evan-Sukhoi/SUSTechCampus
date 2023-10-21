@@ -23,7 +23,6 @@ import java.util.List;
 
 @MappingController("/admin")
 public class AdminController {
-
     @Resource
     private AdminService adminService;
 
@@ -31,6 +30,19 @@ public class AdminController {
     @RequestMapping("/user/all")
     public List<User> getAllUsers() {
         return adminService.getAllUsers();
+    }
+
+    @ApiOperation("管理员获取某个用户的所有信息")
+    @RequestMapping("/user/info")
+    public User getUserInfo(@ApiParam("用户id") @RequestParam @NotNull Integer userId) {
+        return adminService.getUserInfo(userId);
+    }
+
+    @ApiOperation("管理员更新某个用户的信息")
+    @PostMapping("/user/update")
+    public ApiResponse<Boolean> updateUserInfo(@ApiParam("用户信息") @RequestParam @NotNull User user) {
+        return ApiResponse.success(
+                adminService.updateUserInfo(user));
     }
 
     @ApiOperation("管理员获取所有建筑")

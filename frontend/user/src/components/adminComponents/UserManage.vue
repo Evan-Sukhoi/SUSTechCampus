@@ -42,7 +42,8 @@
             <vs-td checkbox>
               <vs-checkbox :val="tr" v-model="selected"/>
             </vs-td>
-            <vs-td edit @click="edit = tr, editProp = 'name', editActive = true">
+<!--            <vs-td edit @click="edit = tr, editProp = 'name', editActive = true">-->
+            <vs-td>
               {{ tr.name }}
             </vs-td>
             <vs-td>
@@ -70,7 +71,7 @@
                   <vs-button flat icon>
                     <i class='bx bxs-face-mask'></i>
                   </vs-button>
-                  <vs-button flat icon>
+                  <vs-button @click="editUser(i)">
                     Edit
                   </vs-button>
                   <vs-button border danger>
@@ -88,38 +89,60 @@
         </template>
       </vs-table>
 
-      <vs-dialog v-model="editActive">
+
+    </div>
+
+    <div class="center">
+      <vs-dialog prevent-close v-model="editActive">
         <template #header>
-          Change Prop {{ editProp }}
+          <h4 class="not-margin">
+            Welcome to <b>Vuesax</b>
+          </h4>
         </template>
-        <vs-input @keypress.enter="editActive = false" v-if="editProp == 'email'" v-model="edit[editProp]"/>
-        <vs-select @change="editActive = false" block v-if="editProp == 'name'" placeholder="Select"
-                   v-model="edit[editProp]">
-          <vs-option label="Vuesax" value="Vuesax">
-            Vuesax
-          </vs-option>
-          <vs-option label="Vue" value="Vuejs">
-            Vue
-          </vs-option>
-          <vs-option label="Javascript" value="Javascript">
-            Javascript
-          </vs-option>
-          <vs-option disabled label="Sass" value="Sass">
-            Sass
-          </vs-option>
-          <vs-option label="Typescript" value="Typescript">
-            Typescript
-          </vs-option>
-          <vs-option label="Webpack" value="Webpack">
-            Webpack
-          </vs-option>
-          <vs-option label="Nodejs" value="Nodejs">
-            Nodejs
-          </vs-option>
-        </vs-select>
+
+
+        <div class="con-form">
+          <vs-input v-model="thisUser.name" placeholder="Name">
+            <template #icon>
+              <i class='bx bxs-user'></i>
+            </template>
+          </vs-input>
+          <vs-input v-model="thisUser.email" placeholder="Email">
+            <template #icon>
+              <i class='bx bxs-envelope'></i>
+            </template>
+          </vs-input>
+          <vs-input v-model="thisUser.phone" placeholder="Phone">
+            <template #icon>
+              <i class='bx bxs-phone'></i>
+            </template>
+          </vs-input>
+          <vs-input type="password" v-model="thisUser.password" placeholder="Password">
+            <template #icon>
+              <i class='bx bxs-lock'></i>
+            </template>
+          </vs-input>
+<!--          <div class="flex">-->
+<!--            <vs-checkbox v-model="checkbox1">Remember me</vs-checkbox>-->
+<!--            <a href="#">Forgot Password?</a>-->
+<!--          </div>-->
+        </div>
+
+        <template #footer>
+          <div class="footer-dialog">
+            <vs-button block @click="updateUser">
+              Save
+            </vs-button>
+
+            <div class="new">
+              New Here? <a href="#">Create New Account</a>
+            </div>
+          </div>
+        </template>
       </vs-dialog>
     </div>
   </div>
+
 </template>
 
 
@@ -141,8 +164,26 @@ export default {
             console.error('Failed to fetch data from the backend', error);
           });
     },
+    editUser(i) {
+      this.thisUser = this.users[i];
+      console.log("selected: ", this.thisUser);
+      this.editActive = true;
+    },
+    updateUser() {
+      this.editActive = false;
+      this.users[this.thisUser.id - 1] = this.thisUser;
+      // 使用axios发送PUT请求更新后端数据
+      axios.put('http://localhost:8081/admin/user/update', this.thisUser) // 根据你的后端API端点进行设置
+          .then(response => {
+            console.log("response: ", response);
+          })
+          .catch(error => {
+            console.error('Failed to update data to the backend', error);
+          });
+    }
   },
   name: 'UserManage',
+
   data: () => ({
     editActive: false,
     edit: null,
@@ -151,78 +192,41 @@ export default {
     allCheck: false,
     page: 1,
     max: 5,
-    active: 0,
+    active: true,
     selected: [],
+    thisUser: {},
+    user_name: '',
+    user_email: '',
+    user_phone: '',
+    user_password: '',
     users: [
       {
         "id": 1,
         "name": "Leanne Graham",
-        "username": "Bret",
         "email": "Sincere@april.biz",
-        "website": "hildegard.org",
+        "phone": "17707368031",
+        "password": "123456",
       },
       {
         "id": 2,
         "name": "Ervin Howell",
-        "username": "Antonette",
-        "email": "Shanna@melissa.tv",
-        "website": "anastasia.net",
+        "email": "example@g.com",
+        "phone": "10106926593",
+        "password": "123456",
       },
       {
         "id": 3,
         "name": "Clementine Bauch",
-        "username": "Samantha",
-        "email": "Nathan@yesenia.net",
-        "website": "ramiro.info",
+        "email": "hahaha@s.com",
+        "phone": "14631234447",
+        "password": "123456",
       },
       {
         "id": 4,
         "name": "Patricia Lebsack",
-        "username": "Karianne",
-        "email": "Julianne.OConner@kory.org",
-        "website": "kale.biz",
-      },
-      {
-        "id": 5,
-        "name": "Chelsey Dietrich",
-        "username": "Kamren",
-        "email": "Lucio_Hettinger@annie.ca",
-        "website": "demarco.info",
-      },
-      {
-        "id": 6,
-        "name": "Mrs. Dennis Schulist",
-        "username": "Leopoldo_Corkery",
-        "email": "Karley_Dach@jasper.info",
-        "website": "ola.org",
-      },
-      {
-        "id": 7,
-        "name": "Kurtis Weissnat",
-        "username": "Elwyn.Skiles",
-        "email": "Telly.Hoeger@billy.biz",
-        "website": "elvis.io",
-      },
-      {
-        "id": 8,
-        "name": "Nicholas Runolfsdottir V",
-        "username": "Maxime_Nienow",
-        "email": "Sherwood@rosamond.me",
-        "website": "jacynthe.com",
-      },
-      {
-        "id": 9,
-        "name": "Glenna Reichert",
-        "username": "Delphine",
-        "email": "Chaim_McDermott@dana.io",
-        "website": "conrad.com",
-      },
-      {
-        "id": 10,
-        "name": "Clementina DuBuque",
-        "username": "Moriah.Stanton",
-        "email": "Rey.Padberg@karina.biz",
-        "website": "ambrose.net",
+        "email": "ooad@mail.sustech.edu.cn",
+        "phone": "18203772569",
+        "password": "123456",
       }
     ]
   })
@@ -237,3 +241,56 @@ export default {
   margin: 0;
 }
 </style>
+
+<style lang="stylus">
+getColor(vsColor, alpha = 1)
+unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
+getVar(var)
+unquote("var(--vs-"+var+")")
+.not-margin
+  margin 0px
+  font-weight normal
+  padding 10px
+.con-form
+  width 100%
+  .flex
+    display flex
+    align-items center
+    justify-content space-between
+    a
+      font-size .8rem
+      opacity .7
+      &:hover
+        opacity 1
+  .vs-checkbox-label
+    font-size .8rem
+  .vs-input-content
+    margin 10px 0px
+    width calc(100%)
+    .vs-input
+      width 100%
+.footer-dialog
+  display flex
+  align-items center
+  justify-content center
+  flex-direction column
+  width calc(100%)
+  .new
+    margin 0px
+    margin-top 20px
+    padding: 0px
+    font-size .7rem
+    a
+      color getColor('primary') !important
+      margin-left 6px
+      &:hover
+        text-decoration underline
+  .vs-button
+    margin 0px
+</style>
+
+
+
+
+
+

@@ -32,6 +32,17 @@ public class AdminServiceImpl implements AdminService {
     private UserDao usersDao;
 
     @Override
+    public User getUserInfo(Integer userId) {
+        return usersDao.selectById(userId);
+    }
+
+    @Override
+    public Boolean updateUserInfo(User user) {
+        usersDao.updateById(user);
+        return true;
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return usersDao.selectList(null);
     }

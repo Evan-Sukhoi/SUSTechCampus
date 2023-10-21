@@ -14,6 +14,16 @@ import java.util.List;
 public interface AdminService {
 
     /**
+     * 获取某个用户的所有信息
+     */
+    User getUserInfo(Integer userId);
+
+    /**
+     * 更新某个用户的信息
+     */
+    Boolean updateUserInfo(User user);
+
+    /**
      * 获取所有用户信息
      * @return 返回所有用户信息
      */
