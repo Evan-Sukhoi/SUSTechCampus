@@ -37,9 +37,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Boolean updateUserInfo(User user) {
-        usersDao.updateById(user);
-        return true;
+    public Boolean updateUserInfo(Integer userId, String name, String phone, String email, String password) {
+        User user = usersDao.selectById(userId);
+        if (user == null) {
+            return false;
+        } else {
+            user.setName(name);
+            user.setPhone(phone);
+            user.setEmail(email);
+            user.setPassword(password);
+            usersDao.updateById(user);
+            return true;
+        }
     }
 
     @Override

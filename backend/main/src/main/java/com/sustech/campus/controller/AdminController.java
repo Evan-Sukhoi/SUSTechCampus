@@ -40,9 +40,15 @@ public class AdminController {
 
     @ApiOperation("管理员更新某个用户的信息")
     @PostMapping("/user/update")
-    public ApiResponse<Boolean> updateUserInfo(@ApiParam("用户信息") @RequestParam @NotNull User user) {
+    public ApiResponse<Boolean> updateUserInfo(@ApiParam("用户名") @RequestParam @NotEmpty String name,
+                                               @ApiParam("用户电话") @RequestParam @NotEmpty String phone,
+                                               @ApiParam("用户邮箱") @RequestParam @NotEmpty String email,
+                                               @ApiParam("用户id") @RequestParam @NotNull Integer userId,
+                                               @ApiParam("用户密码") @RequestParam @NotEmpty String password
+                                               ) {
         return ApiResponse.success(
-                adminService.updateUserInfo(user));
+                adminService.updateUserInfo(userId, name, phone, email, password)
+        );
     }
 
     @ApiOperation("管理员获取所有建筑")
@@ -54,12 +60,12 @@ public class AdminController {
     @ApiOperation("管理员新建一个建筑")
     @PostMapping("/building/add")
     public ApiResponse<Boolean> addBuilding(
-                                            @ApiParam("建筑名称") @RequestParam @NotEmpty String name,
-                                            @ApiParam("建筑简介") @RequestParam @NotEmpty String introduction,
-                                            @ApiParam("开放时间") @RequestParam @NotNull Time openTime,
-                                            @ApiParam("关闭时间") @RequestParam @NotNull Time closeTime,
-                                            @ApiParam("位置") @RequestParam @NotEmpty String location_name,
-                                            @ApiParam("附近车站") @RequestParam @NotEmpty String nearest_station
+            @ApiParam("建筑名称") @RequestParam @NotEmpty String name,
+            @ApiParam("建筑简介") @RequestParam @NotEmpty String introduction,
+            @ApiParam("开放时间") @RequestParam @NotNull Time openTime,
+            @ApiParam("关闭时间") @RequestParam @NotNull Time closeTime,
+            @ApiParam("位置") @RequestParam @NotEmpty String location_name,
+            @ApiParam("附近车站") @RequestParam @NotEmpty String nearest_station
     ) {
         return ApiResponse.success(
                 adminService.uploadBuilding(Building.builder()

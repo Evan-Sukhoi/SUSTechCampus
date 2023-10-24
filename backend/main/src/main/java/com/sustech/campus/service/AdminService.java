@@ -21,7 +21,7 @@ public interface AdminService {
     /**
      * 更新某个用户的信息
      */
-    Boolean updateUserInfo(User user);
+    Boolean updateUserInfo(Integer userId, String name, String phone, String email, String password);
 
     /**
      * 获取所有用户信息

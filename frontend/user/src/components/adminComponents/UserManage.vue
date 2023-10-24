@@ -15,7 +15,7 @@
           <vs-tr>
             <vs-th>
               <vs-checkbox
-                  :indeterminate="selected.length == users.length" v-model="allCheck"
+                  :indeterminate="selected.length === users.length" v-model="allCheck"
                   @change="selected = $vs.checkAll(selected, users)"
               />
             </vs-th>
@@ -172,14 +172,21 @@ export default {
     updateUser() {
       this.editActive = false;
       this.users[this.thisUser.id - 1] = this.thisUser;
-      // 使用axios发送PUT请求更新后端数据
-      axios.put('http://localhost:8081/admin/user/update', this.thisUser) // 根据你的后端API端点进行设置
-          .then(response => {
-            console.log("response: ", response);
-          })
-          .catch(error => {
-            console.error('Failed to update data to the backend', error);
-          });
+      let url = 'http://localhost:8081/admin/user/update?name=' + this.thisUser.name +
+          '&email=' + this.thisUser.email +
+          '&phone=' + this.thisUser.phone +
+          '&password=' + this.thisUser.password +
+          '&userId=' + this.thisUser.id;
+      axios.get(url).then(response => {
+        if (response.data.code === 200) {
+          console.log("update success");
+        } else {
+          console.log("update failed");
+          console.log(response);
+        }
+      }).catch(error => {
+        console.error('Failed to update user', error);
+      });
     }
   },
   name: 'UserManage',
