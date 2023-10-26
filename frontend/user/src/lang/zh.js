@@ -4,7 +4,7 @@ export const lang = {
   map: '地图',
   building: '建筑',
   service: '服务',
-  appointment: '预约',
+  reservation: '预约',
   busLine: '公交线路',
   search: '搜索',
   login: '登录',

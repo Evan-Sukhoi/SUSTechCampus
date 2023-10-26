@@ -24,8 +24,8 @@
       <vs-navbar-item :active="active === 'service'" id="service" @click="handleLink('service')">
         {{$t('lang.service')}}
       </vs-navbar-item>
-      <vs-navbar-item :active="active === 'appointment'" id="appointment" @click="handleLink('appointment')">
-        {{$t('lang.appointment')}}
+      <vs-navbar-item :active="active === 'reservation'" id="reservation" @click="handleLink('reservation')">
+        {{$t('lang.reservation')}}
       </vs-navbar-item>
       <vs-navbar-item>
         <vs-input dark state="dark" v-model="search" :placeholder="$t('lang.search')" >

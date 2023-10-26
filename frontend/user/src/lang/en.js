@@ -4,7 +4,7 @@ export const lang = {
   map: 'Map',
   building: 'Building',
   service: 'Service',
-  appointment: 'Appointment',
+  reservation: 'Reservation',
   busLine: 'Bus line',
   search: 'Search',
   login: 'Login',
@@ -39,7 +39,7 @@ export const lang = {
   canteen: 'Canteen',
   library: 'Library',
   teachingBuilding: 'TeachingBuilding',
-  playground: 'Playground',
+  playGround: 'Playground',
 
 
 }
