@@ -172,12 +172,24 @@ export default {
     updateUser() {
       this.editActive = false;
       this.users[this.thisUser.id - 1] = this.thisUser;
+      console.log("update user: ", this.thisUser);
+      // axios.post('http://localhost:8081/admin/user/update', this.thisUser)
+      //     .then(response => {
+      //       if (response.data.code === 200) {
+      //         console.log("update success");
+      //       } else {
+      //         console.log("update failed");
+      //         console.log(response);
+      //       }
+      //     }).catch(error => {
+      //   console.error('Failed to update user', error);
+      // });
       let url = 'http://localhost:8081/admin/user/update?name=' + this.thisUser.name +
           '&email=' + this.thisUser.email +
           '&phone=' + this.thisUser.phone +
           '&password=' + this.thisUser.password +
-          '&userId=' + this.thisUser.id;
-      axios.get(url).then(response => {
+          '&userId=' + this.thisUser.userId;
+      axios.post(url).then(response => {
         if (response.data.code === 200) {
           console.log("update success");
         } else {
@@ -208,28 +220,28 @@ export default {
     user_password: '',
     users: [
       {
-        "id": 1,
+        "userId": 1,
         "name": "Leanne Graham",
         "email": "Sincere@april.biz",
         "phone": "17707368031",
         "password": "123456",
       },
       {
-        "id": 2,
+        "userId": 2,
         "name": "Ervin Howell",
         "email": "example@g.com",
         "phone": "10106926593",
         "password": "123456",
       },
       {
-        "id": 3,
+        "userId": 3,
         "name": "Clementine Bauch",
         "email": "hahaha@s.com",
         "phone": "14631234447",
         "password": "123456",
       },
       {
-        "id": 4,
+        "userId": 4,
         "name": "Patricia Lebsack",
         "email": "ooad@mail.sustech.edu.cn",
         "phone": "18203772569",

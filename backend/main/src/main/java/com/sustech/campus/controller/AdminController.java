@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,15 +41,20 @@ public class AdminController {
 
     @ApiOperation("管理员更新某个用户的信息")
     @PostMapping("/user/update")
-    public ApiResponse<Boolean> updateUserInfo(@ApiParam("用户名") @RequestParam @NotEmpty String name,
-                                               @ApiParam("用户电话") @RequestParam @NotEmpty String phone,
-                                               @ApiParam("用户邮箱") @RequestParam @NotEmpty String email,
-                                               @ApiParam("用户id") @RequestParam @NotNull Integer userId,
-                                               @ApiParam("用户密码") @RequestParam @NotEmpty String password
-                                               ) {
+    public ApiResponse<Boolean> updateUserInfo(HttpServletRequest request) {
+        System.out.println("updating User Info");
+        System.out.println(request.getParameter("userId"));
+        System.out.println(request.getParameter("name"));
+        System.out.println(request.getParameter("phone"));
+        System.out.println(request.getParameter("email"));
+        System.out.println(request.getParameter("password"));
         return ApiResponse.success(
-                adminService.updateUserInfo(userId, name, phone, email, password)
-        );
+                adminService.updateUserInfo(
+                        Integer.parseInt(request.getParameter("userId")),
+                        request.getParameter("name"),
+                        request.getParameter("phone"),
+                        request.getParameter("email"),
+                        request.getParameter("password")));
     }
 
     @ApiOperation("管理员获取所有建筑")
