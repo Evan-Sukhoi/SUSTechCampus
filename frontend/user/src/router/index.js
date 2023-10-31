@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import UserView from "@/views/UserView.vue";
 import HomePage from "@/components/userComponents/HomePage.vue";
-import SUSAppointment from "@/components/userComponents/SUSAppointment.vue";
+import SUSReservation from "@/components/userComponents/SUSReservation.vue";
 import SUSBuilding from "@/components/userComponents/SUSBuilding.vue";
 import BuildingDetails from "@/components/userComponents/BuildingComponents/BuildingDetails.vue";
 import SUSMap from "@/components/userComponents/SUSMap.vue";
@@ -11,6 +11,7 @@ import SUSBusLine from "@/components/userComponents/SUSBusLine.vue";
 import BuildingIntro from "@/components/userComponents/BuildingComponents/BuildingIntro.vue";
 import BuildingBlog from "@/components/userComponents/BuildingComponents/BuildingBlog.vue";
 import BuildingRoom from "@/components/userComponents/BuildingComponents/BuildingRoom.vue";
+import RoomReservation from "@/components/userComponents/ReseravationComponents/RoomReservation";
 import BuildingMassageWall from "@/components/userComponents/BuildingComponents/BuildingMassageWall.vue";
 import VisualizationDashboard from "@/components/adminComponents/VisualizationDashboard.vue";
 import AdminView from "@/views/AdminView.vue";
@@ -42,7 +43,8 @@ const routes = [
     },
     children:[
       {path:'/user/map', name:'map', component: SUSMap},
-      {path:'/user/appointment', name:'appointment', component: SUSAppointment},
+      {path:'/user/reservation', name:'reservation', component: SUSReservation},
+      {path: '/user/reservation/:id', name: 'roomReservation', component: RoomReservation},
       {path:'/user/bus', name:'bus', component: SUSBusLine},
       {path:'/user/service', name:'service', component: SUSService},
       {path: '/user/building', name:'building', component: SUSBuilding},
