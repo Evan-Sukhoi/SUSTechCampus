@@ -24,6 +24,11 @@ public interface AdminService {
     Boolean updateUserInfo(Integer userId, String name, String phone, String email, String password);
 
     /**
+     * 删除某个用户
+     */
+    Boolean deleteUser(Integer userId);
+
+    /**
      * 获取所有用户信息
      * @return 返回所有用户信息
      */

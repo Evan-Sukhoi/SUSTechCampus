@@ -57,6 +57,15 @@ public class AdminController {
                         request.getParameter("password")));
     }
 
+    @ApiOperation("管理员删除一个用户")
+    @PostMapping("/user/delete")
+    public ApiResponse<Boolean> deleteUser(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getParameter("userId"));
+        System.out.println("deleting User: " + userId);
+        return ApiResponse.success(
+                adminService.deleteUser(userId));
+    }
+
     @ApiOperation("管理员获取所有建筑")
     @RequestMapping("/building/all")
     public List<BuildingInfo> getAllBuilding() {

@@ -9,8 +9,19 @@
           v-model="selected"
       >
         <template #header>
-          <vs-input v-model="search" border placeholder="Search"/>
+          <div class="header-container">
+            <vs-input v-model="search" border placeholder="Search"/>
+            <div class="button-container">
+              <vs-button flat icon relief :disabled="selected.length === 0">
+                <i class='bx bxs-face-mask'></i>
+              </vs-button>
+              <vs-button danger icon relief :disabled="selected.length === 0">
+                <i class='bx bx-trash'></i>
+              </vs-button>
+            </div>
+          </div>
         </template>
+
         <template #thead>
           <vs-tr>
             <vs-th>
@@ -42,7 +53,6 @@
             <vs-td checkbox>
               <vs-checkbox :val="tr" v-model="selected"/>
             </vs-td>
-<!--            <vs-td edit @click="edit = tr, editProp = 'name', editActive = true">-->
             <vs-td>
               {{ tr.name }}
             </vs-td>
@@ -50,7 +60,7 @@
               {{ tr.email }}
             </vs-td>
             <vs-td>
-              {{ tr.id }}
+              {{ tr.userId }}
             </vs-td>
 
             <template #expand>
@@ -74,8 +84,8 @@
                   <vs-button @click="editUser(i)">
                     Edit
                   </vs-button>
-                  <vs-button border danger>
-                    Remove User
+                  <vs-button danger icon @click="deleteUserClick(i)">
+                    <i class='bx bx-trash'></i>
                   </vs-button>
                 </div>
 
@@ -96,7 +106,7 @@
       <vs-dialog prevent-close v-model="editActive">
         <template #header>
           <h4 class="not-margin">
-            Welcome to <b>Vuesax</b>
+            编辑用户信息
           </h4>
         </template>
 
@@ -140,6 +150,22 @@
           </div>
         </template>
       </vs-dialog>
+
+      <vs-dialog v-model="deleteActive">
+        <template #header>
+          <h4 class="not-margin">
+            确认删除？
+          </h4>
+        </template>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <vs-button danger @click="deleteUser">
+            Delete
+          </vs-button>
+          <vs-button>
+            Cancel
+          </vs-button>
+        </div>
+      </vs-dialog>
     </div>
   </div>
 
@@ -173,17 +199,6 @@ export default {
       this.editActive = false;
       this.users[this.thisUser.id - 1] = this.thisUser;
       console.log("update user: ", this.thisUser);
-      // axios.post('http://localhost:8081/admin/user/update', this.thisUser)
-      //     .then(response => {
-      //       if (response.data.code === 200) {
-      //         console.log("update success");
-      //       } else {
-      //         console.log("update failed");
-      //         console.log(response);
-      //       }
-      //     }).catch(error => {
-      //   console.error('Failed to update user', error);
-      // });
       let url = 'http://localhost:8081/admin/user/update?name=' + this.thisUser.name +
           '&email=' + this.thisUser.email +
           '&phone=' + this.thisUser.phone +
@@ -199,12 +214,46 @@ export default {
       }).catch(error => {
         console.error('Failed to update user', error);
       });
+    },
+    deleteUserClick(i){
+      this.thisUser = this.users[i];
+      console.log("selected: ", this.thisUser);
+      this.deleteActive = true;
+    },
+    deleteUser(){
+      this.showExpandContent = false; // 关闭扩展内容
+      this.deleteActive = false;
+      const userIndex = this.users.findIndex(user => user.userId === this.thisUser.userId);
+      this.users.splice(userIndex, 1);
+      // // 找到该用户的展开行元素
+      // const expandRow = document.querySelector(`[data="${this.thisUser.userId}"] .vs-expand-row`);
+      //
+      // if (expandRow) {
+      //   // 关闭展开行
+      //   expandRow.style.display = 'none';
+      // }
+
+      console.log("delete user: ", this.thisUser);
+      let url = 'http://localhost:8081/admin/user/delete?userId=' + this.thisUser.userId;
+      axios.post(url).then(response => {
+        if (response.data.code === 200) {
+          console.log("delete success");
+        } else {
+          console.log("delete failed");
+          console.log(response);
+        }
+      }).catch(error => {
+        console.error('Failed to delete user', error);
+      });
+
     }
   },
   name: 'UserManage',
 
   data: () => ({
     editActive: false,
+    deleteActive: false,
+    showExpandContent: true,
     edit: null,
     editProp: {},
     search: '',
@@ -256,8 +305,19 @@ export default {
 
 <style scoped>
 .center {
-  width: 70%; /* 这里可以设置你想要的宽度 */
+  width: 70%;
   margin: 0;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 将内容分散对齐，将两个按钮推到最右边 */
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
 }
 </style>
 

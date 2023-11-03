@@ -57,6 +57,17 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Boolean deleteUser(Integer userId) {
+        User user = usersDao.selectById(userId);
+        if (user == null) {
+            return false;
+        } else {
+            usersDao.deleteById(userId);
+            return true;
+        }
+    }
+
+    @Override
     public List<BuildingInfo> getAllBuilding() {
         System.out.println((new MPJLambdaWrapper<BuildingInfo> ()
                 .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
