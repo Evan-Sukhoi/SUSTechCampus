@@ -41,4 +41,8 @@ export const lang = {
   teachingBuilding: '教学楼',
   playGround: '运动场',
 
+  /*reservation*/
+  reserve:'点击预约',
+  roomID: '房间号'
+
 }

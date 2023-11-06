@@ -41,5 +41,8 @@ export const lang = {
   teachingBuilding: 'TeachingBuilding',
   playGround: 'Playground',
 
+  /*reservation*/
+  reserve:'reserve',
+  roomID: 'RoomID'
 
 }
