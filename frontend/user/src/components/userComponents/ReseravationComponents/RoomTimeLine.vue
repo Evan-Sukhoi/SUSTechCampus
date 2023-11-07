@@ -3,7 +3,7 @@
     <div class="box">
       <div v-for="item in roomDetail" :key="item.roomID">
         <span>{{$t('lang.roomID') + ': ' + item.roomID}}</span>
-        <vs-button gradient class="reservation" @click="reserve(item.roomID)">{{$t('lang.reserve')}}</vs-button>
+        <vs-button gradient class="reservation" @click="reserve(item.roomID, item.reserveTime)">{{$t('lang.reserve')}}</vs-button>
         <el-divider></el-divider>
       </div>
     </div>
@@ -13,6 +13,7 @@
 
 <script>
 import ReservationForm from "@/components/userComponents/ReseravationComponents/ReservationForm";
+
 export default {
   name: "RoomTime",
   components:{
@@ -21,16 +22,19 @@ export default {
   data(){
     return{
       roomDetail: [
-        {roomID: 101, reserveTime:[1,3]},
-        {roomID: 102},
-        {roomID: 103}
+        {roomID: 101, reserveTime:['09:30:00 - 12:00:00', '14:30:00 - 18:30:00']},
+        {roomID: 102, reserveTime:['10:30:00 - 12:00:00', '15:30:00 - 18:30:00']},
+        {roomID: 103, reserveTime:['09:30:00 - 13:00:00', '14:30:00 - 20:30:00']}
       ],
       dialogFormVisible: false,
     }
   },
   methods:{
-    reserve(roomID){
-      var reservation = {roomID: roomID, date: this.$route.params.date, buildingType: this.$route.params.buildingType, buildingName: this.$route.params.buildingName}
+    reserve(roomID, reserveTime){
+      const d = this.$route.params.date
+      const bt = this.$route.params.buildingType
+      const bn = this.$route.params.buildingName
+      const reservation = {roomID: roomID, date: d, buildingType: bt, buildingName: bn, rangeTime: reserveTime}
       this.$store.commit('reserve', reservation)
     }
   }
@@ -40,7 +44,7 @@ export default {
 <style scoped>
 .box{
   width: 70%;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255);
   border-radius: 12px;
   position: absolute;
   top:50%;

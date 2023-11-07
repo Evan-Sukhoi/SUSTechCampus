@@ -43,6 +43,15 @@ export const lang = {
 
   /*reservation*/
   reserve:'点击预约',
-  roomID: '房间号'
+  roomID: '房间号',
+  chooseADate:'请选择日期',
+  department:'所属部门',
+  date:'时期',
+  startTime:'开始时间',
+  chooseATime:'选择时间',
+  endTime:'结束时间',
+  location:'位置',
+  chooseAPlace:'选个地方',
+  suchAs434A:'诸如434A',
 
 }

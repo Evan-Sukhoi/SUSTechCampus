@@ -35,7 +35,7 @@ export default {
 
 .box{
   width: 70%;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255);
   overflow: auto;
   border-radius: 12px;
   position: absolute;

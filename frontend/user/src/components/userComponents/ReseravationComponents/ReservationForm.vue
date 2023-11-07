@@ -2,17 +2,17 @@
   <div>
   <el-dialog :title="form.title" :visible.sync="$store.state.isReserve" :before-close="cancel">
     <el-form :model="form">
-      <el-form-item label="Room ID" :label-width="formLabelWidth">
+      <el-form-item :label="$t('lang.roomID')" :label-width="formLabelWidth">
         <el-input v-model="this.$store.state.roomID" autocomplete="off" placeholder="Room + number" disabled></el-input>
       </el-form-item>
-      <el-form-item label="Department" :label-width="formLabelWidth">
+      <el-form-item :label="$t('lang.department')" :label-width="formLabelWidth">
         <el-input v-model="form.department" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="Date" :label-width="formLabelWidth">
+      <el-form-item :label="$t('lang.date')" :label-width="formLabelWidth">
         <el-col :span="11">
           <el-date-picker
               type="date"
-              placeholder="Choose a date"
+              :placeholder="$t('lang.chooseADate')"
               v-model="this.$store.state.date"
               format="yyyy/MM/dd"
               style="width: 100%;"
@@ -25,34 +25,38 @@
         }" ></el-date-picker>
         </el-col>
       </el-form-item>
-      <el-form-item label="Start Time" :label-width="formLabelWidth">
+      <el-form-item :label="$t('lang.startTime')" :label-width="formLabelWidth">
         <el-col :span="11">
-          <el-time-select
+          <el-time-picker
               v-model="form.start_time"
-              :picker-options="{start: '00:00',step: '00:15',end: '23:45'}"
-              placeholder="Choose a time"
+              :picker-options="{
+                selectableRange: this.$store.state.rangeTime
+              }"
+              :placeholder="$t('lang.chooseATime')"
               style="width: 100%">
-          </el-time-select>
+          </el-time-picker>
         </el-col>
       </el-form-item>
-      <el-form-item label="End Time" :label-width="formLabelWidth">
+      <el-form-item :label="$t('lang.endTime')" :label-width="formLabelWidth">
         <el-col :span="11">
-          <el-time-select
+          <el-time-picker
               v-model="form.end_time"
-              :picker-options="{start: '00:15',step: '00:15',end: '24:00'}"
-              placeholder="Choose a time"
+              :picker-options="{
+                selectableRange: this.$store.state.rangeTime
+              }"
+              :placeholder="$t('lang.chooseATime')"
               style="width: 100%">
-          </el-time-select>
+          </el-time-picker>
         </el-col>
       </el-form-item>
-      <el-form-item label="Location" :label-width="formLabelWidth">
+      <el-form-item :label="$t('lang.location')" :label-width="formLabelWidth">
         <el-col :span="11">
-          <el-select v-model="this.$store.state.buildingType" placeholder="Choose a place" disabled>
+          <el-select v-model="this.$store.state.buildingType" :placeholder="$t('lang.chooseAPlace')" disabled>
           </el-select>
         </el-col>
         <el-col class="line" :span="2">-</el-col>
         <el-col :span="11">
-          <el-input v-model="this.$store.state.buildingName" autocomplete="off" placeholder="Such as 434A" disabled></el-input>
+          <el-input v-model="this.$store.state.buildingName" autocomplete="off" :placeholder="$t('lang.suchAs434A')" disabled></el-input>
         </el-col>
       </el-form-item>
     </el-form>
@@ -70,8 +74,7 @@ export default {
   data(){
     return{
       form: {
-        title: '',
-        room_name: '',
+        title: this.$t('lang.reservation'),
         department: '',
         start_time: '',
         end_time: '',
@@ -82,8 +85,6 @@ export default {
   },
   methods:{
     restore() {
-      this.form.title = ''
-      this.form.room_name = ''
       this.form.department = ''
       this.form.start_time = ''
       this.form.end_time = ''
@@ -98,11 +99,6 @@ export default {
             return false
           }
         }
-      }
-      var room_patten = /^\d+[A-z]$/
-      if (!room_patten.test(this.form.location2)){
-        this.$message.error('Room number should be like \'434A\'')
-        return false
       }
       var start_hour = this.form.start_time.split(":")[0]
       var start_minute = this.form.start_time.split(":")[1]
@@ -132,7 +128,7 @@ export default {
     },
     submit() {
       var newDate = {}
-      newDate.room_name = this.form.room_name
+      newDate.room_ID = this.$store.state.roomID
       newDate.department = this.form.department
       newDate.location = this.$store.state.buildingType + '\n' + this.$store.state.buildingName
       newDate.date = this.$store.state.date

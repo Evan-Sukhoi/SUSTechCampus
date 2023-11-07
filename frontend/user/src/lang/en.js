@@ -43,6 +43,15 @@ export const lang = {
 
   /*reservation*/
   reserve:'reserve',
-  roomID: 'RoomID'
+  roomID: 'RoomID',
+  chooseADate:'Choose a date',
+  department:'Department',
+  date:'Date',
+  startTime:'Start Time',
+  chooseATime:'Choose a time',
+  endTime:'End Time',
+  location:'Location',
+  chooseAPlace:'Choose a place',
+  suchAs434A:'Such as 434A',
 
 }

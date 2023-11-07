@@ -21,7 +21,7 @@ export default {
   watch: {
     $route(to, from) {
       // 根据路由的变化方向设置动画
-      this.transitionName = to.path.startsWith(from.path) ? 'slide-left' : 'slide-right';
+      this.transitionName = decodeURI(to.path).startsWith(decodeURI(from.path)) ? 'slide-left' : 'slide-right';
     },
   },
   methods: {

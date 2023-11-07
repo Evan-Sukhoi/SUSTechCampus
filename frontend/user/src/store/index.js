@@ -12,6 +12,7 @@ const store = new Vuex.Store({
         this.state.date = reservation.date
         this.state.buildingType = reservation.buildingType
         this.state.buildingName = reservation.buildingName
+        this.state.rangeTime = reservation.rangeTime
         this.state.isReserve = true
       }
     }
