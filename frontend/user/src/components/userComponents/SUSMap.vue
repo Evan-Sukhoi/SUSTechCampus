@@ -1,9 +1,9 @@
 <template>
   <div class="map">
     <div id="container"></div>
-    <div class="navigation-btn-container">
-      <button class="navigation-btn" @click="enterNavigation">进入导航</button>
-    </div>
+<!--    <div class="navigation-btn-container">-->
+<!--      <button class="navigation-btn" @click="enterNavigation">进入导航</button>-->
+<!--    </div>-->
   </div>
 </template>
 <script>
@@ -91,7 +91,7 @@ export default {
               const InfoWindowContent = new Vue({
                 render: (h) => h(MapContent, {
                   props: {
-                    buildingId: 1,
+                    buildingId: "1",
                   },
                 }),
               });
@@ -113,6 +113,7 @@ export default {
               // 监听组件的关闭事件
               InfoWindowContent.$on('close', () => {
                 this.infoWindow.close();
+                InfoWindowContent.$destroy();
               });
             }.bind(this));
 
@@ -141,7 +142,7 @@ export default {
               const InfoWindowContent = new Vue({
                 render: (h) => h(MapContent, {
                   props: {
-                    buildingId: 2,
+                    buildingId: "2",
                   },
                 }),
               });
@@ -163,6 +164,7 @@ export default {
               // 监听组件的关闭事件
               InfoWindowContent.$on('close', () => {
                 this.infoWindow.close();
+                InfoWindowContent.$destroy();
               });
             }.bind(this));
 
