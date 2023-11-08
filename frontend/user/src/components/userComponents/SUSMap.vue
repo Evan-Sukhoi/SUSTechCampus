@@ -21,6 +21,7 @@ export default {
       driving: '',
       longitude: 114.000725,
       latitude: 22.595509,
+
     }
   },
   mounted() {
@@ -28,6 +29,17 @@ export default {
   },
   unmounted() {
     this.map?.destroy();
+  },
+  watch: {
+    "$i18n.locale": function(newVal) {
+      if (newVal === 'zh-CN') {
+        this.map.setLang('zh_cn');
+        console.log('zh-cn')
+      } else {
+        this.map.setLang('en');
+        console.log('en')
+      }
+    }
   },
   methods: {
     initAMap() {
@@ -47,6 +59,7 @@ export default {
               terrain: false, // 开启地形图
               zoom: 18,
               center: [parseFloat(this.longitude), parseFloat(this.latitude)],
+              lang: this.$i18n.locale === 'zh-CN' ? 'zh_cn' : 'en',
             });
 
             // 添加工具条
@@ -66,6 +79,7 @@ export default {
             });
             this.map.addControl(controlBar);
 
+            ////////////////////////////////////////////////////////////////
             // 创建林恩标记
             var lynnPath = [
               [113.998798, 22.594761],
@@ -117,6 +131,7 @@ export default {
               });
             }.bind(this));
 
+            ////////////////////////////////////////////////////////////////
             // 创建一科标记
             var firstSciPath = [
               [113.996666, 22.59672],
@@ -138,7 +153,8 @@ export default {
 
 
             firstSciPolygon.on('click', function(event) {
-              // 创建一个Vue实例
+              // 创建一个Vue实例 l
+
               const InfoWindowContent = new Vue({
                 render: (h) => h(MapContent, {
                   props: {
@@ -168,6 +184,121 @@ export default {
               });
             }.bind(this));
 
+            ////////////////////////////////////////////////////////////////
+            // 创建工学院北楼标记
+            var instituteNorthPath = [
+              [113.996404, 22.601819],
+              [113.995214, 22.601642],
+              [113.995331, 22.600685],
+              [113.996417, 22.600832],
+              [113.996371, 22.601018],
+              [113.995484, 22.600888],
+              [113.995393, 22.601475],
+              [113.996422, 22.601651]
+          ];
+
+            var instituteNorthPolygon = new this.AMap.Polygon({
+              path: instituteNorthPath, // 设置多边形边界路径
+              strokeColor: "#0000FF", // 设置多边形边界线颜色
+              fillColor: "#FF99FF", // 设置多边形填充颜色
+              fillOpacity: 0, // 设置透明度
+              strokeOpacity: 0, // 设置边界线透明度
+              strokeWeight: 3 // 设置边界线宽度
+            });
+
+            this.map.add(instituteNorthPolygon);
+
+
+            instituteNorthPolygon.on('click', function(event) {
+              // 创建一个Vue实例 l
+
+              const InfoWindowContent = new Vue({
+                render: (h) => h(MapContent, {
+                  props: {
+                    buildingId: "3",
+                  },
+                }),
+              });
+
+              // 手动挂载Vue实例
+              InfoWindowContent.$mount();
+              const contentElement = InfoWindowContent.$el;
+
+              // 创建信息窗体实例
+              this.infoWindow = new this.AMap.InfoWindow({
+                content: contentElement, // 使用Vue组件实例的元素作为内容
+                position: [event.lnglat.getLng(), event.lnglat.getLat()],
+                offset: new this.AMap.Pixel(0, 0)
+              });
+
+              // 打开信息窗体
+              this.infoWindow.open(this.map);
+
+              // 监听组件的关闭事件
+              InfoWindowContent.$on('close', () => {
+                this.infoWindow.close();
+                InfoWindowContent.$destroy();
+              });
+            }.bind(this));
+
+            /////////////////////////////////////////////////////////
+            // 创建工学院南楼标记
+            var instituteSouthPath = [
+              [113.997174, 22.600025],
+              [113.996433, 22.600572],
+              [113.995353, 22.600429],
+              [113.995476, 22.599722],
+              [113.996467, 22.598928],
+              [113.996564, 22.599089],
+              [113.995652, 22.599868],
+              [113.995604, 22.60028],
+              [113.996379, 22.600365],
+              [113.997032, 22.59988]
+            ];
+
+            var instituteSouthPolygon = new this.AMap.Polygon({
+              path: instituteSouthPath, // 设置多边形边界路径
+              strokeColor: "#0000FF", // 设置多边形边界线颜色
+              fillColor: "#FF99FF", // 设置多边形填充颜色
+              fillOpacity: 0, // 设置透明度
+              strokeOpacity: 0, // 设置边界线透明度
+              strokeWeight: 3 // 设置边界线宽度
+            });
+
+            this.map.add(instituteSouthPolygon);
+
+
+            instituteSouthPolygon.on('click', function(event) {
+              // 创建一个Vue实例 l
+
+              const InfoWindowContent = new Vue({
+                render: (h) => h(MapContent, {
+                  props: {
+                    buildingId: "3",
+                  },
+                }),
+              });
+
+              // 手动挂载Vue实例
+              InfoWindowContent.$mount();
+              const contentElement = InfoWindowContent.$el;
+
+              // 创建信息窗体实例
+              this.infoWindow = new this.AMap.InfoWindow({
+                content: contentElement, // 使用Vue组件实例的元素作为内容
+                position: [event.lnglat.getLng(), event.lnglat.getLat()],
+                offset: new this.AMap.Pixel(0, 0)
+              });
+
+              // 打开信息窗体
+              this.infoWindow.open(this.map);
+
+              // 监听组件的关闭事件
+              InfoWindowContent.$on('close', () => {
+                this.infoWindow.close();
+                InfoWindowContent.$destroy();
+              });
+            }.bind(this));
 
             this.map.on("click", this.handleMapClick.bind(this));
           })
@@ -183,7 +314,9 @@ export default {
       var lng = e.lnglat.getLng();
       var lat = e.lnglat.getLat();
       console.log("你点击了地图在经度" + lng + "，纬度" + lat + "的位置");
-
+      if (this.infoWindow) {
+        this.infoWindow.close();
+      }
     },
 
 

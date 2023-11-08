@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 .map_content {
-  width: 300px;
+  width: 200px;
   height: 200px;
 }
 </style>
