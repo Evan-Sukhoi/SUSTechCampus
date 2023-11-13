@@ -33,8 +33,10 @@ export default {
 
 .route {
   position: absolute;
-  width: 100%;
+  width: 99%;
+  height: 90%;
   top: 10%;
+  background-color: #dddddd;
 }
 
 .topbar {

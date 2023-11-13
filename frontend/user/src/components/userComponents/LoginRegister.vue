@@ -11,6 +11,7 @@
       <template #tooltip>
         <div v-if="isLogin">
           <el-divider></el-divider>
+          <vs-button @click="personalPage">{{$t("lang.personalPage")}}</vs-button>
           <vs-button @click="logout">{{$t("lang.logout")}}</vs-button>
         </div>
       </template>
@@ -139,6 +140,10 @@ export default {
       }
       localStorage.removeItem('photo')
       localStorage.removeItem('isLogin')
+      this.$router.push({path:'/user/home'})
+    },
+    personalPage(){
+      this.$router.push({path:'/user/personalPage'})
     },
     createAccount(){
       this.isRegister = true

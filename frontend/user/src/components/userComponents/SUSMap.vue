@@ -1,12 +1,9 @@
 <template>
   <div class="map">
     <div id="container"></div>
-    <div id="panel"></div>
-    <div>
-      <p>经度: {{ longitude }}</p>
-      <p>纬度: {{ latitude }}</p>
-      <button @click="getLocation">获取位置</button>
-    </div>
+<!--    <div class="navigation-btn-container">-->
+<!--      <button class="navigation-btn" @click="enterNavigation">进入导航</button>-->
+<!--    </div>-->
   </div>
 </template>
 <script>
@@ -24,6 +21,7 @@ export default {
       driving: '',
       longitude: 114.000725,
       latitude: 22.595509,
+
     }
   },
   mounted() {
@@ -32,20 +30,276 @@ export default {
   unmounted() {
     this.map?.destroy();
   },
+  watch: {
+    "$i18n.locale": function(newVal) {
+      if (newVal === 'zh-CN') {
+        this.map.setLang('zh_cn');
+        console.log('zh-cn')
+      } else {
+        this.map.setLang('en');
+        console.log('en')
+      }
+    }
+  },
   methods: {
     initAMap() {
       AMapLoader.load({
         key: "d647a0c3b5f5de68bc23204f7365fc97", // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "1.4.15", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: ['AMap.Driving', 'AMap.LngLat', 'AMap.Walking'], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        plugins: ['AMap.Driving', 'AMap.LngLat', 'AMap.Walking', 'AMap.ControlBar', 'AMap.ToolBar', 'AMap.Marker', 'AMap.Polygon', 'AMap.InfoWindow'], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       })
           .then((AMap) => {
             this.AMap = AMap;
             this.map = new this.AMap.Map("container", {
-              viewMode: "2D",
+              rotateEnable:true,
+              pitchEnable:true,
+              pitch: 50,
+              rotation: -15,
+              viewMode: "3D",
+              terrain: false, // 开启地形图
               zoom: 18,
               center: [parseFloat(this.longitude), parseFloat(this.latitude)],
+              lang: this.$i18n.locale === 'zh-CN' ? 'zh_cn' : 'en',
             });
+
+            // 添加工具条
+            const toolBar = new this.AMap.ToolBar({
+              visible: true, // 设置工具条是否可见
+            });
+            this.map.addControl(toolBar);
+
+            // 添加控制条
+            const controlBar = new this.AMap.ControlBar({
+              showZoomBar: true, // 是否显示缩放按钮
+              showControlButton: true, // 是否显示旋转、倾斜按钮
+              position: {
+                right: '10px',
+                top: '10px',
+              },
+            });
+            this.map.addControl(controlBar);
+
+            ////////////////////////////////////////////////////////////////
+            // 创建林恩标记
+            var lynnPath = [
+              [113.998798, 22.594761],
+              [113.997907, 22.594891],
+              [113.998016, 22.595381],
+              [113.998849, 22.595317]
+            ];
+
+            var lynnPolygon = new this.AMap.Polygon({
+              path: lynnPath, // 设置多边形边界路径
+              strokeColor: "#0000FF", // 设置多边形边界线颜色
+              fillColor: "#FF99FF", // 设置多边形填充颜色
+              fillOpacity: 0, // 设置透明度
+              strokeOpacity: 0, // 设置边界线透明度
+              strokeWeight: 3 // 设置边界线宽度
+            });
+
+            this.map.add(lynnPolygon);
+
+
+            lynnPolygon.on('click', function(event) {
+              // 创建一个Vue实例
+              const InfoWindowContent = new Vue({
+                render: (h) => h(MapContent, {
+                  props: {
+                    buildingId: "1",
+                  },
+                }),
+              });
+
+              // 手动挂载Vue实例
+              InfoWindowContent.$mount();
+              const contentElement = InfoWindowContent.$el;
+
+              // 创建信息窗体实例
+              this.infoWindow = new this.AMap.InfoWindow({
+                content: contentElement, // 使用Vue组件实例的元素作为内容
+                position: [event.lnglat.getLng(), event.lnglat.getLat()],
+                offset: new this.AMap.Pixel(0, 0)
+              });
+
+              // 打开信息窗体
+              this.infoWindow.open(this.map);
+
+              // 监听组件的关闭事件
+              InfoWindowContent.$on('close', () => {
+                this.infoWindow.close();
+                InfoWindowContent.$destroy();
+              });
+            }.bind(this));
+
+            ////////////////////////////////////////////////////////////////
+            // 创建一科标记
+            var firstSciPath = [
+              [113.996666, 22.59672],
+              [113.996097, 22.59631],
+              [113.996694, 22.595949],
+              [113.997031, 22.596502]
+            ];
+
+            var firstSciPolygon = new this.AMap.Polygon({
+              path: firstSciPath, // 设置多边形边界路径
+              strokeColor: "#0000FF", // 设置多边形边界线颜色
+              fillColor: "#FF99FF", // 设置多边形填充颜色
+              fillOpacity: 0, // 设置透明度
+              strokeOpacity: 0, // 设置边界线透明度
+              strokeWeight: 3 // 设置边界线宽度
+            });
+
+            this.map.add(firstSciPolygon);
+
+
+            firstSciPolygon.on('click', function(event) {
+              // 创建一个Vue实例 l
+
+              const InfoWindowContent = new Vue({
+                render: (h) => h(MapContent, {
+                  props: {
+                    buildingId: "2",
+                  },
+                }),
+              });
+
+              // 手动挂载Vue实例
+              InfoWindowContent.$mount();
+              const contentElement = InfoWindowContent.$el;
+
+              // 创建信息窗体实例
+              this.infoWindow = new this.AMap.InfoWindow({
+                content: contentElement, // 使用Vue组件实例的元素作为内容
+                position: [event.lnglat.getLng(), event.lnglat.getLat()],
+                offset: new this.AMap.Pixel(0, 0)
+              });
+
+              // 打开信息窗体
+              this.infoWindow.open(this.map);
+
+              // 监听组件的关闭事件
+              InfoWindowContent.$on('close', () => {
+                this.infoWindow.close();
+                InfoWindowContent.$destroy();
+              });
+            }.bind(this));
+
+            ////////////////////////////////////////////////////////////////
+            // 创建工学院北楼标记
+            var instituteNorthPath = [
+              [113.996404, 22.601819],
+              [113.995214, 22.601642],
+              [113.995331, 22.600685],
+              [113.996417, 22.600832],
+              [113.996371, 22.601018],
+              [113.995484, 22.600888],
+              [113.995393, 22.601475],
+              [113.996422, 22.601651]
+          ];
+
+            var instituteNorthPolygon = new this.AMap.Polygon({
+              path: instituteNorthPath, // 设置多边形边界路径
+              strokeColor: "#0000FF", // 设置多边形边界线颜色
+              fillColor: "#FF99FF", // 设置多边形填充颜色
+              fillOpacity: 0, // 设置透明度
+              strokeOpacity: 0, // 设置边界线透明度
+              strokeWeight: 3 // 设置边界线宽度
+            });
+
+            this.map.add(instituteNorthPolygon);
+
+
+            instituteNorthPolygon.on('click', function(event) {
+              // 创建一个Vue实例 l
+
+              const InfoWindowContent = new Vue({
+                render: (h) => h(MapContent, {
+                  props: {
+                    buildingId: "3",
+                  },
+                }),
+              });
+
+              // 手动挂载Vue实例
+              InfoWindowContent.$mount();
+              const contentElement = InfoWindowContent.$el;
+
+              // 创建信息窗体实例
+              this.infoWindow = new this.AMap.InfoWindow({
+                content: contentElement, // 使用Vue组件实例的元素作为内容
+                position: [event.lnglat.getLng(), event.lnglat.getLat()],
+                offset: new this.AMap.Pixel(0, 0)
+              });
+
+              // 打开信息窗体
+              this.infoWindow.open(this.map);
+
+              // 监听组件的关闭事件
+              InfoWindowContent.$on('close', () => {
+                this.infoWindow.close();
+                InfoWindowContent.$destroy();
+              });
+            }.bind(this));
+
+            /////////////////////////////////////////////////////////
+            // 创建工学院南楼标记
+            var instituteSouthPath = [
+              [113.997174, 22.600025],
+              [113.996433, 22.600572],
+              [113.995353, 22.600429],
+              [113.995476, 22.599722],
+              [113.996467, 22.598928],
+              [113.996564, 22.599089],
+              [113.995652, 22.599868],
+              [113.995604, 22.60028],
+              [113.996379, 22.600365],
+              [113.997032, 22.59988]
+            ];
+
+            var instituteSouthPolygon = new this.AMap.Polygon({
+              path: instituteSouthPath, // 设置多边形边界路径
+              strokeColor: "#0000FF", // 设置多边形边界线颜色
+              fillColor: "#FF99FF", // 设置多边形填充颜色
+              fillOpacity: 0, // 设置透明度
+              strokeOpacity: 0, // 设置边界线透明度
+              strokeWeight: 3 // 设置边界线宽度
+            });
+
+            this.map.add(instituteSouthPolygon);
+
+
+            instituteSouthPolygon.on('click', function(event) {
+              // 创建一个Vue实例 l
+
+              const InfoWindowContent = new Vue({
+                render: (h) => h(MapContent, {
+                  props: {
+                    buildingId: "3",
+                  },
+                }),
+              });
+
+              // 手动挂载Vue实例
+              InfoWindowContent.$mount();
+              const contentElement = InfoWindowContent.$el;
+
+              // 创建信息窗体实例
+              this.infoWindow = new this.AMap.InfoWindow({
+                content: contentElement, // 使用Vue组件实例的元素作为内容
+                position: [event.lnglat.getLng(), event.lnglat.getLat()],
+                offset: new this.AMap.Pixel(0, 0)
+              });
+
+              // 打开信息窗体
+              this.infoWindow.open(this.map);
+
+              // 监听组件的关闭事件
+              InfoWindowContent.$on('close', () => {
+                this.infoWindow.close();
+                InfoWindowContent.$destroy();
+              });
+            }.bind(this));
+
             this.map.on("click", this.handleMapClick.bind(this));
           })
           .catch((e) => {
@@ -54,76 +308,19 @@ export default {
 
     },
 
-    findDrivingWay([a, b], [c, d]) {
-      this.driving.search(new this.AMap.LngLat(a, b), new this.AMap.LngLat(c, d), function (status, result) {
-        console.log("start")
-        if (status === 'complete') {
-          console.log('绘制驾车路线完成')
-        } else {
-          console.log('获取驾车数据失败：' + result)
-        }
-      });
-    },
 
     handleMapClick(e) {
       // e.lnglat 获取点击位置的经纬度
       var lng = e.lnglat.getLng();
       var lat = e.lnglat.getLat();
       console.log("你点击了地图在经度" + lng + "，纬度" + lat + "的位置");
-      var buidlingID = '';
-
       if (this.infoWindow) {
         this.infoWindow.close();
       }
-      if (lng >= 113.99837 && lng < 113.9985 && lat >= 22.59501 && lat < 22.59513) {
-        buidlingID = '1';
-
-        // 创建一个Vue实例
-        const InfoWindowContent = new Vue({
-          render: (h) => h(MapContent, {
-            props: {
-              buildingId: buidlingID,
-            },
-          }),
-        });
-
-        // 手动挂载Vue实例
-        InfoWindowContent.$mount();
-        const contentElement = InfoWindowContent.$el;
-
-        // 创建信息窗体实例
-        this.infoWindow = new this.AMap.InfoWindow({
-          content: contentElement, // 使用Vue组件实例的元素作为内容
-          position: [lng, lat],
-          offset: new this.AMap.Pixel(0, 0)
-        });
-
-        // 打开信息窗体
-        this.infoWindow.open(this.map);
-
-        // 监听组件的关闭事件
-        InfoWindowContent.$on('close', () => {
-          this.infoWindow.close();
-        });
-      }
     },
 
-    getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-              this.longitude = position.coords.longitude;
-              this.latitude = position.coords.latitude;
-              this.map.setCenter([parseFloat(this.longitude), parseFloat(this.latitude)])
-            },
-            error => {
-              console.error('无法获取位置信息', error);
-            }
-        );
-      } else {
-        console.error('浏览器不支持 Geolocation API');
-      }
-    },
+
+
   },
 
 }
@@ -135,7 +332,7 @@ export default {
 
 #container {
   width: 100%;
-  height: 800px;
+  height: 700px;
 }
 
 #panel {
@@ -145,5 +342,24 @@ export default {
   width: 30%;
   height: 100px;
   z-index: 100;
+}
+
+.navigation-btn-container {
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+}
+
+.navigation-btn {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.navigation-btn:hover {
+  background-color: #0056b3;
 }
 </style>

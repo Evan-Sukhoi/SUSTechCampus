@@ -14,32 +14,34 @@
       </div>
       <div id="right-box">
         <div v-for="reservation in Infos" :key="reservation.id" class="column">
-          <router-link :to="`/user/reservation/${reservation.id}`">
-            <vs-card>
-              <template #title>
-                <h3>{{ reservation.name }}</h3>
-              </template>
-              <template #img>
-                <img :src=reservation.img alt="">
-              </template>
-              <template #text>
-                <p>
-                  {{ reservation.describe }}
-                </p>
-              </template>
-              <template #interactions>
-                <vs-button danger icon>
-                  <i class='bx bx-heart'></i>
-                </vs-button>
-                <vs-button class="btn-chat" shadow primary>
-                  <i class='bx bx-chat' ></i>
-                  <span class="span">
+          <div @click="goto(building.name, reservation.name)">
+            <router-link :to="``">
+              <vs-card>
+                <template #title>
+                  <h3>{{ reservation.name }}</h3>
+                </template>
+                <template #img>
+                  <img :src=reservation.img alt="">
+                </template>
+                <template #text>
+                  <p>
+                    {{ reservation.describe }}
+                  </p>
+                </template>
+                <template #interactions>
+                  <vs-button danger icon>
+                    <i class='bx bx-heart'></i>
+                  </vs-button>
+                  <vs-button class="btn-chat" shadow primary>
+                    <i class='bx bx-chat' ></i>
+                    <span class="span">
           54
         </span>
-                </vs-button>
-              </template>
-            </vs-card>
-          </router-link>
+                  </vs-button>
+                </template>
+              </vs-card>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -62,6 +64,12 @@ export default {
         {id: 2, img: "https://cdn.seovx.com/d/?mom=302", name: "building 2", describe: "lala"},
         {id: 3, img: "http://www.98qy.com/sjbz/api.php", name: "building 3", describe: "guagua"}
       ]
+    }
+  },
+  methods:{
+    goto(buildingType, buildingName){
+      buildingName = buildingName.replace(" ", "%20")
+      this.$router.push({path:"/user/reservation/" + buildingType + "/" + buildingName})
     }
   }
 }
