@@ -9,6 +9,7 @@ export const lang = {
   search: '搜索',
   login: '登录',
   logout: '登出',
+  personalPage:'个人主页',
 
   /*login*/
   welcome: '欢迎来到南科大导航',
@@ -53,5 +54,24 @@ export const lang = {
   location:'位置',
   chooseAPlace:'选个地方',
   suchAs434A:'诸如434A',
+
+  /*service*/
+  commodity:'商品名',
+  price:'价格',
+  orderID:'排序',
+  buy:'购买',
+  getCommodity:'现在你可以去线下去货',
+  ok:'确定',
+  cancel:'取消',
+  attention:'注意',
+
+  /*personalPage*/
+  record:'记录',
+  reservationRecord: '预约记录',
+  operation:'操作',
+  edit:'编辑',
+  delete:'删除',
+  buildingName:'建筑名',
+  buildingType:'建筑类型',
 
 }

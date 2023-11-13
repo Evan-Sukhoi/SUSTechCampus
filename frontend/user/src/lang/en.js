@@ -9,6 +9,7 @@ export const lang = {
   search: 'Search',
   login: 'Login',
   logout: 'Logout',
+  personalPage:'Person',
 
   /*login*/
   welcome: 'Welcome to SUSTECH CAMPUS',
@@ -53,5 +54,24 @@ export const lang = {
   location:'Location',
   chooseAPlace:'Choose a place',
   suchAs434A:'Such as 434A',
+
+  /*service*/
+  commodity:'Commodity name',
+  price:'Price',
+  orderID:'ID',
+  buy:'Buy!',
+  getCommodity:'You can pick it up offline at the creative shop',
+  ok:'Ok',
+  cancel:'Cancel',
+  attention:'Attention',
+
+  /*personalPage*/
+  record:'Record',
+  reservationRecord: 'Reservation record',
+  operation:'Operation',
+  edit:'Edit',
+  delete:'Delete',
+  buildingName:'Building name',
+  buildingType:'Building type',
 
 }

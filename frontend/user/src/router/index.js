@@ -15,6 +15,8 @@ import RoomReservation from "@/components/userComponents/ReseravationComponents/
 import RoomTimeLine from "@/components/userComponents/ReseravationComponents/RoomTimeLine";
 import ReservationView from "@/views/ReservationView";
 import BuildingMassageWall from "@/components/userComponents/BuildingComponents/BuildingMassageWall.vue";
+import PersonalPageView from "@/views/PersonalPageView";
+import PersonalReservationRecord from "@/components/userComponents/PersonalPageComponents/PersonalReservationRecord";
 import VisualizationDashboard from "@/components/adminComponents/VisualizationDashboard.vue";
 import AdminView from "@/views/AdminView.vue";
 import AppointmentManage from "@/components/adminComponents/AppointmentManage.vue";
@@ -60,9 +62,13 @@ const routes = [
         {path: '/user/building/:id/blog', name: 'blog', component: BuildingBlog},
         {path: '/user/building/:id/room', name: 'room', component: BuildingRoom},
         {path: '/user/building/:id/mass', name: 'mass', component: BuildingMassageWall}
-      ]
-      },
-      {path: '/user/home', component: HomePage}
+      ]},
+      {path: '/user/home', component: HomePage},
+      {path: '/user/personalPage', component: PersonalPageView,
+      children: [
+        {path: '/user/personalPage', redirect:'/user/personalPage/record'},
+        {path: '/user/personalPage/record', name: 'personalReservationRecord', component: PersonalReservationRecord},
+      ]}
     ],
     component: UserView
   },
