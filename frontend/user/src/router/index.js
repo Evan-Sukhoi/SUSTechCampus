@@ -14,6 +14,12 @@ import BuildingRoom from "@/components/userComponents/BuildingComponents/Buildin
 import RoomReservation from "@/components/userComponents/ReseravationComponents/RoomReservation";
 import RoomTimeLine from "@/components/userComponents/ReseravationComponents/RoomTimeLine";
 import ReservationView from "@/views/ReservationView";
+<<<<<<< HEAD
+=======
+import BuildingMassageWall from "@/components/userComponents/BuildingComponents/BuildingMassageWall.vue";
+import PersonalPageView from "@/views/PersonalPageView";
+import PersonalReservationRecord from "@/components/userComponents/PersonalPageComponents/PersonalReservationRecord";
+>>>>>>> e95f2e15790f5139a38a1e7219c4da6a3393741f
 import VisualizationDashboard from "@/components/adminComponents/VisualizationDashboard.vue";
 import AdminView from "@/views/AdminView.vue";
 import AppointmentManage from "@/components/adminComponents/AppointmentManage.vue";
@@ -58,9 +64,20 @@ const routes = [
         {path: '/user/building/:id/intro', name: 'intro', component: BuildingIntro},
         {path: '/user/building/:id/blog', name: 'blog', component: BuildingBlog},
         {path: '/user/building/:id/room', name: 'room', component: BuildingRoom},
+<<<<<<< HEAD
       ]
       },
       {path: '/user/home', component: HomePage}
+=======
+        {path: '/user/building/:id/mass', name: 'mass', component: BuildingMassageWall}
+      ]},
+      {path: '/user/home', component: HomePage},
+      {path: '/user/personalPage', component: PersonalPageView,
+      children: [
+        {path: '/user/personalPage', redirect:'/user/personalPage/record'},
+        {path: '/user/personalPage/record', name: 'personalReservationRecord', component: PersonalReservationRecord},
+      ]}
+>>>>>>> e95f2e15790f5139a38a1e7219c4da6a3393741f
     ],
     component: UserView
   },

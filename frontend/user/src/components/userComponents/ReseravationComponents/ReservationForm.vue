@@ -1,12 +1,12 @@
 <template>
   <div>
-  <el-dialog :title="form.title" :visible.sync="$store.state.isReserve" :before-close="cancel">
-    <el-form :model="form">
+  <el-dialog :title="title" :visible.sync="$store.state.isShow" :before-close="cancel" >
+    <el-form :model="$store.state">
       <el-form-item :label="$t('lang.roomID')" :label-width="formLabelWidth">
-        <el-input v-model="this.$store.state.roomID" autocomplete="off" placeholder="Room + number" disabled></el-input>
+        <el-input v-model="$store.state.roomID" autocomplete="off" placeholder="Room + number" disabled></el-input>
       </el-form-item>
       <el-form-item :label="$t('lang.department')" :label-width="formLabelWidth">
-        <el-input v-model="form.department" autocomplete="off"></el-input>
+        <el-input v-model="$store.state.department" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item :label="$t('lang.date')" :label-width="formLabelWidth">
         <el-col :span="11">
@@ -28,9 +28,9 @@
       <el-form-item :label="$t('lang.startTime')" :label-width="formLabelWidth">
         <el-col :span="11">
           <el-time-picker
-              v-model="form.start_time"
+              v-model="$store.state.start_time"
               :picker-options="{
-                selectableRange: this.$store.state.rangeTime
+                selectableRange: $store.state.rangeTime
               }"
               :placeholder="$t('lang.chooseATime')"
               style="width: 100%">
@@ -40,7 +40,7 @@
       <el-form-item :label="$t('lang.endTime')" :label-width="formLabelWidth">
         <el-col :span="11">
           <el-time-picker
-              v-model="form.end_time"
+              v-model="$store.state.end_time"
               :picker-options="{
                 selectableRange: this.$store.state.rangeTime
               }"
@@ -73,26 +73,22 @@ export default {
   name: "ReservationForm",
   data(){
     return{
-      form: {
-        title: this.$t('lang.reservation'),
-        department: '',
-        start_time: '',
-        end_time: '',
-        latent_index:-1,
-      },
+      title: this.$t('lang.reservation'),
+      latent_index:-1,
       formLabelWidth: '120px'
     }
   },
   methods:{
     restore() {
-      this.form.department = ''
-      this.form.start_time = ''
-      this.form.end_time = ''
-      this.form.latent_index = -1
-      this.$store.state.isReserve = false
+      this.$store.state.department = ''
+      this.$store.state.start_time = ''
+      this.$store.state.end_time = ''
+      this.latent_index = -1
+      this.$store.state.isShow = false
+      this.$store.state.isEdit = false
     },
     contentCheck() {
-      for (const [key, value] of Object.entries(this.form)) {
+      for (const [key, value] of Object.entries(this.$store.state)) {
         if (key !== 'title' || key !== 'latent_index'){
           if (value === ''){
             this.$message.error('No field is allowed to be null')
@@ -100,51 +96,36 @@ export default {
           }
         }
       }
-      var start_hour = this.form.start_time.split(":")[0]
-      var start_minute = this.form.start_time.split(":")[1]
-      var end_hour = this.form.end_time.split(":")[0]
-      var end_minute = this.form.end_time.split(":")[1]
+      var start_hour = this.$store.state.start_time.getHours()
+      var start_minute = this.$store.state.start_time.getMinutes()
+      var end_hour = this.$store.state.end_time.getHours()
+      var end_minute = this.$store.state.end_time.getMinutes()
       if (start_hour > end_hour || (start_hour === end_hour && end_minute <= start_minute)){
         this.$message.error('Start time no later than the end time')
         return false
       }
       return true
     },
-    time_pick(){
-      if (this.form.start_time === ''){
-        return '00:15'
-      }else {
-        const times = this.form.start_time.split(":")
-        var hour = parseInt(times[0])
-        var minute = parseInt(times[1])
-        if (minute + 15 >= 60){
-          hour = hour + 1
-          minute = 0
-        }else {
-          minute = minute + 15
-        }
-        return hour + ':' + minute
-      }
-    },
     submit() {
       var newDate = {}
       newDate.room_ID = this.$store.state.roomID
-      newDate.department = this.form.department
-      newDate.location = this.$store.state.buildingType + '\n' + this.$store.state.buildingName
+      newDate.department = this.$store.state.department
+      newDate.buildingType = this.$store.state.buildingType
+      newDate.buildingName = this.$store.state.buildingName
       newDate.date = this.$store.state.date
-      newDate.start_time = this.form.start_time
-      newDate.end_time = this.form.end_time
+      newDate.start_time = this.$store.state.start_time
+      newDate.end_time = this.$store.state.end_time
       console.log(newDate)
-      if (this.form.title === 'Information') {
+      if (this.$store.state.isEdit) {
         if (!this.contentCheck()) {
           return
         }
-        // this.tableData.push(newDate)
+        console.log('edit')
       }else {
         if (!this.contentCheck()) {
           return
         }
-        // this.$set(this.tableData, this.form.latent_index, newDate)
+        console.log('reserve')
       }
       this.restore()
     },

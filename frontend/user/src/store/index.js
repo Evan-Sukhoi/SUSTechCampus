@@ -4,7 +4,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-      isReserve: false,
+      roomID:'',
+      date:'',
+      department:'',
+      buildingType:'',
+      buildingName:'',
+      start_time:'',
+      end_time:'',
+      isShow: false,
+      isEdit:false,
     },
     mutations: {
       reserve (state, reservation) {
@@ -13,7 +21,18 @@ const store = new Vuex.Store({
         this.state.buildingType = reservation.buildingType
         this.state.buildingName = reservation.buildingName
         this.state.rangeTime = reservation.rangeTime
-        this.state.isReserve = true
+        this.state.isShow = true
+      },
+      edit(state, info){
+        this.state.roomID = info.roomID
+        this.state.department = info.department
+        this.state.buildingType = info.buildingType
+        this.state.buildingName = info.buildingName
+        this.state.date = info.date
+        this.state.start_time = info.start_time
+        this.state.end_time = info.end_time
+        this.state.isShow = true
+        this.state.isEdit = true
       }
     }
   })

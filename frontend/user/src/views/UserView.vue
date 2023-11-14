@@ -36,6 +36,7 @@ export default {
   width: 99%;
   height: 90%;
   top: 10%;
+  background-color: #dddddd;
 }
 
 .topbar {
