@@ -32,7 +32,6 @@ export const lang = {
   blog: 'Blog',
   introduction: 'Introduction',
   room: 'Room/Stall/Area',
-  messageWall: 'MessageWall',
   return: 'Return',
 
   /*building details*/

@@ -32,7 +32,6 @@ export const lang = {
   blog: '博客',
   introduction: '介绍',
   room: '房间/档口/场地',
-  messageWall: '留言墙',
   return: '返回',
 
   /*building details*/

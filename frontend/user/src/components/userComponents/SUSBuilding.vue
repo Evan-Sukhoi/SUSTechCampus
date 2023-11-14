@@ -10,30 +10,26 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in buildings" :key="building.id" :span="6">
-               <router-link :key="building.name" :to="`/user/building/${building.id}/intro`">
+             <el-col v-for="building in buildings" :key="building.building_id" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.building_id}/intro`">
                  <vs-card type=2>
                    <template #title>
                      <h3>{{ building.name}}</h3>
                    </template>
                    <template #img>
-                     <img v-bind:src="building.src" alt="" style="height: 300px;">
+                     <img v-bind:src=building.video_url alt="" style="height: 300px;">
                    </template>
                    <template #text>
                      <p>
-                       {{ building.description}}
-                       {{building.src}}
+                       {{ building.introduction}}
                      </p>
                    </template>
                  </vs-card>
                </router-link>
              </el-col>
            </el-row>
-
          </div>
-
        </li>
-
        <li>
          <div>
            <h1>{{$t('lang.library')}}</h1>
@@ -41,27 +37,36 @@
        </li>
      </ul>
    </div>
-
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "SUSBuilding",
   data() {
     return {
-      buildings: [
-        {id: 1, name: "the first teaching building", description: "study here and learn more", src: require("@/assets/pad(canDelete)/background/youla.jpg")},
-        {id: 2, name: "the second teaching building", description: "study here and learn more", src: require("@/assets/pad(canDelete)/background/youla.jpg")},
-        {id: 3, name: "the third teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 4, name: "the fourth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 5, name: "the fifth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 6, name: "the sixth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 7, name: "the seventh teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
-        {id: 8, name: "the eighth teaching building", description: "study here and learn more", src: require("../../assets/pad(canDelete)/background/youla.jpg")},
-      ]
+      buildings: []
     }
-  }
+  },
+  created() {
+    this.fetchBuildingData();
+  },
+  methods: {
+    fetchBuildingData() {
+      axios.get("http://localhost:8081/user/building/all")
+          .then(response => {
+            this.buildings = response.data;
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    }
+  },
+
 }
 </script>
 

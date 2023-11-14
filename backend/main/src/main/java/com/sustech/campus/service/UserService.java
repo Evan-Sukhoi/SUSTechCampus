@@ -45,6 +45,13 @@ public interface UserService extends PublicService {
     Room getRoomByRoomId(Integer roomId);
 
     /**
+     * 根据建筑ID获取建筑信息
+     * @param buildingId 建筑ID
+     * @return 建筑信息
+     */
+    List<Building> getBuildingById(Integer buildingId);
+
+    /**
      * 上传预约
      * @param userId 用户ID
      * @param roomId 教室ID

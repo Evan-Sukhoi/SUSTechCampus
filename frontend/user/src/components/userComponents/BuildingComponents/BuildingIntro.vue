@@ -25,8 +25,36 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "BuildingIntro"
+  name: "BuildingIntro",
+  data() {
+    return {
+      buildingId: '',
+      buildings: [],
+    }
+  },
+
+  created() {
+    this.buildingId = this.$route.params.id;
+    this.fetchBuildingData(this.buildingId);
+  },
+  methods: {
+    fetchBuildingData(id) {
+      axios.get(`http://localhost:8081/user/building/getbybuildingid?buildingId=${id}`)
+          .then(response => {
+            this.buildings = response.data;
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    },
+  },
+
 }
 
 </script>

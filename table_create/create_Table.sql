@@ -9,6 +9,9 @@ git /*
 所有的表都有主键
 */
 
+
+
+
 -- 用户表
 CREATE TABLE User (
     user_ID INT AUTO_INCREMENT,

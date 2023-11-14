@@ -73,6 +73,12 @@ public class UserController {
         return userService.getAllBuilding();
     }
 
+    @ApiOperation("获取指定id的建筑信息")
+    @RequestMapping("/building/getbybuildingid")
+    public List<Building> getBuildingByBuilding(@ApiParam("建筑id") Integer buildingId) {
+        return userService.getBuildingById(buildingId);
+    }
+
     @ApiOperation("获取所有评论信息")
     @RequestMapping("/comment/all")
     public List<Comment> getAllComment() {
