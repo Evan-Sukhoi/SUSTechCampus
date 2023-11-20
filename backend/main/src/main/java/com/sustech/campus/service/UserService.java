@@ -52,6 +52,13 @@ public interface UserService extends PublicService {
     List<Building> getBuildingById(Integer buildingId);
 
     /**
+     *获得评论通过建筑id
+     * @param buildingId 用户ID
+     */
+    List<Comment> getCommentByBuildingId(Integer buildingId);
+
+
+    /**
      * 上传预约
      * @param userId 用户ID
      * @param roomId 教室ID

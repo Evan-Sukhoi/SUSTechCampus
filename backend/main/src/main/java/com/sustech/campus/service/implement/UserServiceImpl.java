@@ -64,6 +64,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Comment> getCommentByBuildingId(Integer buildingId) {
+        return commentDao.selectJoinList(
+                Comment.class,
+                new MPJLambdaWrapper<Comment>()
+                        .select(Comment::getComment_id, Comment::getUser_id, Comment::getTime, Comment::getText, Comment::getBuilding_id, Comment::getScore, Comment::getAdmin_id)
+                        .eq(Building::getBuilding_id, buildingId)
+        );
+    }
+
+    @Override
     public List<Comment> getAllComment() {
         return commentDao.selectJoinList(
                 Comment.class,

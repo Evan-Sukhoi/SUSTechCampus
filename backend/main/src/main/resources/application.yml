@@ -30,3 +30,4 @@ mybatis-plus:
     #https://www.cnblogs.com/zhaodalei/p/16850870.html
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
   mapper-locations: classpath*:/dao/**/*.xml
+

@@ -3,7 +3,6 @@
     <!-- 左侧部分，显示评论 -->
     <div id="comment">
       <div v-for="comment in comments" :key="comment.id" class="comment">
-        <div class="user">{{ comment.user }}</div>
         <div class="comment-text">{{ comment.text }}</div>
         <img v-if="comment.image" :src="comment.image" alt="Comment Image">
       </div>
@@ -15,8 +14,6 @@
       <div id="addcomment">
         <h2>添加评论</h2>
         <form @submit.prevent="addComment">
-          <label for="username">用户名:</label>
-          <input type="text" v-model="newComment.user" required>
 
           <label for="comment">评论:</label>
           <textarea v-model="newComment.text" required></textarea>
@@ -31,7 +28,6 @@
       <!-- 下部分，评论预览 -->
       <div class="preview">
         <h3>评论预览</h3>
-        <div class="user">{{ newComment.user }}</div>
         <div class="comment-text">{{ newComment.text }}</div>
         <div id="image">
           <img v-if="newComment.image" :src="newComment.image" alt="Comment Image" width="300px">
@@ -42,28 +38,19 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      // comments: [
-      //   {
-      //     user: "jjjj",
-      //     date: "2023/09/11",
-      //     text: "ni hao kdifjsidfnisdnfdnfidf ldkfodfk diofjidfji dfsjdfoj",
-      //     id: 1,
-      //     image: require("@/assets/pad(canDelete)/background/keli.png")
-      //   },
-      //   {
-      //     user: "jjjj",
-      //     date: "2023/09/11",
-      //     text: "ni hao dfsd  dfe df gdg",
-      //     id: 2,
-      //     image: require("@/assets/pad(canDelete)/background/keli.png")
-      //   },
-      // ],
-      newComment: {user: '', text: ''},
+      newComment: {},
+      comments: [],
       key: 0,
     }
+  },
+  created() {
+    this.buildingId = this.$route.params.id;
+    this.fetchCommentData(this.buildingId);
   },
   methods: {
     formatDate(date) {
@@ -72,9 +59,8 @@ export default {
     },
 
     addComment() {
-      if (this.newComment.user && this.newComment.text) {
+      if (this.newComment.text) {
         const newComment = {
-          user: this.newComment.user,
           text: this.newComment.text,
           image: this.newComment.image,
           date: this.formatDate(new Date()),
@@ -83,7 +69,6 @@ export default {
 
         this.comments.push(newComment);
 
-        this.newComment.user = '';
         this.newComment.text = '';
         this.newComment.image = null;
         this.key += 1;
@@ -94,6 +79,23 @@ export default {
       const file = event.target.files[0];
       this.newComment.image = URL.createObjectURL(file);
       this.key += 1;
+    },
+
+    handleCommentUpload() {
+      axios.post('http://localhost:8081/user/comment/')
+    },
+
+    fetchCommentData(id) {
+      axios.get(`http://localhost:8081/user/comment/getbybuildingid?buildingId=${id}`)
+          .then(response => {
+            this.comments = response.data;
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
     },
   },
 };

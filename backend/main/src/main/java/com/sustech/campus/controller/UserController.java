@@ -85,6 +85,12 @@ public class UserController {
         return userService.getAllComment();
     }
 
+    @ApiOperation("通过建筑id获取评论信息")
+    @RequestMapping("/comment/getbybuildingid")
+    public List<Comment> getCommentByBuildingId(@ApiParam("建筑id") Integer buildingId) {
+        return userService.getCommentByBuildingId(buildingId);
+    }
+
     @ApiOperation("获取所有公交线路信息")
     @RequestMapping("/bus_line/all")
     public List<bus_line> getAllBusLine() {
