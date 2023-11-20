@@ -24,10 +24,22 @@ spring:
       host: localhost
       port: 6379
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+
 mybatis-plus:
   configuration:
     #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     #https://www.cnblogs.com/zhaodalei/p/16850870.html
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
   mapper-locations: classpath*:/dao/**/*.xml
+
+# 文件上传保存路径
+upload-dir: backend/main/src/main/resources/static
+
+
 
