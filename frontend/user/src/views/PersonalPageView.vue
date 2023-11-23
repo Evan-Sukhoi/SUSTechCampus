@@ -25,6 +25,7 @@ export default {
 <style scoped>
 .back{
   display: flex;
+  height: 100%;
 }
 .sidebar{
   width: 20%;

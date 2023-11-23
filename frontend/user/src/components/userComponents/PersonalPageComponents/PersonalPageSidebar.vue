@@ -1,51 +1,25 @@
-
 <template>
-  <div class="hidden">
-    <div>
-      <vs-sidebar
-          absolute
-          v-model="active"
-          open
-          square
-      >
-        <template #logo>
-          <!-- ...img logo -->
-        </template>
-        <vs-sidebar-item id="home">
-          <template #icon>
-            <i class='bx bx-home'></i>
-          </template>
-          {{$t('lang.reservationRecord')}}
-        </vs-sidebar-item>
-        <template #footer>
-          <vs-row justify="space-between">
-            <vs-avatar>
-              <img src="/avatars/avatar-5.png" alt="">
-            </vs-avatar>
-
-            <vs-avatar badge-color="danger" badge-position="top-right">
-              <i class='bx bx-bell' ></i>
-
-              <template #badge>
-                28
-              </template>
-            </vs-avatar>
-          </vs-row>
-        </template>
-      </vs-sidebar>
-    </div>
-    <div>
-
-    </div>
-  </div>
+  <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      style="height: 100%;">
+    <el-menu-item index="2">
+      <i class="el-icon-menu"></i>
+      <span slot="title">{{$t('lang.reservationRecord')}}</span>
+    </el-menu-item>
+  </el-menu>
 </template>
 <script>
 export default {
-  name:"PersonalPage",
-  data:() => ({
-    active: 'home',
-  })
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  }
 }
 </script>
-
-        

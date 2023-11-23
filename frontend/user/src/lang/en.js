@@ -28,6 +28,15 @@ export const lang = {
   back: 'Back',
   chooseAvatar:'Select your profile',
   registerState: 'Registered successfully!',
+  isLogin:'Please login first!',
+  errorFormat: 'The upload format should only be JPG',
+  errorSize: 'The size of the uploaded image cannot exceed 2MB',
+  errorEmpty:'No field can be empty',
+  errorPassword:'The password is different',
+  errorEmail:'The email format is wrong',
+  errorPhoto:'Please upload profile',
+  errorPhone:'Phone number format is wrong, please enter an 11-digit phone number',
+  errorPassFormat:'The password should be at least 6 characters and no more than 13 characters',
 
   /*building*/
   blog: 'Blog',
@@ -53,6 +62,9 @@ export const lang = {
   location:'Location',
   chooseAPlace:'Choose a place',
   suchAs434A:'Such as 434A',
+  filter:'Filter',
+  filter_buildingName:'Building name',
+  filter_sure:'Sure',
 
   /*service*/
   commodity:'Commodity name',
@@ -72,5 +84,10 @@ export const lang = {
   delete:'Delete',
   buildingName:'Building name',
   buildingType:'Building type',
+
+  /*busline*/
+  path:'current path',
+  from:'From',
+  to:'To',
 
 }

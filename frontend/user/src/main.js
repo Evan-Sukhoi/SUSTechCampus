@@ -12,9 +12,11 @@ import store from "@/store";
 import locale from 'element-ui/lib/locale';
 import langEn from 'element-ui/lib/locale/lang/en';
 import langCn from 'element-ui/lib/locale/lang/zh-CN';
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:8081"
 
 
-
+Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(Element)
 Vue.use(VueSax)

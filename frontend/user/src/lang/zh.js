@@ -28,6 +28,15 @@ export const lang = {
   back: '返回',
   chooseAvatar:'选择头像',
   registerState: '注册成功！',
+  isLogin:'请先登录',
+  errorFormat: '上传的格式只能是JPG',
+  errorSize: '上传图片的大小不能超过2MB',
+  errorEmpty:'不能有空的行',
+  errorPassword:'两次密码不一样',
+  errorEmail:'邮箱格式错误',
+  errorPhoto:'请上传头像',
+  errorPhone:'手机号码错误，请输入11位手机号',
+  errorPassFormat:'密码至少为6位，不得超过13位',
 
   /*building*/
   blog: '博客',
@@ -53,6 +62,9 @@ export const lang = {
   location:'位置',
   chooseAPlace:'选个地方',
   suchAs434A:'诸如434A',
+  filter:'筛选',
+  filter_buildingName:'建筑名',
+  filter_sure:'确定',
 
   /*service*/
   commodity:'商品名',
@@ -73,4 +85,8 @@ export const lang = {
   buildingName:'建筑名',
   buildingType:'建筑类型',
 
+  /*busline*/
+  path:'当前路径',
+  from:'从这',
+  to:'到这',
 }

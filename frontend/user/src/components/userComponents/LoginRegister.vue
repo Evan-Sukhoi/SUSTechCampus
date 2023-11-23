@@ -11,8 +11,8 @@
       <template #tooltip>
         <div v-if="isLogin">
           <el-divider></el-divider>
-          <vs-button @click="personalPage">{{$t("lang.personalPage")}}</vs-button>
-          <vs-button @click="logout">{{$t("lang.logout")}}</vs-button>
+          <vs-button @click="personalPage" class="Button">{{$t("lang.personalPage")}}</vs-button>
+          <vs-button @click="logout" class="Button">{{$t("lang.logout")}}</vs-button>
         </div>
       </template>
     </vs-tooltip>
@@ -103,7 +103,8 @@ export default {
       photo: '',
       isRegister:false,
       isChose:false,
-      imageUrl: ''
+      imageUrl: '',
+      imgFile: '',
     }
   },
   methods:{
@@ -140,7 +141,7 @@ export default {
       }
       localStorage.removeItem('photo')
       localStorage.removeItem('isLogin')
-      this.$router.push({path:'/user/home'})
+      this.$router.push({path:'/user/home'}).catch(err=>err)
     },
     personalPage(){
       this.$router.push({path:'/user/personalPage'})
@@ -159,15 +160,85 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorFormat'),
+          text: '',
+        })
+        return
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorSize'),
+          text: '',
+        })
+        return
       }
       this.imageUrl = window.URL.createObjectURL(file) // need to be changed
+      this.imgFile = file
       return isJPG && isLt2M
     },
     register(){
+      if (this.username === '' || this.password === '' || this.passwordAgain === '' || this.email === '' || this.phoneNumber === ''){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorEmpty'),
+          text: '',
+        })
+        return
+      }
+      if (this.imageUrl === ''){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorPhoto'),
+          text: '',
+        })
+        return
+      }
+      if (this.password !== this.passwordAgain){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorPassword'),
+          text: '',
+        })
+        return
+      }
+      var password_patten= /^[\S]{6,13}$/
+      if (!password_patten.test(this.password)){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorPassFormat'),
+          text: '',
+        })
+        return
+      }
+      var email_patten = /.@.$/
+      if (!email_patten.test(this.email)){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorEmail'),
+          text: '',
+        })
+        return
+      }
+      var photo_patten = /\d{11}/
+      if (!photo_patten.test(this.phoneNumber)){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorPhone'),
+          text: '',
+        })
+        return
+      }
       this.username = ''
       this.password = ''
       this.passwordAgain = ''
@@ -176,7 +247,21 @@ export default {
       this.imageUrl = ''
       this.active = false
       this.isRegister = false
+      const formData = new FormData();
+      formData.append('file', this.imgFile);
+      console.log(formData)
+      this.$http({
+        method: 'post',
+        url: '/upload',
+        headers: {
+          'content-type': 'multipart/form-data'
+        },
+        data: formData,
+      }).then(resp => {
+        console.log(resp);
+      }).catch(err=>err)
       this.$vs.notification({
+        color:'success',
         position: 'top-center',
         title: this.$t('lang.registerState'),
         text: '',
@@ -234,5 +319,8 @@ a{
 }
 a:hover{
   color: royalblue;
+}
+.Button{
+  width: 100px;
 }
 </style>

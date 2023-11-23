@@ -35,12 +35,14 @@
         <el-table-column
             prop="start_time"
             :label="$t('lang.startTime')"
-            width="120">
+            width="120"
+            :formatter="formatDate">
         </el-table-column>
         <el-table-column
             prop="end_time"
             :label="$t('lang.endTime')"
-            width="120">
+            width="120"
+            :formatter="formatDate">
         </el-table-column>
         <el-table-column
             fixed="right"
@@ -81,6 +83,14 @@ export default {
     },
     edit(index, tableData){
       this.$store.commit('edit', tableData[index])
+    },
+    formatDate(row, column) {
+      let data = row[column.property]
+      if(data == null) {
+        return null
+      }
+      let dt = new Date(data)
+      return dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds()
     },
   },
   data() {
