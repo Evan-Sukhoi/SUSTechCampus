@@ -6,11 +6,15 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+
+import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService {
     private bus_lineDao bus_lineDao;
 
     @Override
-    public Boolean uploadComment(Integer commentId, Integer userId, Time time, String text, Integer buildingId) {
+    public Boolean uploadComment(Integer commentId, Integer userId, Date time, String text, Integer buildingId) {
         Comment comment = Comment.builder()
                 .comment_id(commentId)
                 .user_id(userId)
@@ -83,11 +87,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<bus_line> getAllBusLine() {
+    public List<Bus_line> getAllBusLine() {
         return bus_lineDao.selectJoinList(
-                bus_line.class,
-                new MPJLambdaWrapper<bus_line>()
-                        .select(bus_line::getBus_line_ID, bus_line::getLine_ID, bus_line::getStation, bus_line::get_index_)
+                Bus_line.class,
+                new MPJLambdaWrapper<Bus_line>()
+                        .select(Bus_line::getBus_line_ID, Bus_line::getLine_ID, Bus_line::getStation, Bus_line::get_index_)
         );
     }
 
@@ -142,17 +146,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean uploadReservation(Integer reservationId, Integer roomId, Time startTime, Time endTime, Integer userId) {
+    public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime) {
+        asserts(startTime.before(endTime), "开始时间必须早于结束时间");
+        asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
+
+
         Reservation reservation = Reservation.builder()
-                .reservation_id(reservationId)
                 .room_id(roomId)
                 .start_time(startTime)
                 .end_time(endTime)
                 .user_id(userId)
                 .build();
-        if (reservationDao.insert(reservation) == 0) {
-            return false;
-        }
-        return true;
+        return reservationDao.insert(reservation) != 0;
     }
 }

@@ -3,16 +3,19 @@ package com.sustech.campus.controller;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Room;
-import com.sustech.campus.database.po.bus_line;
+import com.sustech.campus.database.po.Bus_line;
+import com.sustech.campus.model.param.ReserveParam;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jakarta.annotation.Resource;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 @MappingController("/user")
@@ -25,22 +28,24 @@ public class UserController {
     @RequestMapping("/comment/upload")
     public ApiResponse<Boolean> uploadComment(@ApiParam("评论id") Integer commentId,
                                  @ApiParam("用户id") Integer userId,
-                                 @ApiParam("时间") Time time,
+                                 @ApiParam("时间") Date time,
                                  @ApiParam("评论内容") String text,
                                  @ApiParam("建筑id") Integer buildingId) {
         return ApiResponse.success(
                 userService.uploadComment(commentId, userId, time, text, buildingId));
     }
 
-    @ApiOperation("用户上传一条预约")
-    @RequestMapping("/reservation/upload")
-    public ApiResponse<Boolean> uploadReservation(@ApiParam("预约id") Integer reservationId,
-                                 @ApiParam("房间id") Integer roomId,
-                                 @ApiParam("开始时间") Time startTime,
-                                 @ApiParam("结束时间") Time endTime,
-                                 @ApiParam("用户id") Integer userId) {
+    @ApiOperation("用户发起预约请求")
+    @RequestMapping("/reservation/apply")
+    public ApiResponse<Boolean> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {
         return ApiResponse.success(
-                userService.uploadReservation(reservationId, roomId, startTime, endTime, userId));
+                userService.uploadReservation(
+                        reserveParam.getUserId(),
+                        reserveParam.getRoomId(),
+                        reserveParam.getStartTime(),
+                        reserveParam.getEndTime()
+                )
+        );
     }
 
     @ApiOperation("通过建筑id获取房间信息")
@@ -93,7 +98,7 @@ public class UserController {
 
     @ApiOperation("获取所有公交线路信息")
     @RequestMapping("/bus_line/all")
-    public List<bus_line> getAllBusLine() {
+    public List<Bus_line> getAllBusLine() {
         return userService.getAllBusLine();
     }
 }

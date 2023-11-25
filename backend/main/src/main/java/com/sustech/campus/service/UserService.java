@@ -5,7 +5,7 @@ import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.model.vo.BuildingInfo;
 
-import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 public interface UserService extends PublicService {
@@ -14,7 +14,7 @@ public interface UserService extends PublicService {
      * 上传评论
      * @param userId 用户ID
      */
-    Boolean uploadComment(Integer commentId, Integer userId, Time time, String text, Integer buildingId);
+    Boolean uploadComment(Integer commentId, Integer userId, Date time, String text, Integer buildingId);
 
 
     /**
@@ -66,5 +66,5 @@ public interface UserService extends PublicService {
      * @param endTime 结束时间
      * @return 是否上传成功
      */
-    Boolean uploadReservation(Integer userId, Integer roomId, Time startTime, Time endTime, Integer user_ID);
+    Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime);
  }
