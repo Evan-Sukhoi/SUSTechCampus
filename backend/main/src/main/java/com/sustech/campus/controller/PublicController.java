@@ -2,7 +2,7 @@ package com.sustech.campus.controller;
 
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
-import com.sustech.campus.database.po.bus_line;
+import com.sustech.campus.database.po.Bus_line;
 import com.sustech.campus.service.PublicService;
 import com.sustech.campus.web.annotation.MappingController;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class PublicController {
 
     @ApiOperation("获取所有公交线路信息")
     @RequestMapping("/bus_line/all")
-    public List<bus_line> getAllBusLine() {
+    public List<Bus_line> getAllBusLine() {
         return publicService.getAllBusLine();
     }
 }

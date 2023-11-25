@@ -37,11 +37,11 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public List<bus_line> getAllBusLine() {
+    public List<Bus_line> getAllBusLine() {
         return bus_lineDao.selectJoinList(
-                bus_line.class,
-                new MPJLambdaWrapper<bus_line>()
-                        .select(bus_line::getBus_line_ID, bus_line::getLine_ID, bus_line::getStation, bus_line::get_index_)
+                Bus_line.class,
+                new MPJLambdaWrapper<Bus_line>()
+                        .select(Bus_line::getBus_line_ID, Bus_line::getLine_ID, Bus_line::getStation, Bus_line::get_index_)
         );
     }
 }

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.sql.Time;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -15,8 +15,12 @@ import java.sql.Time;
 public class Reservation {
     @TableId(type = IdType.AUTO)
     private Integer reservation_id;
+
     private Integer room_id;
-    private Time start_time;
-    private Time end_time;
+
+    private Date start_time;
+
+    private Date end_time;
+
     private Integer user_id;
 }

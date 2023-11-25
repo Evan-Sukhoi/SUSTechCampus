@@ -14,5 +14,5 @@ public interface PublicService {
 
     List<Comment> getAllComment();
 
-    List<bus_line> getAllBusLine();
+    List<Bus_line> getAllBusLine();
 }

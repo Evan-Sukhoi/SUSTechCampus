@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.sql.Time;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +16,7 @@ public class Comment {
     @TableId(type = IdType.AUTO)
     private Integer comment_id;
     private Integer user_id;
-    private Time time;
+    private Date time;
     private String text;
     private Integer building_id;
 //    DECIMAL(3,2)
