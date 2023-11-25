@@ -260,6 +260,7 @@ export default {
       }).then(resp => {
         console.log(resp);
       }).catch(err=>err)
+
       this.$vs.notification({
         color:'success',
         position: 'top-center',
