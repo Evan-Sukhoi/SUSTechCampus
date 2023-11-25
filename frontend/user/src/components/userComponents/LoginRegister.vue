@@ -111,6 +111,20 @@ export default {
     login(){
       /*if request is success*/
       /*this.photo need to be correct*/
+      var data = {
+        username: this.username,
+        password: this.password,
+      }
+      this.$http({
+        method:'post',
+        url:'',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data:data,
+      }).then(resp =>{
+        console.log(resp)
+      }).catch(err=>err)
       var request = true
       if (request){
         this.active = false
@@ -120,6 +134,7 @@ export default {
           localStorage.setItem('username', this.username)
           localStorage.setItem('password', this.password)
         }
+        // localStorage.setItem('userID', userID)
         localStorage.setItem('photo', this.photo)
         localStorage.setItem('isLogin', this.isLogin)
       }else {
@@ -139,6 +154,7 @@ export default {
         localStorage.removeItem('username')
         localStorage.removeItem('password')
       }
+      // localStorage.removeItem('userID')
       localStorage.removeItem('photo')
       localStorage.removeItem('isLogin')
       this.$router.push({path:'/user/home'}).catch(err=>err)
@@ -166,7 +182,6 @@ export default {
           title: this.$t('lang.errorFormat'),
           text: '',
         })
-        return
       }
       if (!isLt2M) {
         this.$vs.notification({
@@ -175,7 +190,6 @@ export default {
           title: this.$t('lang.errorSize'),
           text: '',
         })
-        return
       }
       this.imageUrl = window.URL.createObjectURL(file) // need to be changed
       this.imgFile = file
@@ -239,27 +253,35 @@ export default {
         })
         return
       }
+      const formData = new FormData();
+      formData.append('file', this.imgFile);
+      var data = {
+        username:this.username,
+        password:this.password,
+        email:this.email,
+        phoneNumber:this.phoneNumber,
+        image: formData,
+      }
+      console.log(formData)
+      this.$http({
+        method: 'post',
+        url: '',
+        headers: {
+          'content-type': 'multipart/form-data'
+        },
+        data: data,
+      }).then(resp => {
+        console.log(resp);
+      }).catch(err=>err)
       this.username = ''
       this.password = ''
       this.passwordAgain = ''
       this.email = ''
       this.phoneNumber = ''
       this.imageUrl = ''
+      this.imgFile = ''
       this.active = false
       this.isRegister = false
-      const formData = new FormData();
-      formData.append('file', this.imgFile);
-      console.log(formData)
-      this.$http({
-        method: 'post',
-        url: '/upload',
-        headers: {
-          'content-type': 'multipart/form-data'
-        },
-        data: formData,
-      }).then(resp => {
-        console.log(resp);
-      }).catch(err=>err)
       this.$vs.notification({
         color:'success',
         position: 'top-center',
@@ -271,6 +293,7 @@ export default {
   beforeMount() {
     this.username = localStorage.getItem('username') || ''
     this.password = localStorage.getItem('password') || ''
+    this.userID = localStorage.getItem('userID') || ''
     this.photo = localStorage.getItem('photo') || ''
     this.isLogin = localStorage.getItem('isLogin') || ''
   }
