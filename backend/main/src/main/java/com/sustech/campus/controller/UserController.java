@@ -4,7 +4,7 @@ import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.Bus_line;
-import com.sustech.campus.model.param.ReserveParam;
+import com.sustech.campus.model.param.*;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -24,17 +24,6 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @ApiOperation("用户上传一条评论")
-    @RequestMapping("/comment/upload")
-    public ApiResponse<Boolean> uploadComment(@ApiParam("评论id") Integer commentId,
-                                 @ApiParam("用户id") Integer userId,
-                                 @ApiParam("时间") Date time,
-                                 @ApiParam("评论内容") String text,
-                                 @ApiParam("建筑id") Integer buildingId) {
-        return ApiResponse.success(
-                userService.uploadComment(commentId, userId, time, text, buildingId));
-    }
-
     @ApiOperation("用户发起预约请求")
     @RequestMapping("/reservation/apply")
     public ApiResponse<Boolean> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {
@@ -46,6 +35,69 @@ public class UserController {
                         reserveParam.getEndTime()
                 )
         );
+    }
+
+    @ApiOperation("用户查看一个房间的预约请求")
+    @RequestMapping("/reservation/roominfo")
+    public ApiResponse<Boolean> getRoomReservation(@RequestBody @Validated ReserveRoomInfoParam reserveRoomInfoParam) {
+        return ApiResponse.success(
+                userService.getReservationRoomInfo(
+                        reserveRoomInfoParam.getBuildingType(),
+                        reserveRoomInfoParam.getBuildingName(),
+                        reserveRoomInfoParam.getRoomId()
+                )
+        );
+    }
+
+    @ApiOperation("用户查看一个用户的预约请求")
+    @RequestMapping("/reservation/userinfo")
+    public ApiResponse<Boolean> getUserReservation(@RequestBody @Validated ReserveUserInfoParam reserveUserInfoParam) {
+        return ApiResponse.success(
+                userService.getReservationUserInfo(
+                        reserveUserInfoParam.getUserID()
+                )
+        );
+    }
+
+    @ApiOperation("用户修改一个预约请求")
+    @RequestMapping("/reservation/update")
+    public ApiResponse<Boolean> updateReservation(@RequestBody @Validated ReserveUpdateParam reserveUpdateParam) {
+        return ApiResponse.success(
+                userService.updateReservation(
+                        reserveUpdateParam.getReservationID(),
+                        reserveUpdateParam.getRoomId(),
+                        reserveUpdateParam.getDepartment(),
+                        reserveUpdateParam.getStartTime(),
+                        reserveUpdateParam.getEndTime(),
+                        reserveUpdateParam.getDate(),
+                        reserveUpdateParam.getBuildingType(),
+                        reserveUpdateParam.getBuildingName()
+                )
+        );
+    }
+
+    @ApiOperation("用户根据地点获取巴士线路信息")
+    @RequestMapping("/busline/getbylocation")
+    public ApiResponse<Boolean> getBusLine(@RequestBody @Validated BusLineLocationParam busLineLocationParam) {
+        return ApiResponse.success(
+                userService.getBusLineByLocation(
+                        busLineLocationParam.getLocation()
+                )
+        );
+    }
+
+
+//    -------------------------新旧分割线-------------------------
+
+    @ApiOperation("用户上传一条评论")
+    @RequestMapping("/comment/upload")
+    public ApiResponse<Boolean> uploadComment(@ApiParam("评论id") Integer commentId,
+                                              @ApiParam("用户id") Integer userId,
+                                              @ApiParam("时间") Date time,
+                                              @ApiParam("评论内容") String text,
+                                              @ApiParam("建筑id") Integer buildingId) {
+        return ApiResponse.success(
+                userService.uploadComment(commentId, userId, time, text, buildingId));
     }
 
     @ApiOperation("通过建筑id获取房间信息")
