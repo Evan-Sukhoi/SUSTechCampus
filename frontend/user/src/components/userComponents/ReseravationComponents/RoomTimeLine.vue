@@ -37,6 +37,25 @@ export default {
       const reservation = {roomID: roomID, date: d, buildingType: bt, buildingName: bn, rangeTime: reserveTime}
       this.$store.commit('reserve', reservation)
     }
+  },
+  beforeMount() {
+    console.log(this.$route.params.date)
+    var data = {
+      buildingType: this.$route.params.buildingType,
+      buildingName: this.$route.params.buildingName,
+      date: this.$route.params.date.replace('-', '/'),
+    }
+    this.$http({
+      method: 'get',
+      url: '',
+      headers: {
+        'content-type': 'application/json'
+      },
+      data: data,
+    }).then(resp => {
+      console.log(resp);
+    }).catch(err=>err)
+
   }
 }
 </script>
