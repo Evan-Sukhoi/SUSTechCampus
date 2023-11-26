@@ -3,9 +3,7 @@ package com.sustech.campus.controller;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Bus_line;
-import com.sustech.campus.model.param.LoginParam;
-import com.sustech.campus.model.param.RegisterParam;
-import com.sustech.campus.model.param.ReserveParam;
+import com.sustech.campus.model.param.*;
 import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -14,6 +12,8 @@ import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +22,51 @@ public class PublicController {
 
     @Resource
     private PublicService publicService;
+
+    @ApiOperation("获取所有简单建筑信息")
+    @RequestMapping("/getSimpleBuildingInfo")
+    public ApiResponse<Boolean> getSimpleBuildingInfo() {
+        return ApiResponse.success(
+                publicService.getSimpleBuildingInfo()
+        );
+    }
+
+    @ApiOperation("根据建筑ID获取详细建筑信息")
+    @RequestMapping("/getBuildingDetails")
+    public ApiResponse<Boolean> getBuildingDetails(@RequestParam int buildingId) {
+        return ApiResponse.success(
+                publicService.getBuildingDetails(buildingId)
+        );
+    }
+
+    @ApiOperation("根据建筑ID获取建筑内所有房间信息")
+    @RequestMapping("/getRoomsInBuilding")
+    public ApiResponse<Boolean> getRoomsInBuilding(@RequestParam int buildingId) {
+        return ApiResponse.success(
+                publicService.getRoomsInBuilding(buildingId)
+        );
+    }
+
+    @ApiOperation("获取已审核通过的评论")
+    @RequestMapping("/getApprovedComments")
+    public ApiResponse<Boolean> getApprovedComments(@RequestParam int buildingId) {
+        return ApiResponse.success(
+                publicService.getApprovedComments(buildingId)
+        );
+    }
+
+    @ApiOperation("上传待审核评论")
+    @RequestMapping("/uploadPendingComment")
+    public ApiResponse<Boolean> uploadPendingComment(@RequestBody @Validated CommentParam commentParam) {
+        return ApiResponse.success(
+                publicService.uploadPendingComment(
+                        commentParam.getUserId(),
+                        commentParam.getContent(),
+                        commentParam.getCommentPhotos(),
+                        commentParam.getCommentTime()
+                )
+        );
+    }
 
     @ApiOperation("访客登录")
     @RequestMapping("/login")
