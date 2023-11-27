@@ -1,6 +1,7 @@
 package com.sustech.campus.service;
 
 import com.sustech.campus.database.po.Building;
+import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
@@ -83,4 +84,7 @@ public interface AdminService {
      */
     String uploadRoomTypeMedia(MultipartFile media, Integer roomId);
 
+    List<Reservation> getReservationRoomInfo(Integer roomId);
+
+    List<Reservation> getReservationUserInfo(Integer userId);
 }

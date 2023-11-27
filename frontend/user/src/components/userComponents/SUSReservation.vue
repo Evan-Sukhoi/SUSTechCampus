@@ -119,6 +119,15 @@ export default {
     } else {
       this.visable = true
     }
+    this.$http({
+      method: 'get',
+      url: '',
+      headers: {
+        'content-type': 'application/json'
+      },
+    }).then(resp => {
+      console.log(resp);
+    }).catch(err=>err)
     this.buildingShow=this.buildingType
   },
   methods: {

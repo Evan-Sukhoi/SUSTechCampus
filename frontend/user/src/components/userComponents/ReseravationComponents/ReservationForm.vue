@@ -91,40 +91,85 @@ export default {
       for (const [key, value] of Object.entries(this.$store.state)) {
         if (key !== 'title' || key !== 'latent_index'){
           if (value === ''){
-            this.$message.error('No field is allowed to be null')
+            this.$vs.notification({
+              color:'danger',
+              position: 'top-center',
+              title: this.$t('lang.errorEmpty'),
+              text: '',
+            })
             return false
           }
         }
       }
       var start_hour = this.$store.state.start_time.getHours()
       var start_minute = this.$store.state.start_time.getMinutes()
+      var start_second = this.$store.state.start_time.getSeconds()
       var end_hour = this.$store.state.end_time.getHours()
       var end_minute = this.$store.state.end_time.getMinutes()
-      if (start_hour > end_hour || (start_hour === end_hour && end_minute <= start_minute)){
-        this.$message.error('Start time no later than the end time')
+      var end_second = this.$store.state.end_time.getSeconds()
+      var diff = (end_hour - start_hour) * 3600 + (end_minute - start_minute) * 60 + end_second - start_second
+      if (diff < 0){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorTime'),
+          text: '',
+        })
         return false
       }
       return true
     },
     submit() {
-      var newDate = {}
-      newDate.room_ID = this.$store.state.roomID
-      newDate.department = this.$store.state.department
-      newDate.buildingType = this.$store.state.buildingType
-      newDate.buildingName = this.$store.state.buildingName
-      newDate.date = this.$store.state.date
-      newDate.start_time = this.$store.state.start_time
-      newDate.end_time = this.$store.state.end_time
-      console.log(newDate)
+
       if (this.$store.state.isEdit) {
         if (!this.contentCheck()) {
           return
         }
+        var changeDate = {}
+        changeDate.reservationID = this.$store.state.reservationID
+        changeDate.roomID = this.$store.state.roomID
+        changeDate.department = this.$store.state.department
+        changeDate.buildingType = this.$store.state.buildingType
+        changeDate.buildingName = this.$store.state.buildingName
+        changeDate.date = this.$store.state.date
+        changeDate.startTime = this.$store.state.start_time
+        changeDate.endTime = this.$store.state.end_time
+        console.log(changeDate)
+        this.$http({
+          method: 'post',
+          url: '',
+          headers: {
+            'content-type': 'application/json'
+          },
+          data: changeDate
+        }).then(resp => {
+          console.log(resp);
+        }).catch(err=>err)
         console.log('edit')
       }else {
         if (!this.contentCheck()) {
-          return
+          return;
         }
+        var newDate = {}
+        newDate.userID = localStorage.getItem('userID')
+        newDate.roomID = this.$store.state.roomID
+        newDate.department = this.$store.state.department
+        newDate.buildingType = this.$store.state.buildingType
+        newDate.buildingName = this.$store.state.buildingName
+        newDate.date = this.$store.state.date
+        newDate.startTime = this.$store.state.start_time
+        newDate.endTime = this.$store.state.end_time
+        console.log(newDate)
+        this.$http({
+          method: 'post',
+          url: '',
+          headers: {
+            'content-type': 'application/json'
+          },
+          data: newDate
+        }).then(resp => {
+          console.log(resp);
+        }).catch(err=>err)
         console.log('reserve')
       }
       this.restore()

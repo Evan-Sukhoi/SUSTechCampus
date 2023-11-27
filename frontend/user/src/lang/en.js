@@ -65,6 +65,7 @@ export const lang = {
   filter:'Filter',
   filter_buildingName:'Building name',
   filter_sure:'Sure',
+  errorTime:'Start time no later than the end time',
 
   /*service*/
   commodity:'Commodity name',

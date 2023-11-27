@@ -114,7 +114,18 @@ export default {
       }],
       formLabelWidth: '120px'
     }
-  },
+  },beforeMount() {
+    this.$http({
+      method: 'post',
+      url: '',
+      headers: {
+        'content-type': 'application/json'
+      },
+      data: localStorage.getItem('userID')
+    }).then(resp => {
+      console.log(resp);
+    }).catch(err=>err)
+  }
 
 }
 </script>

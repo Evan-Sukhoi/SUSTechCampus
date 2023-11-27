@@ -68,7 +68,7 @@ export default {
   beforeMount() {
     this.$http({
       method:'get',
-      url:'/user/bus_line/all'
+      url:''
     }).then(resp =>{
       console.log(resp)
     }).catch(err=>{

@@ -6,10 +6,8 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Resource
     private ReservationDao reservationDao;
     @Resource
-    private bus_lineDao bus_lineDao;
+    private Bus_lineDao bus_lineDao;
 
     @Override
     public Boolean uploadComment(Integer commentId, Integer userId, Date time, String text, Integer buildingId) {

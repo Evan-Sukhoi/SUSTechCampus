@@ -65,6 +65,7 @@ export const lang = {
   filter:'筛选',
   filter_buildingName:'建筑名',
   filter_sure:'确定',
+  errorTime:'开始时间晚于结束时间',
 
   /*service*/
   commodity:'商品名',

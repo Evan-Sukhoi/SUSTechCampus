@@ -15,7 +15,7 @@ public class PublicServiceImpl implements PublicService {
     @Resource
     private CommentDao commentDao;
     @Resource
-    private bus_lineDao bus_lineDao;
+    private Bus_lineDao bus_lineDao;
 
 
     @Override

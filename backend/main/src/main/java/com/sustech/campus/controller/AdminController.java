@@ -1,8 +1,11 @@
 package com.sustech.campus.controller;
 
 import com.sustech.campus.database.po.Building;
+import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
+import com.sustech.campus.model.param.ReserveRoomInfoParam;
+import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
@@ -13,9 +16,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -119,6 +124,26 @@ public class AdminController {
     public ApiResponse<Boolean> deleteRoom(@ApiParam("教室id") @RequestParam @NotNull Integer roomId) {
         return ApiResponse.success(
                 adminService.deleteRoom(roomId));
+    }
+
+    @ApiOperation("管理员查看一个房间的预约请求")
+    @RequestMapping("/reservation/room")
+    public ApiResponse<List<Reservation>> getRoomReservation(@RequestBody @Validated ReserveRoomInfoParam reserveRoomInfoParam) {
+        return ApiResponse.success(
+                adminService.getReservationRoomInfo(
+                        reserveRoomInfoParam.getRoomId()
+                )
+        );
+    }
+
+    @ApiOperation("管理员查看一个用户的预约请求")
+    @RequestMapping("/reservation/user")
+    public ApiResponse<List<Reservation>> getUserReservation(@RequestBody @Validated ReserveUserInfoParam reserveUserInfoParam) {
+        return ApiResponse.success(
+                adminService.getReservationUserInfo(
+                        reserveUserInfoParam.getUserId()
+                )
+        );
     }
 
 }
