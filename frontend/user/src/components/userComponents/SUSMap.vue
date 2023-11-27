@@ -1,21 +1,25 @@
 <template>
-  <div class="map">
-    <div id="container"></div>
-    <div class="info-window" ref="infoWindow">
-      <!-- 在这里添加你想显示的信息窗体的内容 -->
-      <p>这里是信息窗体的内容</p>
+  <div>
+    <div class="map">
+      <div id="container"></div>
+
+      <!--    <div class="navigation-btn-container">-->
+      <!--      <button class="navigation-btn" @click="enterNavigation">进入导航</button>-->
+      <!--    </div>-->
     </div>
-    <!--    <div class="navigation-btn-container">-->
-    <!--      <button class="navigation-btn" @click="enterNavigation">进入导航</button>-->
-    <!--    </div>-->
+
+    <div id="navi">
+      <Navi></Navi>
+    </div>
   </div>
 </template>
 <script>
 import AMapLoader from "@amap/amap-jsapi-loader";
 import locations from "../../assets/location/location.json"
 
-import MapContent from "@/components/userComponents/MapContent.vue";
+import MapContent from "@/components/userComponents/Map/MapContent.vue";
 import Vue from "vue";
+import Navi from "@/components/userComponents/Map/NavigateContent.vue";
 
 window._AMapSecurityConfig = {
   securityJsCode: '012338515576425f8fdff9a7f8404d60',
@@ -27,9 +31,11 @@ export default {
       driving: '',
       longitude: 114.000725,
       latitude: 22.595509,
-
-
+      infoWin: '',
     }
+  },
+  components: {
+    Navi,
   },
   mounted() {
     this.initAMap();
@@ -69,6 +75,7 @@ export default {
               lang: this.$i18n.locale === 'zh-CN' ? 'zh_cn' : 'en',
             });
 
+
             // 添加工具条
             const toolBar = new this.AMap.ToolBar({
               visible: true, // 设置工具条是否可见
@@ -101,7 +108,7 @@ export default {
               this.map.add(institutePolygon);
 
               institutePolygon.on('click', function (event) {
-                // 创建一个Vue实例 l
+                // 创建一个Vue实例
 
                 const InfoWindowContent = new Vue({
                   render: (h) => h(MapContent, {
@@ -133,7 +140,6 @@ export default {
               }.bind(this));
 
             }
-
 
             this.map.on("click", this.handleMapClick.bind(this));
           })
@@ -167,44 +173,14 @@ export default {
 #container {
   width: 100%;
   height: 700px;
+  z-index: 1;
 }
 
-#panel {
+#navi {
   position: absolute;
-  right: 10%;
-  bottom: 80%;
-  width: 30%;
-  height: 100px;
-  z-index: 100;
+  top: 0;
+  left: 100px;
+  z-index: 2; /* 设置一个大于1的z-index值 */
 }
 
-.navigation-btn-container {
-  position: absolute;
-  right: 10px;
-  bottom: 20px;
-}
-
-.navigation-btn {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.navigation-btn:hover {
-  background-color: #0056b3;
-}
-
-.info-window {
-  display: none;
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  background-color: #fff;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
 </style>
