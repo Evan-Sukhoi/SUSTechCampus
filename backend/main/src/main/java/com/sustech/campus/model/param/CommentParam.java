@@ -1,28 +1,31 @@
 package com.sustech.campus.model.param;
 
+import com.sustech.campus.web.annotation.DateParam;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Data
 public class CommentParam {
     @ApiModelProperty(value = "用户ID", required = true, example = "123")
     @NotNull
-    private Long userId;
+    Integer userId;
 
     @ApiModelProperty(value = "评论内容", required = true, example = "这是一条评论")
     @NotNull
-    private String content;
+    String text;
 
     @ApiModelProperty(value = "评论照片", example = "[photo1.jpg, photo2.png]")
-    private List<MultipartFile> commentPhotos;
+    List<MultipartFile> commentPhotos;
 
-    @ApiModelProperty(value = "评论时间", required = true)
+    @ApiModelProperty(value = "评论时间", required = true, example = "2021-12-31-08-30")
+    @DateParam
     @NotNull
-    private String commentTime; // Assuming you want to pass the comment time as a string
-
+    Date time;
     // Additional properties or validation annotations can be added as needed
 }

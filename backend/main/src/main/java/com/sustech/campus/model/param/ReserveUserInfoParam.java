@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ReserveUserInfoParam {
 
-    @ApiModelProperty(value = "用户ID",required = true, example = "小黑子")
+    @ApiModelProperty(value = "用户ID",required = true, example = "1")
     @NotNull
-    Long userID;
+    Integer userId;
 }

@@ -13,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class PublicController {
     private PublicService publicService;
 
     @ApiOperation("获取所有简单建筑信息")
-    @RequestMapping("/getSimpleBuildingInfo")
+    @RequestMapping("/building/get/simple")
     public ApiResponse<Boolean> getSimpleBuildingInfo() {
         return ApiResponse.success(
                 publicService.getSimpleBuildingInfo()
@@ -32,39 +31,26 @@ public class PublicController {
     }
 
     @ApiOperation("根据建筑ID获取详细建筑信息")
-    @RequestMapping("/getBuildingDetails")
-    public ApiResponse<Boolean> getBuildingDetails(@RequestParam int buildingId) {
+    @RequestMapping("/building/get/details")
+    public ApiResponse<Boolean> getBuildingDetails(@RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getBuildingDetails(buildingId)
         );
     }
 
     @ApiOperation("根据建筑ID获取建筑内所有房间信息")
-    @RequestMapping("/getRoomsInBuilding")
-    public ApiResponse<Boolean> getRoomsInBuilding(@RequestParam int buildingId) {
+    @RequestMapping("/room/get/building")
+    public ApiResponse<Boolean> getRoomsInBuilding(@RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getRoomsInBuilding(buildingId)
         );
     }
 
     @ApiOperation("获取已审核通过的评论")
-    @RequestMapping("/getApprovedComments")
-    public ApiResponse<Boolean> getApprovedComments(@RequestParam int buildingId) {
+    @RequestMapping("/comment/get/approved")
+    public ApiResponse<Boolean> getApprovedComments(@RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
-        );
-    }
-
-    @ApiOperation("上传待审核评论")
-    @RequestMapping("/uploadPendingComment")
-    public ApiResponse<Boolean> uploadPendingComment(@RequestBody @Validated CommentParam commentParam) {
-        return ApiResponse.success(
-                publicService.uploadPendingComment(
-                        commentParam.getUserId(),
-                        commentParam.getContent(),
-                        commentParam.getCommentPhotos(),
-                        commentParam.getCommentTime()
-                )
         );
     }
 

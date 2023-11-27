@@ -37,28 +37,6 @@ public class UserController {
         );
     }
 
-    @ApiOperation("用户查看一个房间的预约请求")
-    @RequestMapping("/reservation/roominfo")
-    public ApiResponse<Boolean> getRoomReservation(@RequestBody @Validated ReserveRoomInfoParam reserveRoomInfoParam) {
-        return ApiResponse.success(
-                userService.getReservationRoomInfo(
-                        reserveRoomInfoParam.getBuildingType(),
-                        reserveRoomInfoParam.getBuildingName(),
-                        reserveRoomInfoParam.getRoomId()
-                )
-        );
-    }
-
-    @ApiOperation("用户查看一个用户的预约请求")
-    @RequestMapping("/reservation/userinfo")
-    public ApiResponse<Boolean> getUserReservation(@RequestBody @Validated ReserveUserInfoParam reserveUserInfoParam) {
-        return ApiResponse.success(
-                userService.getReservationUserInfo(
-                        reserveUserInfoParam.getUserID()
-                )
-        );
-    }
-
     @ApiOperation("用户修改一个预约请求")
     @RequestMapping("/reservation/update")
     public ApiResponse<Boolean> updateReservation(@RequestBody @Validated ReserveUpdateParam reserveUpdateParam) {
@@ -77,11 +55,24 @@ public class UserController {
     }
 
     @ApiOperation("用户根据地点获取巴士线路信息")
-    @RequestMapping("/busline/getbylocation")
+    @RequestMapping("/busline/get/location")
     public ApiResponse<Boolean> getBusLine(@RequestBody @Validated BusLineLocationParam busLineLocationParam) {
         return ApiResponse.success(
                 userService.getBusLineByLocation(
                         busLineLocationParam.getLocation()
+                )
+        );
+    }
+
+    @ApiOperation("上传待审核评论")
+    @RequestMapping("/comment/upload")
+    public ApiResponse<Boolean> uploadComment(@RequestBody @Validated CommentParam commentParam) {
+        return ApiResponse.success(
+                publicService.uploadPendingComment(
+                        commentParam.getUserId(),
+                        commentParam.getText(),
+                        commentParam.getCommentPhotos(),
+                        commentParam.getTime()
                 )
         );
     }
