@@ -1,7 +1,8 @@
-package com.sustech.campus.database.util;
+package com.sustech.campus.database.utils;
 
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -9,6 +10,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@SuppressWarnings({"unchecked", "ConstantConditions", "unused"})
 public class RedisUtil {
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
@@ -59,12 +61,11 @@ public class RedisUtil {
     }
 
     // 普通缓存获取
-    public Object get(String key){
-        return key==null?null:redisTemplate.opsForValue().get(key);
+    public <T> T getObject(String key){
+        return ((ValueOperations<String,T>)redisTemplate.opsForValue()).get(key);
     }
-
     // 普通缓存放入
-    public boolean set(String key,Object value){
+    public boolean setObject(String key,Object value){
         try {
             redisTemplate.opsForValue().set(key,value);
             return true;
@@ -76,13 +77,13 @@ public class RedisUtil {
     }
 
     // 普通缓存放入并设置时间
-    public boolean set(String key,Object value,long time){
+    public boolean setObject(String key,Object value,long time){
         try{
             if(time>0){
                 redisTemplate.opsForValue()
                         .set(key,value,time,TimeUnit.SECONDS);
             }else{
-                set(key,value);
+                setObject(key,value);
             }
             return true;
         }catch(Exception e){

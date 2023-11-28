@@ -3,39 +3,33 @@ package com.sustech.campus.service;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Room;
-import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.database.po.RoomType;
+import com.sustech.campus.model.vo.RoomInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
 
-public interface UserService extends PublicService {
+public interface UserService{
 
     /**
      * 上传评论
      * @param userId 用户ID
      */
-    Boolean uploadComment(Integer commentId, Integer userId, Date time, String text, Integer buildingId);
-
-
-    /**
-     * 获取所有教室信息
-     * @return 所有教室信息
-     */
-    List<Room> getAllRoom();
+    Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos);
 
     /**
      * 根据建筑ID获取教室信息
      * @param buildingId 建筑ID
      * @return 教室信息
      */
-    List<Room> getRoomByBuildingId(Integer buildingId);
+    List<Room> getRoomByBuilding(Integer buildingId);
+
 
     /**
-     * 根据教室类型获取教室信息
-     * @param type 教室类型
-     * @return 教室信息
+     * 根据教室类型ID获取教室类型
      */
-    List<Room> getRoomByType(String type);
+    RoomType getRoomTypeById(Integer roomTypeId);
 
     /**
      * 根据教室ID获取教室信息
@@ -57,7 +51,6 @@ public interface UserService extends PublicService {
      */
     List<Comment> getCommentByBuildingId(Integer buildingId);
 
-
     /**
      * 上传预约
      * @param userId 用户ID
@@ -67,4 +60,6 @@ public interface UserService extends PublicService {
      * @return 是否上传成功
      */
     Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime);
- }
+
+    Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId);
+}

@@ -27,5 +27,8 @@ public class CommentParam {
     @DateParam
     @NotNull
     Date time;
-    // Additional properties or validation annotations can be added as needed
+
+    @ApiModelProperty(value = "建筑ID", required = true, example = "123")
+    @NotNull
+    Integer buildingId;
 }

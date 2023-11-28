@@ -1,6 +1,6 @@
 package com.sustech.campus.database.config;
 
-import com.sustech.campus.database.util.FastJsonRedisSerializer;
+import com.sustech.campus.database.utils.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

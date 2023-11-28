@@ -2,8 +2,10 @@ package com.sustech.campus.service.implement;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.sustech.campus.database.dao.ReservationDao;
 import com.sustech.campus.database.dao.UserDao;
 import com.sustech.campus.database.po.Building;
+import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.dao.BuildingDao;
 import com.sustech.campus.database.dao.RoomDao;
@@ -12,7 +14,7 @@ import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private UserDao usersDao;
+
+    @Resource
+    private ReservationDao reservationDao;
 
     @Override
     public User getUserInfo(Integer userId) {
@@ -133,6 +138,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    // TODO: 图片处理逻辑
     @Override
     public String uploadRoomTypeCover(MultipartFile picture, Integer roomId) {
         return null;
@@ -140,6 +146,23 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String uploadRoomTypeMedia(MultipartFile media, Integer roomId) {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> getReservationRoomInfo(Integer roomId) {
+        return reservationDao.selectJoinList(
+                Reservation.class,
+                new MPJLambdaWrapper<Reservation>()
+                        .selectAll(Reservation.class)
+                        .select(User::getName, User::getUserId)
+                        .leftJoin(User.class, User::getUserId, Reservation::getUser_id)
+                        .eq(Reservation::getRoom_id, roomId)
+        );
+    }
+
+    @Override
+    public List<Reservation> getReservationUserInfo(Integer userId) {
         return null;
     }
 }

@@ -1,9 +1,11 @@
 package com.sustech.campus.controller;
 
-import com.sustech.campus.database.po.Building;
-import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Bus_line;
-import com.sustech.campus.model.param.*;
+import com.sustech.campus.database.po.Comment;
+import com.sustech.campus.model.param.LoginParam;
+import com.sustech.campus.model.param.RegisterParam;
+import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.BuildingInfoSimple;
 import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -24,7 +26,7 @@ public class PublicController {
 
     @ApiOperation("获取所有简单建筑信息")
     @RequestMapping("/building/get/simple")
-    public ApiResponse<Boolean> getSimpleBuildingInfo() {
+    public ApiResponse<List<BuildingInfoSimple>> getSimpleBuildingInfo() {
         return ApiResponse.success(
                 publicService.getSimpleBuildingInfo()
         );
@@ -32,23 +34,15 @@ public class PublicController {
 
     @ApiOperation("根据建筑ID获取详细建筑信息")
     @RequestMapping("/building/get/details")
-    public ApiResponse<Boolean> getBuildingDetails(@RequestParam Integer buildingId) {
+    public ApiResponse<BuildingInfo> getBuildingDetails(@RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getBuildingDetails(buildingId)
         );
     }
 
-    @ApiOperation("根据建筑ID获取建筑内所有房间信息")
-    @RequestMapping("/room/get/building")
-    public ApiResponse<Boolean> getRoomsInBuilding(@RequestParam Integer buildingId) {
-        return ApiResponse.success(
-                publicService.getRoomsInBuilding(buildingId)
-        );
-    }
-
     @ApiOperation("获取已审核通过的评论")
     @RequestMapping("/comment/get/approved")
-    public ApiResponse<Boolean> getApprovedComments(@RequestParam Integer buildingId) {
+    public ApiResponse<Comment> getApprovedComments(@RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
         );
@@ -79,23 +73,15 @@ public class PublicController {
         );
     }
 
-    //    -------------------------新旧分割线-------------------------
-
-    @ApiOperation("获取所有建筑信息")
-    @RequestMapping("/building/all")
-    public List<Building> getAllBuilding() {
-        return publicService.getAllBuilding();
+    @ApiOperation("获取所有公交线路信息")
+    @RequestMapping("/busline/all")
+    public List<Bus_line> getAllBusLine() {
+        return publicService.getAllBusLine();
     }
 
     @ApiOperation("获取所有评论信息")
-    @RequestMapping("/comment/all")
-    public List<Comment> getAllComment() {
-        return publicService.getAllComment();
-    }
-
-    @ApiOperation("获取所有公交线路信息")
-    @RequestMapping("/bus_line/all")
-    public List<Bus_line> getAllBusLine() {
-        return publicService.getAllBusLine();
+    @RequestMapping("/comment/get/building")
+    public List<Comment> getCommentByBuilding(@RequestParam Integer buildingId) {
+        return publicService.getCommentByBuilding(buildingId);
     }
 }

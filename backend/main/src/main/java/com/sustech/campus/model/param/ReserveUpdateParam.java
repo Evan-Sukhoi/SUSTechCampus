@@ -13,15 +13,11 @@ public class ReserveUpdateParam {
 
     @ApiModelProperty(value = "预约ID",required = true, example = "1")
     @NotNull
-    Long reservationID;
+    Long reservation_id;
 
     @ApiModelProperty(value = "房间/讨论间Id",required = true, example = "1")
     @NotNull
-    Integer roomId;
-
-    @ApiModelProperty(value = "部门",required = true, example = "教务处")
-    @NotNull
-    String department;
+    Integer room_id;
 
     @ApiModelProperty(value = "预约开始日期、时间",required = true, example = "2023-12-31-08-30")
     @DateParam
@@ -33,15 +29,7 @@ public class ReserveUpdateParam {
     @NotNull
     Date endTime;
 
-    @ApiModelProperty(value = "日期",required = true, example = "2021/9/10")
+    @ApiModelProperty(value = "用户ID",required = true, example = "1")
     @NotNull
-    String date;
-
-    @ApiModelProperty(value = "建筑类型",required = true, example = "教学楼")
-    @NotNull
-    String buildingType;
-
-    @ApiModelProperty(value = "建筑名称",required = true, example = "教学楼A")
-    @NotNull
-    String buildingName;
+    Integer userId;
 }

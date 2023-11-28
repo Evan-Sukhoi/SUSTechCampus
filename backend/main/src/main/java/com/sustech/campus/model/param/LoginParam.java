@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class LoginParam {
-    @ApiModelProperty(value = "用户名",required = true, example = "ikun")
+    @ApiModelProperty(value = "用户名或邮箱",required = true, example = "abc或abc@gmail.com")
     @NotNull
     String username;
 
-    @ApiModelProperty(value = "密码",required = true, example = "小黑子食不食油饼")
+    @ApiModelProperty(value = "密码",required = true, example = "123456")
     @NotNull
     String password;
 }

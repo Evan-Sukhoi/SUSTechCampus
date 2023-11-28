@@ -11,7 +11,7 @@ import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
