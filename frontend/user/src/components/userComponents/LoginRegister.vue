@@ -282,6 +282,23 @@ export default {
       this.imgFile = ''
       this.active = false
       this.isRegister = false
+<<<<<<< HEAD
+      const formData = new FormData();
+      formData.append('file', this.imgFile);
+      console.log(formData)
+      this.$http({
+        method: 'post',
+        url: '/upload',
+        headers: {
+          'content-type': 'multipart/form-data'
+        },
+        data: formData,
+      }).then(resp => {
+        console.log(resp);
+      }).catch(err=>err)
+
+=======
+>>>>>>> ca0bb11d6873ca5095f9f28845c734e0999e7bb3
       this.$vs.notification({
         color:'success',
         position: 'top-center',
