@@ -60,7 +60,7 @@
               {{ tr.email }}
             </vs-td>
             <vs-td>
-              {{ tr.userId }}
+              {{ tr.user_id }}
             </vs-td>
 
             <template #expand>
@@ -204,7 +204,7 @@ export default {
           '&email=' + this.thisUser.email +
           '&phone=' + this.thisUser.phone +
           '&password=' + this.thisUser.password +
-          '&userId=' + this.thisUser.userId;
+          '&user_id=' + this.thisUser.user_id;
       axios.post(url).then(response => {
         if (response.data.code === 200) {
           console.log("update success");
@@ -224,10 +224,10 @@ export default {
     deleteUser(){
       this.showExpandContent = false; // 关闭扩展内容
       this.deleteActive = false;
-      const userIndex = this.users.findIndex(user => user.userId === this.thisUser.userId);
+      const userIndex = this.users.findIndex(user => user.user_id === this.thisUser.user_id);
       this.users.splice(userIndex, 1);
       // // 找到该用户的展开行元素
-      // const expandRow = document.querySelector(`[data="${this.thisUser.userId}"] .vs-expand-row`);
+      // const expandRow = document.querySelector(`[data="${this.thisUser.user_id}"] .vs-expand-row`);
       //
       // if (expandRow) {
       //   // 关闭展开行
@@ -235,7 +235,7 @@ export default {
       // }
 
       console.log("delete user: ", this.thisUser);
-      let url = 'http://localhost:8081/admin/user/delete?userId=' + this.thisUser.userId;
+      let url = 'http://localhost:8081/admin/user/delete?user_id=' + this.thisUser.user_id;
       axios.post(url).then(response => {
         if (response.data.code === 200) {
           console.log("delete success");
@@ -270,28 +270,28 @@ export default {
     user_password: '',
     users: [
       {
-        "userId": 1,
+        "user_id": 1,
         "name": "Leanne Graham",
         "email": "Sincere@april.biz",
         "phone": "17707368031",
         "password": "123456",
       },
       {
-        "userId": 2,
+        "user_id": 2,
         "name": "Ervin Howell",
         "email": "example@g.com",
         "phone": "10106926593",
         "password": "123456",
       },
       {
-        "userId": 3,
+        "user_id": 3,
         "name": "Clementine Bauch",
         "email": "hahaha@s.com",
         "phone": "14631234447",
         "password": "123456",
       },
       {
-        "userId": 4,
+        "user_id": 4,
         "name": "Patricia Lebsack",
         "email": "ooad@mail.sustech.edu.cn",
         "phone": "18203772569",

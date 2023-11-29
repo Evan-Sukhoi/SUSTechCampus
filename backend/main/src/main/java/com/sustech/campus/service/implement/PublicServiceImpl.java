@@ -118,7 +118,7 @@ public class PublicServiceImpl implements PublicService {
                 Comment.class,
                 new MPJLambdaWrapper<Comment>()
                         .select(Comment::getComment_id, Comment::getUser_id, Comment::getTime, Comment::getText, Comment::getBuilding_id, Comment::getScore, Comment::getAdmin_id)
-                        .eq(Comment::getBuilding_id, buildingId)
+                        .eq(Building::getBuilding_id, buildingId)
         );
     }
 }

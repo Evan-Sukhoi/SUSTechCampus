@@ -13,10 +13,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class Blacklist {
     @TableId(type = IdType.AUTO)
-    private Integer list_ID;
-    private Integer user_ID;
-    private Integer admin_ID;
-
+    private Integer list_id;
+    private Integer user_id;
+    private Integer admin_id;
 }
 
 

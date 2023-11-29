@@ -29,7 +29,7 @@ public class ApiResponse<T> {
     }
 
     public static ApiResponse badRequest(String message){
-        return new ApiResponse<>(400,message);
+        return new ApiResponse<>(400, message);
     }
 
     public static ApiResponse internalServerError(){
