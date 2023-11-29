@@ -270,10 +270,6 @@ export default {
       this.imgFile = ''
       this.active = false
       this.isRegister = false
-<<<<<<< HEAD
-
-=======
->>>>>>> 29c20661cbb9bcbae7ec9f71a564ce716d06e0e0
       this.$vs.notification({
         color:'success',
         position: 'top-center',

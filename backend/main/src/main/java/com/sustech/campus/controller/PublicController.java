@@ -10,6 +10,7 @@ import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,7 +43,9 @@ public class PublicController {
 
     @ApiOperation("获取已审核通过的评论")
     @RequestMapping("/comment/get/approved")
-    public ApiResponse<Comment> getApprovedComments(@RequestParam Integer buildingId) {
+    public ApiResponse<Comment> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
+        System.out.println("=-----------==================-");
+        System.out.println(buildingId);
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
         );
