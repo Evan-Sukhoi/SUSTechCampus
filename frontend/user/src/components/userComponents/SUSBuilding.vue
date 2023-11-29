@@ -7,6 +7,8 @@
          <div>
            <h1>{{$t('lang.canteen')}}</h1>
          </div>
+         
+         <img v-bind:src=img alt="">
 
          <div>
            <el-row :gutter="20">
@@ -17,7 +19,7 @@
                      <h3>{{ building.name}}</h3>
                    </template>
                    <template #img>
-                     <img v-bind:src=building.video_url alt="" style="height: 300px;">
+                     <img v-bind:src=img alt="" style="height: 300px;">
                    </template>
                    <template #text>
                      <p>
@@ -46,7 +48,8 @@ export default {
   name: "SUSBuilding",
   data() {
     return {
-      buildings: []
+      buildings: [],
+      img: "https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-07%20171422.png",
     }
   },
   created() {
