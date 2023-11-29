@@ -88,6 +88,8 @@
   </div>
 </template>
 <script>
+import FormData from 'form-data'
+import qs from 'qs';
 export default {
   name:'LoginRegister',
   data(){
@@ -115,14 +117,7 @@ export default {
         username: this.username,
         password: this.password,
       }
-      this.$http({
-        method:'post',
-        url:'',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data:data,
-      }).then(resp =>{
+      this.$http.post('/public/login', data).then(resp =>{
         console.log(resp)
       }).catch(err=>err)
       var request = true
@@ -233,7 +228,7 @@ export default {
         })
         return
       }
-      var email_patten = /.@.$/
+      var email_patten = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
       if (!email_patten.test(this.email)){
         this.$vs.notification({
           color:'danger',
@@ -263,14 +258,7 @@ export default {
         image: formData,
       }
       console.log(formData)
-      this.$http({
-        method: 'post',
-        url: '',
-        headers: {
-          'content-type': 'multipart/form-data'
-        },
-        data: data,
-      }).then(resp => {
+      this.$http.post('/public/register', qs.stringify(data)).then(resp => {
         console.log(resp);
       }).catch(err=>err)
       this.username = ''
@@ -282,7 +270,10 @@ export default {
       this.imgFile = ''
       this.active = false
       this.isRegister = false
+<<<<<<< HEAD
 
+=======
+>>>>>>> 29c20661cbb9bcbae7ec9f71a564ce716d06e0e0
       this.$vs.notification({
         color:'success',
         position: 'top-center',
