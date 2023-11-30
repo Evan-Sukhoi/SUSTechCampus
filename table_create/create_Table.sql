@@ -9,10 +9,6 @@
 所有的表都有主键
 */
 
-<<<<<<< HEAD
-
-
-=======
 -- drop all tables
 # DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Admins;
@@ -24,7 +20,6 @@ DROP TABLE IF EXISTS bus_line;
 DROP TABLE IF EXISTS Comment;
 DROP TABLE IF EXISTS Reservation;
 DROP TABLE IF EXISTS Users;
->>>>>>> e95f2e15790f5139a38a1e7219c4da6a3393741f
 
 -- 用户表
 CREATE TABLE user

@@ -102,7 +102,7 @@ export default {
 
     fetchCommentData(id) {
       console.log(id);
-      axios.get(`http://localhost:8081/public/comment/get/approved?buildingId=1`, )
+      axios.get(`http://localhost:8081/public/comment/get/approved?buildingId=${id}`, )
           .then(response => {
             this.comments = response.data.data;
             console.log(response.data);
