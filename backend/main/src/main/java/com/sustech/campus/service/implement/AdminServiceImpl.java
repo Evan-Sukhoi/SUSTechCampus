@@ -155,8 +155,8 @@ public class AdminServiceImpl implements AdminService {
                 Reservation.class,
                 new MPJLambdaWrapper<Reservation>()
                         .selectAll(Reservation.class)
-                        .select(User::getName, User::getUserId)
-                        .leftJoin(User.class, User::getUserId, Reservation::getUser_id)
+                        .select(User::getName, User::getUser_id)
+                        .leftJoin(User.class, User::getUser_id, Reservation::getUser_id)
                         .eq(Reservation::getRoom_id, roomId)
         );
     }

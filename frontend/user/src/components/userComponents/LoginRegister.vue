@@ -269,6 +269,7 @@ export default {
       this.imgFile = ''
       this.active = false
       this.isRegister = false
+
       this.$vs.notification({
         color:'success',
         position: 'top-center',

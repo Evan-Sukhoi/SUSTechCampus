@@ -18,15 +18,15 @@ public class Admin implements Displayable {
     private String phone;
     private String email;
     private String password;
-    private Integer imageID;
+    private Integer image_id;
 
     @Override
     public Integer getImageId() {
-        return imageID;
+        return image_id;
     }
 
     @Override
-    public void setImageId(Integer imageId) {
-        this.imageID = imageId;
+    public void setImageId(Integer image_id) {
+        this.image_id = image_id;
     }
 }
