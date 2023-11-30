@@ -45,6 +45,12 @@ export default {
   data:() => ({
     active: 'intro',
   }),
+  beforeMount() {
+    const currentRoute = this.$route.path;
+    var path = currentRoute
+    path = path.split("/")
+    this.active = path[path.length - 1]
+  },
   methods: {
     handleLink(link){
       console.log(link)

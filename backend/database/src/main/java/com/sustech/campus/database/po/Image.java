@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class Image {
     @TableId(type = IdType.AUTO)
-    private Integer imageId;
+    private Integer image_id;
 //    image BLOB
-    private String image;
+    private String image_url;
 }

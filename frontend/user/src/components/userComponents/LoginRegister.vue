@@ -89,7 +89,6 @@
 </template>
 <script>
 import FormData from 'form-data'
-import qs from 'qs';
 export default {
   name:'LoginRegister',
   data(){
@@ -255,10 +254,10 @@ export default {
         password:this.password,
         email:this.email,
         phoneNumber:this.phoneNumber,
-        image: formData,
       }
+      formData.append('registerParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
       console.log(formData)
-      this.$http.post('/public/register', qs.stringify(data)).then(resp => {
+      this.$http.post('/public/register', formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
         console.log(resp);
       }).catch(err=>err)
       this.username = ''
