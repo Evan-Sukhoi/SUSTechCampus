@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,8 +50,6 @@ public class PublicController {
     @ApiOperation("获取已审核通过的评论")
     @RequestMapping("/comment/get/approved")
     public ApiResponse<Comment> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
-        System.out.println("=-----------==================-");
-        System.out.println(buildingId);
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
         );
@@ -114,6 +113,8 @@ public class PublicController {
         }catch (ApiException e){
             System.out.println(e);
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+        } catch (IOException e) {
+            return new ResponseEntity<>("图片保存失败，请稍后再试", HttpStatus.BAD_REQUEST);
         }
     }
 }
