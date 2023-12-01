@@ -11,9 +11,12 @@
     <div class="map_content">
 
       <div class="navi">
-        <button  @click="startNavigation">出发</button>
-
+        <button  @click="startNavigation">{{isNavigating ? "取消导航" : "进入导航"}}</button>
+        <button  @click="chooseStart" :disabled="!isNavigating">{{selectedStart ? "确认起点" : "选择起点"}}</button>
+        <button  @click="chooseEnd" :disabled="!isNavigating">{{selectedEnd ? "确认终点" : "选择终点"}}</button>
       </div>
+
+
 
       <div class="busline">
         <div>
@@ -62,6 +65,11 @@ export default {
   name: "SUSMap",
   data() {
     return {
+      map: '',
+      AMap: '',
+      isNavigating: false,
+      selectedStart: false,
+      selectedEnd: false,
       driving: '',
       longitude: 114.000725,
       latitude: 22.595509,
@@ -242,18 +250,22 @@ export default {
       console.log("查看公交线路：", this.startStation, "到", this.endStation);
     },
     startNavigation() {
-      // 在这里执行开始导航的操作，可以使用 this.startPoint 和 this.endPoint 的值
+      this.isNavigating = !this.isNavigating;
 
-      // 你可以根据需要进行导航或其他操作
-      // 下面是一个示例将用户导航到 /user/building/{startPoint}/to/{endPoint} 的路由
-      // router.push(`/user/building/${this.startPoint}/to/${this.endPoint}`).catch(err => err);
     },
 
     chooseStart() {
+      this.selectedStart = !this.selectedStart;
       this.startPoint = [this.latitude, this.longitude];
+      const marker = new this.AMap.Marker({
+        position: this.startPoint,   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        title: '起点'
+      });
+      this.map.add(marker);
     },
 
     chooseEnd() {
+      this.selectedEnd = !this.selectedEnd;
       this.endPoint = [this.latitude, this.longitude];
     }
 
