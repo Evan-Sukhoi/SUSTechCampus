@@ -1,15 +1,26 @@
 <template>
   <div class="map_content">
     <p>{{buildingId}}</p>
+    {{this.building.name}}
     <button @click="handleLink(buildingId)">see more details</button>
   </div>
 </template>
 
 <script>
 import router from "@/router";
+import axios from "axios";
 export default {
+  data() {
+    return {
+      building: {},
+    }
+  },
   props: {
-    buildingId: String,
+    buildingId: Number,
+
+  },
+  mounted() {
+    this.fetchBuildingData();
   },
   methods: {
     handleLink(e) {
@@ -17,6 +28,19 @@ export default {
       router.push(
           '/user/building/' + e +'/intro'
       ).catch(err => err)
+    },
+
+    fetchBuildingData() {
+      axios.get(`http://localhost:8081/public/building/get/simpleThroughId?buildingId=${this.buildingId}`)
+          .then(response => {
+            this.building = response.data.data;
+            console.log(response.data.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
     }
   }
 };

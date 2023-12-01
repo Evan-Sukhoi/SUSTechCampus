@@ -1,42 +1,45 @@
 <template>
-
   <div class="blog">
-        <div class="post">
-          <div id="comment">
-            <div v-for="comment in comments" :key="comment.id" class="comment">
-              <div class="comment-text">{{ comment.text }}</div>
-              <img v-if="comment.image" :src="comment.image" alt="Comment Image">
-            </div>
-          </div>
+    <div class="post">
+      <div id="comment">
+        <div v-for="comment in comments" :key="comment.id" class="comment">
+          <div class="comment-text">{{ comment.text }}</div>
+          <el-image v-if="comment.image" :src="comment.image" alt="Comment Image" />
         </div>
+      </div>
+    </div>
 
-    <form @submit.prevent="submitComment">
-      <label>
-        评论内容:
-        <textarea v-model="newComment.text"></textarea>
-      </label>
+    <el-form :model="newComment" label-position="top" @submit.prevent="submitComment">
+      <el-form-item label="评论内容">
+        <el-input v-model="newComment.text" type="textarea" />
+      </el-form-item>
 
-      <label>
-        上传照片:
-        <input type="file" multiple @change="handleFileChange" />
-      </label>
+      <el-form-item label="上传照片">
+        <el-upload
+            class="upload-demo"
+            :show-file-list="false"
+            action=""
+            :before-upload="handleFileChange"
+        >
+          <el-button>选取文件</el-button>
+        </el-upload>
+      </el-form-item>
 
-      <div v-if="this.photos.length > 0">
+      <div v-if="photos.length > 0" class="image">
         <h3>已选择的照片</h3>
-        <div v-for="(photo, index) in this.photos" :key="index" class="selected-photo">
-          <img :src="getPhotoUrl(photo)" alt="Selected Photo" width="200px"/>
-          <button @click="removePhoto(index)">删除</button>
+        <div v-for="(photo, index) in photos" :key="index" class="selected-photo">
+          <el-image :src="getPhotoUrl(photo)" alt="Selected Photo" :width="500"/>
+          <el-button @click="removePhoto(index)">删除</el-button>
         </div>
       </div>
 
-      <button type="submit">提交评论</button>
-    </form>
-
-
-    <!-- 左侧部分，显示评论 -->
+      <el-form-item>
+        <el-button type="primary" native-type="submit">提交评论</el-button>
+      </el-form-item>
+    </el-form>
   </div>
-
 </template>
+
 
 <script>
 import axios from "axios";
@@ -54,24 +57,18 @@ export default {
     this.fetchCommentData(this.buildingId);
   },
   methods: {
-    formatDate(date) {
-      const options = {year: 'numeric', month: 'long', day: 'numeric'};
-      return new Date(date).toLocaleDateString(undefined, options);
-    },
+    // formatDate(date) {
+    //   const options = {year: 'numeric', month: 'long', day: 'numeric'};
+    //   return new Date(date).toLocaleDateString(undefined, options);
+    // },
 
     submitComment() {
       // 发送评论数据到服务器
       // 使用 this.comment.text 和 this.comment.photos
       // 使用 axios 或其他 HTTP 库发送请求
     },
-    handleFileChange(event) {
-      const files = event.target.files;
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        // 可以进行一些文件验证，例如文件类型、大小等
-        // 简单示例，直接将文件加入数组
-        this.photos.push(file);
-      }
+    handleFileChange(file) {
+      this.photos.push(file)
     },
     removePhoto(index) {
       // 从数组中删除选中的照片
@@ -81,8 +78,6 @@ export default {
       // 根据文件对象创建一个临时的 URL，用于预览图片
       return URL.createObjectURL(photo);
     },
-
-
 
 
     fetchCommentData(id) {
@@ -113,7 +108,9 @@ export default {
   width: 40%;
 }
 
-
+.image {
+  max-width: 200px;
+}
 
 
 
