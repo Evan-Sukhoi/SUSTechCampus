@@ -7,6 +7,7 @@ import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.BuildingInfoSimple;
+import com.sustech.campus.model.vo.BuildingStation;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.PublicService;
 import jakarta.annotation.Resource;
@@ -57,9 +58,32 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinList(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_id, Building::getName, Building::getCover_id)
+                        .select(Building::getBuilding_id, Building::getName, Building::getCover_id, Building::getIntroduction)
         );
     }
+
+    @Override
+    public BuildingInfoSimple getSimpleBuildingInfoThroughId(Integer buildingId) {
+        return buildingDao.selectJoinOne(
+                BuildingInfoSimple.class,
+                new MPJLambdaWrapper<Building>()
+                        .select(Building::getBuilding_id, Building::getName, Building::getCover_id, Building::getIntroduction)
+                        .eq(Building::getBuilding_id, buildingId)
+        );
+    }
+
+    @Override
+    public BuildingStation getBuildingStation(Integer buildingId) {
+        return buildingDao.selectJoinOne(
+                BuildingStation.class,
+                new MPJLambdaWrapper<Building>()
+                        .select(Building::getNearest_station)
+                        .eq(Building::getBuilding_id, buildingId)
+
+        );
+    }
+
+
 
     @Override
     public BuildingInfo getBuildingDetails(Integer buildingId) {

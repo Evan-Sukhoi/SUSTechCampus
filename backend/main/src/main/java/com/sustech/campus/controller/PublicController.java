@@ -6,6 +6,7 @@ import com.sustech.campus.model.param.LoginParam;
 import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.BuildingInfoSimple;
+import com.sustech.campus.model.vo.BuildingStation;
 import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -36,6 +37,23 @@ public class PublicController {
     public ApiResponse<List<BuildingInfoSimple>> getSimpleBuildingInfo() {
         return ApiResponse.success(
                 publicService.getSimpleBuildingInfo()
+        );
+    }
+
+    @ApiOperation("根据建筑ID获取简单建筑信息")
+    @RequestMapping("/building/get/simpleThroughId")
+    public ApiResponse<BuildingInfoSimple> getSimpleBuildingInfoThroughId(@RequestParam Integer buildingId) {
+        return ApiResponse.success(
+                publicService.getSimpleBuildingInfoThroughId(buildingId)
+        );
+    }
+
+
+    @ApiOperation("根据建筑ID获取最近公交站")
+    @RequestMapping("/building/get/station")
+    public ApiResponse<BuildingStation> getBuildingStation(@RequestParam Integer buildingId) {
+        return ApiResponse.success(
+                publicService.getBuildingStation(buildingId)
         );
     }
 

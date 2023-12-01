@@ -11,43 +11,32 @@
     <div class="map_content">
 
       <div class="navi">
-        <div class="coordinate-box">
-          <button  @click="chooseStart">起始点坐标</button>
-          <div class="coordinate-text">{{ startPoint }}</div>
-        </div>
-
-        <div class="coordinate-box">
-          <button  @click="chooseEnd">终点坐标</button>
-          <div class="coordinate-text">{{ endPoint }}</div>
-        </div>
-
         <button  @click="startNavigation">出发</button>
-
 
       </div>
 
       <div class="busline">
         <div>
           <label for="startBuilding">起始建筑：</label>
-          <select v-model="startBuilding" id="endBuilding">
+          <select v-model="startBuildingId" id="startBuilding" @click="getStartStation">
             <!-- 这里添加起始点的选项 -->
-            <option value="a">A</option>
-            <option value="b">B</option>
+            <option value="1">林恩图书馆</option>
+            <option value="2">第一教学楼</option>
             <!-- 添加更多选项 -->
           </select>
         </div>
 
         <div>
           <label for="endBuilding">目标建筑：</label>
-          <select v-model="endBuilding" id="endBuilding">
+          <select v-model="endBuildingId" id="endBuilding" @click="getEndStation">
             <!-- 这里添加目标点的选项 -->
-            <option value="c">C</option>
-            <option value="d">D</option>
+            <option value="1">林恩图书馆</option>
+            <option value="2">第一教学楼</option>
             <!-- 添加更多选项 -->
           </select>
         </div>
 
-        <button v-if="startBuilding && endBuilding" @click="seeBusline">查看公交线路</button>
+        <button v-if="startBuildingId && endBuildingId" @click="seeBusline">查看公交线路</button>
 
       </div>
 
@@ -64,6 +53,7 @@ import locations from "../../assets/location/location.json"
 
 import MapContent from "@/components/userComponents/MapContent.vue";
 import Vue from "vue";
+import axios from "axios";
 
 window._AMapSecurityConfig = {
   securityJsCode: '012338515576425f8fdff9a7f8404d60',
@@ -76,14 +66,18 @@ export default {
       longitude: 114.000725,
       latitude: 22.595509,
       infoWin: '',
-      startBuilding: "",
-      endBuilding: "",
+      startBuildingId: "1",
+      endBuildingId: "2",
+      startStation: "行政楼",
+      endStation: "科研楼",
       startPoint: "",
       endPoint: "",
+      buildings: [],
     }
   },
   mounted() {
     this.initAMap();
+    this.fetchBuildingData();
   },
   unmounted() {
     this.map?.destroy();
@@ -195,6 +189,42 @@ export default {
 
     },
 
+    fetchBuildingData() {
+      axios.get("http://localhost:8081/public/building/get/simple")
+          .then(response => {
+            this.buildings = response.data.data;
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    },
+
+    getStartStation() {
+      axios.get(`http://localhost:8081/public/building/get/station?buildingId=${parseInt(this.startBuildingId)}`)
+          .then(response => {
+            this.startStation = response.data.data.nearestStation;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    },
+
+    getEndStation() {
+      axios.get(`http://localhost:8081/public/building/get/station?buildingId=${parseInt(this.endBuildingId)}`)
+          .then(response => {
+            this.endStation = response.data.data.nearestStation;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    },
 
     handleMapClick(e) {
       // e.lnglat 获取点击位置的经纬度
@@ -209,7 +239,7 @@ export default {
     },
 
     seeBusline() {
-      console.log("查看公交线路：", this.startBuilding, "到", this.endBuilding);
+      console.log("查看公交线路：", this.startStation, "到", this.endStation);
     },
     startNavigation() {
       // 在这里执行开始导航的操作，可以使用 this.startPoint 和 this.endPoint 的值

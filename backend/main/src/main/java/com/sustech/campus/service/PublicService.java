@@ -4,6 +4,7 @@ import com.sustech.campus.database.po.Bus_line;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.BuildingInfoSimple;
+import com.sustech.campus.model.vo.BuildingStation;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +19,9 @@ public interface PublicService {
     List<Bus_line> getAllBusLine();
 
     List<BuildingInfoSimple> getSimpleBuildingInfo();
+    BuildingInfoSimple getSimpleBuildingInfoThroughId(Integer buildingId);
+
+    BuildingStation getBuildingStation(Integer buildingId);
 
     BuildingInfo getBuildingDetails(Integer buildingId);
 
