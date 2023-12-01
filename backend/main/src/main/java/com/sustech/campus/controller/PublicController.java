@@ -49,7 +49,7 @@ public class PublicController {
 
     @ApiOperation("获取已审核通过的评论")
     @RequestMapping("/comment/get/approved")
-    public ApiResponse<Comment> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
+    public ApiResponse<List<Comment>> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
         );

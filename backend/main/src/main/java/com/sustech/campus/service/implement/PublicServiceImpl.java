@@ -72,13 +72,13 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public Comment getApprovedComments(Integer buildingId) {
-        return commentDao.selectJoinOne(
+    public List<Comment> getApprovedComments(Integer buildingId) {
+        return commentDao.selectJoinList(
                 Comment.class,
                 new MPJLambdaWrapper<Comment>()
                         .select(Comment::getComment_id, Comment::getUser_id, Comment::getTime, Comment::getText, Comment::getBuilding_id, Comment::getScore, Comment::getAdmin_id)
                         .eq(Comment::getBuilding_id, buildingId)
-                        .eq(Comment::getAdmin_id, 0)
+                        .ne(Comment::getAdmin_id, 0)
         );
     }
 

@@ -21,7 +21,7 @@ public interface PublicService {
 
     BuildingInfo getBuildingDetails(Integer buildingId);
 
-    Comment getApprovedComments(Integer buildingId);
+    List<Comment> getApprovedComments(Integer buildingId);
 
     Boolean login(String username, String password);
 

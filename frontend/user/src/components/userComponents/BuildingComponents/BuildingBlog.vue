@@ -10,21 +10,27 @@
           </div>
         </div>
 
-        <div class="form">
-          <form @submit.prevent="addComment">
-            <el-input
-                type="textarea"
-                :rows="7"
-                placeholder="请输入内容"
-                v-model="newComment.text" required>
-            </el-input>
-            <div id="image">
-              <img v-if="newComment.image" :src="URL.createObjectURL(newComment.image)" alt="Comment Image" width="200px">
-            </div>
-            <input type="file" :key="key" @change="handleImageUpload">
-            <button type="submit">发表评论</button>
-          </form>
+    <form @submit.prevent="submitComment">
+      <label>
+        评论内容:
+        <textarea v-model="newComment.text"></textarea>
+      </label>
+
+      <label>
+        上传照片:
+        <input type="file" multiple @change="handleFileChange" />
+      </label>
+
+      <div v-if="this.photos.length > 0">
+        <h3>已选择的照片</h3>
+        <div v-for="(photo, index) in this.photos" :key="index" class="selected-photo">
+          <img :src="getPhotoUrl(photo)" alt="Selected Photo" width="200px"/>
+          <button @click="removePhoto(index)">删除</button>
         </div>
+      </div>
+
+      <button type="submit">提交评论</button>
+    </form>
 
 
     <!-- 左侧部分，显示评论 -->
@@ -40,8 +46,7 @@ export default {
     return {
       newComment: {},
       comments: [],
-      key: 0,
-      URL: window.URL || window.webkitURL
+      photos: [],
     }
   },
   created() {
@@ -54,54 +59,33 @@ export default {
       return new Date(date).toLocaleDateString(undefined, options);
     },
 
-    addComment() {
-      if (this.newComment.text) {
-        const newComment = {
-          text: this.newComment.text,
-          image: this.newComment.image,
-          date: this.formatDate(new Date()),
-        };
-
-        this.handleCommentUpload(newComment);
-
-        this.newComment.text = '';
-        this.newComment.image = null;
-        this.key += 1;
+    submitComment() {
+      // 发送评论数据到服务器
+      // 使用 this.comment.text 和 this.comment.photos
+      // 使用 axios 或其他 HTTP 库发送请求
+    },
+    handleFileChange(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        // 可以进行一些文件验证，例如文件类型、大小等
+        // 简单示例，直接将文件加入数组
+        this.photos.push(file);
       }
     },
-
-    handleImageUpload(event) {
-      this.newComment.image = event.target.files[0];
-      this.key += 1;
+    removePhoto(index) {
+      // 从数组中删除选中的照片
+      this.photos.splice(index, 1);
+    },
+    getPhotoUrl(photo) {
+      // 根据文件对象创建一个临时的 URL，用于预览图片
+      return URL.createObjectURL(photo);
     },
 
-    handleCommentUpload(newComment) {
-      // 创建FormData对象
-      const formData = new FormData();
 
-      // 添加文件到FormData
-      formData.append('image', newComment.image);
-
-      // const image = qs.stringify(formData);
-
-      // 发送POST请求
-      axios.post(`http://localhost:8081/fileupload/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // 设置请求头，告诉服务器发送的是 FormData 数据
-        },
-      })
-          .then(response => {
-            console.log(response.data); // 处理上传成功的响应
-            // 其他处理逻辑...
-          })
-          .catch(error => {
-            console.error('上传失败:', error);
-          });
-    },
 
 
     fetchCommentData(id) {
-      console.log(id);
       axios.get(`http://localhost:8081/public/comment/get/approved?buildingId=${id}`, )
           .then(response => {
             this.comments = response.data.data;
