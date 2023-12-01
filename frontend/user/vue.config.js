@@ -1,7 +1,8 @@
 const { defineConfig } = require('@vue/cli-service')
 const {join} = require("path");
 module.exports = defineConfig({
-  transpileDependencies: true
+  transpileDependencies: true,
+  lintOnSave: false
 })
 //
 // // 配置stylus

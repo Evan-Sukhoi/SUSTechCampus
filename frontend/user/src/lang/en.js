@@ -37,6 +37,8 @@ export const lang = {
   errorPhoto:'Please upload profile',
   errorPhone:'Phone number format is wrong, please enter an 11-digit phone number',
   errorPassFormat:'The password should be at least 6 characters and no more than 13 characters',
+  error:'Something is wrong, please try again',
+  errorLogin:'username or password is wrong',
 
   /*building*/
   blog: 'Blog',

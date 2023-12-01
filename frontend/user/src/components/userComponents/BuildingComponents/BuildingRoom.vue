@@ -18,5 +18,24 @@
 <script>
 export default {
   name: "BuildingRoom",
+  data(){
+    return{
+      room:[
+        {room_type:'面当', room_ID:'101', img:require('../../../assets/pad(canDelete)/photo/img.png'), capacity:''},
+        {room_type:'大众菜', room_ID:'102', img:require('../../../assets/pad(canDelete)/photo/img.png'), capacity:''},
+      ]
+    }
+  },
+  beforeMount() {
+    const path = this.$route.path;
+    path = path.split("/")
+    this.$http({
+
+    }).then(resp=>{
+
+    }).catch(err=>{
+
+    })
+  }
 }
 </script>

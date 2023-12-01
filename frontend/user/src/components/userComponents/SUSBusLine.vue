@@ -68,7 +68,7 @@ export default {
   beforeMount() {
     this.$http({
       method:'get',
-      url:''
+      url:'public/busline/all'
     }).then(resp =>{
       console.log(resp)
     }).catch(err=>{

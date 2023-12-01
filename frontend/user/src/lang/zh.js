@@ -37,6 +37,8 @@ export const lang = {
   errorPhoto:'请上传头像',
   errorPhone:'手机号码错误，请输入11位手机号',
   errorPassFormat:'密码至少为6位，不得超过13位',
+  error:'有些问题，请再试一试',
+  errorLogin:'用户名或密码错误',
 
   /*building*/
   blog: '博客',

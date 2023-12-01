@@ -117,34 +117,44 @@ export default {
         password: this.password,
       }
       this.$http.post('/public/login', data).then(resp =>{
-        console.log(resp)
-      }).catch(err=>err)
-      var request = true
-      if (request){
-        this.active = false
-        this.isLogin = true
-        this.photo = '../assets/pad(canDelete)/photo/img.png'
-        if (this.remember){
-          localStorage.setItem('username', this.username)
-          localStorage.setItem('password', this.password)
+        if (resp.status == 200){
+          this.active = false
+          this.isLogin = true
+          this.photo = '../assets/pad(canDelete)/photo/img.png'
+          if (this.remember){
+            localStorage.setItem('username', this.username)
+            localStorage.setItem('password', this.password)
+            localStorage.setItem('remember', true)
+          }
+          // localStorage.setItem('userID', userID)
+          localStorage.setItem('photo', this.photo)
+          localStorage.setItem('isLogin', this.isLogin)
+        }else {
+          this.$vs.notification({
+            color:'danger',
+            position: 'top-center',
+            title: this.$t('lang.errorLogin'),
+            text: '',
+          })
         }
-        // localStorage.setItem('userID', userID)
-        localStorage.setItem('photo', this.photo)
-        localStorage.setItem('isLogin', this.isLogin)
-      }else {
-        this.$message({
-          showClose: true,
-          message: 'Username or password was wrong',
-          type: 'error'
-        });
-      }
+        console.log(resp)
+      }).catch(err=>{
+        console.log(err)
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.error'),
+          text: '',
+        })
+      })
+
     },
     logout(){
       this.isLogin = false
       this.photo = ''
-      this.username = ''
-      this.password = ''
       if (!this.remember){
+        this.username = ''
+        this.password = ''
         localStorage.removeItem('username')
         localStorage.removeItem('password')
       }
@@ -259,28 +269,44 @@ export default {
       console.log(formData)
       this.$http.post('/public/register', formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
         console.log(resp);
-      }).catch(err=>err)
-      this.username = ''
-      this.password = ''
-      this.passwordAgain = ''
-      this.email = ''
-      this.phoneNumber = ''
-      this.imageUrl = ''
-      this.imgFile = ''
-      this.active = false
-      this.isRegister = false
-
-      this.$vs.notification({
-        color:'success',
-        position: 'top-center',
-        title: this.$t('lang.registerState'),
-        text: '',
+        if (resp.status==200){
+          this.username = ''
+          this.password = ''
+          this.passwordAgain = ''
+          this.email = ''
+          this.phoneNumber = ''
+          this.imageUrl = ''
+          this.imgFile = ''
+          this.active = false
+          this.isRegister = false
+          this.$vs.notification({
+            color:'success',
+            position: 'top-center',
+            title: this.$t('lang.registerState'),
+            text: '',
+          })
+        }else {
+          this.$vs.notification({
+            color:'primary',
+            position: 'top-center',
+            title: resp.status,
+            text: '',
+          })
+        }
+      }).catch(err=>{
+        this.$vs.notification({
+          color:'primary',
+          position: 'top-center',
+          title: this.$t('lang.error'),
+          text: err.data(),
+        })
       })
     },
   },
   beforeMount() {
     this.username = localStorage.getItem('username') || ''
     this.password = localStorage.getItem('password') || ''
+    this.remember = localStorage.getItem('remember') || false
     this.userID = localStorage.getItem('userID') || ''
     this.photo = localStorage.getItem('photo') || ''
     this.isLogin = localStorage.getItem('isLogin') || ''
