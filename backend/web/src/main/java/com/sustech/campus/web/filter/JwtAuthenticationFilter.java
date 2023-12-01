@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             if (user != null) { //如果Redis和数据库中都没有User，则SecurityContext中没有Authentication对象
                 redis.setObject("login:" + id, user, 60 * 60 * 2); //刷新ttl为2h
-                Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUser_id(), user.getPassword(), null);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword(), null);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

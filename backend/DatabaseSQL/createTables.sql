@@ -44,6 +44,7 @@ CREATE TABLE Blacklist (
                            PRIMARY KEY (list_ID)
 );
 
+DROP TABLE IF EXISTS `Building`;
 -- 建筑表
 CREATE TABLE Building (
                           building_ID INT AUTO_INCREMENT,
@@ -55,6 +56,7 @@ CREATE TABLE Building (
                           nearest_station VARCHAR(255),
                           video_url VARCHAR(255),
                           cover_ID INT,
+                          building_type VARCHAR(255),
                           PRIMARY KEY (building_ID)
 );
 
@@ -97,7 +99,7 @@ CREATE TABLE Bus_line (
 );
 
 
-
+DROP TABLE IF EXISTS `Comment`;
 -- 评价表
 CREATE TABLE Comment (
                          comment_ID INT AUTO_INCREMENT,
@@ -105,7 +107,7 @@ CREATE TABLE Comment (
                          time TIMESTAMP,
                          text TEXT,
                          building_ID INT,
-                         score DECIMAL(3,2),
+                         score INT,
                          admin_ID INT,
                          PRIMARY KEY (comment_ID)
 );
@@ -136,3 +138,13 @@ insert into User(phone, name, email, password, image_ID) values ('15138688888', 
 insert into User(phone, name, email, password, image_ID) values ('16138688888', 'ln', 'example@gmail.com', '123456', 2);
 insert into User(phone, name, email, password, image_ID) values ('17138688888', 'jimmy', '12112517@mail.sustech.edu.cn', '123456', 3);
 insert into User(phone, name, email, password, image_ID) values ('18138688888', 'juan', '111@abc.com', '123456',4);
+
+
+insert into Building(name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID) values ('琳恩图书馆', '08:00:00', '22:00:00', '图书馆', '图书馆是一个很好的地方', '图书馆', 'https://www.youtube.com/watch?v=9bZkp7q19f0', 1);
+insert into Building(name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID) values ('一丹图书馆', '08:00:00', '24:00:00', '图书馆', '图书馆是一个卷的地方', '图书馆', 'https://www.youtube.com/watch?v=9bZkp7q19f0', 2);
+
+insert into Comment(user_ID, time, text, building_ID, score, admin_ID) values (1, '2023-12-01 12:00:00', '这真tm是一个好地方啊', 1, 0, 1);
+insert into Comment(user_ID, time, text, building_ID, score, admin_ID) values (2, '2023-12-01 12:00:00', '这是一个卷地方', 1, 0, 1);
+insert into Comment(user_ID, time, text, building_ID, score, admin_ID) values (3, '2023-12-01 12:00:00', '这地方...', 1, 0, 1);
+
+insert into comment_id_image(comment_ID, image_ID) values (1, 1);

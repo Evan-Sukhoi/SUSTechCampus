@@ -1,9 +1,11 @@
 package com.sustech.campus.service;
 
-import com.sustech.campus.database.po.Bus_line;
+import com.sustech.campus.database.po.Busline;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.BuildingInfoSimple;
+import com.sustech.campus.model.vo.CommentInfo;
+import com.sustech.campus.model.vo.UserInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,15 +17,15 @@ public interface PublicService {
      * 获取所有建筑信息
      * @return 所有建筑信息
      */
-    List<Bus_line> getAllBusLine();
+    List<Busline> getAllBusLine();
 
     List<BuildingInfoSimple> getSimpleBuildingInfo();
 
     BuildingInfo getBuildingDetails(Integer buildingId);
 
-    List<Comment> getApprovedComments(Integer buildingId);
+    List<CommentInfo> getApprovedComments(Integer buildingId);
 
-    Boolean login(String username, String password);
+    UserInfo login(String username, String password);
 
     Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException;
 

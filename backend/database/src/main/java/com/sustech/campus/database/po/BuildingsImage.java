@@ -1,4 +1,5 @@
 package com.sustech.campus.database.po;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Room_type_Image {
+public class BuildingsImage {
     @TableId(type = IdType.AUTO)
-    private Integer room_type_id;
-    private Integer image_id;
+    private Integer imageID;
+    private Integer buildingID;
 }

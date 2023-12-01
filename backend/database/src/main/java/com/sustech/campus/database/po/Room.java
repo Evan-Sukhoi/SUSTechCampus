@@ -13,8 +13,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class Room{
     @TableId(type = IdType.AUTO)
-    private Integer room_id;
-    private Integer building_id;
+    private Integer roomId;
+    private Integer buildingId;
     private Integer number;
-    private Integer room_type_id;
+    private Integer roomTypeId;
 }

@@ -1,26 +1,30 @@
-package com.sustech.campus.database.po;
+package com.sustech.campus.model.vo;
+
+
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Comment {
-    @TableId(type = IdType.AUTO)
+public class CommentInfo {
     private Integer commentId;
     private Integer userId;
     private Date time;
     private String text;
     private Integer buildingId;
-//    DECIMAL(3,2)
     private Integer score;
-    private Integer adminId;
-}
 
+    private String username;
+
+    private String userImageUrl;
+
+    private List<String> imageUrl;
+}

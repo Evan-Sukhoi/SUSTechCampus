@@ -5,22 +5,20 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
-import com.sustech.campus.model.vo.BuildingInfo;
-import com.sustech.campus.model.vo.BuildingInfoSimple;
-import com.sustech.campus.model.vo.RoomInfo;
+import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.PublicService;
 import jakarta.annotation.Resource;
 
+import lombok.extern.java.Log;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
@@ -33,22 +31,26 @@ public class PublicServiceImpl implements PublicService {
     @Resource
     private CommentDao commentDao;
     @Resource
-    private Bus_lineDao bus_lineDao;
+    private BuslineDao buslineDao;
     @Resource
     private ImageDao imageDao;
     @Resource
     private UserDao userDao;
+    @Resource
+    private CommentIdImageDao commentIdImageDao;
     @Autowired
     private ImgHostUploader imgHostUploader;
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 //    @Resource
 //    private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<Bus_line> getAllBusLine() {
-        return bus_lineDao.selectJoinList(
-                Bus_line.class,
-                new MPJLambdaWrapper<Bus_line>()
-                        .select(Bus_line::getBus_line_ID, Bus_line::getLine_ID, Bus_line::getStation, Bus_line::get_index_)
+    public List<Busline> getAllBusLine() {
+        return buslineDao.selectJoinList(
+                Busline.class,
+                new MPJLambdaWrapper<Busline>()
+                        .select(Busline::getBuslineId, Busline::getLineId, Busline::getStation, Busline::getIndex)
         );
     }
 
@@ -57,7 +59,7 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinList(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_id, Building::getName, Building::getCover_id)
+                        .select(Building::getBuildingId, Building::getName, Building::getCoverId)
         );
     }
 
@@ -66,24 +68,52 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingInfo.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
-                        .eq(Building::getBuilding_id, buildingId)
+                        .select(Building::getBuildingId, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCoverId)
+                        .eq(Building::getBuildingId, buildingId)
         );
     }
 
     @Override
-    public List<Comment> getApprovedComments(Integer buildingId) {
-        return commentDao.selectJoinList(
-                Comment.class,
+    public List<CommentInfo> getApprovedComments(Integer buildingId) {
+        List<Comment> comments = commentDao.selectList(
                 new MPJLambdaWrapper<Comment>()
-                        .select(Comment::getComment_id, Comment::getUser_id, Comment::getTime, Comment::getText, Comment::getBuilding_id, Comment::getScore, Comment::getAdmin_id)
-                        .eq(Comment::getBuilding_id, buildingId)
-                        .ne(Comment::getAdmin_id, 0)
+                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore)
+                        .eq(Comment::getBuildingId, buildingId)
+                        .ne(Comment::getAdminId, 0)
         );
+        return comments.stream().map(comment -> {
+            User user = userDao.selectById(comment.getUserId());
+            String userImageUrl = null;
+            if (imageDao.selectById(user.getImageId()) == null) {
+                LOGGER.warn("imageDao.selectById(user.getImageId()) == null");
+            } else {
+                userImageUrl = imageDao.selectById(user.getImageId()).getImageUrl();
+            }
+            List<CommentIdImage> commentIdImages = commentIdImageDao.selectList(
+                    new MPJLambdaWrapper<CommentIdImage>()
+                            .select(CommentIdImage::getImageId)
+                            .eq(CommentIdImage::getCommentId, comment.getCommentId())
+            );
+            List<String> image_url = commentIdImages.stream().map(commentIdImage -> {
+                return imageDao.selectById(commentIdImage.getImageId()).getImageUrl();
+            }).toList();
+
+            return CommentInfo.builder()
+                    .commentId(comment.getCommentId())
+                    .userId(comment.getUserId())
+                    .time(comment.getTime())
+                    .text(comment.getText())
+                    .buildingId(comment.getBuildingId())
+                    .score(comment.getScore())
+                    .username(user.getName())
+                    .userImageUrl(userImageUrl)
+                    .imageUrl(image_url)
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public Boolean login(String username, String password) {
+    public UserInfo login(String username, String password) {
         asserts(username != null && password != null, "用户名或密码不能为空");
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         if (username.contains("@")) {
@@ -96,7 +126,14 @@ public class PublicServiceImpl implements PublicService {
 //        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
 
         // TODO: 添加login log和authenticate
-        return true;
+
+        return UserInfo.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .imageUrl(imageDao.selectById(user.getImageId()).getImageUrl())
+                .build();
     }
 
     @Override
@@ -112,7 +149,7 @@ public class PublicServiceImpl implements PublicService {
 
         String url = imgHostUploader.upload(file);
         Image image = Image.builder()
-                .image_url(url)
+                .imageUrl(url)
                 .build();
         imageDao.insert(image);
 
@@ -122,7 +159,7 @@ public class PublicServiceImpl implements PublicService {
                 .password(password)
                 .email(email)
                 .phone(phoneNumber)
-                .image_id(image.getImage_id())
+                .imageId(image.getImageId())
                 .build();
         userDao.insert(user);
         return true;
@@ -133,8 +170,8 @@ public class PublicServiceImpl implements PublicService {
         return commentDao.selectJoinList(
                 Comment.class,
                 new MPJLambdaWrapper<Comment>()
-                        .select(Comment::getComment_id, Comment::getUser_id, Comment::getTime, Comment::getText, Comment::getBuilding_id, Comment::getScore, Comment::getAdmin_id)
-                        .eq(Building::getBuilding_id, buildingId)
+                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
+                        .eq(Building::getBuildingId, buildingId)
         );
     }
 }

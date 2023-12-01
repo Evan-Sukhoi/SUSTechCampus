@@ -113,9 +113,9 @@ public class AdminController {
     ) {
         return ApiResponse.success(
                 adminService.uploadRoom(Room.builder()
-                        .building_id(buildingId)
+                        .buildingId(buildingId)
                         .number(number)
-                        .room_type_id(roomTypeId)
+                        .roomTypeId(roomTypeId)
                         .build()));
     }
 

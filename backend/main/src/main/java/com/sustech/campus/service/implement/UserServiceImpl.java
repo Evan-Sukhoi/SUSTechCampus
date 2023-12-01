@@ -9,7 +9,6 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -29,17 +28,17 @@ public class UserServiceImpl implements UserService {
     @Resource
     private ReservationDao reservationDao;
     @Resource
-    private Bus_lineDao bus_lineDao;
+    private BuslineDao buslineDao;
 
     @Override
     public Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos) {
         Comment comment = Comment.builder()
-                .user_id(userId)
+                .userId(userId)
                 .time(time)
                 .text(text)
-                .building_id(buildingId)
-                .score(0.0)
-                .admin_id(-1)
+                .buildingId(buildingId)
+                .score(0)
+                .adminId(-1)
                 .build();
         if (commentDao.insert(comment) == 0) {
             return false;
@@ -52,8 +51,8 @@ public class UserServiceImpl implements UserService {
         return buildingDao.selectJoinList(
                 Building.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
-                        .eq(Building::getBuilding_id, buildingId)
+                        .select(Building::getBuildingId, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCoverId)
+                        .eq(Building::getBuildingId, buildingId)
         );
     }
 
@@ -62,8 +61,8 @@ public class UserServiceImpl implements UserService {
         return commentDao.selectJoinList(
                 Comment.class,
                 new MPJLambdaWrapper<Comment>()
-                        .select(Comment::getComment_id, Comment::getUser_id, Comment::getTime, Comment::getText, Comment::getBuilding_id, Comment::getScore, Comment::getAdmin_id)
-                        .eq(Building::getBuilding_id, buildingId)
+                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
+                        .eq(Building::getBuildingId, buildingId)
         );
     }
 
@@ -73,15 +72,15 @@ public class UserServiceImpl implements UserService {
         return roomDao.selectJoinList(
                 Room.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoom_id, Room::getBuilding_id, Room::getNumber, Room::getRoom_type_id)
-                        .eq(Room::getBuilding_id, buildingId)
+                        .select(Room::getRoomId, Room::getBuildingId, Room::getNumber, Room::getRoomTypeId)
+                        .eq(Room::getBuildingId, buildingId)
         );
     }
 
     @Override
     public RoomType getRoomTypeById(Integer roomTypeId) {
         return roomTypeDao.selectOne(
-                new QueryWrapper<RoomType>().eq("room_type_ID", roomTypeId)
+                new QueryWrapper<RoomType>().eq("roomTypeID", roomTypeId)
         );
     }
 
@@ -90,8 +89,8 @@ public class UserServiceImpl implements UserService {
         return roomDao.selectJoinOne(
                 Room.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoom_id, Room::getBuilding_id, Room::getNumber, Room::getRoom_type_id)
-                        .eq(Room::getRoom_id, roomId)
+                        .select(Room::getRoomId, Room::getBuildingId, Room::getNumber, Room::getRoomTypeId)
+                        .eq(Room::getRoomId, roomId)
         );
     }
 
@@ -102,10 +101,10 @@ public class UserServiceImpl implements UserService {
 
 
         Reservation reservation = Reservation.builder()
-                .room_id(roomId)
-                .start_time(startTime)
-                .end_time(endTime)
-                .user_id(userId)
+                .roomId(roomId)
+                .startTime(startTime)
+                .endTime(endTime)
+                .userId(userId)
                 .build();
         return reservationDao.insert(reservation) != 0;
     }

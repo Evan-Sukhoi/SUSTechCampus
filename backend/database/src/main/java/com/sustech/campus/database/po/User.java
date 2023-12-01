@@ -12,10 +12,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class User {
     @TableId(type = IdType.AUTO)
-    private Integer user_id;
+    private Integer userId;
     private String name;
     private String phone;
     private String email;
     private String password;
-    private Integer image_id;
+    private Integer imageId;
 }

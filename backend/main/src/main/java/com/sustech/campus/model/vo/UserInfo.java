@@ -1,6 +1,5 @@
 package com.sustech.campus.model.vo;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoomInfo {
-    private Integer roomId;
-    private Integer buildingId;
-    private Integer number;
-    private Integer room_type_id;
-    private String building_name;
+public class UserInfo {
+    private Integer userId;
+    private String name;
+    private String phone;
+    private String email;
+    private String imageUrl;
 }

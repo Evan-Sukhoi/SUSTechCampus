@@ -17,7 +17,7 @@ import java.sql.Time;
 @TableName("building")
 public class Building implements Displayable {
     @TableId(type = IdType.AUTO)
-    private Integer building_id;
+    private Integer buildingId;
     private String name;
     private Time open_time;
     private Time close_time;
@@ -25,15 +25,15 @@ public class Building implements Displayable {
     private String introduction;
     private String nearest_station;
     private String video_url;
-    private Integer cover_id;
+    private Integer coverId;
 
     @Override
     public Integer getImageId() {
-        return cover_id;
+        return coverId;
     }
 
     @Override
     public void setImageId(Integer imageId) {
-        this.cover_id = imageId;
+        this.coverId = imageId;
     }
 }

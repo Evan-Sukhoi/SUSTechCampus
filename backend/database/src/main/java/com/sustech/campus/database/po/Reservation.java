@@ -14,13 +14,13 @@ import java.util.Date;
 @Builder
 public class Reservation {
     @TableId(type = IdType.AUTO)
-    private Integer reservation_id;
+    private Integer reservationId;
 
-    private Integer room_id;
+    private Integer roomId;
 
-    private Date start_time;
+    private Date startTime;
 
-    private Date end_time;
+    private Date endTime;
 
-    private Integer user_id;
+    private Integer userId;
 }

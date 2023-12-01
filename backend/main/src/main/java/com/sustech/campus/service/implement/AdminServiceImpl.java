@@ -74,18 +74,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<BuildingInfo> getAllBuilding() {
-        System.out.println((new MPJLambdaWrapper<BuildingInfo> ()
-                .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
-        ).getSqlSegment());
-
-        System.out.println(buildingDao.selectList(null));
-
-
         return buildingDao.selectJoinList(
                 BuildingInfo.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuilding_id, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCover_id)
-                        .eq(Building::getBuilding_id, 1)
+                        .select(Building::getBuildingId, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCoverId)
+                        .eq(Building::getBuildingId, 1)
         );
     }
 
@@ -107,15 +100,15 @@ public class AdminServiceImpl implements AdminService {
                 RoomInfo.class,
                 new MPJLambdaWrapper<Room>()
                         .selectAll(Room.class)
-                        .select(Building::getName, Building::getBuilding_id)
-                        .leftJoin(Building.class, Building::getBuilding_id, Room::getBuilding_id)
+                        .select(Building::getName, Building::getBuildingId)
+                        .leftJoin(Building.class, Building::getBuildingId, Room::getBuildingId)
         );
     }
 
     @Override
     public Boolean deleteBuilding(Integer buildingId) {
         QueryWrapper<Building> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("building_ID", buildingId);
+        queryWrapper.eq("buildingID", buildingId);
         Building building = buildingDao.selectOne(queryWrapper);
         if (building == null) {
             return false;
@@ -128,7 +121,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Boolean deleteRoom(Integer roomId) {
         QueryWrapper<Room> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("room_ID", roomId);
+        queryWrapper.eq("roomID", roomId);
         Room room = roomDao.selectOne(queryWrapper);
         if (room == null) {
             return false;
@@ -155,9 +148,9 @@ public class AdminServiceImpl implements AdminService {
                 Reservation.class,
                 new MPJLambdaWrapper<Reservation>()
                         .selectAll(Reservation.class)
-                        .select(User::getName, User::getUser_id)
-                        .leftJoin(User.class, User::getUser_id, Reservation::getUser_id)
-                        .eq(Reservation::getRoom_id, roomId)
+                        .select(User::getName, User::getUserId)
+                        .leftJoin(User.class, User::getUserId, Reservation::getUserId)
+                        .eq(Reservation::getRoomId, roomId)
         );
     }
 

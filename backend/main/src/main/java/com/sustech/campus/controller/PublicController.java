@@ -1,11 +1,13 @@
 package com.sustech.campus.controller;
 
-import com.sustech.campus.database.po.Bus_line;
+import com.sustech.campus.database.po.Busline;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.model.param.LoginParam;
 import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.BuildingInfoSimple;
+import com.sustech.campus.model.vo.CommentInfo;
+import com.sustech.campus.model.vo.UserInfo;
 import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -49,7 +51,7 @@ public class PublicController {
 
     @ApiOperation("获取已审核通过的评论")
     @RequestMapping("/comment/get/approved")
-    public ApiResponse<List<Comment>> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
+    public ApiResponse<List<CommentInfo>> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
         );
@@ -57,7 +59,7 @@ public class PublicController {
 
     @ApiOperation("访客登录")
     @RequestMapping("/login")
-    public ApiResponse<Boolean> login(@RequestBody @Validated LoginParam loginParam) {
+    public ApiResponse<UserInfo> login(@RequestBody @Validated LoginParam loginParam) {
         return ApiResponse.success(
                 publicService.login(
                         loginParam.getUsername(),
@@ -82,7 +84,7 @@ public class PublicController {
 
     @ApiOperation("获取所有公交线路信息")
     @RequestMapping("/busline/all")
-    public List<Bus_line> getAllBusLine() {
+    public List<Busline> getAllBusLine() {
         return publicService.getAllBusLine();
     }
 

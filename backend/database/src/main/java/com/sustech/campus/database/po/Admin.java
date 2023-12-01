@@ -13,20 +13,20 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class Admin implements Displayable {
     @TableId(type = IdType.AUTO)
-    private Integer admin_id;
+    private Integer adminId;
     private String name;
     private String phone;
     private String email;
     private String password;
-    private Integer image_id;
+    private Integer imageId;
 
     @Override
     public Integer getImageId() {
-        return image_id;
+        return imageId;
     }
 
     @Override
-    public void setImageId(Integer image_id) {
-        this.image_id = image_id;
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
     }
 }

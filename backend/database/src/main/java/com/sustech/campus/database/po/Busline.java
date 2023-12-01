@@ -10,8 +10,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Comment_ID_Image {
+public class Busline {
     @TableId(type = IdType.AUTO)
-    private Integer image_ID;
-    private Integer comment_ID;
+    private Integer buslineId;
+    private Integer lineId;
+    private String station;
+    private Integer index;
 }
