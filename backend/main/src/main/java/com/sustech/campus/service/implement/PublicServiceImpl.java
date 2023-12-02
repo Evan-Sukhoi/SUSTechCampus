@@ -59,7 +59,27 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinList(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId)
+        );
+    }
+
+    @Override
+    public BuildingStation getBuildingStationThroughId(Integer buildingId) {
+        return buildingDao.selectJoinOne(
+                BuildingStation.class,
+                new MPJLambdaWrapper<Building>()
+                        .select(Building::getNearest_station)
+                        .eq(Building::getBuildingId, buildingId)
+        );
+    }
+
+    @Override
+    public BuildingInfoSimple getBuildingInfoSimpleThroughId(Integer buildingId) {
+        return buildingDao.selectJoinOne(
+                BuildingInfoSimple.class,
+                new MPJLambdaWrapper<Building>()
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId)
+                        .eq(Building::getBuildingId, buildingId)
         );
     }
 
