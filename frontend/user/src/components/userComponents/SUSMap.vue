@@ -54,7 +54,6 @@ import locations from "../../assets/location/location.json"
 
 import MapContent from "@/components/userComponents/MapContent.vue";
 import Vue from "vue";
-import axios from "axios";
 // import {flatten} from "eslint-plugin-vue/lib/utils";
 
 window._AMapSecurityConfig = {
@@ -264,7 +263,7 @@ export default {
     },
 
     fetchBuildingData() {
-      axios.get("http://localhost:8081/public/building/get/simple")
+      this.$http.get("/public/building/get/simple")
           .then(response => {
             this.buildings = response.data.data;
             console.log(response.data);
@@ -277,7 +276,7 @@ export default {
     },
 
     getStartStation() {
-      axios.get(`http://localhost:8081/public/building/get/station?buildingId=${parseInt(this.startBuildingId)}`)
+      this.$http.get(`/public/building/get/station?buildingId=${parseInt(this.startBuildingId)}`)
           .then(response => {
             this.startStation = response.data.data.nearestStation;
           })
@@ -289,7 +288,7 @@ export default {
     },
 
     getEndStation() {
-      axios.get(`http://localhost:8081/public/building/get/station?buildingId=${parseInt(this.endBuildingId)}`)
+      this.$http.get(`/public/building/get/station?buildingId=${parseInt(this.endBuildingId)}`)
           .then(response => {
             this.endStation = response.data.data.nearestStation;
           })
