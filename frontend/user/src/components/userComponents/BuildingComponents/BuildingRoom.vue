@@ -34,15 +34,15 @@ export default {
   data(){
     return{
       roomInfo:[
-        {room_type:'面当', room_ID:'101', img:require('../../../assets/pad(canDelete)/photo/img.png'), capacity:'40'},
-        {room_type:'大众菜', room_ID:'102', img:require('../../../assets/pad(canDelete)/photo/img.png'), capacity:'40'},
-        {room_type:'面当', room_ID:'101', img:require('../../../assets/pad(canDelete)/photo/img.png'), capacity:'40'},
-        {room_type:'大众菜', room_ID:'102', img:require('../../../assets/pad(canDelete)/photo/img.png'), capacity:'40'},
+        {room_type:'面当', room_ID:'101', img:require('../../../assets/pad(canDelete)/photo/img.jpg'), capacity:'40'},
+        {room_type:'大众菜', room_ID:'102', img:require('../../../assets/pad(canDelete)/photo/img.jpg'), capacity:'40'},
+        {room_type:'面当', room_ID:'101', img:require('../../../assets/pad(canDelete)/photo/img.jpg'), capacity:'40'},
+        {room_type:'大众菜', room_ID:'102', img:require('../../../assets/pad(canDelete)/photo/img.jpg'), capacity:'40'},
       ]
     }
   },
   beforeMount() {
-    const path = this.$route.path;
+    let path = this.$route.path;
     path = path.split("/")
     this.$http({
 

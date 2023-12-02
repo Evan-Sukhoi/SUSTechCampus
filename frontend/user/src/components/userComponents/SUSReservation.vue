@@ -32,8 +32,8 @@
         <h1 class="text">{{ building.name }}</h1>
       </div>
       <div id="right-box">
-        <div v-for="reservation in Infos" :key="reservation.id" class="column">
-          <div @click="goto(building.name, reservation.name)">
+        <div v-for="reservation in Infos" :key="reservation.buildingId" class="column">
+          <div @click="goto(building.name, reservation.buildingId, reservation.name)">
             <router-link :to="``">
               <vs-card>
                 <template #title>
@@ -44,7 +44,7 @@
                 </template>
                 <template #text>
                   <p>
-                    {{ reservation.describe }}
+                    {{ reservation.introduction }}
                   </p>
                 </template>
                 <template #interactions>
@@ -121,19 +121,19 @@ export default {
     }
     this.$http({
       method: 'get',
-      url: '',
+      url: 'public/building/get/simple',
       headers: {
         'content-type': 'application/json'
       },
     }).then(resp => {
-      console.log(resp);
+      this.Infos = resp.data.data
+      console.log(resp)
     }).catch(err=>err)
     this.buildingShow=this.buildingType
   },
   methods: {
-    goto(buildingType, buildingName) {
-      buildingName = buildingName.replace(" ", "%20")
-      this.$router.push({path: "/user/reservation/" + buildingType + "/" + buildingName})
+    goto(buildingType, buildingId, buildingName) {
+      this.$router.push({path: "/user/reservation/" + buildingType + "/" + buildingId + buildingName})
     },
     closeDialog() {
       this.visable = false

@@ -27,4 +27,5 @@ public class CommentInfo {
     private String userImageUrl;
 
     private List<String> imageUrl;
+    private Integer adminId;
 }

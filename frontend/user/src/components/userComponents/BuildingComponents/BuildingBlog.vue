@@ -5,10 +5,12 @@
         <div id="comment">
           <div v-for="comment in comments" :key="comment.id" class="comment">
             <div>{{ comment.username }}</div>
-            <el-image :src="comment.userImageUrl" alt="User Image"/>
+            <img :src="comment.userImageUrl" alt="User Image" width="20px">
             <div>{{ comment.time }}</div>
             <div class="comment-text">{{ comment.text }}</div>
-
+            <div v-for="img in comment.imageUrl">
+              <img :src="img" alt="comment image" width="100px">
+            </div>
           </div>
         </div>
       </el-scrollbar>
@@ -40,7 +42,7 @@
         </div>
 
         <el-form-item>
-          <el-button type="primary" @click="submitComment">提交评论</el-button>
+          <el-button type="primary" native-type="submit" @click="submitComment">提交评论</el-button>
         </el-form-item>
       </el-form>
     </div>

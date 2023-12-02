@@ -87,17 +87,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Comment> getCommentByBuildingId(Integer buildingId) {
-        return commentDao.selectJoinList(
-                Comment.class,
-                new MPJLambdaWrapper<Comment>()
-                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
-                        .eq(Building::getBuildingId, buildingId)
-        );
-    }
-
-
-    @Override
     public List<Room> getRoomByBuilding(Integer buildingId) {
         return roomDao.selectJoinList(
                 Room.class,

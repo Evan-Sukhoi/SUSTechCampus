@@ -7,6 +7,7 @@ import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.param.ReserveRoomInfoParam;
 import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
@@ -157,4 +158,20 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @ApiOperation("管理员获取所有评论")
+    @RequestMapping("/comment/all")
+    public List<CommentInfo> getAllComments() {
+        return adminService.getAllComments();
+    }
+
+    @ApiOperation("管理员审核一个评论")
+    @PostMapping("/comment/approve")
+    public ApiResponse<Boolean> approveComment(@ApiParam("评论id") @RequestParam @NotNull Integer commentId,
+                                        @ApiParam("管理员id") @RequestParam @NotNull Integer adminId
+    ) {
+        return ApiResponse.success(
+                adminService.approveComment(commentId, adminId));
+    }
+
 }

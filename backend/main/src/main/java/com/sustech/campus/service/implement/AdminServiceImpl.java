@@ -7,6 +7,7 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
@@ -14,6 +15,7 @@ import com.sustech.campus.service.AdminService;
 import com.sustech.campus.service.PublicService;
 import jakarta.annotation.Resource;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,6 +44,9 @@ public class AdminServiceImpl implements AdminService {
     private CommentDao commentDao;
 
     @Resource
+    private CommentIdImageDao commentIdImageDao;
+
+    @Resource
     private RoomTypeImageDao roomTypeImageDao;
 
     @Resource
@@ -60,6 +65,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private ImgHostUploader imgHostUploader;
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 
     @Override
     public User getUserInfo(Integer userId) {
@@ -247,4 +254,57 @@ public class AdminServiceImpl implements AdminService {
         userDao.insert(user);
         return true;
     }
+
+    @Override
+    public List<CommentInfo> getAllComments() {
+        List<Comment> comments = commentDao.selectList(
+                new MPJLambdaWrapper<Comment>()
+                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
+        );
+        return comments.stream().map(comment -> {
+            User user = usersDao.selectById(comment.getUserId());
+            String userImageUrl = null;
+            if (imageDao.selectById(user.getImageId()) == null) {
+                LOGGER.warn("imageDao.selectById(user.getImageId()) == null");
+            } else {
+                userImageUrl = imageDao.selectById(user.getImageId()).getImageUrl();
+            }
+            List<CommentIdImage> commentIdImages = commentIdImageDao.selectList(
+                    new MPJLambdaWrapper<CommentIdImage>()
+                            .select(CommentIdImage::getImageId)
+                            .eq(CommentIdImage::getCommentId, comment.getCommentId())
+            );
+            List<String> image_url = commentIdImages.stream().map(commentIdImage -> {
+                return imageDao.selectById(commentIdImage.getImageId()).getImageUrl();
+            }).toList();
+
+            return CommentInfo.builder()
+                    .commentId(comment.getCommentId())
+                    .userId(comment.getUserId())
+                    .time(comment.getTime())
+                    .text(comment.getText())
+                    .buildingId(comment.getBuildingId())
+                    .score(comment.getScore())
+                    .username(user.getName())
+                    .userImageUrl(userImageUrl)
+                    .imageUrl(image_url)
+                    .adminId((comment.getAdminId()))
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean approveComment(Integer commentId, Integer adminId) {
+        Comment comment = commentDao.selectById(commentId);
+        if (comment == null) {
+            return false;
+        } else {
+            comment.setAdminId(adminId);
+            commentDao.updateById(comment);
+            return true;
+        }
+    }
+
+
+
 }

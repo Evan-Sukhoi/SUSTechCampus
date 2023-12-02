@@ -2,7 +2,8 @@
   <div id="out_container">
     <div class="map">
       <div id="container"></div>
-      <div id="panel" v-if="showPanel"></div>
+      <div id="walkingPanel" v-if="showWalkingPanel"></div>
+      <div id="drivingPanel" v-if="showDrivingPanel"></div>
     </div>
 
     <div class="map_content">
@@ -54,6 +55,7 @@ import locations from "../../assets/location/location.json"
 import MapContent from "@/components/userComponents/MapContent.vue";
 import Vue from "vue";
 import axios from "axios";
+// import {flatten} from "eslint-plugin-vue/lib/utils";
 
 window._AMapSecurityConfig = {
   securityJsCode: '012338515576425f8fdff9a7f8404d60',
@@ -67,7 +69,6 @@ export default {
       isNavigating: false,
       selectedStart: false,
       selectedEnd: false,
-      driving: '',
       longitude: 114.000725,
       latitude: 22.595509,
       infoWin: '',
@@ -81,7 +82,9 @@ export default {
       endMarker: '',
       buildings: [],
       walking: '',
-      showPanel: false,
+      driving: '',
+      showWalkingPanel: false,
+      showDrivingPanel: false,
 
     }
   },
@@ -108,7 +111,7 @@ export default {
       AMapLoader.load({
         key: "2a44874f8490449d6ecc495f738c674b", // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "1.4.15", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: ['AMap.Driving', 'AMap.LngLat', 'AMap.Walking', 'AMap.ControlBar', 'AMap.ToolBar', 'AMap.Marker', 'AMap.Polygon', 'AMap.InfoWindow'], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        plugins: ['AMap.Driving', 'AMap.LngLat', 'AMap.Walking', 'AMap.ControlBar', 'AMap.ToolBar', 'AMap.Marker', 'AMap.Polygon', 'AMap.InfoWindow', 'AMap.Driving'], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       })
           .then((AMap) => {
             this.AMap = AMap;
@@ -230,7 +233,7 @@ export default {
 
             var walkOption = {
               map: this.map,
-              panel: "panel",
+              panel: "walkingPanel",
               hideMarkers: true,
               isOutline: true,
               outlineColor: '#ffeeee',
@@ -238,6 +241,17 @@ export default {
             }
 
             this.walking = new this.AMap.Walking(walkOption)
+
+            var drivingOption = {
+              map: this.map,
+              panel: "drivingPanel",
+              hideMarkers: true,
+              isOutline: true,
+              outlineColor: '#00FF00',
+              autoFitView: true,
+            }
+
+            this.driving = new this.AMap.Driving(drivingOption)
 
             //根据起终点坐标规划步行路线
 
@@ -306,12 +320,14 @@ export default {
       if (this.isNavigating) {
         this.startMarker.show();
         this.endMarker.show();
-        this.showPanel = true;
+        this.showWalkingPanel = true;
+        this.showDrivingPanel = true;
         this.start();
       } else {
         this.startMarker.hide();
         this.endMarker.hide();
-        this.showPanel = false;
+        this.showWalkingPanel = false;
+        this.showDrivingPanel = false;
         this.walking.clear();
       }
     },
@@ -343,6 +359,15 @@ export default {
           console.log('步行路线数据查询失败' + result)
         }
       });
+
+      this.driving.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function(status, result) {
+        // result即是对应的不行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_RidingResult
+        if (status === 'complete') {
+          console.log('步行路线数据查询成功')
+        } else {
+          console.log('步行路线数据查询失败' + result)
+        }
+      });
     }
 
 
@@ -364,7 +389,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-#panel {
+#walkingPanel {
   position: fixed;
   background-color: white;
   max-height: 90%;
@@ -373,6 +398,17 @@ export default {
   right: 8%;
   width: 280px;
 }
+
+#drivingPanel {
+  position: fixed;
+  background-color: white;
+  max-height: 90%;
+  overflow-y: auto;
+  top: 10%;
+  right: 28%;
+  width: 280px;
+}
+
 #panel .amap-call {
   background-color: #009cf9;
   border-top-left-radius: 4px;
