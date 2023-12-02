@@ -96,10 +96,10 @@ public class AdminController {
                 adminService.uploadBuilding(Building.builder()
                         .name(name)
                         .introduction(introduction)
-                        .open_time(openTime)
-                        .close_time(closeTime)
-                        .location_name(location_name)
-                        .nearest_station(nearest_station)
+                        .openTime(openTime)
+                        .closeTime(closeTime)
+                        .locationName(location_name)
+                        .nearestStation(nearest_station)
                         .build()));
     }
 
