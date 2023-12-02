@@ -7,6 +7,10 @@ DROP TABLE IF EXISTS `blacklist`;
 DROP TABLE IF EXISTS `building`;
 DROP TABLE IF EXISTS `bus_line`;
 DROP TABLE IF EXISTS `comment`;
+DROP TABLE IF EXISTS `buildings_image`;
+DROP TABLE IF EXISTS `room_type_image`;
+DROP TABLE IF EXISTS `comment_id_image`;
+DROP TABLE IF EXISTS `image`;
 DROP TABLE IF EXISTS `reservation`;
 DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `room_type`;
@@ -143,11 +147,25 @@ insert into User(phone, name, email, password, image_ID) values ('17138688888', 
 insert into User(phone, name, email, password, image_ID) values ('18138688888', 'juan', '111@abc.com', '123456',4);
 
 
-insert into Building(name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID) values ('琳恩图书馆', '08:00:00', '22:00:00', '图书馆', '图书馆是一个很好的地方', '图书馆', 'https://www.youtube.com/watch?v=9bZkp7q19f0', 1);
-insert into Building(name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID) values ('一丹图书馆', '08:00:00', '24:00:00', '图书馆', '图书馆是一个卷的地方', '图书馆', 'https://www.youtube.com/watch?v=9bZkp7q19f0', 2);
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID) values ('琳恩图书馆', '08:00:00', '22:00:00', '琳恩图书馆', '琳恩图书馆是一个图书馆', '行政楼', 'https://www.bilibili.com/video/BV1Y7411H7jZ', 1);
+insert into Room (building_ID, number, room_type_ID) values (1, 101, 1);
+insert into Room (building_ID, number, room_type_ID) values (1, 102, 1);
+insert into Room (building_ID, number, room_type_ID) values (1, 103, 1);
 
-insert into Comment(user_ID, time, text, building_ID, score, admin_ID) values (1, '2023-12-01 12:00:00', '这真tm是一个好地方啊', 1, 0, 1);
-insert into Comment(user_ID, time, text, building_ID, score, admin_ID) values (2, '2023-12-01 12:00:00', '这是一个卷地方', 1, 0, 1);
-insert into Comment(user_ID, time, text, building_ID, score, admin_ID) values (3, '2023-12-01 12:00:00', '这地方...', 1, 0, 1);
 
-insert into comment_id_image(comment_ID, image_ID) values (1, 1);
+insert into User(phone, name, email, password) values ('15138688888', 'evan', 'evan3li@outlook.com', '123456');
+insert into User(phone, name, email, password) values ('16138688888', 'ln', 'example@gmail.com', '123456');
+insert into User(phone, name, email, password) values ('17138688888', 'jimmy', '12112517@mail.sustech.edu.cn', '123456');
+insert into User(phone, name, email, password) values ('18138688888', 'juan', '111@abc.com', '123456');
+
+insert into Admin(name, phone, email, password) values ('admin', '15138688888', 'evan3li@outlook.com', '123456');
+
+insert into comment(comment_ID, user_ID, time, text,  building_ID, score, admin_ID) VALUE (1, 1, '2021-1-1', 'hhh',  1, 2.00, 1);
+
+insert into comment(comment_ID, user_ID, time, text,  building_ID, score, admin_ID) VALUE (2, 1, '2021-1-1', 'hhh',  1, 2.00, 1);
+
+insert into comment(comment_ID, user_ID, time, text,  building_ID, score, admin_ID) VALUE (3, 1, '2021-1-1', 'hhh',  2, 2.00, 1);
+
+insert into comment(comment_ID, user_ID, time, text,  building_ID, score, admin_ID) VALUE (4, 1, '2021-1-1', 'hhh',  2, 2.00, 0);
+
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID) values ('第一科研楼', '08:00:00', '22:00:00', '第一科研楼', '第一科研楼是一个科研楼', '科研楼', 'https://www.bilibili.com/video/BV1Y7411H7jZ', 1);

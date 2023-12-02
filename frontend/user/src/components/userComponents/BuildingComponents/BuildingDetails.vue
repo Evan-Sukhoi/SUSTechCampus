@@ -36,6 +36,7 @@ export default {
 .detail {
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 #sidebar {
@@ -50,6 +51,11 @@ export default {
   position: relative;
   left: 5%;
   width: 95%;
+  height: 100%;
+}
+
+.container{
+  height: 100%;
 }
 
 

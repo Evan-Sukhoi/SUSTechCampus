@@ -44,6 +44,7 @@ export const lang = {
   blog: 'Blog',
   introduction: 'Introduction',
   room: 'Room/Stall/Area',
+  capacity: 'Capacity',
   return: 'Return',
 
   /*building details*/

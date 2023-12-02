@@ -6,7 +6,7 @@
     <vs-tooltip shadow interactivity bottom style="float: right; margin-right: 10px">
       <vs-avatar circle :badge="isLogin" badge-color="success" >
         <i class="bx bx-question-mark" v-if="!isLogin"></i>
-        <img src="../../assets/pad(canDelete)/photo/img.png" alt="" v-if="isLogin">
+        <img :src="photo" alt="" v-if="isLogin">
       </vs-avatar>
       <template #tooltip>
         <div v-if="isLogin">
@@ -120,7 +120,7 @@ export default {
         if (resp.status == 200){
           this.active = false
           this.isLogin = true
-          this.photo = '../assets/pad(canDelete)/photo/img.png'
+          this.photo = resp.data.data.imageUrl
           if (this.remember){
             localStorage.setItem('username', this.username)
             localStorage.setItem('password', this.password)
@@ -129,6 +129,7 @@ export default {
           // localStorage.setItem('userID', userID)
           localStorage.setItem('photo', this.photo)
           localStorage.setItem('isLogin', this.isLogin)
+          localStorage.setItem('userID', resp.data.data.userId)
         }else {
           this.$vs.notification({
             color:'danger',

@@ -2,6 +2,7 @@
   <div class="map_content">
     <p>{{buildingId}}</p>
     {{this.building.name}}
+    {{this.building.introduction}}
     <button @click="handleLink(buildingId)">see more details</button>
   </div>
 </template>
