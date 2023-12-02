@@ -28,7 +28,11 @@ public interface PublicService {
 
     UserInfo login(String username, String password);
 
-    Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException;
+    Boolean register(String username, String password, String email, String phoneNumber, Integer authCode, MultipartFile file) throws IOException;
 
     List<Comment> getCommentByBuilding(Integer buildingId);
+
+    String authenticate(String username, String password);
+
+    Boolean sendAuthCode(String email);
 }

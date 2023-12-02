@@ -11,6 +11,7 @@ import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -64,8 +65,6 @@ public interface AdminService {
      */
     Boolean deleteBuilding(Integer buildingId);
 
-    Boolean approveComment(Integer commentId, Integer adminId);
-
     /**
      * 删除教室信息
      * @param roomId 教室id
@@ -92,5 +91,9 @@ public interface AdminService {
 
     List<ReservationInfo> getReservationUserInfo(Integer userId);
 
+    Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException;
+
     List<CommentInfo> getAllComments();
+
+    public Boolean approveComment(Integer commentId, Integer adminId);
 }

@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @MappingController("/public")
 public class PublicController {
@@ -46,7 +50,6 @@ public class PublicController {
         );
     }
 
-
     @ApiOperation("根据建筑ID获取详细建筑信息")
     @RequestMapping("/building/get/details")
     public ApiResponse<BuildingInfo> getBuildingDetails(@RequestParam Integer buildingId) {
@@ -64,13 +67,24 @@ public class PublicController {
     }
 
 
-
     @ApiOperation("获取已审核通过的评论")
     @RequestMapping("/comment/get/approved")
     public ApiResponse<List<CommentInfo>> getApprovedComments(@ApiParam("id") @RequestParam Integer buildingId) {
         return ApiResponse.success(
                 publicService.getApprovedComments(buildingId)
         );
+    }
+
+    @ApiOperation("发送验证码")
+    @RequestMapping("/send-auth-code")
+    public ResponseEntity<Object> sendAuthCode(@ApiParam(required = true)
+                                               @Email @NotNull @RequestParam String email) {
+        try {
+            publicService.sendAuthCode(email);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } catch (ApiException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ApiOperation("访客登录")
@@ -83,20 +97,6 @@ public class PublicController {
                 )
         );
     }
-
-//    @ApiOperation("访客注册")
-//    @RequestMapping("/register")
-//    public ApiResponse<Boolean> register(@RequestBody @Validated RegisterParam registerParam) {
-//        return ApiResponse.success(
-//                publicService.register(
-//                        registerParam.getUsername(),
-//                        registerParam.getPassword(),
-//                        registerParam.getEmail(),
-//                        registerParam.getPhoneNumber(),
-//                        registerParam.getImage()
-//                )
-//        );
-//    }
 
     @ApiOperation("获取所有公交线路信息")
     @RequestMapping("/busline/all")
@@ -112,23 +112,25 @@ public class PublicController {
 
     /**
      * 这是新的注册方法
-     * @param file img文件
+     *
+     * @param file          img文件
      * @param registerParam json数据
      * @return
      */
     @ApiOperation("访客注册")
     @RequestMapping("/register")
-    public ResponseEntity<Object> register(@RequestPart MultipartFile file, @RequestPart @Validated RegisterParam registerParam){
+    public ResponseEntity<Object> register(@RequestPart MultipartFile file, @RequestPart @Validated RegisterParam registerParam) {
         try {
             publicService.register(
-                registerParam.getUsername(),
-                registerParam.getPassword(),
-                registerParam.getEmail(),
-                registerParam.getPhoneNumber(),
-                file);
+                    registerParam.getUsername(),
+                    registerParam.getPassword(),
+                    registerParam.getEmail(),
+                    registerParam.getPhoneNumber(),
+                    registerParam.getAuthCode(),
+                    file);
             System.out.println("ok");
             return new ResponseEntity<>("", HttpStatus.OK);
-        }catch (ApiException e){
+        } catch (ApiException e) {
             System.out.println(e);
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         } catch (IOException e) {

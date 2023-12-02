@@ -87,7 +87,7 @@
           <template #expand>
             <div class="con-content">
               <div>
-                <vs-button border danger @click="disapproveComment(tr.commentId, tr)" :disabled="tr.adminId === 0">
+                <vs-button border danger @click="disapproveComment(tr.commentId, tr)" :disabled="tr.adminId === 0" >
                   disapprove
                 </vs-button>
                 <vs-button border safe @click="approveComment(tr.commentId, tr)" :disabled="tr.adminId > 0">
@@ -106,8 +106,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: 'CommentManage',
   data() {
@@ -118,7 +116,7 @@ export default {
       search: '',
       allCheck: false,
       page: 1,
-      max: 10,
+      max: 5,
       active: 0,
       selected: [],
       comments: [],
@@ -129,7 +127,7 @@ export default {
   },
   methods: {
     fetchCommentData() {
-      axios.get(`http://localhost:8081/admin/comment/all`,)
+      this.$http.get(`/admin/comment/all`,)
           .then(response => {
             this.comments = response.data;
             console.log(response.data);
@@ -140,7 +138,7 @@ export default {
           });
     },
     approveComment(id, tr) {
-      axios.post(`http://localhost:8081/admin/comment/approve?commentId=${id}&adminId=1`)
+      this.$http.post(`/admin/comment/approve?commentId=${id}&adminId=1`)
           .then(response => {
           })
           .catch(function (error) {
@@ -151,7 +149,7 @@ export default {
     },
 
     disapproveComment(id, tr) {
-      axios.post(`http://localhost:8081/admin/comment/approve?commentId=${id}&adminId=0`)
+      this.$http.post(`/admin/comment/approve?commentId=${id}&adminId=0`)
           .then(response => {
           })
           .catch(function (error) {

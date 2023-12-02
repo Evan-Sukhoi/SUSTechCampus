@@ -51,7 +51,6 @@
 
 
 <script>
-import axios from "axios";
 import FormData from "form-data";
 
 export default {
@@ -85,7 +84,7 @@ export default {
       }
       formData.append('commentParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
       console.log(formData)
-      axios.post('http://localhost:8081/user/comment/upload',  formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
+      this.$http.post('/user/comment/upload',  formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
             console.log(resp)});
       this.newComment.text = ''
       this.photos = []
@@ -105,7 +104,7 @@ export default {
 
 
     fetchCommentData(id) {
-      axios.get(`http://localhost:8081/public/comment/get/approved?buildingId=${id}`,)
+      this.$http.get(`/public/comment/get/approved?buildingId=${id}`,)
           .then(response => {
             this.comments = response.data.data;
             console.log(response.data);

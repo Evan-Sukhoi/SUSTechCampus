@@ -15,4 +15,5 @@ public class UserInfo {
     private String phone;
     private String email;
     private String imageUrl;
+    private String token;
 }

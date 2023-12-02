@@ -23,6 +23,7 @@ public class BuildingInfo {
     private String locationName;
     private String introduction;
     private String nearestStation;
+    private String buildingType;
     private String videoUrl;
     private String coverUrl;
     private List<String> imageUrl;

@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "BuildingIntro",
   data() {
@@ -54,7 +52,7 @@ export default {
   },
   methods: {
     fetchBuildingData(id) {
-      axios.get(`http://localhost:8081/public/building/get/details?buildingId=${id}`)
+      this.$http.get(`/public/building/get/details?buildingId=${id}`)
           .then(response => {
             this.building = response.data.data;
             console.log(response.data);

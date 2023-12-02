@@ -5,21 +5,28 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
+import com.sustech.campus.database.utils.RedisUtil;
 import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.PublicService;
-import io.swagger.models.auth.In;
+import com.sustech.campus.utils.AuthCodeUtil;
+import com.sustech.campus.utils.EmailUtil;
+import com.sustech.campus.web.utils.JwtUtil;
 import jakarta.annotation.Resource;
 
-import lombok.Builder;
-import lombok.extern.java.Log;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
@@ -38,6 +45,10 @@ public class PublicServiceImpl implements PublicService {
     private ImageDao imageDao;
     @Resource
     private UserDao userDao;
+    @Resource
+    private RedisUtil redis;
+    @Resource
+    private LoginLogDao loginLogDao;
     @Resource
     private CommentIdImageDao commentIdImageDao;
     @Autowired
@@ -58,11 +69,11 @@ public class PublicServiceImpl implements PublicService {
 
     @Override
     public List<BuildingInfoSimple> getSimpleBuildingInfo() {
-        return buildingDao.selectJoinList(
-                BuildingInfoSimple.class,
+        List<Building> buildings = buildingDao.selectList(
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId, Building::getBuildingType)
         );
+        return buildings.stream().map(building -> getBuildingInfoSimpleThroughId(building.getBuildingId())).toList();
     }
 
     @Override
@@ -80,7 +91,9 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getBuildingType)
+                        .leftJoin(Image.class, Image::getImageId, Building::getCoverId)
+                        .selectAs(Image::getImageUrl, BuildingInfoSimple::getCoverUrl)
                         .eq(Building::getBuildingId, buildingId)
         );
     }
@@ -129,6 +142,7 @@ public class PublicServiceImpl implements PublicService {
                 .introduction(building.getIntroduction())
                 .nearestStation(building.getNearestStation())
                 .videoUrl(building.getVideoUrl())
+                .buildingType(building.getBuildingType())
                 .coverUrl(cover_url)
                 .imageUrl(image_url)
                 .build();
@@ -184,11 +198,23 @@ public class PublicServiceImpl implements PublicService {
         }
         User user = userDao.selectOne(queryWrapper);
         asserts(user != null, "用户不存在");
+        asserts(user.getPassword().equals(password), "密码错误");
+        // TODO: 密码加密
 //        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
 
-        // TODO: 添加login log和authenticate
+        // 添加login log和authenticate
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        loginLogDao.insert(new LoginLog()
+                .setUserId(user.getUserId())
+                .setIpAddress(request.getRemoteAddr())
+                .setPort(request.getRemotePort())
+                .setPort(request.getRemotePort())
+                .setLoginTime(new Date()));
+
+        String token = authenticate(user.getName(), user.getPassword());
 
         return UserInfo.builder()
+                .token(token)
                 .userId(user.getUserId())
                 .name(user.getName())
                 .email(user.getEmail())
@@ -198,7 +224,33 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException {
+    public String authenticate(String username, String password) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        redis.setObject("login:" + username, username, 60 * 60 * 2);
+        return JwtUtil.createJwt(username);
+    }
+
+    @Resource
+    private EmailUtil emailUtil;
+    @Override
+    public Boolean sendAuthCode(String email) {
+        asserts(email != null, "邮箱不能为空");
+        asserts(email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
+        asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)) == null, "该邮箱已被注册");
+
+        String code = AuthCodeUtil.generateAuthCode();
+        String content = "您的验证码为：" + code + "，有效期为5分钟。请勿泄露给他人。";
+        String subject = "SUSTech Campus-注册验证码-" + code;
+        emailUtil.sendMail(email, subject, content);
+
+        redis.setObject("verification:" + email, code, 60 * 5);
+
+        return true;
+    }
+
+    @Override
+    public Boolean register(String username, String password, String email, String phoneNumber, Integer authCode, MultipartFile file) throws IOException {
         asserts(username != null && password != null && email != null && phoneNumber != null, "用户名、密码、邮箱、手机号不能为空");
         asserts(username.length() >= 3 && username.length() <= 20, "用户名长度应在3-20之间");
         asserts(password.length() >= 6 && password.length() <= 20, "密码长度应在6-20之间");
@@ -207,6 +259,11 @@ public class PublicServiceImpl implements PublicService {
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getName, username)) == null, "该用户名已被注册");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)) == null, "该邮箱已被注册");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone, phoneNumber)) == null, "该手机号已被注册");
+
+        String trueCode = redis.getObject("verification:" + email);
+
+        asserts(trueCode != null, "验证码已过期");
+        asserts(authCode.equals(Integer.parseInt(trueCode)), "验证码错误");
 
         String url = imgHostUploader.upload(file);
         Image image = Image.builder()

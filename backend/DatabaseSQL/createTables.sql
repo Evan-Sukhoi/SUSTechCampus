@@ -79,7 +79,7 @@ CREATE TABLE Room (
                       PRIMARY KEY (room_ID)
 );
 
-DROP TABLE 'Room_type' IF EXISTS;
+DROP TABLE IF EXISTS 'Room_type';
 -- 房间类型表
 CREATE TABLE Room_type (
                            room_type_ID INT AUTO_INCREMENT,
@@ -141,6 +141,14 @@ CREATE TABLE Reservation (
                              user_ID INT,
                              description TEXT,
                              PRIMARY KEY (Reservation_ID)
+);
+DROP TABLE IF EXISTS `loginlog`;
+CREATE TABLE login_log(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_ID INT,
+    login_time TIMESTAMP,
+    ip_address VARCHAR(255),
+    port VARCHAR(255)
 );
 
 
