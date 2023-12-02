@@ -118,7 +118,7 @@ export default {
       search: '',
       allCheck: false,
       page: 1,
-      max: 10,
+      max: 5,
       active: 0,
       selected: [],
       comments: [],
