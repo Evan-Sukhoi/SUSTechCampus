@@ -18,7 +18,7 @@ public interface UserService{
      * 上传评论
      * @param userId 用户ID
      */
-    Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos) throws IOException;
+    Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> files) throws IOException;
 
     /**
      * 根据建筑ID获取教室信息
