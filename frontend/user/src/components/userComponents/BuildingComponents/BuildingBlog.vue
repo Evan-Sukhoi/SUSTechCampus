@@ -40,7 +40,7 @@
         </div>
 
         <el-form-item>
-          <el-button type="primary" @click="submitComment">提交评论</el-button>
+          <el-button type="primary" native-type="submit" @click="submitComment">提交评论</el-button>
         </el-form-item>
       </el-form>
     </div>

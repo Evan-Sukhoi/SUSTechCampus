@@ -5,6 +5,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,8 @@ public interface AdminService {
      */
     Boolean deleteBuilding(Integer buildingId);
 
+    Boolean approveComment(Integer commentId, Integer adminId);
+
     /**
      * 删除教室信息
      * @param roomId 教室id
@@ -88,4 +91,6 @@ public interface AdminService {
     List<Reservation> getReservationRoomInfo(Integer roomId);
 
     List<ReservationInfo> getReservationUserInfo(Integer userId);
+
+    List<CommentInfo> getAllComments();
 }

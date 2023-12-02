@@ -138,7 +138,7 @@ public class PublicServiceImpl implements PublicService {
     public List<CommentInfo> getApprovedComments(Integer buildingId) {
         List<Comment> comments = commentDao.selectList(
                 new MPJLambdaWrapper<Comment>()
-                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore)
+                        .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
                         .eq(Comment::getBuildingId, buildingId)
                         .ne(Comment::getAdminId, 0)
         );
@@ -169,6 +169,7 @@ public class PublicServiceImpl implements PublicService {
                     .username(user.getName())
                     .userImageUrl(userImageUrl)
                     .imageUrl(image_url)
+                    .adminId(comment.getAdminId())
                     .build();
         }).collect(Collectors.toList());
     }
