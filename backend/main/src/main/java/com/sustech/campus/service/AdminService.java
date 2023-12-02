@@ -5,6 +5,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.stereotype.Service;
@@ -91,4 +92,8 @@ public interface AdminService {
     List<ReservationInfo> getReservationUserInfo(Integer userId);
 
     Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException;
+
+    List<CommentInfo> getAllComments();
+
+    Boolean approveComment(Integer commentId, Integer adminId);
 }
