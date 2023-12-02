@@ -15,4 +15,5 @@ public class RoomType {
     private Integer roomTypeId;
     private String type;
     private Integer capacity;
+    private String description;
 }

@@ -1,11 +1,8 @@
 <template>
-  <div>
+  <div id="out_container">
     <div class="map">
       <div id="container"></div>
-
-      <!--    <div class="navigation-btn-container">-->
-      <!--      <button class="navigation-btn" @click="enterNavigation">进入导航</button>-->
-      <!--    </div>-->
+      <div id="panel" v-if="showPanel"></div>
     </div>
 
     <div class="map_content">
@@ -78,9 +75,14 @@ export default {
       endBuildingId: "2",
       startStation: "行政楼",
       endStation: "科研楼",
-      startPoint: "",
-      endPoint: "",
+      startPoint: [],
+      startMarker: '',
+      endPoint: [],
+      endMarker: '',
       buildings: [],
+      walking: '',
+      showPanel: false,
+
     }
   },
   mounted() {
@@ -185,9 +187,59 @@ export default {
                   InfoWindowContent.$destroy();
                 });
               }.bind(this));
-
-
             }
+
+            var startIcon = new AMap.Icon({
+              // 图标尺寸
+              size: new AMap.Size(25, 34),
+              // 图标的取图地址
+              image: '//a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png',
+              // 图标所用图片大小
+              imageSize: new AMap.Size(135, 40),
+              // 图标取图偏移量
+              imageOffset: new AMap.Pixel(-9, -3)
+            });
+
+            this.startPoint = [113.997784, 22.594813];
+            this.startMarker = new this.AMap.Marker({
+              position: this.startPoint,
+              title: '起点',
+              icon: startIcon,
+            });
+
+            this.map.add(this.startMarker);
+            this.startMarker.hide();
+            this.startMarker.on('dragend', this.start);
+
+            var endIcon = new AMap.Icon({
+              size: new AMap.Size(25, 34),
+              image: '//a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png',
+              imageSize: new AMap.Size(135, 40),
+              imageOffset: new AMap.Pixel(-95, -3)
+            });
+
+            this.endPoint = [this.longitude, this.latitude,];
+            this.endMarker = new this.AMap.Marker({
+              position: this.endPoint,
+              title: '终点',
+              icon: endIcon,
+            });
+            this.map.add(this.endMarker);
+            this.endMarker.hide();
+            this.endMarker.on('dragend', this.start);
+
+            var walkOption = {
+              map: this.map,
+              panel: "panel",
+              hideMarkers: true,
+              isOutline: true,
+              outlineColor: '#ffeeee',
+              autoFitView: true,
+            }
+
+            this.walking = new this.AMap.Walking(walkOption)
+
+            //根据起终点坐标规划步行路线
 
             this.map.on("click", this.handleMapClick.bind(this));
           })
@@ -251,22 +303,46 @@ export default {
     },
     startNavigation() {
       this.isNavigating = !this.isNavigating;
-
+      if (this.isNavigating) {
+        this.startMarker.show();
+        this.endMarker.show();
+        this.showPanel = true;
+        this.start();
+      } else {
+        this.startMarker.hide();
+        this.endMarker.hide();
+        this.showPanel = false;
+        this.walking.clear();
+      }
     },
 
     chooseStart() {
       this.selectedStart = !this.selectedStart;
-      this.startPoint = [this.latitude, this.longitude];
-      const marker = new this.AMap.Marker({
-        position: this.startPoint,   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-        title: '起点'
-      });
-      this.map.add(marker);
+      if (this.selectedStart) {
+        this.startMarker.setDraggable(true);
+      } else {
+        this.startMarker.setDraggable(false);
+      }
     },
 
     chooseEnd() {
       this.selectedEnd = !this.selectedEnd;
-      this.endPoint = [this.latitude, this.longitude];
+      if (this.selectedEnd) {
+        this.endMarker.setDraggable(true);
+      } else {
+        this.endMarker.setDraggable(false);
+      }
+    },
+
+    start() {
+      this.walking.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function(status, result) {
+        // result即是对应的不行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_RidingResult
+        if (status === 'complete') {
+          console.log('步行路线数据查询成功')
+        } else {
+          console.log('步行路线数据查询失败' + result)
+        }
+      });
     }
 
 
@@ -277,12 +353,35 @@ export default {
 <style scoped>
 .map {
   position: relative;
+  height: 100%;
+  width: 100%;
 }
-
+#out_container{
+  height: 99%;
+  width: 100%;
+}
 #container {
   width: 100%;
-  height: 700px;
-  z-index: 1;
+  height: 100%;
+}
+#panel {
+  position: fixed;
+  background-color: white;
+  max-height: 90%;
+  overflow-y: auto;
+  top: 10%;
+  right: 8%;
+  width: 280px;
+}
+#panel .amap-call {
+  background-color: #009cf9;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+#panel .amap-lib-walking {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  overflow: hidden;
 }
 
 .map_content {
