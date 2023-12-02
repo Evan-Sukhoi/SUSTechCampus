@@ -47,10 +47,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //关闭Session(不通过Session获取SecurityContext)
                 .authorizeHttpRequests(
                         authorize -> authorize //注意：这里定义的顺序也有影响，**定义在前面的不会被后面的覆盖**
-                                .requestMatchers(new AntPathRequestMatcher("/user/upload-headshot")).authenticated() //上传头像时需要token
-                                .requestMatchers(new AntPathRequestMatcher("/user/change-headshot")).authenticated()
-                                .requestMatchers(new AntPathRequestMatcher("/user/**")).anonymous()
+//                                .requestMatchers(new AntPathRequestMatcher("/user/upload-headshot")).authenticated() //上传头像时需要token
+//                                .requestMatchers(new AntPathRequestMatcher("/user/change-headshot")).authenticated()
+//                                .requestMatchers(new AntPathRequestMatcher("/user/**")).anonymous()
                                 .requestMatchers(new AntPathRequestMatcher("/public/**")).permitAll() //放行获取信息相关URL
+                                .requestMatchers(new AntPathRequestMatcher("/admin/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/websocket/**")).permitAll()
 //                                .requestMatchers("/doc.html", "/webjars/**", "/img.icons/**", "/swagger-resources", "/v2/api-docs", "/favicon.ico").permitAll() //放行Knife4j相关URL
                                 .anyRequest().authenticated()

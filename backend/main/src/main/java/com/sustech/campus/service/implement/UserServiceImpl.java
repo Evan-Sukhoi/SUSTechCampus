@@ -5,6 +5,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
+import com.sustech.campus.model.vo.AvailableReservationInfo;
 import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId) {
+        return null;
+    }
+
+    @Override
+    public AvailableReservationInfo getReservation(Integer buildingId) {
         return null;
     }
 }

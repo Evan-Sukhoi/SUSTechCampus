@@ -2,6 +2,9 @@ SELECT CONCAT('DROP TABLE IF EXISTS `', table_name, '`;') AS statement
 FROM information_schema.tables
 WHERE table_schema = 'ooad';
 
+SET time_zone = '+8:00';
+show variables like '%time%';
+
 DROP TABLE IF EXISTS `admin`;
 DROP TABLE IF EXISTS `blacklist`;
 DROP TABLE IF EXISTS `building`;
@@ -70,6 +73,7 @@ CREATE TABLE Buildings_Image (
                                  image_ID INT
 );
 
+DROP TABLE IF EXISTS `Room`;
 -- 房间表
 CREATE TABLE Room (
                       room_ID INT AUTO_INCREMENT,
@@ -250,7 +254,7 @@ insert into Room(building_ID, number, room_type_ID) values (1, 407, 9);
 
 -- 一丹图书馆
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID)
-values ('一丹图书馆', '00:00:00', '24:00:00', '一丹图书馆', '一丹图书馆是一个图书馆', '科研楼', 'https://www.bilibili.com/video/BV1Y7411H7jZ', 1);
+values ('一丹图书馆', '08:00:00', '23:59:59', '一丹图书馆', '一丹图书馆是一个图书馆', '科研楼', 'https://www.bilibili.com/video/BV1Y7411H7jZ', 1);
 
 insert into Room_type(type, capacity, description)
 values ('密集书库', 50, "位于一丹图书馆一楼，共有六联双面书架34列，目前收藏A-E类、T类图书复本，采取开架借阅管理方式。紧密排列的书架，手摇式移动展开，让读者体验不一样的找书乐趣。");

@@ -26,6 +26,16 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @ApiOperation("用户获取可用预约时段")
+    @RequestMapping("/reservation/get")
+    public ResponseEntity<Object> getReservation(@RequestParam Integer buildingId) {
+        try{
+            return ResponseEntity.ok().body(userService.getReservation(buildingId));
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation("用户发起预约请求")
     @RequestMapping("/reservation/post")
     public ApiResponse<Boolean> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {

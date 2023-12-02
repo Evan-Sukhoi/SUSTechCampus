@@ -7,6 +7,7 @@ import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.PublicService;
+import io.swagger.models.auth.In;
 import jakarta.annotation.Resource;
 
 import lombok.Builder;
@@ -99,9 +100,26 @@ public class PublicServiceImpl implements PublicService {
                         .eq(Building::getBuildingId, buildingId)
         );
         List<String> image_url = buildingsImages.stream().map(buildingsImage -> {
-            return imageDao.selectById(buildingsImage.getImageId()).getImageUrl();
+            Image image = imageDao.selectById(buildingsImage.getImageId());
+            if (image == null) {
+                LOGGER.warn("imageDao.selectById(buildingsImage.getImageId()) == null");
+                return null;
+            }
+            String url = image.getImageUrl();
+            if (url == null) {
+                LOGGER.warn("imageDao.selectById(buildingsImage.getImageId()).getImageUrl() == null");
+                return null;
+            } else {
+                return url;
+            }
         }).toList();
-        String cover_url = imageDao.selectById(building.getCoverId()).getImageUrl();
+        String cover_url = null;
+        Image image = imageDao.selectById(building.getCoverId());
+        if (image == null) {
+            LOGGER.warn("imageDao.selectById(building.getCoverId()) == null");
+        } else {
+            cover_url = image.getImageUrl();
+        }
         return BuildingInfo.builder()
                 .buildingId(building.getBuildingId())
                 .name(building.getName())
