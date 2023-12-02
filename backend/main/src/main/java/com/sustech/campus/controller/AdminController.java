@@ -7,15 +7,19 @@ import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.param.ReserveRoomInfoParam;
 import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
 
+import com.sustech.campus.web.handler.ApiException;
 import jakarta.annotation.Resource;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Time;
 import java.util.List;
+import java.util.Objects;
 
 @MappingController("/admin")
 public class AdminController {
@@ -138,12 +143,14 @@ public class AdminController {
 
     @ApiOperation("管理员查看一个用户的预约请求")
     @RequestMapping("/reservation/user")
-    public ApiResponse<List<Reservation>> getUserReservation(@RequestBody @Validated ReserveUserInfoParam reserveUserInfoParam) {
-        return ApiResponse.success(
-                adminService.getReservationUserInfo(
-                        reserveUserInfoParam.getUserId()
-                )
-        );
+    public ResponseEntity<Object> getUserReservation(@RequestBody @Validated ReserveUserInfoParam reserveUserInfoParam) {
+        try {
+            List<ReservationInfo> reservations = adminService.getReservationUserInfo(
+                    reserveUserInfoParam.getUserId()
+            );
+            return ResponseEntity.ok(reservations);
+        }catch (ApiException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
 }

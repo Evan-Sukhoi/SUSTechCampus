@@ -1,25 +1,26 @@
 package com.sustech.campus.service.implement;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.yulichang.toolkit.Asserts;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.sustech.campus.database.dao.ReservationDao;
-import com.sustech.campus.database.dao.UserDao;
-import com.sustech.campus.database.po.Building;
-import com.sustech.campus.database.po.Reservation;
-import com.sustech.campus.database.po.Room;
-import com.sustech.campus.database.dao.BuildingDao;
-import com.sustech.campus.database.dao.RoomDao;
-import com.sustech.campus.database.po.User;
+import com.sustech.campus.database.dao.*;
+import com.sustech.campus.database.po.*;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
 
 import jakarta.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -31,10 +32,16 @@ public class AdminServiceImpl implements AdminService {
     private RoomDao roomDao;
 
     @Resource
+    private RoomTypeDao roomTypeDao;
+
+    @Resource
     private UserDao usersDao;
 
     @Resource
     private ReservationDao reservationDao;
+
+    @Resource
+    private BlacklistDao blacklistDao;
 
     @Override
     public User getUserInfo(Integer userId) {
@@ -77,7 +84,7 @@ public class AdminServiceImpl implements AdminService {
         return buildingDao.selectJoinList(
                 BuildingInfo.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
                         .eq(Building::getBuildingId, 1)
         );
     }
@@ -155,7 +162,35 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Reservation> getReservationUserInfo(Integer userId) {
-        return null;
+    public List<ReservationInfo> getReservationUserInfo(Integer userId) {
+        asserts(userId != null, "用户id不能为空");
+        User user = usersDao.selectById(userId);
+        asserts(user != null, "用户不存在");
+        asserts(blacklistDao.selectOne(new MPJLambdaWrapper<Blacklist>()
+                .eq(Blacklist::getUserId, userId)
+        ) == null, "用户已被拉黑");
+
+        List<Reservation> reservations = reservationDao.selectList(
+                new LambdaQueryWrapper<Reservation>()
+                        .eq(Reservation::getUserId, userId)
+        );
+
+        return reservations.stream().map(reservation -> {
+            Room room = roomDao.selectById(reservation.getRoomId());
+            Building building = buildingDao.selectById(room.getBuildingId());
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            return ReservationInfo.builder()
+                    .reservationId(reservation.getReservationId())
+                    .roomId(reservation.getRoomId())
+                    .userId(reservation.getUserId())
+                    .startTime(reservation.getStartTime())
+                    .endTime(reservation.getEndTime())
+                    .description(reservation.getDescription())
+                    .userName(user.getName())
+                    .roomType(roomType.getType())
+                    .buildingName(building.getName())
+                    .buildingType(building.getBuildingType())
+                    .build();
+        }).collect(Collectors.toList());
     }
 }

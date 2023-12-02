@@ -68,7 +68,7 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingInfo.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getOpen_time, Building::getClose_time, Building::getLocation_name, Building::getIntroduction, Building::getNearest_station, Building::getVideo_url, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
                         .eq(Building::getBuildingId, buildingId)
         );
     }

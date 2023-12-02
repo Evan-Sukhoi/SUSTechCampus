@@ -18,7 +18,11 @@ public class ReservationInfo {
     private Integer userId;
     private Date startTime;
     private Date endTime;
+    private String description;
 
     private String userName;
     private String roomType;
+
+    private String buildingName;
+    private String buildingType;
 }
