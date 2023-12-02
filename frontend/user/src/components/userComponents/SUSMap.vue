@@ -305,7 +305,7 @@ export default {
       var lat = e.lnglat.getLat();
       this.latitude = lat;
       this.longitude = lng;
-      console.log("你点击了地图在经度" + lng + "，纬度" + lat + "的位置");
+      console.log("[" + lng + "," + lat + "]");
       if (this.infoWindow) {
         this.infoWindow.close();
       }
