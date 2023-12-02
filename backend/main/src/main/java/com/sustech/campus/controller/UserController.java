@@ -10,6 +10,7 @@ import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
 import com.sustech.campus.web.handler.ApiException;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ public class UserController {
 
     @ApiOperation("用户获取可用预约时段")
     @RequestMapping("/reservation/get")
-    public ResponseEntity<Object> getReservation(@RequestParam Integer buildingId) {
+    public ResponseEntity<Object> getReservation(@ApiParam("建筑id") @RequestParam Integer buildingId) {
         try{
             return ResponseEntity.ok().body(userService.getReservation(buildingId));
         } catch (ApiException e) {

@@ -65,5 +65,5 @@ public interface UserService{
 
     Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId);
 
-    AvailableReservationInfo getReservation(Integer buildingId);
+    List<AvailableReservationInfo> getReservation(Integer buildingId);
 }
