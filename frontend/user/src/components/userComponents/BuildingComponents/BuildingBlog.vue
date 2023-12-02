@@ -5,10 +5,12 @@
         <div id="comment">
           <div v-for="comment in comments" :key="comment.id" class="comment">
             <div>{{ comment.username }}</div>
-            <el-image :src="comment.userImageUrl" alt="User Image"/>
+            <img :src="comment.userImageUrl" alt="User Image" width="20px">
             <div>{{ comment.time }}</div>
             <div class="comment-text">{{ comment.text }}</div>
-
+            <div v-for="img in comment.imageUrl">
+              <img :src="img" alt="comment image" width="100px">
+            </div>
           </div>
         </div>
       </el-scrollbar>
