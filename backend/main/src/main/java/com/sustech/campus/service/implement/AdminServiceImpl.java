@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private BlacklistDao blacklistDao;
-
+    @Resource
     private PublicService publicService;
 
     @Override
