@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class BuildingInfoSimple {
     private Integer buildingId;
     private String name;
-    private String coverId;
+    private String coverUrl;
     private String introduction;
+    private String buildingType;
 }

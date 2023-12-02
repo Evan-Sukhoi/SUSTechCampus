@@ -50,7 +50,6 @@ public class PublicController {
         );
     }
 
-
     @ApiOperation("根据建筑ID获取详细建筑信息")
     @RequestMapping("/building/get/details")
     public ApiResponse<BuildingInfo> getBuildingDetails(@RequestParam Integer buildingId) {

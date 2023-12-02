@@ -95,5 +95,5 @@ public interface AdminService {
 
     List<CommentInfo> getAllComments();
 
-    Boolean approveComment(Integer commentId, Integer adminId);
+    public Boolean approveComment(Integer commentId, Integer adminId);
 }

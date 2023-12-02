@@ -69,11 +69,11 @@ public class PublicServiceImpl implements PublicService {
 
     @Override
     public List<BuildingInfoSimple> getSimpleBuildingInfo() {
-        return buildingDao.selectJoinList(
-                BuildingInfoSimple.class,
+        List<Building> buildings = buildingDao.selectList(
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId, Building::getBuildingType)
         );
+        return buildings.stream().map(building -> getBuildingInfoSimpleThroughId(building.getBuildingId())).toList();
     }
 
     @Override
@@ -91,7 +91,9 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getBuildingType)
+                        .leftJoin(Image.class, Image::getImageId, Building::getCoverId)
+                        .selectAs(Image::getImageUrl, BuildingInfoSimple::getCoverUrl)
                         .eq(Building::getBuildingId, buildingId)
         );
     }
