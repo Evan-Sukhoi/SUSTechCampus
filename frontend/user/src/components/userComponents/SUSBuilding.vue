@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     fetchBuildingData() {
-      axios.get("http://localhost:8081/public/building/get/simple")
+      this.$http("/public/building/get/simple")
           .then(response => {
             this.buildings = response.data.data;
             console.log(response.data);

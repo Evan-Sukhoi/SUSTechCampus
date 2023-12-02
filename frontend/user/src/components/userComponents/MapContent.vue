@@ -9,7 +9,6 @@
 
 <script>
 import router from "@/router";
-import axios from "axios";
 export default {
   data() {
     return {
@@ -32,7 +31,7 @@ export default {
     },
 
     fetchBuildingData() {
-      axios.get(`http://localhost:8081/public/building/get/simpleThroughId?buildingId=${this.buildingId}`)
+      this.$http.get(`/public/building/get/simpleThroughId?buildingId=${this.buildingId}`)
           .then(response => {
             this.building = response.data.data;
             console.log(response.data.data);
