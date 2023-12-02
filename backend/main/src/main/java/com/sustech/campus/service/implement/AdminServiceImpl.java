@@ -2,10 +2,10 @@ package com.sustech.campus.service.implement;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.yulichang.toolkit.Asserts;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
+import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
@@ -15,9 +15,9 @@ import com.sustech.campus.service.PublicService;
 import jakarta.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +25,9 @@ import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+    @Resource
+    private UserDao userDao;
 
     @Resource
     private BuildingDao buildingDao;
@@ -54,6 +57,9 @@ public class AdminServiceImpl implements AdminService {
     private BlacklistDao blacklistDao;
     @Resource
     private PublicService publicService;
+
+    @Resource
+    private ImgHostUploader imgHostUploader;
 
     @Override
     public User getUserInfo(Integer userId) {
@@ -211,5 +217,34 @@ public class AdminServiceImpl implements AdminService {
                     .roomTypeImages(image_url)
                     .build();
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException {
+        asserts(username != null && password != null && email != null && phoneNumber != null, "用户名、密码、邮箱、手机号不能为空");
+        asserts(username.length() >= 3 && username.length() <= 20, "用户名长度应在3-20之间");
+        asserts(password.length() >= 6 && password.length() <= 20, "密码长度应在6-20之间");
+        asserts(email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
+        asserts(phoneNumber.matches("^\\d{11}$"), "手机号格式不正确");
+        asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getName, username)) == null, "该用户名已被注册");
+        asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)) == null, "该邮箱已被注册");
+        asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone, phoneNumber)) == null, "该手机号已被注册");
+
+        String url = imgHostUploader.upload(file);
+        Image image = Image.builder()
+                .imageUrl(url)
+                .build();
+        imageDao.insert(image);
+
+        User user = User.builder()
+                .name(username)
+//                .password(passwordEncoder.encode(password))
+                .password(password)
+                .email(email)
+                .phone(phoneNumber)
+                .imageId(image.getImageId())
+                .build();
+        userDao.insert(user);
+        return true;
     }
 }

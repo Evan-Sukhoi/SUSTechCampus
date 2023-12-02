@@ -9,18 +9,18 @@ import jakarta.annotation.Resource;
 import java.util.List;
 
 @Component
-public class EmailUtils {
+public class EmailUtil {
 
     @Resource
     private JavaMailSender mailSender;
     @Value("${spring.mail.username}")
     private String from;
 
-    public void sendMail(String to,String content,String subject){
+    public void sendMail(String to, String content, String subject){
         sendMail(List.of(to),content,subject);
     }
 
-    public void sendMail(List<String> to, String content, String subject){
+    public void sendMail(List<String> to, String subject, String content){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setTo(to.toArray(new String[0]));

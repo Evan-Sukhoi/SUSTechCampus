@@ -38,6 +38,13 @@ public class WebConfig implements WebMvcConfigurer {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * SpringSecurity配置
+     * https://stackoverflow.com/questions/74683225/updating-to-spring-security-6-0-replacing-removed-and-deprecated-functionality
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -45,7 +52,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .cors().and() //开启SpringSecurity跨域
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //关闭Session(不通过Session获取SecurityContext)
                 .authorizeHttpRequests(
-                        authorize -> authorize //注意：这里定义的顺序也有影响，**定义在前面的不会被后面的覆盖**
+                        auth -> auth //定义在前面的会覆盖后面的
 //                                .requestMatchers(new AntPathRequestMatcher("/user/upload-headshot")).authenticated() //上传头像时需要token
 //                                .requestMatchers(new AntPathRequestMatcher("/user/change-headshot")).authenticated()
 //                                .requestMatchers(new AntPathRequestMatcher("/user/**")).anonymous()
@@ -53,7 +60,7 @@ public class WebConfig implements WebMvcConfigurer {
                                 .requestMatchers(new AntPathRequestMatcher("/admin/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/websocket/**")).permitAll()
-//                                .requestMatchers("/doc.html", "/webjars/**", "/img.icons/**", "/swagger-resources", "/v2/api-docs", "/favicon.ico").permitAll() //放行Knife4j相关URL
+                                .requestMatchers("/doc.html", "/webjars/**", "/img.icons/**", "/swagger-resources", "/v2/api-docs", "/favicon.ico").permitAll() //放行Knife4j相关URL
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and() //认证失败

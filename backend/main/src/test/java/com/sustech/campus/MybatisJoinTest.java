@@ -25,8 +25,8 @@ public class MybatisJoinTest {
     public void testSelect() {
         MPJLambdaWrapper<Room> wrapper = new MPJLambdaWrapper<Room>()
                 .selectAll(Room.class)
-                .select(Building::getName, Building::getBuilding_id)
-                .leftJoin(Building.class, Building::getBuilding_id, Room::getBuilding_id);
+                .select(Building::getName, Building::getBuildingId)
+                .leftJoin(Building.class, Building::getBuildingId, Room::getBuildingId);
 
         List<RoomInfo> userList = roomDao.selectJoinList(RoomInfo.class, wrapper);
 

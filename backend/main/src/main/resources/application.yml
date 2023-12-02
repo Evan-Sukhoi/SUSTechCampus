@@ -39,7 +39,7 @@ spring:
       port: 6379
   mail:
     username: 1916853516@qq.com
-    password: null
+    password: yrrezzmtsjpadggi
     host: smtp.qq.com
     properties:
       mail:

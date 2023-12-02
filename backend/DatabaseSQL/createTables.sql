@@ -147,6 +147,14 @@ CREATE TABLE Reservation (
                              PRIMARY KEY (Reservation_ID)
 );
 
+CREATE TABLE LoginLog(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_ID INT,
+    login_time TIMESTAMP,
+    ip_address VARCHAR(255),
+    port VARCHAR(255)
+);
+
 
 insert into User(phone, name, email, password, image_ID) values ('15138688888', 'evan', 'evan3li@outlook.com', '123456', 1);
 insert into User(phone, name, email, password, image_ID) values ('16138688888', 'ln', 'example@gmail.com', '123456', 2);
