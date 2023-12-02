@@ -79,7 +79,7 @@ CREATE TABLE Room (
                       PRIMARY KEY (room_ID)
 );
 
-DROP TABLE 'Room_type' IF EXISTS;
+DROP TABLE IF EXISTS 'Room_type';
 -- 房间类型表
 CREATE TABLE Room_type (
                            room_type_ID INT AUTO_INCREMENT,

@@ -15,5 +15,8 @@ public class RoomInfo {
     private Integer buildingId;
     private Integer number;
     private Integer room_type_id;
+    private String room_type_name;
+    private Integer capacity;
+    private String description;
     private String building_name;
 }
