@@ -5,6 +5,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.BuildingInfo;
+import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,5 +87,5 @@ public interface AdminService {
 
     List<Reservation> getReservationRoomInfo(Integer roomId);
 
-    List<Reservation> getReservationUserInfo(Integer userId);
+    List<ReservationInfo> getReservationUserInfo(Integer userId);
 }

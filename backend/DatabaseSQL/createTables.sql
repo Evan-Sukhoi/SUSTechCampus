@@ -127,6 +127,8 @@ CREATE TABLE Image (
                        image_url VARCHAR(255)
 );
 
+
+DROP TABLE IF EXISTS `Reservation`;
 -- 预订表
 CREATE TABLE Reservation (
                              Reservation_ID INT AUTO_INCREMENT,
@@ -134,6 +136,7 @@ CREATE TABLE Reservation (
                              start_time TIMESTAMP,
                              end_time TIMESTAMP,
                              user_ID INT,
+                             description TEXT,
                              PRIMARY KEY (Reservation_ID)
 );
 

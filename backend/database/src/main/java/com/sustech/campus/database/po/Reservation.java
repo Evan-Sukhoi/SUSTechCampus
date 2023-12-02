@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.sustech.campus.database.annotation.DateTimeField;
 
 import java.util.Date;
 
@@ -18,9 +19,13 @@ public class Reservation {
 
     private Integer roomId;
 
+    @DateTimeField
     private Date startTime;
 
+    @DateTimeField
     private Date endTime;
 
     private Integer userId;
+
+    private String description;
 }
