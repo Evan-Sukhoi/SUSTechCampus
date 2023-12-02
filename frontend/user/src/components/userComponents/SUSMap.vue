@@ -328,6 +328,7 @@ export default {
         this.showWalkingPanel = false;
         this.showDrivingPanel = false;
         this.walking.clear();
+        this.driving.clear();
       }
     },
 

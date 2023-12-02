@@ -142,8 +142,8 @@ CREATE TABLE Reservation (
                              description TEXT,
                              PRIMARY KEY (Reservation_ID)
 );
-
-CREATE TABLE LoginLog(
+DROP TABLE IF EXISTS `loginlog`;
+CREATE TABLE login_log(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_ID INT,
     login_time TIMESTAMP,
