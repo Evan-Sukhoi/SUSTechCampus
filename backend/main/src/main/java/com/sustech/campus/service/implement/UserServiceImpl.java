@@ -7,6 +7,7 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.vo.AvailableReservationInfo;
+import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.TimeUtil;
 import com.sustech.campus.web.handler.ApiException;
@@ -87,12 +88,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Room> getRoomByBuilding(Integer buildingId) {
+    public List<RoomInfo> getRoomByBuilding(Integer buildingId) {
         return roomDao.selectJoinList(
-                Room.class,
+                RoomInfo.class,
                 new MPJLambdaWrapper<Room>()
-                        .select(Room::getRoomId, Room::getBuildingId, Room::getNumber, Room::getRoomTypeId)
+                        .selectAll(Room.class)
                         .eq(Room::getBuildingId, buildingId)
+                        .select(Building::getName, Building::getBuildingId)
+                        .leftJoin(RoomType.class, RoomType::getRoomTypeId, Room::getRoomTypeId)
+                        .leftJoin(Building.class, Building::getBuildingId, Room::getBuildingId)
+                        .selectAs(RoomType::getType, RoomInfo::getRoomTypeName)
+                        .selectAs(RoomType::getCapacity, RoomInfo::getCapacity)
+                        .selectAs(RoomType::getDescription, RoomInfo::getDescription)
+                        .selectAs(Building::getName, RoomInfo::getBuildingName)
         );
     }
 

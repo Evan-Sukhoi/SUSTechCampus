@@ -79,7 +79,7 @@ CREATE TABLE Room (
                       PRIMARY KEY (room_ID)
 );
 
-DROP TABLE IF EXISTS 'Room_type';
+DROP TABLE IF EXISTS `Room_type`;
 -- 房间类型表
 CREATE TABLE Room_type (
                            room_type_ID INT AUTO_INCREMENT,
@@ -343,7 +343,7 @@ insert into Room_type_Image(room_type_ID, image_ID) values (16, 18);
 
 insert into Room(building_ID, number, room_type_ID) values (2, 303, 16);
 
-insert into Room_type(type, capacit, descriptiony)
+insert into Room_type(type, capacity, description)
 values ('协作学习区', 35, "位于一丹图书馆三楼楼梯转角处，用网纱和白板隔断出7个不同特色的协作学习空间，搭配高矮不一的各色家具、多功能一体机，使每个空间都有各自特色，读者可根据需求在网上预约适合的协作学习区来开展学习或活动。");
 insert into Image(image_url) values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/yidan_library/%E5%8D%8F%E4%BD%9C%E5%AD%A6%E4%B9%A0%E5%8C%BA.jpg');
 insert into Room_type_Image(room_type_ID, image_ID) values (17, 19);

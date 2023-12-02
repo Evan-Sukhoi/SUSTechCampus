@@ -25,7 +25,7 @@ public interface UserService{
      * @param buildingId 建筑ID
      * @return 教室信息
      */
-    List<Room> getRoomByBuilding(Integer buildingId);
+    List<RoomInfo> getRoomByBuilding(Integer buildingId);
 
 
     /**
