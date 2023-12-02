@@ -158,7 +158,6 @@ public class PublicServiceImpl implements PublicService {
             List<String> image_url = commentIdImages.stream().map(commentIdImage -> {
                 return imageDao.selectById(commentIdImage.getImageId()).getImageUrl();
             }).toList();
-
             return CommentInfo.builder()
                     .commentId(comment.getCommentId())
                     .userId(comment.getUserId())
