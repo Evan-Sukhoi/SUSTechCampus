@@ -8,13 +8,16 @@ import com.sustech.campus.model.param.ReserveUpdateParam;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
+import com.sustech.campus.web.handler.ApiException;
 import io.swagger.annotations.ApiOperation;
 import jakarta.annotation.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 
 @MappingController("/user")
@@ -62,16 +65,21 @@ public class UserController {
 
     @ApiOperation("上传评论")
     @RequestMapping("/comment/upload")
-    public ApiResponse<Boolean> uploadComment(@RequestBody @Validated CommentParam commentParam) {
-        return ApiResponse.success(
-                userService.uploadComment(
-                        commentParam.getUserId(),
-                        commentParam.getTime(),
-                        commentParam.getText(),
-                        commentParam.getBuildingId(),
-                        commentParam.getCommentPhotos()
-                        )
-        );
+    public ResponseEntity<Object> uploadComment(@RequestBody @Validated CommentParam commentParam) {
+        try {
+            userService.uploadComment(
+                    commentParam.getUserId(),
+                    commentParam.getTime(),
+                    commentParam.getText(),
+                    commentParam.getBuildingId(),
+                    commentParam.getCommentPhotos()
+            );
+            return ResponseEntity.ok().build();
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body("上传失败");
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 

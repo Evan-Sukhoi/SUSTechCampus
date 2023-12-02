@@ -35,6 +35,15 @@ public class AdminServiceImpl implements AdminService {
     private RoomTypeDao roomTypeDao;
 
     @Resource
+    private CommentDao commentDao;
+
+    @Resource
+    private RoomTypeImageDao roomTypeImageDao;
+
+    @Resource
+    private ImageDao imageDao;
+
+    @Resource
     private UserDao usersDao;
 
     @Resource
@@ -179,6 +188,14 @@ public class AdminServiceImpl implements AdminService {
             Room room = roomDao.selectById(reservation.getRoomId());
             Building building = buildingDao.selectById(room.getBuildingId());
             RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            List<RoomTypeImage> roomTypeImages = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            );
+            List<String> image_url = roomTypeImages.stream().map(roomTypeImage -> {
+                return imageDao.selectById(roomTypeImage.getImageId()).getImageUrl();
+            }).toList();
             return ReservationInfo.builder()
                     .reservationId(reservation.getReservationId())
                     .roomId(reservation.getRoomId())
@@ -190,6 +207,7 @@ public class AdminServiceImpl implements AdminService {
                     .roomType(roomType.getType())
                     .buildingName(building.getName())
                     .buildingType(building.getBuildingType())
+                    .roomTypeImages(image_url)
                     .build();
         }).collect(Collectors.toList());
     }

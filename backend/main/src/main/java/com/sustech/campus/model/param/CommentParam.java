@@ -20,9 +20,6 @@ public class CommentParam {
     @NotNull
     String text;
 
-    @ApiModelProperty(value = "评论照片", example = "[photo1.jpg, photo2.png]")
-    List<MultipartFile> commentPhotos;
-
     @ApiModelProperty(value = "评论时间", required = true, example = "2021-12-31-08-30")
     @DateParam
     @NotNull
@@ -31,4 +28,7 @@ public class CommentParam {
     @ApiModelProperty(value = "建筑ID", required = true, example = "123")
     @NotNull
     Integer buildingId;
+
+    @ApiModelProperty(value = "评论照片", example = "[photo1.jpg, photo2.png]")
+    List<MultipartFile> commentPhotos;
 }

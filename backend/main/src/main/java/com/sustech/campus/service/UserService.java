@@ -7,6 +7,7 @@ import com.sustech.campus.database.po.RoomType;
 import com.sustech.campus.model.vo.RoomInfo;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface UserService{
      * 上传评论
      * @param userId 用户ID
      */
-    Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos);
+    Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos) throws IOException;
 
     /**
      * 根据建筑ID获取教室信息

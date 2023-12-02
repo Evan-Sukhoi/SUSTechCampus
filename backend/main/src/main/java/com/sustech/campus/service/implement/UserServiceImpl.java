@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
+import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -28,20 +31,38 @@ public class UserServiceImpl implements UserService {
     @Resource
     private ReservationDao reservationDao;
     @Resource
+    private ImageDao imageDao;
+    @Resource
+    private CommentIdImageDao commentIdImageDao;
+    @Resource
     private BuslineDao buslineDao;
+    @Autowired
+    private ImgHostUploader imgHostUploader;
 
     @Override
-    public Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos) {
+    public Boolean uploadComment(Integer userId, Date time, String text, Integer buildingId, List<MultipartFile> commentPhotos) throws IOException {
         Comment comment = Comment.builder()
                 .userId(userId)
                 .time(time)
                 .text(text)
                 .buildingId(buildingId)
                 .score(0)
-                .adminId(-1)
+                .adminId(0)
                 .build();
         if (commentDao.insert(comment) == 0) {
             return false;
+        }
+        for (MultipartFile file: commentPhotos){
+            String url = imgHostUploader.upload(file);
+            Image image = Image.builder()
+                    .imageUrl(url)
+                    .build();
+            imageDao.insert(image);
+            CommentIdImage commentIdImage = CommentIdImage.builder()
+                    .commentId(comment.getCommentId())
+                    .imageId(image.getImageId())
+                    .build();
+            commentIdImageDao.insert(commentIdImage);
         }
         return true;
     }

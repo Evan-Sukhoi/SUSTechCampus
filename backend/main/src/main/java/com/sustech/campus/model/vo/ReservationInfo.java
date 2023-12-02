@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +26,6 @@ public class ReservationInfo {
 
     private String buildingName;
     private String buildingType;
+
+    private List<String> roomTypeImages;
 }
