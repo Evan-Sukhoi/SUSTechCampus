@@ -45,6 +45,7 @@ export const lang = {
   introduction: '介绍',
   room: '房间/档口/场地',
   return: '返回',
+  capacity: '容量',
 
   /*building details*/
   canteen: '食堂',
