@@ -185,7 +185,7 @@ export default {
       axios.get('http://localhost:8081/admin/user/all') // 根据你的后端API端点进行设置
           .then(response => {
             this.users = response.data; // 将后端数据赋值给前端users数据
-            console.log(response.data);
+            console.log(response);
           })
           .catch(error => {
             console.error('Failed to fetch data from the backend', error);

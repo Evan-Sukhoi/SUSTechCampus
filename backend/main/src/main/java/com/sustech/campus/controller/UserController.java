@@ -16,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -65,14 +67,14 @@ public class UserController {
 
     @ApiOperation("上传评论")
     @RequestMapping("/comment/upload")
-    public ResponseEntity<Object> uploadComment(@RequestBody @Validated CommentParam commentParam) {
+    public ResponseEntity<Object> uploadComment(@RequestPart List<MultipartFile> files, @RequestPart @Validated CommentParam commentParam) {
         try {
             userService.uploadComment(
                     commentParam.getUserId(),
                     commentParam.getTime(),
                     commentParam.getText(),
                     commentParam.getBuildingId(),
-                    commentParam.getCommentPhotos()
+                    files
             );
             return ResponseEntity.ok().build();
         } catch (IOException e) {

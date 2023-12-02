@@ -4,8 +4,11 @@
       <el-scrollbar style="height: 100%" class="scrollbar-for" wrap-style="overflow-x:hidden;">
         <div id="comment">
           <div v-for="comment in comments" :key="comment.id" class="comment">
+            <div>{{ comment.username }}</div>
+            <el-image :src="comment.userImageUrl" alt="User Image"/>
+            <div>{{ comment.time }}</div>
             <div class="comment-text">{{ comment.text }}</div>
-            <el-image :src="comment.image" alt="Comment Image" />
+
           </div>
         </div>
       </el-scrollbar>
@@ -14,7 +17,7 @@
     <div class="upload">
       <el-form :model="newComment" label-position="top" @submit.prevent="submitComment" class="form">
         <el-form-item label="评论内容">
-          <el-input v-model="newComment.text" type="textarea" />
+          <el-input v-model="newComment.text" type="textarea"/>
         </el-form-item>
 
         <el-form-item label="上传照片">
@@ -37,7 +40,7 @@
         </div>
 
         <el-form-item>
-          <el-button type="primary" native-type="submit">提交评论</el-button>
+          <el-button type="primary" @click="submitComment">提交评论</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -47,21 +50,19 @@
 
 <script>
 import axios from "axios";
+import FormData from "form-data";
 
 export default {
   data() {
     return {
       newComment: {},
-      comments: [
-        {id:1, image:require('../../../assets/pad(canDelete)/background/狐狸.jpg'), text:'hhh'},
-        {id:2, image:require('../../../assets/pad(canDelete)/background/狐狸.jpg'), text:'hhh'}
-      ],
+      comments: [],
       photos: [],
     }
   },
   created() {
     this.buildingId = this.$route.params.id;
-    // this.fetchCommentData(this.buildingId);
+    this.fetchCommentData(this.buildingId);
   },
   methods: {
     // formatDate(date) {
@@ -70,9 +71,23 @@ export default {
     // },
 
     submitComment() {
-      // 发送评论数据到服务器
-      // 使用 this.comment.text 和 this.comment.photos
-      // 使用 axios 或其他 HTTP 库发送请求
+      const formData = new FormData();
+      for (var i=0; i< this.photos.length; i++) {
+        formData.append('files', this.photos[i]);
+      }
+      const data = {
+        userId: localStorage.getItem("userID"),
+        text: this.newComment.text,
+        time: new Date(),
+        buildingId: this.buildingId,
+      }
+      formData.append('commentParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
+      console.log(formData)
+      axios.post('http://localhost:8081/user/comment/upload',  formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
+            console.log(resp)});
+      this.newComment.text = ''
+      this.photos = []
+
     },
     handleFileChange(file) {
       this.photos.push(file)
@@ -87,18 +102,18 @@ export default {
     },
 
 
-    // fetchCommentData(id) {
-    //   axios.get(`http://localhost:8081/public/comment/get/approved?buildingId=${id}`, )
-    //       .then(response => {
-    //         this.comments = response.data.data;
-    //         console.log(response.data);
-    //       })
-    //       .catch(function (error) {
-    //         console.log(error);
-    //       })
-    //       .finally(function () {
-    //       });
-    // },
+    fetchCommentData(id) {
+      axios.get(`http://localhost:8081/public/comment/get/approved?buildingId=${id}`,)
+          .then(response => {
+            this.comments = response.data.data;
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    },
 
   },
 };
@@ -119,7 +134,7 @@ export default {
   height: 100%;
 }
 
-.comment{
+.comment {
   height: 400px;
   margin-top: 50px;
   width: 100%;
@@ -127,11 +142,11 @@ export default {
   border-radius: 20px;
 }
 
-.comment-text{
+.comment-text {
   margin: 30px;
 }
 
-.upload{
+.upload {
   margin-top: 50px;
   margin-left: 10%;
   width: 40%;
@@ -140,7 +155,7 @@ export default {
   border-radius: 20px;
 }
 
-.form{
+.form {
   margin-left: 30px;
   margin-right: 30px;
 }
@@ -150,15 +165,17 @@ export default {
 }
 
 @media screen and (max-width: 900px) {
-  .post{
+  .post {
     width: 80%;
     margin: 10%;
     float: left;
   }
-  .upload{
+
+  .upload {
     float: left;
   }
-  .blog{
+
+  .blog {
     display: block;
   }
 }
