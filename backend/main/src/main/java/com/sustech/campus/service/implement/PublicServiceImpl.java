@@ -68,7 +68,7 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingStation.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getNearest_station)
+                        .select(Building::getNearestStation)
                         .eq(Building::getBuildingId, buildingId)
         );
     }
