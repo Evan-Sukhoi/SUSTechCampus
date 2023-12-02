@@ -299,7 +299,7 @@ export default {
           color:'primary',
           position: 'top-center',
           title: this.$t('lang.error'),
-          text: err.data(),
+          text: err,
         })
       })
     },

@@ -18,6 +18,9 @@
               <vs-button danger icon relief :disabled="selected.length === 0">
                 <i class='bx bx-trash'></i>
               </vs-button>
+              <vs-button flat icon relief @click="registerBatch">
+                <i class='bx bx-add-to-queue'></i>
+              </vs-button>
             </div>
           </div>
         </template>
@@ -38,6 +41,9 @@
             </vs-th>
             <vs-th sort @click="users = $vs.sortData($event ,users, 'id')">
               Id
+            </vs-th>
+            <vs-th>
+              operation
             </vs-th>
           </vs-tr>
         </template>
@@ -60,38 +66,21 @@
               {{ tr.email }}
             </vs-td>
             <vs-td>
-              {{ tr.user_id }}
+              {{ tr.userId }}
             </vs-td>
-
-            <template #expand>
-              <div class="con-content" style="display: flex; justify-content: space-between; align-items: center;">
-
-                <div style="display: flex; align-items: center;">
-                  <vs-avatar>
-                    <img :src="`/avatars/avatar-${i + 1}.png`" alt="">
-                  </vs-avatar>
-                  <div style="margin-left: 10px;"> <!-- 通过 margin-left 添加间距 -->
-                    <p>
-                      {{ tr.name }}
-                    </p>
-                  </div>
-                </div>
-
-                <div style="display: flex; align-items: center;">
-                  <vs-button flat icon>
-                    <i class='bx bxs-face-mask'></i>
-                  </vs-button>
-                  <vs-button @click="editUser(i)">
-                    Edit
-                  </vs-button>
-                  <vs-button danger icon @click="deleteUserClick(i)">
-                    <i class='bx bx-trash'></i>
-                  </vs-button>
-                </div>
-
+            <vs-td>
+              <div style="display: flex; align-items: center;">
+                <vs-button flat icon>
+                  <i class='bx bxs-face-mask'></i>
+                </vs-button>
+                <vs-button @click="editUser(tr)">
+                  Edit
+                </vs-button>
+                <vs-button danger icon @click="deleteUserClick(tr)">
+                  <i class='bx bx-trash'></i>
+                </vs-button>
               </div>
-            </template>
-
+            </vs-td>
           </vs-tr>
         </template>
         <template #footer>
@@ -154,7 +143,7 @@
       <vs-dialog v-model="deleteActive">
         <template #header>
           <h4 class="not-margin">
-            确认删除？
+            Are you kidding me?
           </h4>
         </template>
         <div style="display: flex; justify-content: center; align-items: center;">
@@ -166,6 +155,25 @@
           </vs-button>
         </div>
       </vs-dialog>
+      <vs-dialog v-model="registerActive" prevent-close scroll overflow-hidden>
+        <div style="display: flex; justify-content: space-between"  v-for="(account,i) in registerList" :key="i">
+          <p>{{account}}</p>
+          <vs-button border danger @click="removeAccount(i)">
+            <i class="bx bx-trash">Delete</i>
+          </vs-button>
+        </div>
+        <div style="display: flex; justify-content: space-between">
+          <vs-input v-model="inputAccount"></vs-input>
+          <vs-button border @click="addAccount">
+            <i class="bx bx-book-add">add user</i>
+          </vs-button>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <vs-button border :disabled="registerList.length === 0" @click="registerUpload">
+            <i class="bx bxl-ok-ru">Submit</i>
+          </vs-button>
+        </div>
+      </vs-dialog>
     </div>
   </div>
 
@@ -174,6 +182,7 @@
 
 <script>
 import axios from 'axios';
+import FormData from "form-data";
 
 export default {
   created() {
@@ -191,23 +200,31 @@ export default {
             console.error('Failed to fetch data from the backend', error);
           });
     },
-    editUser(i) {
-      this.thisUser = this.users[i];
+    infoCopy(tr){
+      this.thisUser.email = tr.email
+      this.thisUser.imageId = tr.img
+      this.thisUser.name = tr.name
+      this.thisUser.password = tr.password
+      this.thisUser.phone = tr.phone
+      this.thisUser.userId = tr.userId
+    },
+    editUser(tr) {
+      this.infoCopy(tr)
       console.log("selected: ", this.thisUser);
       this.editActive = true;
     },
     updateUser() {
       this.editActive = false;
-      this.users[this.thisUser.id - 1] = this.thisUser;
       console.log("update user: ", this.thisUser);
       let url = 'http://localhost:8081/admin/user/update?name=' + this.thisUser.name +
           '&email=' + this.thisUser.email +
           '&phone=' + this.thisUser.phone +
           '&password=' + this.thisUser.password +
-          '&user_id=' + this.thisUser.user_id;
+          '&userId=' + this.thisUser.userId;
       axios.post(url).then(response => {
         if (response.data.code === 200) {
           console.log("update success");
+          this.fetchUsers()
         } else {
           console.log("update failed");
           console.log(response);
@@ -216,29 +233,20 @@ export default {
         console.error('Failed to update user', error);
       });
     },
-    deleteUserClick(i){
-      this.thisUser = this.users[i];
+    deleteUserClick(tr){
+      this.infoCopy(tr)
       console.log("selected: ", this.thisUser);
       this.deleteActive = true;
     },
     deleteUser(){
       this.showExpandContent = false; // 关闭扩展内容
-      this.deleteActive = false;
-      const userIndex = this.users.findIndex(user => user.user_id === this.thisUser.user_id);
-      this.users.splice(userIndex, 1);
-      // // 找到该用户的展开行元素
-      // const expandRow = document.querySelector(`[data="${this.thisUser.user_id}"] .vs-expand-row`);
-      //
-      // if (expandRow) {
-      //   // 关闭展开行
-      //   expandRow.style.display = 'none';
-      // }
-
       console.log("delete user: ", this.thisUser);
-      let url = 'http://localhost:8081/admin/user/delete?user_id=' + this.thisUser.user_id;
+      let url = 'http://localhost:8081/admin/user/delete?userId=' + this.thisUser.userId;
       axios.post(url).then(response => {
         if (response.data.code === 200) {
           console.log("delete success");
+          this.deleteActive = false;
+          this.fetchUsers()
         } else {
           console.log("delete failed");
           console.log(response);
@@ -247,6 +255,75 @@ export default {
         console.error('Failed to delete user', error);
       });
 
+    },
+    registerBatch(){
+      this.registerActive = true
+    },
+    addAccount(){
+      if (this.inputAccount === ''){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: 'there is no account',
+          text: '',
+        })
+        return
+      }
+      this.registerList.push(this.inputAccount)
+      this.inputAccount = ''
+    },
+    removeAccount(index){
+      this.registerList.splice(index, 1)
+    },
+    registerUpload(){
+      const set = new Set();
+      for (let k of this.registerList) {
+        if (set.has(k)){
+          this.$vs.notification({
+            color:'danger',
+            position: 'top-center',
+            title: 'there exist the same account',
+            text: '',
+          })
+          return
+        }
+        set.add(k)
+      }
+      for (var i=0; i < this.registerList.length; i++){
+        var data = {
+          username:this.registerList[i],
+          password:'123456',
+          email:this.registerList[i] + '@mail.sustech.edu.cn',
+          phoneNumber:'00000000000',
+        }
+        this.$http.post('/public/register', data).then(resp => {
+          console.log(resp);
+          if (resp.status===200){
+            this.registerList = []
+            this.registerActive = true
+            this.$vs.notification({
+              color:'success',
+              position: 'top-center',
+              title: 'register sucess',
+              text: '',
+            })
+          }else {
+            this.$vs.notification({
+              color:'primary',
+              position: 'top-center',
+              title: resp.status,
+              text: '',
+            })
+          }
+        }).catch(err=>{
+          this.$vs.notification({
+            color:'primary',
+            position: 'top-center',
+            title: 'error',
+            text: err,
+          })
+        })
+      }
     }
   },
   name: 'UserManage',
@@ -263,7 +340,14 @@ export default {
     max: 5,
     active: true,
     selected: [],
-    thisUser: {},
+    thisUser: {
+      email:'',
+      imageId:'',
+      name:'',
+      password:'',
+      phone:'',
+      userId:'',
+    },
     user_name: '',
     user_email: '',
     user_phone: '',
@@ -276,28 +360,10 @@ export default {
         "phone": "17707368031",
         "password": "123456",
       },
-      {
-        "user_id": 2,
-        "name": "Ervin Howell",
-        "email": "example@g.com",
-        "phone": "10106926593",
-        "password": "123456",
-      },
-      {
-        "user_id": 3,
-        "name": "Clementine Bauch",
-        "email": "hahaha@s.com",
-        "phone": "14631234447",
-        "password": "123456",
-      },
-      {
-        "user_id": 4,
-        "name": "Patricia Lebsack",
-        "email": "ooad@mail.sustech.edu.cn",
-        "phone": "18203772569",
-        "password": "123456",
-      }
-    ]
+    ],
+    inputAccount:'',
+    registerList:[],
+    registerActive: false,
   })
 }
 

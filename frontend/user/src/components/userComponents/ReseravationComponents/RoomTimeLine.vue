@@ -40,20 +40,9 @@ export default {
   },
   beforeMount() {
     console.log(this.$route.params.date)
-    var data = {
-      buildingType: this.$route.params.buildingType,
-      buildingName: this.$route.params.buildingName,
-      date: this.$route.params.date.replace('-', '/'),
-    }
-    this.$http({
-      method: 'get',
-      url: '',
-      headers: {
-        'content-type': 'application/json'
-      },
-      data: data,
-    }).then(resp => {
+    this.$http.get(`user/room/get/building?buildingId=${this.$route.params.buildingId}`).then(resp => {
       console.log(resp);
+      // this.roomDetail = resp
     }).catch(err=>err)
 
   }

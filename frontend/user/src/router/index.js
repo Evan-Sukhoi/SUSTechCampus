@@ -50,8 +50,8 @@ const routes = [
       {path:'/user/reservation', name:'reservation', component: SUSReservation},
       {path: '/user/reservation/:buildingType/:buildingName', name: 'roomReservation', component: ReservationView,
       children:[
-        {path: '/user/reservation/:buildingType/:buildingName', name: 'roomReservation', component: RoomReservation, },
-        {path: '/user/reservation/:buildingType/:buildingName/:date', name: 'roomTimeLine', component: RoomTimeLine}
+        {path: '/user/reservation/:buildingType/:buildingId:buildingName', name: 'roomReservation', component: RoomReservation, },
+        {path: '/user/reservation/:buildingType/:buildingId:buildingName/:date', name: 'roomTimeLine', component: RoomTimeLine}
       ]},
       {path:'/user/bus', name:'bus', component: SUSBusLine},
       {path:'/user/service', name:'service', component: SUSService},
