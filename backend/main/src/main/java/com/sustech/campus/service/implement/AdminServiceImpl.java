@@ -11,6 +11,7 @@ import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
 
+import com.sustech.campus.service.PublicService;
 import jakarta.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -52,6 +53,8 @@ public class AdminServiceImpl implements AdminService {
     @Resource
     private BlacklistDao blacklistDao;
 
+    private PublicService publicService;
+
     @Override
     public User getUserInfo(Integer userId) {
         return usersDao.selectById(userId);
@@ -90,12 +93,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<BuildingInfo> getAllBuilding() {
-        return buildingDao.selectJoinList(
-                BuildingInfo.class,
-                new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
-                        .eq(Building::getBuildingId, 1)
-        );
+        List<Building> buildings = buildingDao.selectList(null);
+        return buildings.stream().map(building -> {
+            return publicService.getBuildingDetails(building.getBuildingId());
+        }).collect(Collectors.toList());
     }
 
     @Override

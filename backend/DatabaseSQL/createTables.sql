@@ -79,7 +79,7 @@ CREATE TABLE Room (
                       PRIMARY KEY (room_ID)
 );
 
-DROP TABLE 'Room_type' IF EXISTS;
+DROP TABLE IF EXISTS `Room_type`;
 -- 房间类型表
 CREATE TABLE Room_type (
                            room_type_ID INT AUTO_INCREMENT,
@@ -260,8 +260,7 @@ insert into Room_type(type, capacity, description)
 values ('放映厅', 32, "位于一丹图书馆一楼，共有可移动座位32个,配备多媒体放映设备。小巧舒适的封闭空间适合举办各种小型读者活动和会议。");
 insert into Room(building_ID, number, room_type_ID) values (2, 101, 11);
 
-insert into Room_type(type, capacity, description)
-values ('电脑区', 50, "位于一丹图书馆一楼和二楼，该区域配置数十台台电脑，其中部分电脑上安装了可提供Wind数据库使用的专业软件。");
+insert into Room_type(type, capacity, description) values ('电脑区', 50, "位于一丹图书馆一楼和二楼，该区域配置数十台台电脑，其中部分电脑上安装了可提供Wind数据库使用的专业软件。");
 insert into Room(building_ID, number, room_type_ID) values (2, 103, 12);
 insert into Room(building_ID, number, room_type_ID) values (2, 202, 12);
 

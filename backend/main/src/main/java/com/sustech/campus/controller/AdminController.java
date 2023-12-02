@@ -78,8 +78,12 @@ public class AdminController {
 
     @ApiOperation("管理员获取所有建筑")
     @RequestMapping("/building/all")
-    public List<BuildingInfo> getAllBuilding() {
-        return adminService.getAllBuilding();
+    public ResponseEntity<Object> getAllBuilding() {
+        try {
+            return ResponseEntity.ok(adminService.getAllBuilding());
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation("管理员新建一个建筑")

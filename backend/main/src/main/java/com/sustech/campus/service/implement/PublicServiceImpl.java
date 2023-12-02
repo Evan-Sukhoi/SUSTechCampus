@@ -9,6 +9,7 @@ import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.PublicService;
 import jakarta.annotation.Resource;
 
+import lombok.Builder;
 import lombok.extern.java.Log;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,12 +86,34 @@ public class PublicServiceImpl implements PublicService {
 
     @Override
     public BuildingInfo getBuildingDetails(Integer buildingId) {
-        return buildingDao.selectJoinOne(
-                BuildingInfo.class,
+        Building building = buildingDao.selectJoinOne(
+                Building.class,
                 new MPJLambdaWrapper<Building>()
                         .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
                         .eq(Building::getBuildingId, buildingId)
         );
+        List<BuildingsImage> buildingsImages = buildingDao.selectJoinList(
+                BuildingsImage.class,
+                new MPJLambdaWrapper<Building>()
+                        .select(Building::getBuildingId)
+                        .eq(Building::getBuildingId, buildingId)
+        );
+        List<String> image_url = buildingsImages.stream().map(buildingsImage -> {
+            return imageDao.selectById(buildingsImage.getImageId()).getImageUrl();
+        }).toList();
+        String cover_url = imageDao.selectById(building.getCoverId()).getImageUrl();
+        return BuildingInfo.builder()
+                .buildingId(building.getBuildingId())
+                .name(building.getName())
+                .openTime(building.getOpenTime())
+                .closeTime(building.getCloseTime())
+                .locationName(building.getLocationName())
+                .introduction(building.getIntroduction())
+                .nearestStation(building.getNearestStation())
+                .videoUrl(building.getVideoUrl())
+                .coverUrl(cover_url)
+                .imageUrl(image_url)
+                .build();
     }
 
     @Override

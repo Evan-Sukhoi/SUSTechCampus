@@ -13,6 +13,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Builder
 public class BuildingsImage {
     @TableId(type = IdType.AUTO)
-    private Integer imageID;
-    private Integer buildingID;
+    private Integer imageId;
+    private Integer buildingId;
 }
