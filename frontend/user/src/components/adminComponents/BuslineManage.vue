@@ -87,7 +87,7 @@
         <vs-button @click="addLatitude(point.point)"> add latitude</vs-button>
       </div>
       <vs-button success @click="addStation(editForm.list)">add station </vs-button>
-      <div class="con-form">
+      <div class="button">
         <vs-button @click="submit">Submit</vs-button>
       </div>
     </vs-dialog>
@@ -122,17 +122,19 @@ export default {
     ]
   }),
   beforeMount() {
-    this.$http.get('/admin/busline/all').then(resp=>{
-      if (resp.status === 200){
-        console.log(resp)
-        this.busLineInfo = resp.data
-      }
-    }).catch(err=>{
-      console.log(err)
-    })
-
+    this.getBusLine()
   },
   methods:{
+    getBusLine(){
+      this.$http.get('/admin/busline/all').then(resp=>{
+        if (resp.status === 200){
+          console.log(resp)
+          this.busLineInfo = resp.data
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     editBusLine(singleBusLine, i){
       this.editID = i
       this.title = 'Edit'
@@ -161,6 +163,7 @@ export default {
               list:[]
             }
             this.editID = ''
+          this.getBusLine()
         }else {
           this.$vs.notification({
             color:'danger',
@@ -215,5 +218,9 @@ export default {
 .con-form{
   display: flex;
   justify-content: space-between;
+}
+.button{
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -6,10 +6,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.param.BuslineParam;
-import com.sustech.campus.model.vo.BuildingInfo;
-import com.sustech.campus.model.vo.CommentInfo;
-import com.sustech.campus.model.vo.ReservationInfo;
-import com.sustech.campus.model.vo.RoomInfo;
+import com.sustech.campus.model.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -102,4 +99,6 @@ public interface AdminService {
     Object getAllBusLine() throws IOException;
 
     Boolean updateAllBusLine(List<BuslineParam> buslines) throws IOException;
+
+    List<RoomsInfo> getBuildingRoom(Integer buildingId);
 }

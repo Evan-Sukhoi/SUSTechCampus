@@ -18,6 +18,8 @@ export const lang = {
   passwordAgain:'Confirm password',
   registerTitle:'Join us!',
   email: 'E-mail',
+  code:'verification code',
+  seeCode:'OK, now, you can see your email',
   phoneNumber: 'Phone number',
   remember: 'Remember me',
   forget: 'Forget password',
@@ -39,6 +41,7 @@ export const lang = {
   errorPassFormat:'The password should be at least 6 characters and no more than 13 characters',
   error:'Something is wrong, please try again',
   errorLogin:'username or password is wrong',
+  errorEmptyEmail: 'please input email',
 
   /*building*/
   blog: 'Blog',

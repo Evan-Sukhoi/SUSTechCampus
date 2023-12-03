@@ -18,6 +18,8 @@ export const lang = {
   passwordAgain:'再次输入密码',
   registerTitle:'注册',
   email: '电子邮箱',
+  code:'验证码',
+  seeCode:'请查看你的邮箱',
   phoneNumber: '电话号码',
   remember: '记住我',
   forget: '忘记密码',
@@ -39,6 +41,7 @@ export const lang = {
   errorPassFormat:'密码至少为6位，不得超过13位',
   error:'有些问题，请再试一试',
   errorLogin:'用户名或密码错误',
+  errorEmptyEmail: '请输入邮箱',
 
   /*building*/
   blog: '博客',

@@ -57,6 +57,11 @@
           <el-input type="password" v-model="password" :placeholder="$t('lang.password')" class="userInput" prefix-icon="el-icon-lock"></el-input>
           <el-input type="password" v-model="passwordAgain" :placeholder="$t('lang.passwordAgain')" class="userInput" prefix-icon="el-icon-check"></el-input>
           <el-input v-model="email" :placeholder="$t('lang.email')" class="userInput" prefix-icon="el-icon-message"></el-input>
+          <div style="display: flex; justify-content: space-between; text-align: center">
+            <el-input v-model="code" :placeholder="$t('lang.code')" style="margin-top: 10px;width: calc(70%);" prefix-icon="el-icon-bell"></el-input>
+            <vs-button v-if="!activeSend" style="margin-top: 10px;" relief @click="sendCode"><i class="bx bxl-ok-ru">{{$t('lang.code')}}</i></vs-button>
+            <vs-button v-else style="margin-top: 10px;" disabled relief success><i class="bx bx-time">{{countDown + '/s'}}</i></vs-button>
+          </div>
           <el-input v-model="phoneNumber" :placeholder="$t('lang.phoneNumber')" class="userInput" prefix-icon="el-icon-mobile-phone"></el-input>
         </div>
       </div>
@@ -98,6 +103,7 @@ export default {
       password: '',
       passwordAgain: '',
       email: '',
+      code:'',
       phoneNumber: '',
       remember: false,
       isLogin: false,
@@ -106,9 +112,54 @@ export default {
       isChose:false,
       imageUrl: '',
       imgFile: '',
+      countDown:60,
+      timer:null,
+      activeSend:false
     }
   },
   methods:{
+    sendCode(){
+      if (this.email === ''){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorEmptyEmail'),
+          text: '',
+        })
+        return
+      }
+      this.activeSend = true
+      this.startTimer()
+      this.$http.post('public/send-auth-code?email='+ this.email).then(resp=>{
+        if (resp.status === 200){
+          this.$vs.notification({
+            color:'success',
+            position: 'top-center',
+            title: this.$t('lang.seeCode'),
+            text: '',
+          })
+        }
+      }).catch(err=>{
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: err,
+          text: '',
+        })
+      })
+    },
+    startTimer(){
+      this.countDown = 60
+      this.timer = setInterval(() =>{
+        if(this.countDown === 0){
+          clearInterval(this.timer);
+          this.timer = null;
+          this.activeSend = false
+        }else{
+          this.countDown--;
+        }
+      },1000);
+    },
     login(){
       /*if request is success*/
       /*this.photo need to be correct*/
@@ -130,6 +181,7 @@ export default {
           localStorage.setItem('photo', this.photo)
           localStorage.setItem('isLogin', this.isLogin)
           localStorage.setItem('userID', resp.data.data.userId)
+          localStorage.setItem('token', resp.data.data.token)
         }else {
           this.$vs.notification({
             color:'danger',
@@ -159,9 +211,9 @@ export default {
         localStorage.removeItem('username')
         localStorage.removeItem('password')
       }
-      // localStorage.removeItem('userID')
       localStorage.removeItem('photo')
       localStorage.removeItem('isLogin')
+      localStorage.removeItem('token')
       this.$router.push({path:'/user/home'}).catch(err=>err)
     },
     personalPage(){
@@ -265,6 +317,7 @@ export default {
         password:this.password,
         email:this.email,
         phoneNumber:this.phoneNumber,
+        authCode:this.code
       }
       formData.append('registerParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
       console.log(formData)
