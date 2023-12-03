@@ -196,12 +196,14 @@ public class AdminController {
 
     @ApiOperation("管理员修改所有公交线路")
     @PostMapping("/busline/update")
-    public ResponseEntity<Object> updateAllBusLine(@RequestBody @NotNull BuslineParam buslines) {
+    public ResponseEntity<Object> updateAllBusLine(@RequestBody @NotNull List<BuslineParam> buslines) {
         // 读取json文件
         try{
             return ResponseEntity.ok(adminService.updateAllBusLine(buslines));
         } catch (ApiException | IOException e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 }
