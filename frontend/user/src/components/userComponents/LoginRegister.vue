@@ -315,7 +315,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .not-margin{
   margin: 0px;
   font-weight: normal;
