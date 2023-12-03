@@ -12,6 +12,8 @@
         <button @click="startNavigation">{{ isNavigating ? "取消导航" : "进入导航" }}</button>
         <button @click="chooseStart" :disabled="!isNavigating">{{ selectedStart ? "确认起点" : "选择起点" }}</button>
         <button @click="chooseEnd" :disabled="!isNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</button>
+        <button @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</button>
+        <button @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</button>
       </div>
 
 
@@ -37,6 +39,7 @@
         </div>
 
         <button v-if="startBuildingId && endBuildingId" @click="seeBusline">查看公交线路</button>
+
 
       </div>
 
@@ -84,7 +87,10 @@ export default {
       driving: '',
       showWalkingPanel: false,
       showDrivingPanel: false,
-
+      busline1: '',
+      seebusline1: false,
+      busline2: '',
+      seebusline2: false,
     }
   },
   mounted() {
@@ -259,8 +265,12 @@ export default {
                 imageOffset: new AMap.Pixel(-95, -3)
               });
 
-              console.log(busline)
+              const path = []
               for (let i = 0; i < busline.list.length - 1; i++) {
+                for (const item of busline.list[i].point) {
+                  path.push(item)
+                }
+
                 const text = busline.list[i].two[0];
                 const position = busline.list[i].point[0];
                 const marker = new this.AMap.Marker({
@@ -275,6 +285,45 @@ export default {
                 this.map.add(marker);
               }
 
+              for (const item of busline.list[busline.list.length - 1].point) {
+                path.push(item)
+              }
+
+              if (busline.name === "busline1") {
+                this.busline1 = new this.AMap.Polyline({
+                  path: path,
+                  isOutline: true,
+                  outlineColor: '#ffeeff',
+                  borderWeight: 3,
+                  strokeColor: "#3366FF",
+                  strokeOpacity: 1,
+                  strokeWeight: 6,
+                  // 折线样式还支持 'dashed'
+                  strokeStyle: "solid",
+                  // strokeStyle是dashed时有效
+                  strokeDasharray: [10, 5],
+                  lineJoin: 'round',
+                  lineCap: 'round',
+                  zIndex: 50,
+                })
+              } else {
+                this.busline2 = new this.AMap.Polyline({
+                  path: path,
+                  isOutline: true,
+                  outlineColor: '#ffeeff',
+                  borderWeight: 3,
+                  strokeColor: "#4eff33",
+                  strokeOpacity: 1,
+                  strokeWeight: 6,
+                  // 折线样式还支持 'dashed'
+                  strokeStyle: "solid",
+                  // strokeStyle是dashed时有效
+                  strokeDasharray: [10, 5],
+                  lineJoin: 'round',
+                  lineCap: 'round',
+                  zIndex: 50,
+                })
+              }
 
               let text = busline.list[busline.list.length - 1].two[0];
               let position = busline.list[busline.list.length - 1].point[0];
@@ -283,7 +332,7 @@ export default {
                 icon: icon,
               })
               marker.setLabel({
-                offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
                 content: `<div class='info'>${text}</div>`, //设置文本标注内容
                 direction: 'right' //设置文本标注方位
               });
@@ -295,7 +344,7 @@ export default {
                 icon: icon,
               })
               marker.setLabel({
-                offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
                 content: `<div class='info'>${text}</div>`, //设置文本标注内容
                 direction: 'right', //设置文本标注方位
               });
@@ -362,6 +411,24 @@ export default {
 
     seeBusline() {
       console.log("查看公交线路：", this.startStation, "到", this.endStation);
+    },
+
+    seeBusline1() {
+      this.seebusline1 = !this.seebusline1;
+      if (this.seebusline1) {
+        this.map.add(this.busline1)
+      } else {
+        this.map.remove(this.busline1)
+      }
+    },
+
+    seeBusline2() {
+      this.seebusline2 = !this.seebusline2;
+      if (this.seebusline2) {
+        this.map.add(this.busline2)
+      } else {
+        this.map.remove(this.busline2)
+      }
     },
     startNavigation() {
       this.isNavigating = !this.isNavigating;
