@@ -9,11 +9,10 @@
     <div class="map_content">
 
       <div class="navi">
-        <button  @click="startNavigation">{{isNavigating ? "取消导航" : "进入导航"}}</button>
-        <button  @click="chooseStart" :disabled="!isNavigating">{{selectedStart ? "确认起点" : "选择起点"}}</button>
-        <button  @click="chooseEnd" :disabled="!isNavigating">{{selectedEnd ? "确认终点" : "选择终点"}}</button>
+        <button @click="startNavigation">{{ isNavigating ? "取消导航" : "进入导航" }}</button>
+        <button @click="chooseStart" :disabled="!isNavigating">{{ selectedStart ? "确认起点" : "选择起点" }}</button>
+        <button @click="chooseEnd" :disabled="!isNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</button>
       </div>
-
 
 
       <div class="busline">
@@ -51,6 +50,7 @@
 <script>
 import AMapLoader from "@amap/amap-jsapi-loader";
 import locations from "../../assets/location/location.json"
+import buslines from "../../assets/location/busline.json"
 
 import MapContent from "@/components/userComponents/MapContent.vue";
 import Vue from "vue";
@@ -220,7 +220,7 @@ export default {
               imageOffset: new AMap.Pixel(-95, -3)
             });
 
-            this.endPoint = [this.longitude, this.latitude,];
+            this.endPoint = [113.99726,22.596677];
             this.endMarker = new this.AMap.Marker({
               position: this.endPoint,
               title: '终点',
@@ -252,7 +252,56 @@ export default {
 
             this.driving = new this.AMap.Driving(drivingOption)
 
-            //根据起终点坐标规划步行路线
+            for (const busline of buslines) {
+              var icon = new AMap.Icon({
+                size: new AMap.Size(25, 34),
+                imageSize: new AMap.Size(100, 40),
+                imageOffset: new AMap.Pixel(-95, -3)
+              });
+
+              console.log(busline)
+              for (let i = 0; i < busline.list.length - 1; i++) {
+                const text = busline.list[i].two[0];
+                const position = busline.list[i].point[0];
+                const marker = new this.AMap.Marker({
+                  position: position,
+                  icon: icon,
+                })
+                marker.setLabel({
+                  offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
+                  content: `<div class='info'>${text}</div>`, //设置文本标注内容
+                  direction: 'right', //设置文本标注方位
+                });
+                this.map.add(marker);
+              }
+
+
+              let text = busline.list[busline.list.length - 1].two[0];
+              let position = busline.list[busline.list.length - 1].point[0];
+              let marker = new this.AMap.Marker({
+                position: position,
+                icon: icon,
+              })
+              marker.setLabel({
+                offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                content: `<div class='info'>${text}</div>`, //设置文本标注内容
+                direction: 'right' //设置文本标注方位
+              });
+              this.map.add(marker);
+              text = busline.list[busline.list.length - 1].two[1];
+              position = busline.list[busline.list.length - 1].point[busline.list[busline.list.length - 1].point.length-1];
+              marker = new this.AMap.Marker({
+                position: position,
+                icon: icon,
+              })
+              marker.setLabel({
+                offset: new AMap.Pixel(20, 20),  //设置文本标注偏移量
+                content: `<div class='info'>${text}</div>`, //设置文本标注内容
+                direction: 'right', //设置文本标注方位
+              });
+              this.map.add(marker);
+
+            }
 
             this.map.on("click", this.handleMapClick.bind(this));
           })
@@ -351,7 +400,7 @@ export default {
     },
 
     start() {
-      this.walking.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function(status, result) {
+      this.walking.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function (status, result) {
         // result即是对应的不行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_RidingResult
         if (status === 'complete') {
           console.log('步行路线数据查询成功')
@@ -360,7 +409,7 @@ export default {
         }
       });
 
-      this.driving.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function(status, result) {
+      this.driving.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function (status, result) {
         // result即是对应的不行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_RidingResult
         if (status === 'complete') {
           console.log('步行路线数据查询成功')
@@ -381,14 +430,17 @@ export default {
   height: 100%;
   width: 100%;
 }
-#out_container{
+
+#out_container {
   height: 99%;
   width: 100%;
 }
+
 #container {
   width: 100%;
   height: 100%;
 }
+
 #walkingPanel {
   position: fixed;
   background-color: white;
@@ -414,6 +466,7 @@ export default {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
+
 #panel .amap-lib-walking {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
