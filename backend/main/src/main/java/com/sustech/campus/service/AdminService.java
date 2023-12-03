@@ -101,4 +101,7 @@ public interface AdminService {
     Boolean updateAllBusLine(List<BuslineParam> buslines) throws IOException;
 
 
+    Boolean blockUser(Integer userId);
+
+    void unblockUser(Integer userId);
 }

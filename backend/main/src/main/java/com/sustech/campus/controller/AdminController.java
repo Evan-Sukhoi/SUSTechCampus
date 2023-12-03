@@ -71,6 +71,30 @@ public class AdminController {
                         request.getParameter("password")));
     }
 
+    @ApiOperation("管理员拉黑某个用户")
+    @PostMapping("/user/block")
+    public ResponseEntity<Object> blockUser(@ApiParam("用户id") @RequestParam @NotNull Integer userId) {
+        System.out.println("blocking User: " + userId);
+        try {
+            adminService.blockUser(userId);
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation("管理员解除拉黑某个用户")
+    @PostMapping("/user/unblock")
+    public ResponseEntity<Object> unblockUser(@ApiParam("用户id") @RequestParam @NotNull Integer userId) {
+        System.out.println("unblocking User: " + userId);
+        try {
+            adminService.unblockUser(userId);
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation("管理员删除一个用户")
     @PostMapping("/user/delete")
     public ApiResponse<Boolean> deleteUser(HttpServletRequest request) {

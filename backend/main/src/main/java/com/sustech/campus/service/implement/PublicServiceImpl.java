@@ -248,7 +248,7 @@ public class PublicServiceImpl implements PublicService {
                 .setPort(request.getRemotePort())
                 .setLoginTime(new Date()));
 
-        String token = authenticate(user.getName(), user.getPassword());
+        String token = authenticate(user);
 
         return UserInfo.builder()
                 .token(token)
@@ -261,10 +261,12 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public String authenticate(String username, String password) {
+    public String authenticate(User user) {
+        String username = user.getName();
+        String password = user.getPassword();
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        redis.setObject("login:" + username, username, 60 * 60 * 2);
+        redis.setObject("login:" + username, user, 60 * 60 * 2);
         return JwtUtil.createJwt(username);
     }
 

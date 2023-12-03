@@ -328,4 +328,21 @@ public class AdminServiceImpl implements AdminService {
         objectMapper.writeValue(file, jsonArray);
         return true;
     }
+
+    @Override
+    public Boolean blockUser(Integer userId) {
+        User user = usersDao.selectById(userId);
+        asserts(user != null, "用户不存在");
+        user.setIsBlocked(true);
+        usersDao.updateById(user);
+        return true;
+    }
+
+    @Override
+    public void unblockUser(Integer userId) {
+        User user = usersDao.selectById(userId);
+        asserts(user != null, "用户不存在");
+        user.setIsBlocked(false);
+        usersDao.updateById(user);
+    }
 }

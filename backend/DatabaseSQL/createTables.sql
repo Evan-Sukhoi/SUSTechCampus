@@ -53,6 +53,7 @@ CREATE TABLE User
     phone    VARCHAR(255),
     email    VARCHAR(255),
     password VARCHAR(255),
+    is_blocked BOOLEAN,
     image_ID INT,
     PRIMARY KEY (user_ID)
 );
@@ -69,17 +70,6 @@ CREATE TABLE Admin
     image_ID INT,
     PRIMARY KEY (admin_ID)
 );
-
--- 黑名单表
-
-CREATE TABLE Blacklist
-(
-    list_ID  INT AUTO_INCREMENT,
-    user_ID  INT,
-    admin_ID INT,
-    PRIMARY KEY (list_ID)
-);
-
 
 DROP TABLE IF EXISTS `Building`;
 
@@ -228,37 +218,48 @@ CREATE TABLE Product
     inventory INT NOT NULL
 );
 
+insert into User(phone, name, email, password, image_ID, is_blocked)
+values ('15138688888',
+        'aaa',
+        'evan3li@outlook.com',
+        'aaaaaaaa',
+        1,
+        false);
 
-insert into User(phone, name, email, password, image_ID)
+insert into User(phone, name, email, password, image_ID, is_blocked)
 values ('15138688888',
         'evan',
         'evan3li@outlook.com',
         '123456',
-        1);
+        1,
+        false);
 
 
-insert into User(phone, name, email, password, image_ID)
+insert into User(phone, name, email, password, image_ID, is_blocked)
 values ('16138688888',
         'ln',
         'example@gmail.com',
         '123456',
-        2);
+        2,
+        false);
 
 
-insert into User(phone, name, email, password, image_ID)
+insert into User(phone, name, email, password, image_ID, is_blocked)
 values ('17138688888',
         'jimmy',
         '12112517@mail.sustech.edu.cn',
         '123456',
-        3);
+        3,
+        false);
 
 
-insert into User(phone, name, email, password, image_ID)
+insert into User(phone, name, email, password, image_ID, is_blocked)
 values ('18138688888',
         'juan',
         '111@abc.com',
         '123456',
-        4);
+        4,
+        false);
 
 
 insert into Admin(name, phone, email, password)

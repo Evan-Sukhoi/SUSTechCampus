@@ -2,6 +2,7 @@ package com.sustech.campus.service;
 
 import com.sustech.campus.database.po.Busline;
 import com.sustech.campus.database.po.Comment;
+import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.vo.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public interface PublicService {
 
     List<Comment> getCommentByBuilding(Integer buildingId);
 
-    String authenticate(String username, String password);
+    String authenticate(User user);
 
     Boolean sendAuthCode(String email);
 }
