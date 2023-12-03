@@ -4,6 +4,7 @@ import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
+import com.sustech.campus.model.param.BuslineParam;
 import com.sustech.campus.model.param.ReserveRoomInfoParam;
 import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
@@ -181,4 +183,25 @@ public class AdminController {
                 adminService.approveComment(commentId, adminId));
     }
 
+    @ApiOperation("管理员获取所有公交线路")
+    @RequestMapping("/busline/all")
+    public ResponseEntity<Object> getAllBusLine() {
+        // 读取json文件
+        try{
+            return ResponseEntity.ok(adminService.getAllBusLine());
+        } catch (ApiException | IOException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation("管理员修改所有公交线路")
+    @PostMapping("/busline/update")
+    public ResponseEntity<Object> updateAllBusLine(@RequestBody @NotNull BuslineParam buslines) {
+        // 读取json文件
+        try{
+            return ResponseEntity.ok(adminService.updateAllBusLine(buslines));
+        } catch (ApiException | IOException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

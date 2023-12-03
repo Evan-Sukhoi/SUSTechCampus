@@ -1,9 +1,11 @@
 package com.sustech.campus.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
+import com.sustech.campus.model.param.BuslineParam;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
@@ -96,4 +98,8 @@ public interface AdminService {
     List<CommentInfo> getAllComments();
 
     public Boolean approveComment(Integer commentId, Integer adminId);
+
+    Object getAllBusLine() throws IOException;
+
+    Boolean updateAllBusLine(BuslineParam buslines) throws IOException;
 }

@@ -12,14 +12,18 @@ import com.sustech.campus.web.handler.ApiException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jakarta.annotation.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestPart;
@@ -98,10 +102,22 @@ public class PublicController {
         );
     }
 
-    @ApiOperation("获取所有公交线路信息")
+//    @ApiOperation("获取所有公交线路信息")
+//    @RequestMapping("/busline/all")
+//    public List<Busline> getAllBusLine() {
+//        return publicService.getAllBusLine();
+//    }
+
+
+    @ApiOperation("获取所有公交线路")
     @RequestMapping("/busline/all")
-    public List<Busline> getAllBusLine() {
-        return publicService.getAllBusLine();
+    public ResponseEntity<Object> getAllBusLine() {
+        // 读取json文件
+        try{
+            return new ResponseEntity<>(publicService.getAllBusLine(), HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>("读取json文件失败", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ApiOperation("获取所有评论信息")
@@ -129,10 +145,10 @@ public class PublicController {
                     registerParam.getAuthCode(),
                     file);
             System.out.println("ok");
-            return new ResponseEntity<>("", HttpStatus.OK);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (ApiException e) {
             System.out.println(e);
-            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (IOException e) {
             return new ResponseEntity<>("图片保存失败，请稍后再试", HttpStatus.BAD_REQUEST);
         }

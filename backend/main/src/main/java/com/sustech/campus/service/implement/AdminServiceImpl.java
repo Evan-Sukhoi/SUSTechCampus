@@ -2,10 +2,13 @@ package com.sustech.campus.service.implement;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
+import com.sustech.campus.model.param.BuslineParam;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
@@ -19,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -310,6 +314,18 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Override
+    public Object getAllBusLine() throws IOException {
+        return publicService.getAllBusLine();
+    }
 
-
+    @Override
+    public Boolean updateAllBusLine(BuslineParam buslines) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        // 将对象转换为JSON字符串
+        String json = objectMapper.writeValueAsString(buslines);
+        File file = new File("classpath:static/busline/busline.json");
+        objectMapper.writeValue(file, json);
+        return true;
+    }
 }
