@@ -107,7 +107,7 @@ public class PublicServiceImpl implements PublicService {
     public List<BuildingInfoSimple> getSimpleBuildingInfo() {
         List<Building> buildings = buildingDao.selectList(
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId, Building::getBuildingType)
+                        .select(Building::getBuildingId)
         );
         return buildings.stream().map(building -> getBuildingInfoSimpleThroughId(building.getBuildingId())).toList();
     }
@@ -127,7 +127,7 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getBuildingType)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getBuildingType, Building::getIsReservable)
                         .leftJoin(Image.class, Image::getImageId, Building::getCoverId)
                         .selectAs(Image::getImageUrl, BuildingInfoSimple::getCoverUrl)
                         .eq(Building::getBuildingId, buildingId)
@@ -179,6 +179,7 @@ public class PublicServiceImpl implements PublicService {
                 .nearestStation(building.getNearestStation())
                 .videoUrl(building.getVideoUrl())
                 .buildingType(building.getBuildingType())
+                .isReservable(building.getIsReservable())
                 .coverUrl(cover_url)
                 .imageUrl(image_url)
                 .build();

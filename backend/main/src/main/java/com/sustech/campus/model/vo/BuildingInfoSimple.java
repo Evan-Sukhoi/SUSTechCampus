@@ -16,4 +16,5 @@ public class BuildingInfoSimple {
     private String coverUrl;
     private String introduction;
     private String buildingType;
+    private Boolean isReservable;
 }

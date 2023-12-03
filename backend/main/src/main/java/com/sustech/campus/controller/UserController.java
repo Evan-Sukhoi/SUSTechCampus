@@ -98,14 +98,6 @@ public class UserController {
     }
 
 
-    @ApiOperation("根据建筑ID获取建筑内所有房间信息")
-    @RequestMapping("/room/get/building")
-    public ApiResponse<List<RoomInfo>> getRoomsInBuilding(@ApiParam("建筑id") @RequestParam Integer buildingId) {
-        return ApiResponse.success(
-                userService.getRoomByBuilding(buildingId)
-        );
-    }
-
     @ApiOperation("管理员获取建筑物所有教室")
     @RequestMapping("/room/get/building")
     public ResponseEntity<Object> getBuildingRoom(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {

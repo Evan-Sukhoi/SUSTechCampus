@@ -29,6 +29,7 @@ public class Building implements Displayable {
     private String videoUrl;
     private Integer coverId;
     private String buildingType;
+    private Boolean isReservable;
 
     @Override
     public Integer getImageId() {
