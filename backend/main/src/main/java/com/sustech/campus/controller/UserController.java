@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
@@ -105,4 +106,13 @@ public class UserController {
         );
     }
 
+    @ApiOperation("管理员获取建筑物所有教室")
+    @RequestMapping("/room/get/building")
+    public ResponseEntity<Object> getBuildingRoom(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {
+        try {
+            return ResponseEntity.ok(userService.getBuildingRoom(buildingId));
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

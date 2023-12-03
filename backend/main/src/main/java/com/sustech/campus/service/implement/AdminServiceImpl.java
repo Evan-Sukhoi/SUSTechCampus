@@ -144,38 +144,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<RoomsInfo> getBuildingRoom(Integer buildingId){
-        List<Room> rooms = roomDao.selectList(
-                new LambdaQueryWrapper<Room>()
-                        .eq(Room::getBuildingId, buildingId)
-        );
-        List<RoomType> roomTypes = new ArrayList<>();
-        for (Room room : rooms) {
-            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
-            if (!roomTypes.contains(roomType)) {
-                roomTypes.add(roomType);
-            }
-        }
-        return roomTypes.stream().map(roomType -> {
-            List<String> imageUrls = roomTypeImageDao.selectList(
-                    new MPJLambdaWrapper<RoomTypeImage>()
-                            .select(RoomTypeImage::getImageId)
-                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
-            ).stream().map(roomTypeImage -> {
-                return imageDao.selectById(roomTypeImage.getImageId()).getImageUrl();
-            }).toList();
-            return RoomsInfo.builder()
-                    .roomTypeId(roomType.getRoomTypeId())
-                    .roomTypeName(roomType.getType())
-                    .capacity(roomType.getCapacity())
-                    .description(roomType.getDescription())
-                    .roomImageUrls(imageUrls)
-                    .roomNumbers(rooms.stream().filter(room -> room.getRoomTypeId().equals(roomType.getRoomTypeId())).map(Room::getNumber).toList())
-                    .build();
-        }).collect(Collectors.toList());
-    }
-
-    @Override
     public Boolean deleteBuilding(Integer buildingId) {
         QueryWrapper<Building> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("buildingID", buildingId);

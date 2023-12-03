@@ -6,6 +6,7 @@ import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.RoomType;
 import com.sustech.campus.model.vo.AvailableReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
+import com.sustech.campus.model.vo.RoomsInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -60,4 +61,6 @@ public interface UserService{
     Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId);
 
     List<AvailableReservationInfo> getReservation(Integer buildingId);
+
+    List<RoomsInfo> getBuildingRoom(Integer buildingId);
 }

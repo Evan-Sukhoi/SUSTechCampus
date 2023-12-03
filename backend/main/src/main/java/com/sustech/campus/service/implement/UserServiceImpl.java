@@ -1,5 +1,6 @@
 package com.sustech.campus.service.implement;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.annotation.TimeField;
@@ -8,6 +9,7 @@ import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.vo.AvailableReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
+import com.sustech.campus.model.vo.RoomsInfo;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.TimeUtil;
 import com.sustech.campus.web.handler.ApiException;
@@ -22,6 +24,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
@@ -34,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private RoomDao roomDao;
     @Resource
     private RoomTypeDao roomTypeDao;
+    @Resource
+    private RoomTypeImageDao roomTypeImageDao;
     @Resource
     private CommentDao commentDao;
     @Resource
@@ -119,6 +124,38 @@ public class UserServiceImpl implements UserService {
                         .select(Room::getRoomId, Room::getBuildingId, Room::getNumber, Room::getRoomTypeId)
                         .eq(Room::getRoomId, roomId)
         );
+    }
+
+    @Override
+    public List<RoomsInfo> getBuildingRoom(Integer buildingId){
+        List<Room> rooms = roomDao.selectList(
+                new LambdaQueryWrapper<Room>()
+                        .eq(Room::getBuildingId, buildingId)
+        );
+        List<RoomType> roomTypes = new ArrayList<>();
+        for (Room room : rooms) {
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            if (!roomTypes.contains(roomType)) {
+                roomTypes.add(roomType);
+            }
+        }
+        return roomTypes.stream().map(roomType -> {
+            List<String> imageUrls = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            ).stream().map(roomTypeImage -> {
+                return imageDao.selectById(roomTypeImage.getImageId()).getImageUrl();
+            }).toList();
+            return RoomsInfo.builder()
+                    .roomTypeId(roomType.getRoomTypeId())
+                    .roomTypeName(roomType.getType())
+                    .capacity(roomType.getCapacity())
+                    .description(roomType.getDescription())
+                    .roomImageUrls(imageUrls)
+                    .roomNumbers(rooms.stream().filter(room -> room.getRoomTypeId().equals(roomType.getRoomTypeId())).map(Room::getNumber).toList())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     @Override

@@ -124,16 +124,6 @@ public class AdminController {
         return adminService.getAllRoom();
     }
 
-    @ApiOperation("管理员获取建筑物所有教室")
-    @RequestMapping("/room/get/building")
-    public ResponseEntity<Object> getBuildingRoom(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {
-        try {
-            return ResponseEntity.ok(adminService.getBuildingRoom(buildingId));
-        } catch (ApiException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
     @ApiOperation("管理员新建一个教室")
     @PostMapping("/room/add")
     public ApiResponse<Boolean> addRoom(@ApiParam("所属建筑id") @RequestParam @NotNull Integer buildingId,

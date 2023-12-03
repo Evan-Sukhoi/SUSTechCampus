@@ -100,5 +100,5 @@ public interface AdminService {
 
     Boolean updateAllBusLine(List<BuslineParam> buslines) throws IOException;
 
-    List<RoomsInfo> getBuildingRoom(Integer buildingId);
+
 }
