@@ -282,7 +282,7 @@ insert into comment(comment_ID, user_ID, time, text, building_ID, score, admin_I
 
 -- 第三教学楼
 
-insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID)
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('第三教学楼',
         '06:00:00',
         '22:00:00',
@@ -290,6 +290,7 @@ values ('第三教学楼',
         '第三教学楼是一个教学楼',
         '二号门',
         'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
         1);
 
 
@@ -774,7 +775,7 @@ values (1,
 
 -- 一丹图书馆
 
-insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID)
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('一丹图书馆',
         '00:00:00',
         '24:00:00',
@@ -782,6 +783,7 @@ values ('一丹图书馆',
         '一丹图书馆是一个图书馆',
         '科研楼',
         'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
         1);
 
 
@@ -1095,4 +1097,251 @@ insert into Room(building_ID, number, room_type_ID)
 values (2,
         302,
         18);
+
+--琳恩图书馆
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('琳恩图书馆',
+        '06:00:00',
+        '22:00:00',
+        '琳恩图书馆',
+        '琳恩图书馆是一个图书馆',
+        '一号门',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        1);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lynn_library/%E7%90%B3%E6%81%A9%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg');
+
+--理学院
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('理学院',
+        '00:00:00',
+        '24:00:00',
+        '理学院',
+        '理学院是一个学院',
+        '一号门',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        1);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/college_of_science/%E7%90%86%E5%AD%A6%E9%99%A2.jpeg');
+
+--湖畔食堂
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('湖畔食堂',
+        '07:00:00',
+        '20:00:00',
+        '湖畔食堂',
+        '湖畔食堂是一个食堂',
+        '科研楼',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+
+--湖畔宿舍
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('湖畔宿舍',
+        '00:00:00',
+        '24:00:00',
+        '湖畔宿舍',
+        '湖畔宿舍是一个宿舍',
+        '社康中心',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_domitory/%E6%B9%96%E7%95%94%E5%AE%BF%E8%88%8D.jpg');
+--创园
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('创园',
+        '00:00:00',
+        '24:00:00',
+        '创园',
+        '创园是一个创业园',
+        '创园',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E5%88%9B%E5%9B%AD.jpg');
+--第一教学楼
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('第一教学楼',
+        '00:00:00',
+        '24:00:00',
+        '第一教学楼',
+        '第一教学楼是一个教学楼',
+        '科研楼',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        1);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E7%AC%AC%E4%B8%80%E6%95%99%E5%AD%A6%E6%A5%BC.jpg');
+--二期宿舍
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('二期宿舍',
+        '00:00:00',
+        '24:00:00',
+        '二期宿舍',
+        '二期宿舍是一个宿舍',
+        '学生宿舍',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%BA%8C%E6%9C%9F%E5%AE%BF%E8%88%8D.jpg');
+--风雨操场
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('风雨操场',
+        '00:00:00',
+        '24:00:00',
+        '风雨操场',
+        '风雨操场是一个操场',
+        '社康中心',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E9%A3%8E%E9%9B%A8%E6%93%8D%E5%9C%BA.jpg');
+--工学院
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('工学院',
+        '00:00:00',
+        '24:00:00',
+        '工学院',
+        '工学院是一个学院',
+        '工学院',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E5%B7%A5%E5%AD%A6%E9%99%A2.jpg');
+--涵泳图书馆
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('涵泳图书馆',
+        '00:00:00',
+        '24:00:00',
+        '涵泳图书馆',
+        '涵泳图书馆是一个图书馆',
+        '工学院',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        1);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E6%B6%B5%E6%B3%B3%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg');
+--会议中心
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('会议中心',
+        '00:00:00',
+        '24:00:00',
+        '会议中心',
+        '会议中心是一个会议中心',
+        '七号门',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%BC%9A%E8%AE%AE%E4%B8%AD%E5%BF%83.jpg');
+--教师公寓
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('教师公寓',
+        '00:00:00',
+        '24:00:00',
+        '教师公寓',
+        '教师公寓是一个公寓',
+        '教师公寓',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E6%95%99%E5%B8%88%E5%85%AC%E5%AF%93.jpg');
+--荔园
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('荔园',
+        '00:00:00',
+        '24:00:00',
+        '荔园',
+        '荔园是一个园区',
+        '荔园',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E8%8D%94%E5%9B%AD.jpg');
+--南科大中心
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('南科大中心',
+        '00:00:00',
+        '24:00:00',
+        '南科大中心',
+        '南科大中心是一个中心',
+        '科研楼',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E5%8D%97%E7%A7%91%E5%A4%A7%E4%B8%AD%E5%BF%83.jpg');
+--人文社科学院
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('人文社科学院',
+        '00:00:00',
+        '24:00:00',
+        '人文社科学院',
+        '人文社科学院是一个学院',
+        '教师公寓',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E4%BA%BA%E6%96%87%E7%A4%BE%E7%A7%91%E5%AD%A6%E9%99%A2.jpg');
+--润扬体育馆
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('润扬体育馆',
+        '00:00:00',
+        '24:00:00',
+        '润扬体育馆',
+        '润扬体育馆是一个体育馆',
+        '教工餐厅',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E6%B6%A6%E6%89%AC%E4%BD%93%E8%82%B2%E9%A6%86.jpg');
+--商学院
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
+values ('商学院',
+        '00:00:00',
+        '24:00:00',
+        '商学院',
+        '商学院是一个学院',
+        '二号门',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E5%95%86%E5%AD%A6%E9%99%A2.jpg');
+--松禾体育场
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable) values ('松禾体育场',
+        '00:00:00',
+        '24:00:00',
+        '松禾体育场',
+        '松禾体育场是一个体育场',
+        '教工餐厅',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image (image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E6%9D%BE%E7%A6%BE%E4%BD%93%E8%82%B2%E5%9C%BA.jpg');
+--第一科研楼
+insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable) values ('第一科研楼',
+        '00:00:00',
+        '24:00:00',
+        '第一科研楼',
+        '第一科研楼是一个科研楼',
+        '科研楼',
+        'https://www.bilibili.com/video/BV1Y7411H7jZ',
+        1,
+        0);
+insert into Image (image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%B8%80%E7%A7%91.jpg');
 
