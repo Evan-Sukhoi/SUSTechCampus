@@ -97,6 +97,7 @@ CREATE TABLE Building
     video_url       VARCHAR(255),
     cover_ID        INT,
     building_type   VARCHAR(255),
+    is_reservable   BOOLEAN,
     PRIMARY KEY (building_ID)
 );
 
