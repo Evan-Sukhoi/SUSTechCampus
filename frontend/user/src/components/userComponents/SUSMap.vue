@@ -98,11 +98,16 @@ export default {
       seebusline: false,
       subLine1: '',
       subLine2: '',
+      buslines: [],
     }
   },
+
+  beforeMount() {
+    this.fetchAllBuslines();
+  },
   mounted() {
-    this.initAMap();
     this.fetchBuildingData();
+    this.initAMap();
   },
   unmounted() {
     this.map?.destroy();
@@ -265,8 +270,8 @@ export default {
 
             this.driving = new this.AMap.Driving(drivingOption)
 
-            for (const busline of buslines) {
-
+            // (this.buslines.length === 0 ? buslines : this.buslines)
+            for (const busline of this.buslines) {
               for (let i = 0; i < busline.list.length - 1; i++) {
                 for (const item of busline.list[i].point) {
                   if (busline.name === 'busline1') {
@@ -392,6 +397,18 @@ export default {
       this.$http.get("/public/building/get/simple")
           .then(response => {
             this.buildings = response.data.data;
+          })
+          .catch(function (error) {
+          })
+          .finally(function () {
+          });
+    },
+
+    fetchAllBuslines() {
+      this.$http.get("/public/busline/all")
+          .then(response => {
+            this.buslines = response.data;
+            // console.log(this.buslines)
           })
           .catch(function (error) {
           })

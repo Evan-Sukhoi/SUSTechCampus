@@ -154,6 +154,7 @@ export default {
   height: 80%;
   background-color: white;
   border-radius: 20px;
+  overflow: auto;
 }
 
 .form {
