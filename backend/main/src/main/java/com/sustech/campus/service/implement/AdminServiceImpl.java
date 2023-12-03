@@ -132,6 +132,11 @@ public class AdminServiceImpl implements AdminService {
                         .selectAll(Room.class)
                         .select(Building::getName, Building::getBuildingId)
                         .leftJoin(Building.class, Building::getBuildingId, Room::getBuildingId)
+                        .leftJoin(RoomType.class, RoomType::getRoomTypeId, Room::getRoomTypeId)
+                        .selectAs(RoomType::getType, RoomInfo::getRoomTypeName)
+                        .selectAs(RoomType::getCapacity, RoomInfo::getCapacity)
+                        .selectAs(RoomType::getDescription, RoomInfo::getDescription)
+                        .selectAs(Building::getName, RoomInfo::getBuildingName)
         );
     }
 

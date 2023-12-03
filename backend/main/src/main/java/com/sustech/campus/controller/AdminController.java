@@ -9,6 +9,7 @@ import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
+import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.AdminService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -113,6 +114,12 @@ public class AdminController {
     public ApiResponse<Boolean> deleteBuilding(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {
         return ApiResponse.success(
                 adminService.deleteBuilding(buildingId));
+    }
+
+    @ApiOperation("管理员获取所有教室")
+    @RequestMapping("/room/all")
+    public List<RoomInfo> getAllRoom() {
+        return adminService.getAllRoom();
     }
 
     @ApiOperation("管理员新建一个教室")

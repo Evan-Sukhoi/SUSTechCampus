@@ -5,6 +5,7 @@ import com.sustech.campus.database.po.Room;
 import com.sustech.campus.model.param.CommentParam;
 import com.sustech.campus.model.param.ReserveParam;
 import com.sustech.campus.model.param.ReserveUpdateParam;
+import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
@@ -98,7 +99,7 @@ public class UserController {
 
     @ApiOperation("根据建筑ID获取建筑内所有房间信息")
     @RequestMapping("/room/get/building")
-    public ApiResponse<List<Room>> getRoomsInBuilding(@RequestParam Integer buildingId) {
+    public ApiResponse<List<RoomInfo>> getRoomsInBuilding(@ApiParam("建筑id") @RequestParam Integer buildingId) {
         return ApiResponse.success(
                 userService.getRoomByBuilding(buildingId)
         );

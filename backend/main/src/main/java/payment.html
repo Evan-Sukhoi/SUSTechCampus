@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alipay Payment Test</title>
+</head>
+<body>
+
+<h2>Alipay Payment Test</h2>
+
+<form id="paymentForm">
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" value="Test Payment" required><br>
+
+    <!-- Add other form fields as needed for your AlipayTradePrecreateModel properties -->
+
+    <button type="button" onclick="generateQrCode()">Generate QR Code</button>
+</form>
+
+<div id="qrCodeContainer"></div>
+
+<script>
+    function generateQrCode() {
+        var formData = new FormData(document.getElementById("paymentForm"));
+
+        fetch('/alipay/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(Object.fromEntries(formData)),
+        })
+            .then(response => response.text())
+            .then(qrCodeBase64 => {
+                // Display the QR code on the page
+                document.getElementById('qrCodeContainer').innerHTML = '<img src="data:image/png;base64,' + qrCodeBase64 + '" alt="QR Code">';
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
+</body>
+</html>

@@ -1,3 +1,42 @@
+<<<<<<< HEAD
+//package com.sustech.campus;
+//
+//import com.github.yulichang.wrapper.MPJLambdaWrapper;
+//import com.sustech.campus.database.dao.RoomDao;
+//import com.sustech.campus.database.po.Building;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//import com.baomidou.mybatisplus.core.toolkit.Assert;
+//import com.sustech.campus.database.dao.RoomDao;
+//import com.sustech.campus.model.vo.RoomInfo;
+//import com.sustech.campus.database.po.Room;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//import java.util.List;
+//
+//@SpringBootTest
+//public class MybatisJoinTest {
+//
+//    @Autowired
+//    private RoomDao roomDao;
+//
+//    @Test
+//    public void testSelect() {
+//        MPJLambdaWrapper<Room> wrapper = new MPJLambdaWrapper<Room>()
+//                .selectAll(Room.class)
+//                .select(Building::getName, Building::getBuilding_id)
+//                .leftJoin(Building.class, Building::getBuilding_id, Room::getBuilding_id);
+//
+//        List<RoomInfo> userList = roomDao.selectJoinList(RoomInfo.class, wrapper);
+//
+//        userList.forEach(System.out::println);
+//    }
+//
+//}
+//
+=======
 package com.sustech.campus;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -35,3 +74,4 @@ public class MybatisJoinTest {
 
 }
 
+>>>>>>> bb1acbabdec4fb353f60ad27d9b371d37fdbff99
