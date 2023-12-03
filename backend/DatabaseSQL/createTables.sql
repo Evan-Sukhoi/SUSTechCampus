@@ -46,111 +46,186 @@ DROP TABLE IF EXISTS `user`;
 
 -- 用户表
 
-CREATE TABLE User ( user_ID INT AUTO_INCREMENT,
-                                name VARCHAR(255),
-                                     phone VARCHAR(255),
-                                           email VARCHAR(255),
-                                                 password VARCHAR(255),
-                                                          image_ID INT, PRIMARY KEY (user_ID));
+CREATE TABLE User
+(
+    user_ID  INT AUTO_INCREMENT,
+    name     VARCHAR(255),
+    phone    VARCHAR(255),
+    email    VARCHAR(255),
+    password VARCHAR(255),
+    image_ID INT,
+    PRIMARY KEY (user_ID)
+);
 
 -- 管理员表
 
-CREATE TABLE Admin ( admin_ID INT AUTO_INCREMENT,
-                                  name VARCHAR(255),
-                                       phone VARCHAR(255),
-                                             email VARCHAR(255),
-                                                   password VARCHAR(255),
-                                                            image_ID INT, PRIMARY KEY (admin_ID));
+CREATE TABLE Admin
+(
+    admin_ID INT AUTO_INCREMENT,
+    name     VARCHAR(255),
+    phone    VARCHAR(255),
+    email    VARCHAR(255),
+    password VARCHAR(255),
+    image_ID INT,
+    PRIMARY KEY (admin_ID)
+);
 
 -- 黑名单表
 
-CREATE TABLE Blacklist ( list_ID INT AUTO_INCREMENT,
-                                     user_ID INT, admin_ID INT, PRIMARY KEY (list_ID));
+CREATE TABLE Blacklist
+(
+    list_ID  INT AUTO_INCREMENT,
+    user_ID  INT,
+    admin_ID INT,
+    PRIMARY KEY (list_ID)
+);
 
 
 DROP TABLE IF EXISTS `Building`;
 
 -- 建筑表
 
-CREATE TABLE Building ( building_ID INT AUTO_INCREMENT,
-                                        name VARCHAR(255),
-                                             open_time TIME,
-                                                       close_time TIME,
-                                                                  location_name VARCHAR(255),
-                                                                                introduction TEXT, nearest_station VARCHAR(255),
-                                                                                                                   video_url VARCHAR(255),
-                                                                                                                             cover_ID INT, building_type VARCHAR(255),
-                                                                                                                                                         PRIMARY KEY (building_ID));
+CREATE TABLE Building
+(
+    building_ID     INT AUTO_INCREMENT,
+    name            VARCHAR(255),
+    open_time       TIME,
+    close_time      TIME,
+    location_name   VARCHAR(255),
+    introduction    TEXT,
+    nearest_station VARCHAR(255),
+    video_url       VARCHAR(255),
+    cover_ID        INT,
+    building_type   VARCHAR(255),
+    PRIMARY KEY (building_ID)
+);
 
 -- 建筑对应图片 一对多需要新建表
 
-CREATE TABLE Buildings_Image ( building_ID INT, image_ID INT);
+CREATE TABLE Buildings_Image
+(
+    building_ID INT,
+    image_ID    INT
+);
 
 -- 房间表
 
-CREATE TABLE Room ( room_ID INT AUTO_INCREMENT,
-                                building_ID INT, number INT, room_type_ID INT, PRIMARY KEY (room_ID));
+CREATE TABLE Room
+(
+    room_ID      INT AUTO_INCREMENT,
+    building_ID  INT,
+    number       INT,
+    room_type_ID INT,
+    PRIMARY KEY (room_ID)
+);
 
 
 DROP TABLE IF EXISTS `Room_type`;
 
 -- 房间类型表
 
-CREATE TABLE Room_type ( room_type_ID INT AUTO_INCREMENT,
-                                          type VARCHAR(255),
-                                               capacity INT, description TEXT, PRIMARY KEY (room_type_ID));
+CREATE TABLE Room_type
+(
+    room_type_ID INT AUTO_INCREMENT,
+    type         VARCHAR(255),
+    capacity     INT,
+    description  TEXT,
+    PRIMARY KEY (room_type_ID)
+);
 
 -- Room_type对应图片 一对多需要新建表
 
-CREATE TABLE Room_type_Image ( room_type_ID INT, image_ID INT);
+CREATE TABLE Room_type_Image
+(
+    room_type_ID INT,
+    image_ID     INT
+);
 
 -- 巴士线路表
 
-CREATE TABLE Bus_line ( bus_line_ID INT AUTO_INCREMENT,
-                                        line_ID INT, station VARCHAR(255),
-                                                             _index_ INT, PRIMARY KEY (bus_line_ID));
+CREATE TABLE Bus_line
+(
+    bus_line_ID INT AUTO_INCREMENT,
+    line_ID     INT,
+    station     VARCHAR(255),
+    _index_     INT,
+    PRIMARY KEY (bus_line_ID)
+);
 
 
 DROP TABLE IF EXISTS `Comment`;
 
 -- 评价表
 
-CREATE TABLE Comment ( comment_ID INT AUTO_INCREMENT,
-                                      user_ID INT, time TIMESTAMP, text TEXT, building_ID INT, score INT, admin_ID INT, PRIMARY KEY (comment_ID));
+CREATE TABLE Comment
+(
+    comment_ID  INT AUTO_INCREMENT,
+    user_ID     INT,
+    time        TIMESTAMP,
+    text        TEXT,
+    building_ID INT,
+    score       INT,
+    admin_ID    INT,
+    PRIMARY KEY (comment_ID)
+);
 
 -- comment_ID对应图片 一对多需要新建表
 
-CREATE TABLE Comment_ID_Image ( comment_ID INT, image_ID INT);
+CREATE TABLE Comment_ID_Image
+(
+    comment_ID INT,
+    image_ID   INT
+);
 
 -- 创建图片表
 
-CREATE TABLE Image ( image_ID INT AUTO_INCREMENT PRIMARY KEY,
-                                                         image_url VARCHAR(255));
+CREATE TABLE Image
+(
+    image_ID  INT AUTO_INCREMENT PRIMARY KEY,
+    image_url VARCHAR(255)
+);
 
 
 DROP TABLE IF EXISTS `Reservation`;
 
 -- 预订表
 
-CREATE TABLE Reservation ( Reservation_ID INT AUTO_INCREMENT,
-                                              room_ID INT, start_time TIMESTAMP,
-                                                                      end_time TIMESTAMP,
-                                                                               user_ID INT, description TEXT, PRIMARY KEY (Reservation_ID));
+CREATE TABLE Reservation
+(
+    Reservation_ID INT AUTO_INCREMENT,
+    room_ID        INT,
+    start_time     TIMESTAMP,
+    end_time       TIMESTAMP,
+    user_ID        INT,
+    description    TEXT,
+    PRIMARY KEY (Reservation_ID)
+);
 
 
 DROP TABLE IF EXISTS `loginlog`;
 
 
-CREATE TABLE login_log( id INT AUTO_INCREMENT PRIMARY KEY,
-                                                      user_ID INT, login_time TIMESTAMP,
-                                                                              ip_address VARCHAR(255),
-                                                                                         port VARCHAR(255));
+CREATE TABLE login_log
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    user_ID    INT,
+    login_time TIMESTAMP,
+    ip_address VARCHAR(255),
+    port       VARCHAR(255)
+);
 
 -- 商品表  构造器输入的都是字符串
 
-CREATE TABLE Product (Subject VARCHAR(255) NOT NULL,
-                                           Body VARCHAR(1000),
-                                                Amount VARCHAR(20) NOT NULL);
+CREATE TABLE Product
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subject VARCHAR(255) NOT NULL,
+    body    VARCHAR(1000),
+    amount  VARCHAR(20)  NOT NULL,
+    CDKEK   VARCHAR(255) NOT NULL,
+    shop    VARCHAR(255) NOT NULL,
+    inventory INT NOT NULL
+);
 
 
 insert into User(phone, name, email, password, image_ID)
