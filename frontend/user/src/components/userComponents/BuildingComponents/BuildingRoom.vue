@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .roomList{
   top: 150px;
   position: relative;

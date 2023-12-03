@@ -1,6 +1,7 @@
 package com.sustech.campus.service.implement;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
@@ -11,20 +12,27 @@ import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.AuthCodeUtil;
 import com.sustech.campus.utils.EmailUtil;
 import com.sustech.campus.web.utils.JwtUtil;
+import io.swagger.annotations.ApiOperation;
 import jakarta.annotation.Resource;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +58,8 @@ public class PublicServiceImpl implements PublicService {
     @Resource
     private LoginLogDao loginLogDao;
     @Resource
+    private ResourceLoader resourceLoader;
+    @Resource
     private CommentIdImageDao commentIdImageDao;
     @Autowired
     private ImgHostUploader imgHostUploader;
@@ -59,12 +69,12 @@ public class PublicServiceImpl implements PublicService {
 //    private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<Busline> getAllBusLine() {
-        return buslineDao.selectJoinList(
-                Busline.class,
-                new MPJLambdaWrapper<Busline>()
-                        .select(Busline::getBuslineId, Busline::getLineId, Busline::getStation, Busline::getIndex)
-        );
+    public Object getAllBusLine() throws IOException {
+        org.springframework.core.io.Resource resource = resourceLoader.getResource("classpath:static/busline/busline.json");
+        InputStream inputStream = resource.getInputStream();
+        byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
+//        return new String(bdata, StandardCharsets.UTF_8);
+        return new ObjectMapper().readValue(bdata, Object.class);
     }
 
     @Override
@@ -259,10 +269,11 @@ public class PublicServiceImpl implements PublicService {
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getName, username)) == null, "该用户名已被注册");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)) == null, "该邮箱已被注册");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone, phoneNumber)) == null, "该手机号已被注册");
+        asserts(authCode != null, "验证码不能为空");
 
         String trueCode = redis.getObject("verification:" + email);
 
-        asserts(trueCode != null, "验证码已过期");
+        asserts(trueCode != null, "验证码已过期或未获取，请重新获取");
         asserts(authCode.equals(Integer.parseInt(trueCode)), "验证码错误");
 
         String url = imgHostUploader.upload(file);

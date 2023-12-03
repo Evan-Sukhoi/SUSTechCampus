@@ -35,7 +35,8 @@ export default {
 
 .route {
   position: absolute;
-  width: 100%;
+  width: 80%;
+  height: 99%;
   left: 20%;
 }
 

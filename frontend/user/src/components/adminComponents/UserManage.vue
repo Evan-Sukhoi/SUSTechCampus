@@ -182,7 +182,6 @@
 
 <script>
 import axios from 'axios';
-import FormData from "form-data";
 
 export default {
   created() {
@@ -324,6 +323,7 @@ export default {
           })
         })
       }
+      this.fetchUsers()
     }
   },
   name: 'UserManage',
@@ -388,7 +388,7 @@ export default {
 }
 </style>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 getColor(vsColor, alpha = 1)
 unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
 getVar(var)
