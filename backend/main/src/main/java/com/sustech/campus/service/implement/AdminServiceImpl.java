@@ -1,5 +1,6 @@
 package com.sustech.campus.service.implement;
 
+import cn.hutool.json.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -320,12 +321,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Boolean updateAllBusLine(BuslineParam buslines) throws IOException {
+    public Boolean updateAllBusLine(List<BuslineParam> buslines) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         // 将对象转换为JSON字符串
         String json = objectMapper.writeValueAsString(buslines);
-        File file = new File("classpath:static/busline/busline.json");
-        objectMapper.writeValue(file, json);
+        JSONArray jsonArray = new JSONArray(json);
+        File file = new File("backend/main/src/main/resources/static/busline/busline.json");
+        objectMapper.writeValue(file, jsonArray);
         return true;
     }
 }

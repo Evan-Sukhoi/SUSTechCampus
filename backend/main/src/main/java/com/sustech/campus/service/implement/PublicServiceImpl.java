@@ -1,5 +1,7 @@
 package com.sustech.campus.service.implement;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -18,20 +20,22 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
@@ -61,20 +65,42 @@ public class PublicServiceImpl implements PublicService {
     private ResourceLoader resourceLoader;
     @Resource
     private CommentIdImageDao commentIdImageDao;
+    org.springframework.core.io.Resource buslineResource;
     @Autowired
     private ImgHostUploader imgHostUploader;
-
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 //    @Resource
 //    private PasswordEncoder passwordEncoder;
 
     @Override
     public Object getAllBusLine() throws IOException {
-        org.springframework.core.io.Resource resource = resourceLoader.getResource("classpath:static/busline/busline.json");
-        InputStream inputStream = resource.getInputStream();
-        byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
-//        return new String(bdata, StandardCharsets.UTF_8);
-        return new ObjectMapper().readValue(bdata, Object.class);
+        BufferedReader reader = null;
+        JSONArray ret = null;
+        try{
+            File file = new File("backend/main/src/main/resources/static/busline/busline.json");
+            FileInputStream resource = new FileInputStream(file);
+            reader = new BufferedReader(new InputStreamReader(resource));
+            StringBuilder builder = new StringBuilder();
+            String line ="";
+            while((line = reader.readLine())!=null) {
+                builder.append(line);
+            }
+            ret =  JSON.parseArray(builder.toString());
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if(reader!=null){
+                reader.close();
+            }
+        }
+
+        return ret;
+        // 下面是使用Resource读取json，但在本地的json发生改变后，Resource不会更新，所以改用FileInputStream
+        // http://t.csdnimg.cn/h4870
+//        buslineResource = resourceLoader.getResource("classpath:static/busline/busline.json");
+//        InputStream inputStream = buslineResource.getInputStream();
+//        byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
+//        return new ObjectMapper().readValue(bdata, Object.class);
     }
 
     @Override

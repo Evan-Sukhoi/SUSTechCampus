@@ -101,5 +101,5 @@ public interface AdminService {
 
     Object getAllBusLine() throws IOException;
 
-    Boolean updateAllBusLine(BuslineParam buslines) throws IOException;
+    Boolean updateAllBusLine(List<BuslineParam> buslines) throws IOException;
 }
