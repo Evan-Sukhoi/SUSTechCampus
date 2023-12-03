@@ -10,10 +10,7 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.param.BuslineParam;
-import com.sustech.campus.model.vo.BuildingInfo;
-import com.sustech.campus.model.vo.CommentInfo;
-import com.sustech.campus.model.vo.ReservationInfo;
-import com.sustech.campus.model.vo.RoomInfo;
+import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.AdminService;
 
 import com.sustech.campus.service.PublicService;
@@ -25,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -143,6 +141,38 @@ public class AdminServiceImpl implements AdminService {
                         .selectAs(RoomType::getDescription, RoomInfo::getDescription)
                         .selectAs(Building::getName, RoomInfo::getBuildingName)
         );
+    }
+
+    @Override
+    public List<RoomsInfo> getBuildingRoom(Integer buildingId){
+        List<Room> rooms = roomDao.selectList(
+                new LambdaQueryWrapper<Room>()
+                        .eq(Room::getBuildingId, buildingId)
+        );
+        List<RoomType> roomTypes = new ArrayList<>();
+        for (Room room : rooms) {
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            if (!roomTypes.contains(roomType)) {
+                roomTypes.add(roomType);
+            }
+        }
+        return roomTypes.stream().map(roomType -> {
+            List<String> imageUrls = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            ).stream().map(roomTypeImage -> {
+                return imageDao.selectById(roomTypeImage.getImageId()).getImageUrl();
+            }).toList();
+            return RoomsInfo.builder()
+                    .roomTypeId(roomType.getRoomTypeId())
+                    .roomTypeName(roomType.getType())
+                    .capacity(roomType.getCapacity())
+                    .description(roomType.getDescription())
+                    .roomImageUrls(imageUrls)
+                    .roomNumbers(rooms.stream().filter(room -> room.getRoomTypeId().equals(roomType.getRoomTypeId())).map(Room::getNumber).toList())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     @Override

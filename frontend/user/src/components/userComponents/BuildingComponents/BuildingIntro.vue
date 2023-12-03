@@ -17,10 +17,7 @@
 
     <div class="video">
       <div class="video-container">
-        <video ref="videoPlayer" controls class="custom-video">
-          <source :src="videoUrl" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+        <buildingVideo></buildingVideo>
       </div>
 
       <div class="content">
@@ -36,14 +33,17 @@
 </template>
 
 <script>
+import buildingVideo from "@/components/userComponents/BuildingComponents/BuildingVideo.vue";
 export default {
   name: "BuildingIntro",
   data() {
     return {
       buildingId: '',
       building: {},
-      videoUrl: 'https://upos-hz-mirrorakam.akamaized.net/upgcxcode/23/59/2035923/2035923_da3-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1701344339&gen=playurlv2&os=akam&oi=804486655&trid=cfa3051a95bd4e5c87549b96d3ce978bh&mid=0&platform=html5&upsig=9c12818de46b8bc815f663b0eaf53e26&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&hdnts=exp=1701344339~hmac=84775ae312bf0196ee05be4a85eb92655240159287d125f8bb4f17cabfdb7f7b&bvc=vod&nettype=0&f=h_0_0&bw=50757&logo=80000000'
-    }
+   }
+  },
+  components: {
+    buildingVideo,
   },
 
   created() {
