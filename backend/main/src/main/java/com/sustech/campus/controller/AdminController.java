@@ -5,6 +5,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.param.BuslineParam;
+import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.param.ReserveRoomInfoParam;
 import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
@@ -45,6 +46,16 @@ public class AdminController {
     @RequestMapping("/user/all")
     public List<User> getAllUsers() {
         return adminService.getAllUsers();
+    }
+
+    @ApiOperation("管理员批量注册用户")
+    @PostMapping("/user/batchRegister")
+    public ResponseEntity<Object> batchRegister(@RequestBody @Validated List<RegisterParam> registerParams) {
+        try {
+            return ResponseEntity.ok(adminService.batchRegister(registerParams));
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation("管理员获取某个用户的所有信息")

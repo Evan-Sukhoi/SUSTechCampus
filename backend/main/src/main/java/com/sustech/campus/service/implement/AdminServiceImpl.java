@@ -10,6 +10,7 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.param.BuslineParam;
+import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.AdminService;
 
@@ -344,5 +345,26 @@ public class AdminServiceImpl implements AdminService {
         asserts(user != null, "用户不存在");
         user.setIsBlocked(false);
         usersDao.updateById(user);
+    }
+
+    @Override
+    public Boolean batchRegister(List<RegisterParam> registerParams) {
+        for (RegisterParam registerParam : registerParams) {
+            asserts(registerParam.getUsername() != null && registerParam.getPassword() != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
+            asserts(registerParam.getUsername().length() >= 3 && registerParam.getUsername().length() <= 20, "用户名长度应在3-20之间");
+            asserts(registerParam.getPassword().length() >= 6 && registerParam.getPassword().length() <= 20, "密码长度应在6-20之间");
+            asserts(registerParam.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
+            asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getName, registerParam.getUsername())) == null, "该用户名已被注册");
+            asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, registerParam.getEmail())) == null, "该邮箱已被注册");
+
+            User user = User.builder()
+                    .name(registerParam.getUsername())
+                    .password(registerParam.getPassword())
+                    .email(registerParam.getEmail())
+                    .imageId(1)
+                    .build();
+            userDao.insert(user);
+        }
+        return true;
     }
 }
