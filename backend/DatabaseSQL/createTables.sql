@@ -1111,6 +1111,128 @@ values ('琳恩图书馆',
         1);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lynn_library/%E7%90%B3%E6%81%A9%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (3,
+        23);
+-- 讨论间 18
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        101,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        102,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        103,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        104,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        105,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        301,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        302,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        303,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        304,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        305,
+        18);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        306,
+        18);
+--电脑区 12
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        201,
+        12);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        307,
+        12);
+--学习区 13
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        106,
+        13);
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        202,
+        13);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        308,
+        13);
+-- 协作学习区 17
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        107,
+        17);
+-- 培训教室 20
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        309,
+        20);
+
+insert into Room_type(type, capacity, description)
+values ('报刊区',
+        30,
+        "位于琳恩图书馆一楼，设有报刊阅览区和报刊借阅区，读者可在此阅读最新的报纸和期刊，也可借阅部分报刊。");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lynn_library/%E6%8A%A5%E5%88%8A%E5%8C%BA.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (21,
+        24);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        108,
+        21);
+
+insert into Room_type(type, capacity, description)
+values ('书架',
+        30,
+        "位于琳恩图书馆三楼，设有书架区和自助借还书机，读者可在此借阅图书。");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lynn_library/%E4%B9%A6%E6%9E%B6.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (22,
+        25);
+
+insert into Room(building_ID, number, room_type_ID)
+values (3,
+        310,
+        22);
 
 --理学院
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
@@ -1122,9 +1244,72 @@ values ('理学院',
         '一号门',
         'https://www.bilibili.com/video/BV1Y7411H7jZ',
         1,
-        1);
+        0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/college_of_science/%E7%90%86%E5%AD%A6%E9%99%A2.jpeg');
+insert into Buildings_Image(building_ID, image_ID)
+values (4,
+        26);
+
+insert into Room_type(type, capacity, description)
+values ('实验室',
+        30,
+        "实验室是一个实验室");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/college_of_science/%E5%AE%9E%E9%AA%8C%E5%AE%A4.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (23,
+        27);
+
+insert into Room(building_ID, number, room_type_ID)
+values (4,
+        101,
+        23);
+
+insert into Room_type(type, capacity, description)
+values ('教室',
+        30,
+        "教室是一个教室");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/college_of_science/%E6%95%99%E5%AE%A4.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (24,
+        28);
+
+insert into Room(building_ID, number, room_type_ID)
+values (4,
+        201,
+        24);
+
+insert into Room_type(type, capacity, description)
+values ('办公室',
+        30,
+        "办公室是一个办公室");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/college_of_science/%E5%8A%9E%E5%85%AC%E5%AE%A4.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (25,
+        29);
+
+insert into Room(building_ID, number, room_type_ID)
+values (4,
+        301,
+        25);
+
+insert into Room_type(type, capacity, description)
+values ('报告厅',
+        30,
+        "报告厅是一个报告厅");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/college_of_science/%E6%8A%A5%E5%91%8A%E5%8E%85.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (26,
+        30);
+
+insert into Room(building_ID, number, room_type_ID)
+values (4,
+        401,
+        26);
 
 --湖畔食堂
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
@@ -1137,6 +1322,172 @@ values ('湖畔食堂',
         'https://www.bilibili.com/video/BV1Y7411H7jZ',
         1,
         0);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_canteen/%E6%B9%96%E7%95%94%E9%A3%9F%E5%A0%82.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        31);
+
+insert into Room_type(type, capacity, description)
+values ('档口1',
+        30,
+        "档口1是一个档口");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E6%A1%A3%E5%8F%A3.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (27,
+        32);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        101,
+        27);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        102,
+        27);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        103,
+        27);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        104,
+        27);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        105,
+        27);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        106,
+        27);
+
+insert into Room_type(type, capacity, description)
+values ('档口2',
+        30,
+        "档口2是一个档口");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E6%A1%A3%E5%8F%A32.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (28,
+        33);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        201,
+        28);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        202,
+        28);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        203,
+        28);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        204,
+        28);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        205,
+        28);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        206,
+        28);
+
+insert into Room_type(type, capacity, description)
+values ('档口3',
+        30,
+        "档口3是一个档口");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E6%A1%A3%E5%8F%A33.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (29,
+        34);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        107,
+        29);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        207,
+        29);
+
+insert into Room_type(type, capacity, description)
+values ('包间',
+        30,
+        "包间是一个包间");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E5%8C%85%E9%97%B4.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (30,
+        35);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        208,
+        30);
+
+insert into Room_type(type, capacity, description)
+values ('自选快餐',
+        30,
+        "自选快餐是一个自选快餐");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E8%87%AA%E9%80%89%E5%BF%AB%E9%A4%90.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (31,
+        36);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        108,
+        31);
+
+insert into Room_type(type, capacity, description)
+values ('饮料店',
+        30,
+        "饮料店是一个饮料店");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E9%A5%AE%E6%96%99%E5%BA%97.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (32,
+        37);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        109,
+        32);
+
+insert into Room_type(type, capacity, description)
+values ('外驻商家',
+        30,
+        "外驻商家是一个外驻商家");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_canteen/%E5%A4%96%E9%A9%BB%E5%95%86%E5%AE%B6.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (33,
+        38);
+
+insert into Room(building_ID, number, room_type_ID)
+values (5,
+        110,
+        33);
+
 
 --湖畔宿舍
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
@@ -1151,6 +1502,45 @@ values ('湖畔宿舍',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_domitory/%E6%B9%96%E7%95%94%E5%AE%BF%E8%88%8D.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (6,
+        39);
+
+insert into Room_type(type, capacity, description)
+values ('宿舍1',
+        30,
+        "宿舍1是一个宿舍");
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/room/lake_domitory/%E5%AE%BF%E8%88%8D1.jpg');
+insert into Room_type_Image(room_type_ID, image_ID)
+values (34,
+        40);
+
+insert into Room(building_ID, number, room_type_ID)
+values (6,
+        201,
+        34);
+
+insert into Room(building_ID, number, room_type_ID)
+values (6,
+        301,
+        34);
+
+insert into Room(building_ID, number, room_type_ID)
+values (6,
+        401,
+        34);
+
+insert into Room(building_ID, number, room_type_ID)
+values (6,
+        501,
+        34);
+
+insert into Room(building_ID, number, room_type_ID)
+values (6,
+        601,
+        34);
+
 --创园
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('创园',
