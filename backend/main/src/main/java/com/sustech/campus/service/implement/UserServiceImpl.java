@@ -64,8 +64,12 @@ public class UserServiceImpl implements UserService {
                 .score(0)
                 .adminId(0)
                 .build();
+        System.out.println(comment);
         if (commentDao.insert(comment) == 0) {
             return false;
+        }
+        if (commentPhotos == null) {
+            return true;
         }
         for (MultipartFile file : commentPhotos) {
             String url = imgHostUploader.upload(file);
@@ -159,9 +163,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime) {
+    public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime, String description) {
         asserts(startTime.before(endTime), "开始时间必须早于结束时间");
         asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
+        asserts(description != null, "预约描述不能为空");
 
         Reservation reservation = Reservation.builder()
                 .roomId(roomId)

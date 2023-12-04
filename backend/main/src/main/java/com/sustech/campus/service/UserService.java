@@ -56,7 +56,7 @@ public interface UserService{
      * @param endTime 结束时间
      * @return 是否上传成功
      */
-    Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime);
+    Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime, String description);
 
     Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId);
 

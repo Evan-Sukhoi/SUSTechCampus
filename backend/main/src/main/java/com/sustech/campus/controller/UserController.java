@@ -43,15 +43,19 @@ public class UserController {
 
     @ApiOperation("用户发起预约请求")
     @RequestMapping("/reservation/post")
-    public ApiResponse<Boolean> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {
-        return ApiResponse.success(
-                userService.uploadReservation(
-                        reserveParam.getUserId(),
-                        reserveParam.getRoomId(),
-                        reserveParam.getStartTime(),
-                        reserveParam.getEndTime()
-                )
-        );
+    public ResponseEntity<Object> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {
+        try{
+            userService.uploadReservation(
+                    reserveParam.getUserId(),
+                    reserveParam.getRoomId(),
+                    reserveParam.getStartTime(),
+                    reserveParam.getEndTime(),
+                    reserveParam.getDescription()
+            );
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation("用户修改一个预约请求")
@@ -80,7 +84,7 @@ public class UserController {
 
     @ApiOperation("上传评论")
     @RequestMapping("/comment/upload")
-    public ResponseEntity<Object> uploadComment(@RequestPart List<MultipartFile> files, @RequestPart @Validated CommentParam commentParam) {
+    public ResponseEntity<Object> uploadComment(@RequestPart(required = false) List<MultipartFile> files, @RequestPart @Validated CommentParam commentParam) {
         try {
             userService.uploadComment(
                     commentParam.getUserId(),
@@ -98,7 +102,7 @@ public class UserController {
     }
 
 
-    @ApiOperation("管理员获取建筑物所有教室")
+    @ApiOperation("用户获取建筑物所有教室")
     @RequestMapping("/room/get/building")
     public ResponseEntity<Object> getBuildingRoom(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {
         try {
