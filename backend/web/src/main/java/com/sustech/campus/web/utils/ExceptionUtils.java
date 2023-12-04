@@ -20,6 +20,7 @@ public class ExceptionUtils {
 
     public static void asserts(boolean condition, String message) {
         if (!condition) {
+            LOGGER.warn(message);
             throw ApiException.badRequest(message);
         }
     }

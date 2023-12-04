@@ -1,6 +1,7 @@
 package com.sustech.campus.controller;
 
 
+import com.sustech.campus.database.annotation.DateField;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.model.param.CommentParam;
 import com.sustech.campus.model.param.ReserveParam;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @MappingController("/user")
@@ -33,9 +35,9 @@ public class UserController {
 
     @ApiOperation("用户获取可用预约时段")
     @RequestMapping("/reservation/get")
-    public ResponseEntity<Object> getReservation(@ApiParam("建筑id") @RequestParam Integer buildingId) {
+    public ResponseEntity<Object> getAvailableReservation(@ApiParam("建筑id") @RequestParam Integer buildingId, @ApiParam @RequestParam Date date) {
         try{
-            return ResponseEntity.ok().body(userService.getReservation(buildingId));
+            return ResponseEntity.ok().body(userService.getAvailableReservation(buildingId, date));
         } catch (ApiException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

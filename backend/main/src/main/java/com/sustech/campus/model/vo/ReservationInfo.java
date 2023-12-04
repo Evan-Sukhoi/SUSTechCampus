@@ -23,6 +23,7 @@ public class ReservationInfo {
 
     private String userName;
     private String roomType;
+    private Integer roomNumber;
 
     private String buildingName;
     private String buildingType;

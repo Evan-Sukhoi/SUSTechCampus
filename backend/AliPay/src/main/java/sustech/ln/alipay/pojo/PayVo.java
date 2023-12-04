@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName PayVo
- * @Description 支付信息
+ * @Description 订单信息（一个订单里包含了购物车中所有商品的信息）
  * @Author LN
  * @Date 2023/12/2
  */

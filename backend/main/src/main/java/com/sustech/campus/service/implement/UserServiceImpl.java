@@ -210,6 +210,7 @@ public class UserServiceImpl implements UserService {
                     .roomType(roomType.getType())
                     .buildingName(building.getName())
                     .buildingType(building.getBuildingType())
+                    .roomNumber(room.getNumber())
                     .roomTypeImages(image_url)
                     .build();
         }).collect(Collectors.toList());
@@ -226,6 +227,7 @@ public class UserServiceImpl implements UserService {
                 .startTime(startTime)
                 .endTime(endTime)
                 .userId(userId)
+                .description(description)
                 .build();
         return reservationDao.insert(reservation) != 0;
     }
@@ -257,7 +259,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<AvailableReservationInfo> getReservation(Integer buildingId) {
+    public List<AvailableReservationInfo> getAvailableReservation(Integer buildingId, Date date) {
+
         Building building = buildingDao.selectById(buildingId);
         Date begin_time = building.getOpenTime();
         Date end_time = building.getCloseTime();
@@ -304,11 +307,13 @@ public class UserServiceImpl implements UserService {
     private Integer getCurrentUserId() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("token");
+        System.out.println(request.getRequestURL() + "token: " + token);
         String id = null;
         if (StringUtils.hasText(token)) {
             Claims claims = JwtUtil.parseJwt(token);
             id = claims.getSubject();
         }
-        return id == null ? null : Integer.parseInt(id);
+        asserts(id != null, "认证信息无效或已过期，请重新登录");
+        return Integer.parseInt(id);
     }
 }

@@ -60,7 +60,7 @@ public interface UserService{
 
     Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId, String description);
 
-    List<AvailableReservationInfo> getReservation(Integer buildingId);
+    List<AvailableReservationInfo> getAvailableReservation(Integer buildingId, Date date);
 
     List<RoomsInfo> getBuildingRoom(Integer buildingId);
 
