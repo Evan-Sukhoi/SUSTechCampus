@@ -1747,7 +1747,7 @@ values ('润扬体育馆',
         '体育场地',
         0);
 insert into Image(image_url)
-values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E6%B6%A6%E6%89%AC%E4%BD%93%E8%82%B2%E9%A6%86.jpg');
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E6%B6%A6%E6%9D%A8%E4%BD%93%E8%82%B2%E9%A6%86.jpg');
 insert into Buildings_Image(building_ID, image_ID)
 values (18,
         52);
