@@ -36,7 +36,7 @@ public class UserController {
 
     @ApiOperation("用户获取可用预约时段")
     @RequestMapping("/reservation/get")
-    public ResponseEntity<Object> getAvailableReservation(@RequestParam @Validated AvailableReserveParam availableReserveParam) {
+    public ResponseEntity<Object> getAvailableReservation(@RequestBody @Validated AvailableReserveParam availableReserveParam) {
         try{
             return ResponseEntity.ok().body(
                     userService.getAvailableReservation(

@@ -28,13 +28,16 @@ const store = new Vuex.Store({
         this.state.isShow = true
       },
       edit(state, info){
-        this.state.roomID = info.roomID
-        this.state.department = info.department
+        this.state.reservationID = info.reservationId
+        this.state.roomID = info.roomId
+        this.state.roomNumber = info.roomNumber
+        this.state.department = info.description
         this.state.buildingType = info.buildingType
         this.state.buildingName = info.buildingName
         this.state.date = info.date
-        this.state.start_time = info.start_time
-        this.state.end_time = info.end_time
+        this.state.start_time = new Date(info.startTime)
+        this.state.end_time = new Date(info.endTime)
+        this.state.rangeTime = info.rangeTime
         this.state.isShow = true
         this.state.isEdit = true
       },

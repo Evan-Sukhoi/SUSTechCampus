@@ -7,12 +7,12 @@
           style="width: 100%"
           max-height="250">
         <el-table-column
-            prop="roomID"
+            prop="roomNumber"
             :label="$t('lang.roomID')"
             width="150">
         </el-table-column>
         <el-table-column
-            prop="department"
+            prop="description"
             :label="$t('lang.department')"
             width="120">
         </el-table-column>
@@ -33,13 +33,13 @@
             width="120">
         </el-table-column>
         <el-table-column
-            prop="start_time"
+            prop="startTime"
             :label="$t('lang.startTime')"
             width="120"
             :formatter="formatDate">
         </el-table-column>
         <el-table-column
-            prop="end_time"
+            prop="endTime"
             :label="$t('lang.endTime')"
             width="120"
             :formatter="formatDate">
@@ -78,6 +78,23 @@ export default {
     ReservationForm
   },
   methods: {
+    fetchData(){
+      console.log(1)
+      this.$http.get('/user/reservation/get/all?userId='+ localStorage.getItem('userID')).then(resp => {
+        if (resp.status === 200){
+          this.tableData = resp.data
+          for (let i = 0; i < this.tableData.length; i++) {
+            var time =new Date(this.tableData[i].startTime)
+            var day = time.getDate()
+            if (day >= 0 && day <= 9) {
+              day = "0" + String(day);
+            }
+            this.tableData[i]["date"] = time.getFullYear() + '-' + (time.getMonth()+1) + '-' + day
+          }
+          console.log(resp.data)
+        }
+      }).catch(err=>err)
+    },
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
@@ -114,14 +131,10 @@ export default {
       }],
       formLabelWidth: '120px'
     }
-  },beforeMount() {
-    this.$http.get('/user/reservation/get/all?userId='+ localStorage.getItem('userID')).then(resp => {
-      if (resp.status === 200){
-        this.tableData = resp.data
-      }
-      console.log(resp);
-    }).catch(err=>err)
-  }
+  },
+  beforeMount() {
+    this.fetchData()
+  },
 
 }
 </script>

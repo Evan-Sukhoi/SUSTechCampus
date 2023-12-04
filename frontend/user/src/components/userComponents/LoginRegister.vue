@@ -217,7 +217,7 @@ export default {
       this.$router.push({path:'/user/home'}).catch(err=>err)
     },
     personalPage(){
-      this.$router.push({path:'/user/personalPage'})
+      this.$router.push({path:'/user/personalPage'}).catch(err=>err)
     },
     createAccount(){
       this.isRegister = true

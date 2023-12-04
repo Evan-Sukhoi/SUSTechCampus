@@ -12,11 +12,11 @@ import store from "@/store";
 import locale from 'element-ui/lib/locale';
 import langEn from 'element-ui/lib/locale/lang/en';
 import langCn from 'element-ui/lib/locale/lang/zh-CN';
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:8081"
+import intercept from "@/utils/intercept";
 
 
-Vue.prototype.$http = axios
+
+Vue.prototype.$http = intercept
 Vue.config.productionTip = false
 Vue.use(Element)
 Vue.use(VueSax)
@@ -41,15 +41,3 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount('#app')
-
-axios.interceptors.request.use(
-    config => {
-      if (localStorage.getItem('token')) {
-        config.headers.token = localStorage.getItem('token')
-      }
-      return config
-    },
-    error => {
-      return Promise.reject(error)
-    }
-)
