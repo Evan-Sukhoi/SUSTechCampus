@@ -238,8 +238,6 @@ public class PublicServiceImpl implements PublicService {
         }
         User user = userDao.selectOne(queryWrapper);
         asserts(user != null, "用户不存在");
-        asserts(user.getPassword().equals(password), "密码错误");
-        // TODO: 密码加密
         asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
 
         // 添加login log和authenticate
