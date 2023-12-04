@@ -218,6 +218,12 @@ public class AdminController {
                 adminService.approveComment(commentId, adminId));
     }
 
+    @ApiOperation("管理员获取所有非法操作记录")
+    @RequestMapping("/illegal/all")
+    public ResponseEntity<Object> getAllIllegal() {
+        return ResponseEntity.ok(adminService.getAllIllegal());
+    }
+
     @ApiOperation("管理员获取所有公交线路")
     @RequestMapping("/busline/all")
     public ResponseEntity<Object> getAllBusLine() {

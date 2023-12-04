@@ -40,7 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             LOGGER.info("token: {}", token);
             Claims claims = JwtUtil.parseJwt(token);
             String id = claims.getSubject();
+            System.out.println("id: " + id);
             User user = redis.getObject("login:" + id);
+            System.out.println("user: " + user);
             if (user == null) { //Redis的User过期了，查询数据库
                 user = userDao.selectById(id);
             }

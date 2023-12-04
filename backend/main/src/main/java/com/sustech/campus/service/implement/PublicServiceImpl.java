@@ -14,6 +14,7 @@ import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.AuthCodeUtil;
 import com.sustech.campus.utils.EmailUtil;
 import com.sustech.campus.web.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import jakarta.annotation.Resource;
 
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -262,12 +264,12 @@ public class PublicServiceImpl implements PublicService {
 
     @Override
     public String authenticate(User user) {
-        String username = user.getName();
         String password = user.getPassword();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, null);
+        String id = String.valueOf(user.getUserId());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(id, password, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        redis.setObject("login:" + username, user, 60 * 60 * 2);
-        return JwtUtil.createJwt(username);
+        redis.setObject("login:" + id, user, 60 * 60 * 2);
+        return JwtUtil.createJwt(id);
     }
 
     @Resource
@@ -332,4 +334,5 @@ public class PublicServiceImpl implements PublicService {
                         .eq(Building::getBuildingId, buildingId)
         );
     }
+
 }
