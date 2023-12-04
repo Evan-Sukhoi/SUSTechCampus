@@ -1,5 +1,6 @@
 package com.sustech.campus.service;
 
+import com.sustech.campus.database.annotation.DateField;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Room;

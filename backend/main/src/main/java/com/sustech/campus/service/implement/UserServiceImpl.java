@@ -19,6 +19,7 @@ import com.sustech.campus.web.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -208,6 +210,7 @@ public class UserServiceImpl implements UserService {
                     .endTime(reservation.getEndTime())
                     .description(reservation.getDescription())
                     .roomType(roomType.getType())
+                    .buildingId(building.getBuildingId())
                     .buildingName(building.getName())
                     .buildingType(building.getBuildingType())
                     .roomNumber(room.getNumber())
@@ -261,6 +264,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<AvailableReservationInfo> getAvailableReservation(Integer buildingId, Date date) {
 
+        Date startDate = DateUtils.truncate(date, Calendar.DATE); // 获取参数date的当天日期，清除时分秒部分
+        Date endDate = DateUtils.addDays(startDate, 1);
+
         Building building = buildingDao.selectById(buildingId);
         Date begin_time = building.getOpenTime();
         Date end_time = building.getCloseTime();
@@ -276,6 +282,7 @@ public class UserServiceImpl implements UserService {
             List<Reservation> reservations = reservationDao.selectList(
                     new MPJLambdaWrapper<>(Reservation.class)
                             .eq(Reservation::getRoomId, room.getRoomId())
+                            .between(Reservation::getStartTime, startDate, endDate)
             );
             List<Date> occupiedTimeBeginImmutable = reservations.stream().map(Reservation::getStartTime).toList();
             List<Date> occupiedTimeEndImmutable = reservations.stream().map(Reservation::getEndTime).toList();
