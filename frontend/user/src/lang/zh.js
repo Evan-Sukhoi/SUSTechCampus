@@ -59,6 +59,7 @@ export const lang = {
   /*reservation*/
   reserve:'点击预约',
   roomID: '房间号',
+  roomType: '房间类型',
   chooseADate:'请选择日期',
   department:'所属部门',
   date:'时期',
@@ -70,8 +71,11 @@ export const lang = {
   suchAs434A:'诸如434A',
   filter:'筛选',
   filter_buildingName:'建筑名',
+  filter_Reservable:'查看可预约建筑',
   filter_sure:'确定',
+  reserveSuccess: '预约成功！',
   errorTime:'开始时间晚于结束时间',
+  errorReserve:'此建筑不可预约',
 
   /*service*/
   commodity:'商品名',

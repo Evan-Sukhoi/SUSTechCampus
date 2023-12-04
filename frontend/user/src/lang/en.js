@@ -59,6 +59,7 @@ export const lang = {
   /*reservation*/
   reserve:'reserve',
   roomID: 'RoomID',
+  roomType: 'RoomType',
   chooseADate:'Choose a date',
   department:'Department',
   date:'Date',
@@ -70,8 +71,11 @@ export const lang = {
   suchAs434A:'Such as 434A',
   filter:'Filter',
   filter_buildingName:'Building name',
+  filter_Reservable:'Show reservable building',
   filter_sure:'Sure',
+  reserveSuccess: 'Reserve successfully!',
   errorTime:'Start time no later than the end time',
+  errorReserve:'This building can not be reserved',
 
   /*service*/
   commodity:'Commodity name',

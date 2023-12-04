@@ -8,11 +8,11 @@
         <template #header>
           <div class="con-form">
             <vs-input v-model="search" border placeholder="Search" />
-            <vs-button style="float: right" @click="addBusLine">
-              <i class="bx bx-image-add">
-                add busLine
-              </i>
-            </vs-button>
+<!--            <vs-button style="float: right" @click="addBusLine">-->
+<!--              <i class="bx bx-image-add">-->
+<!--                add busLine-->
+<!--              </i>-->
+<!--            </vs-button>-->
           </div>
         </template>
         <template #thead>

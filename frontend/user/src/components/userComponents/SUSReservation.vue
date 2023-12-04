@@ -13,34 +13,42 @@
       </el-carousel>
     </div>
     <div class="filter">
-      <h1>{{$t('lang.filter')}}</h1>
-      <el-form label-position="left" label-width="80px">
-        <el-form-item :label="$t('lang.filter_buildingName')" style="width: 400px;">
-          <el-input v-model="condition.name"></el-input>
-        </el-form-item>
-      </el-form>
-      <vs-button
-          warn
-          gradient
-          @click="filter"
-          style="margin: auto"
-      >{{$t('lang.filter_sure')}}
-      </vs-button>
+      <el-scrollbar style="height: 100%" class="scrollbar-for" wrap-style="overflow-x:hidden;">
+        <h1>{{ $t('lang.filter') }}</h1>
+        <el-form label-position="left" label-width="80px">
+          <el-form-item :label="$t('lang.filter_buildingName')" style="width: 400px;">
+            <el-input v-model="condition.name"></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('lang.filter_Reservable')" style="width: 400px;">
+            <el-checkbox v-model="condition.viewReservable"></el-checkbox>
+          </el-form-item>
+        </el-form>
+        <vs-button
+            warn
+            gradient
+            @click="filter"
+            style="margin: auto"
+        >{{ $t('lang.filter_sure') }}
+        </vs-button>
+      </el-scrollbar>
     </div>
-    <div v-for="building in buildingShow" :key="building.id" class="box">
+    <div v-for="(value,key) in buildingShow" :key="key" class="box">
       <div id="left-box">
-        <h1 class="text">{{ building.name }}</h1>
+        <h1 class="text">{{ key }}</h1>
       </div>
       <div id="right-box">
-        <div v-for="reservation in Infos" :key="reservation.buildingId" class="column">
-          <div @click="goto(building.name, reservation.buildingId, reservation.name)">
+        <div v-for="(reservation,j) in value" :key="j" class="column">
+          <div
+              @click="goto(key, reservation.buildingId, reservation.name, reservation.isReservable)">
             <router-link :to="``">
               <vs-card>
                 <template #title>
                   <h3>{{ reservation.name }}</h3>
                 </template>
                 <template #img>
-                  <img :src=reservation.img alt="">
+                  <img :src=reservation.coverUrl alt="" v-if="reservation.isReservable">
+                  <img :src="reservation.coverUrl" alt="" v-else
+                       style="filter: gray;-webkit-filter: grayscale(1);filter: grayscale(1)">
                 </template>
                 <template #text>
                   <p>
@@ -108,8 +116,9 @@ export default {
       condition: {
         name: '',
         open_time: ['00:00', '24:00'],
+        viewReservable: false
       },
-      buildingShow:''
+      buildingShow: ''
     }
   },
   beforeMount() {
@@ -126,34 +135,60 @@ export default {
         'content-type': 'application/json'
       },
     }).then(resp => {
-      this.Infos = resp.data.data
+      if (resp.status === 200) {
+        this.Infos = this.dealData(resp.data.data)
+        this.buildingShow = this.Infos
+        console.log(this.Infos)
+      }
       console.log(resp)
-    }).catch(err=>err)
-    this.buildingShow=this.buildingType
+    }).catch(err => err)
   },
   methods: {
-    goto(buildingType, buildingId, buildingName) {
-      this.$router.push({path: "/user/reservation/" + buildingType + "/" + buildingId + buildingName})
+    dealData(data) {
+      var dict = {}
+      for (let i = 0; i < data.length; i++) {
+        if (!(data[i].buildingType in dict)) {
+          dict[data[i].buildingType] = []
+        }
+        dict[data[i].buildingType].push(data[i])
+      }
+      return dict
+    },
+    goto(buildingType, buildingId, buildingName, isReservable) {
+      if (isReservable) {
+        this.$router.push(
+            {path: "/user/reservation/" + buildingType + "/" + buildingId + buildingName})
+      } else {
+        this.$vs.notification({
+          color: 'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorReserve'),
+          text: '',
+        })
+      }
+
     },
     closeDialog() {
       this.visable = false
     },
     filter() {
-      var newBuildingType = []
-      for (var i=0;i < this.buildingType.length; i++) {
-        if (this.condition.name !== '') {
-          var upperName = this.condition.name.toString().toUpperCase()
-          var matchName = this.buildingType[i].name.toString().toUpperCase()
-          if (matchName.includes(upperName)) {
-            newBuildingType.push(this.buildingType[i])
+      var newBuildingType = {}
+      for (var i in this.Infos) {
+        if (i === this.condition.name || this.condition.name === '') {
+          var building = []
+          for (let j = 0; j < this.Infos[i].length; j++) {
+            if (this.condition.viewReservable) {
+              if (this.Infos[i][j].isReservable) {
+                building.push(this.Infos[i][j])
+              }
+            } else {
+              building.push(this.Infos[i][j])
+            }
           }
-        }else {
-          newBuildingType.push(this.buildingType[i])
+          if (building.length !== 0){
+            newBuildingType[i] = building
+          }
         }
-        // var start_hour = this.condition.open_time[0].split(':')[0]
-        // var start_minute = this.condition.open_time[0].split(':')[1]
-        // var end_hour = this.condition.open_time[1].split(':')[0]
-        // var end_minute = this.condition.open_time[1].split(':')[1]
       }
       this.buildingShow = newBuildingType
     }
@@ -175,12 +210,13 @@ export default {
   margin-right: 10%;
   margin-left: 10%;
   height: 618px;
+  overflow: auto;
 }
 
-.filter{
+.filter {
   background-color: rgba(255, 255, 255, 0.7);
   width: 500px;
-  height:200px;
+  height: 200px;
   position: relative;
   margin: auto;
   text-align: center;
