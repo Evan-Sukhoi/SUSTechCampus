@@ -20,6 +20,7 @@ const store = new Vuex.Store({
     mutations: {
       reserve (state, reservation) {
         this.state.roomID = reservation.roomID
+        this.state.roomNumber = reservation.roomNumber
         this.state.date = reservation.date
         this.state.buildingType = reservation.buildingType
         this.state.buildingName = reservation.buildingName

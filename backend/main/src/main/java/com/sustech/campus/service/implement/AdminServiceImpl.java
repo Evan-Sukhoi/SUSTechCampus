@@ -10,10 +10,12 @@ import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
 import com.sustech.campus.model.param.BuslineParam;
+import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.AdminService;
 
 import com.sustech.campus.service.PublicService;
+import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
 
 import org.slf4j.LoggerFactory;
@@ -56,16 +58,17 @@ public class AdminServiceImpl implements AdminService {
     private ImageDao imageDao;
 
     @Resource
-    private UserDao usersDao;
-
-    @Resource
     private ReservationDao reservationDao;
 
     @Resource
     private BlacklistDao blacklistDao;
+
+    @Resource
+    private IllegalOperationLogDao illegalOperationLogDao;
     @Resource
     private PublicService publicService;
-
+//    @Resource
+//    private UserService userService;
     @Resource
     private ImgHostUploader imgHostUploader;
 
@@ -73,12 +76,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User getUserInfo(Integer userId) {
-        return usersDao.selectById(userId);
+        return userDao.selectById(userId);
     }
 
     @Override
     public Boolean updateUserInfo(Integer userId, String name, String phone, String email, String password) {
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         if (user == null) {
             return false;
         } else {
@@ -86,23 +89,23 @@ public class AdminServiceImpl implements AdminService {
             user.setPhone(phone);
             user.setEmail(email);
             user.setPassword(password);
-            usersDao.updateById(user);
+            userDao.updateById(user);
             return true;
         }
     }
 
     @Override
     public List<User> getAllUsers() {
-        return usersDao.selectList(null);
+        return userDao.selectList(null);
     }
 
     @Override
     public Boolean deleteUser(Integer userId) {
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         if (user == null) {
             return false;
         } else {
-            usersDao.deleteById(userId);
+            userDao.deleteById(userId);
             return true;
         }
     }
@@ -195,7 +198,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ReservationInfo> getReservationUserInfo(Integer userId) {
         asserts(userId != null, "用户id不能为空");
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         asserts(user != null, "用户不存在");
         asserts(blacklistDao.selectOne(new MPJLambdaWrapper<Blacklist>()
                 .eq(Blacklist::getUserId, userId)
@@ -270,7 +273,7 @@ public class AdminServiceImpl implements AdminService {
                         .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
         );
         return comments.stream().map(comment -> {
-            User user = usersDao.selectById(comment.getUserId());
+            User user = userDao.selectById(comment.getUserId());
             String userImageUrl = null;
             if (imageDao.selectById(user.getImageId()) == null) {
                 LOGGER.warn("imageDao.selectById(user.getImageId()) == null");
@@ -327,5 +330,48 @@ public class AdminServiceImpl implements AdminService {
         File file = new File("backend/main/src/main/resources/static/busline/busline.json");
         objectMapper.writeValue(file, jsonArray);
         return true;
+    }
+
+    @Override
+    public Boolean blockUser(Integer userId) {
+        User user = userDao.selectById(userId);
+        asserts(user != null, "用户不存在");
+        user.setIsBlocked(true);
+        userDao.updateById(user);
+        return true;
+    }
+
+    @Override
+    public void unblockUser(Integer userId) {
+        User user = userDao.selectById(userId);
+        asserts(user != null, "用户不存在");
+        user.setIsBlocked(false);
+        userDao.updateById(user);
+    }
+
+    @Override
+    public Boolean batchRegister(List<RegisterParam> registerParams) {
+        for (RegisterParam registerParam : registerParams) {
+            asserts(registerParam.getUsername() != null && registerParam.getPassword() != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
+            asserts(registerParam.getUsername().length() >= 3 && registerParam.getUsername().length() <= 20, "用户名长度应在3-20之间");
+            asserts(registerParam.getPassword().length() >= 6 && registerParam.getPassword().length() <= 20, "密码长度应在6-20之间");
+            asserts(registerParam.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
+            asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getName, registerParam.getUsername())) == null, "该用户名已被注册");
+            asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, registerParam.getEmail())) == null, "该邮箱已被注册");
+
+            User user = User.builder()
+                    .name(registerParam.getUsername())
+                    .password(registerParam.getPassword())
+                    .email(registerParam.getEmail())
+                    .imageId(1)
+                    .build();
+            userDao.insert(user);
+        }
+        return true;
+    }
+
+    @Override
+    public List<IllegalOperationLog> getAllIllegal() {
+        return illegalOperationLogDao.selectList(null);
     }
 }

@@ -43,29 +43,47 @@ public class UserController {
 
     @ApiOperation("用户发起预约请求")
     @RequestMapping("/reservation/post")
-    public ApiResponse<Boolean> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {
-        return ApiResponse.success(
-                userService.uploadReservation(
-                        reserveParam.getUserId(),
-                        reserveParam.getRoomId(),
-                        reserveParam.getStartTime(),
-                        reserveParam.getEndTime()
-                )
-        );
+    public ResponseEntity<Object> uploadReservation(@RequestBody @Validated ReserveParam reserveParam) {
+        try{
+            userService.uploadReservation(
+                    reserveParam.getUserId(),
+                    reserveParam.getRoomId(),
+                    reserveParam.getStartTime(),
+                    reserveParam.getEndTime(),
+                    reserveParam.getDescription()
+            );
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation("用户修改一个预约请求")
     @RequestMapping("/reservation/update")
-    public ApiResponse<Boolean> updateReservation(@RequestBody @Validated ReserveUpdateParam reserveUpdateParam) {
-        return ApiResponse.success(
-                userService.updateReservation(
-                        reserveUpdateParam.getReservation_id(),
-                        reserveUpdateParam.getRoom_id(),
-                        reserveUpdateParam.getStartTime(),
-                        reserveUpdateParam.getEndTime(),
-                        reserveUpdateParam.getUserId()
-                )
-        );
+    public ResponseEntity<Object> updateReservation(@RequestBody @Validated ReserveUpdateParam reserveUpdateParam) {
+        try{
+            userService.updateReservation(
+                    reserveUpdateParam.getReservation_id(),
+                    reserveUpdateParam.getRoom_id(),
+                    reserveUpdateParam.getStartTime(),
+                    reserveUpdateParam.getEndTime(),
+                    reserveUpdateParam.getUserId(),
+                    reserveUpdateParam.getDescription()
+            );
+            return ResponseEntity.ok().build();
+        }catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation("用户获取所有预约请求")
+    @RequestMapping("/reservation/get/all")
+    public ResponseEntity<Object> getAllReservation(@ApiParam("用户id") @RequestParam Integer userId) {
+        try{
+            return ResponseEntity.ok().body(userService.getAllReservation(userId));
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 //    @ApiOperation("用户根据地点获取巴士线路信息")
@@ -80,7 +98,7 @@ public class UserController {
 
     @ApiOperation("上传评论")
     @RequestMapping("/comment/upload")
-    public ResponseEntity<Object> uploadComment(@RequestPart List<MultipartFile> files, @RequestPart @Validated CommentParam commentParam) {
+    public ResponseEntity<Object> uploadComment(@RequestPart(required = false) List<MultipartFile> files, @RequestPart @Validated CommentParam commentParam) {
         try {
             userService.uploadComment(
                     commentParam.getUserId(),
@@ -98,15 +116,7 @@ public class UserController {
     }
 
 
-    @ApiOperation("根据建筑ID获取建筑内所有房间信息")
-    @RequestMapping("/room/get/building")
-    public ApiResponse<List<RoomInfo>> getRoomsInBuilding(@ApiParam("建筑id") @RequestParam Integer buildingId) {
-        return ApiResponse.success(
-                userService.getRoomByBuilding(buildingId)
-        );
-    }
-
-    @ApiOperation("管理员获取建筑物所有教室")
+    @ApiOperation("用户获取建筑物所有教室")
     @RequestMapping("/room/get/building")
     public ResponseEntity<Object> getBuildingRoom(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {
         try {

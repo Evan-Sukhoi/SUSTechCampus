@@ -14,6 +14,7 @@ import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.AuthCodeUtil;
 import com.sustech.campus.utils.EmailUtil;
 import com.sustech.campus.web.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import jakarta.annotation.Resource;
 
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -107,7 +109,7 @@ public class PublicServiceImpl implements PublicService {
     public List<BuildingInfoSimple> getSimpleBuildingInfo() {
         List<Building> buildings = buildingDao.selectList(
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getCoverId, Building::getBuildingType)
+                        .select(Building::getBuildingId)
         );
         return buildings.stream().map(building -> getBuildingInfoSimpleThroughId(building.getBuildingId())).toList();
     }
@@ -127,7 +129,7 @@ public class PublicServiceImpl implements PublicService {
         return buildingDao.selectJoinOne(
                 BuildingInfoSimple.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getBuildingType)
+                        .select(Building::getBuildingId, Building::getName, Building::getIntroduction, Building::getBuildingType, Building::getIsReservable)
                         .leftJoin(Image.class, Image::getImageId, Building::getCoverId)
                         .selectAs(Image::getImageUrl, BuildingInfoSimple::getCoverUrl)
                         .eq(Building::getBuildingId, buildingId)
@@ -179,6 +181,7 @@ public class PublicServiceImpl implements PublicService {
                 .nearestStation(building.getNearestStation())
                 .videoUrl(building.getVideoUrl())
                 .buildingType(building.getBuildingType())
+                .isReservable(building.getIsReservable())
                 .coverUrl(cover_url)
                 .imageUrl(image_url)
                 .build();
@@ -247,7 +250,7 @@ public class PublicServiceImpl implements PublicService {
                 .setPort(request.getRemotePort())
                 .setLoginTime(new Date()));
 
-        String token = authenticate(user.getName(), user.getPassword());
+        String token = authenticate(user);
 
         return UserInfo.builder()
                 .token(token)
@@ -260,11 +263,13 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public String authenticate(String username, String password) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, null);
+    public String authenticate(User user) {
+        String password = user.getPassword();
+        String id = String.valueOf(user.getUserId());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(id, password, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        redis.setObject("login:" + username, username, 60 * 60 * 2);
-        return JwtUtil.createJwt(username);
+        redis.setObject("login:" + id, user, 60 * 60 * 2);
+        return JwtUtil.createJwt(id);
     }
 
     @Resource
@@ -329,4 +334,5 @@ public class PublicServiceImpl implements PublicService {
                         .eq(Building::getBuildingId, buildingId)
         );
     }
+
 }

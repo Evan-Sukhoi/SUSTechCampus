@@ -22,6 +22,7 @@
         <module>database</module>
         <module>main</module>
         <module>web</module>
+        <module>AliPay</module>
     </modules>
 
     <build>

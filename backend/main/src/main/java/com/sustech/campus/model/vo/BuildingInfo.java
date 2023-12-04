@@ -27,4 +27,5 @@ public class BuildingInfo {
     private String videoUrl;
     private String coverUrl;
     private List<String> imageUrl;
+    private Boolean isReservable;
 }

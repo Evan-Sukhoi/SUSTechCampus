@@ -7,16 +7,24 @@ import com.sustech.campus.database.annotation.TimeField;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
+import com.sustech.campus.database.utils.RedisUtil;
 import com.sustech.campus.model.vo.AvailableReservationInfo;
+import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.model.vo.RoomsInfo;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.TimeUtil;
 import com.sustech.campus.web.handler.ApiException;
+import com.sustech.campus.web.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -26,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
+import static com.sustech.campus.web.utils.ExceptionUtils.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,9 +56,13 @@ public class UserServiceImpl implements UserService {
     @Resource
     private CommentIdImageDao commentIdImageDao;
     @Resource
+    private IllegalOperationLogDao illegalOperationLogDao;
+    @Resource
     private BuslineDao buslineDao;
     @Autowired
     private ImgHostUploader imgHostUploader;
+    @Resource
+    private RedisUtil redis;
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 
 
@@ -64,8 +76,12 @@ public class UserServiceImpl implements UserService {
                 .score(0)
                 .adminId(0)
                 .build();
+        System.out.println(comment);
         if (commentDao.insert(comment) == 0) {
             return false;
+        }
+        if (commentPhotos == null) {
+            return true;
         }
         for (MultipartFile file : commentPhotos) {
             String url = imgHostUploader.upload(file);
@@ -159,9 +175,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime) {
+    public List<ReservationInfo> getAllReservation(Integer userId) {
+        Integer currentUserId = getCurrentUserId();
+        User user = redis.getObject("login:" + currentUserId);
+        warns(userId.equals(currentUserId),
+                "非法操作：查询的用户与你的信息不符！你的用户ID为：" + currentUserId +
+                "，要查询的用户ID为：" + userId +
+                "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
+                "非法查询：ID为" + userId + "的预约信息",
+                user, illegalOperationLogDao);
+
+        List<Reservation> reservations = reservationDao.selectList(
+                new LambdaQueryWrapper<Reservation>()
+                        .eq(Reservation::getUserId, userId)
+        );
+
+        return reservations.stream().map(reservation -> {
+            Room room = roomDao.selectById(reservation.getRoomId());
+            Building building = buildingDao.selectById(room.getBuildingId());
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            List<RoomTypeImage> roomTypeImages = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            );
+            List<String> image_url = roomTypeImages.stream().map(roomTypeImage -> imageDao.selectById(roomTypeImage.getImageId()).getImageUrl()).toList();
+            return ReservationInfo.builder()
+                    .reservationId(reservation.getReservationId())
+                    .roomId(reservation.getRoomId())
+                    .userId(reservation.getUserId())
+                    .startTime(reservation.getStartTime())
+                    .endTime(reservation.getEndTime())
+                    .description(reservation.getDescription())
+                    .roomType(roomType.getType())
+                    .buildingName(building.getName())
+                    .buildingType(building.getBuildingType())
+                    .roomTypeImages(image_url)
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime, String description) {
         asserts(startTime.before(endTime), "开始时间必须早于结束时间");
         asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
+        asserts(description != null, "预约描述不能为空");
 
         Reservation reservation = Reservation.builder()
                 .roomId(roomId)
@@ -173,8 +231,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId) {
-        return null;
+    public Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId, String description) {
+        asserts(startTime.before(endTime), "开始时间必须早于结束时间");
+        asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
+        asserts(description != null, "预约描述不能为空");
+
+        Reservation reservation = reservationDao.selectById(reservationId);
+
+        asserts(reservation != null, "预约不存在");
+
+        Integer currentUserId = getCurrentUserId();
+        User user = redis.getObject("login:" + currentUserId);
+
+        warns(reservation.getUserId().equals(user.getUserId()),
+                "非法操作：该预约不属于该用户！你的用户ID为：" + user.getUserId() +
+                "，该预约的用户ID为：" + reservation.getUserId() +
+                        "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
+                "非法修改：ID为" + reservation.getReservationId() + "的预约信息",
+                user, illegalOperationLogDao);
+        reservation.setRoomId(roomId);
+        reservation.setStartTime(startTime);
+        reservation.setEndTime(endTime);
+        reservation.setDescription(description);
+        return reservationDao.updateById(reservation) != 0;
     }
 
     @Override
@@ -220,5 +299,16 @@ public class UserServiceImpl implements UserService {
                     .availableTimeEnd(availableTimeEnd)
                     .build();
         }).toList();
+    }
+
+    private Integer getCurrentUserId() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("token");
+        String id = null;
+        if (StringUtils.hasText(token)) {
+            Claims claims = JwtUtil.parseJwt(token);
+            id = claims.getSubject();
+        }
+        return id == null ? null : Integer.parseInt(id);
     }
 }

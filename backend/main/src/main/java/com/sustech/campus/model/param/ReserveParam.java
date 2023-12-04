@@ -25,6 +25,10 @@ public class ReserveParam {
     @NotNull
     Date endTime;
 
+    @ApiModelProperty(value = "预约描述",required = true, example = "这是一条预约")
+    @NotNull
+    String description;
+
     @ApiModelProperty(value = "用户id",required = true, example = "1")
     @NotNull
     Integer userId;

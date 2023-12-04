@@ -3,7 +3,7 @@
   <el-dialog :title="title" :visible.sync="$store.state.isShow" :before-close="cancel" >
     <el-form :model="$store.state">
       <el-form-item :label="$t('lang.roomID')" :label-width="formLabelWidth">
-        <el-input v-model="$store.state.roomID" autocomplete="off" placeholder="Room + number" disabled></el-input>
+        <el-input v-model="$store.state.roomNumber" autocomplete="off" placeholder="Room + number" disabled></el-input>
       </el-form-item>
       <el-form-item :label="$t('lang.department')" :label-width="formLabelWidth">
         <el-input v-model="$store.state.department" autocomplete="off"></el-input>
@@ -151,26 +151,53 @@ export default {
           return;
         }
         var newDate = {}
-        newDate.userID = localStorage.getItem('userID')
-        newDate.roomID = this.$store.state.roomID
+        var reserveDay = this.$store.state.date.split('-')
+        const year = parseInt(reserveDay[0])
+        const month = parseInt(reserveDay[1])
+        const day = parseInt(reserveDay[2])
+        var startTime = this.$store.state.start_time
+        var endTime = this.$store.state.end_time
+        newDate.userId = localStorage.getItem('userID')
+        newDate.roomId = this.$store.state.roomID
         newDate.department = this.$store.state.department
-        newDate.buildingType = this.$store.state.buildingType
-        newDate.buildingName = this.$store.state.buildingName
-        newDate.date = this.$store.state.date
-        newDate.startTime = this.$store.state.start_time
-        newDate.endTime = this.$store.state.end_time
-        console.log(newDate)
+        newDate.startTime = new Date(year, month-1, day, startTime.getHours(), startTime.getMinutes(), startTime.getSeconds())
+        newDate.endTime = new Date(year, month-1, day, endTime.getHours(), endTime.getMinutes(), endTime.getSeconds())
+        //傻逼js，month必须-1
+        // console.log(newDate)
+        // console.log(year, month, day)
         this.$http({
           method: 'post',
-          url: '',
+          url: '/user/reservation/post',
           headers: {
             'content-type': 'application/json'
           },
           data: newDate
         }).then(resp => {
+          if (resp.data.code === 200){
+            this.$vs.notification({
+              color: 'success',
+              position: 'top-center',
+              title: this.$t('lang.reserveSuccess'),
+              text: '',
+            })
+            location.reload()
+          }else {
+            this.$vs.notification({
+              color: 'danger',
+              position: 'top-center',
+              title: resp.data,
+              text: '',
+            })
+          }
           console.log(resp);
-        }).catch(err=>err)
-        console.log('reserve')
+        }).catch(err=>{
+          this.$vs.notification({
+            color: 'danger',
+            position: 'top-center',
+            title: err,
+            text: '',
+          })
+        })
       }
       this.restore()
     },

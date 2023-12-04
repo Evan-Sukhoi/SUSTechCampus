@@ -1,5 +1,6 @@
 package com.sustech.campus.database.config;
 
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.sustech.campus.database.utils.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -18,6 +19,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
+
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         // 创建redisTemplate

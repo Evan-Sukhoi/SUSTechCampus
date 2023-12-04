@@ -58,7 +58,8 @@ public class WebConfig implements WebMvcConfigurer {
 //                                .requestMatchers(new AntPathRequestMatcher("/user/**")).anonymous()
                                 .requestMatchers(new AntPathRequestMatcher("/public/**")).permitAll() //放行获取信息相关URL
                                 .requestMatchers(new AntPathRequestMatcher("/admin/**")).permitAll()
-//                                .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/websocket/**")).permitAll()
 //                                .requestMatchers("/doc.html", "/webjars/**", "/img.icons/**", "/swagger-resources", "/v2/api-docs", "/favicon.ico").permitAll() //放行Knife4j相关URL
                                 .anyRequest().authenticated()
                 )

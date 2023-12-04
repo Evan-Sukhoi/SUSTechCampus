@@ -24,7 +24,6 @@ public class RegisterParam {
     String email;
 
     @ApiModelProperty(value = "电话号码",required = true, example = "12345678910")
-    @NotNull
     String phoneNumber;
 
     @ApiModelProperty(value = "头像", example = "https://www.baidu.com/img/flexible/logo/pc/result.png")

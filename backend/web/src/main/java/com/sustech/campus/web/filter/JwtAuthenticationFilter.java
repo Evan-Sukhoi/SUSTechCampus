@@ -29,15 +29,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private RedisUtil redis;
     @Resource
     private UserDao userDao;
+    private static final String TOKEN_HEADER = "token";
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         //每次请求都是一个独立的SecurityContext
-        String token = request.getHeader("token");
+        String token = request.getHeader(TOKEN_HEADER);
         if (StringUtils.hasText(token)) {
+            LOGGER.info("token: {}", token);
             Claims claims = JwtUtil.parseJwt(token);
             String id = claims.getSubject();
+            System.out.println("id: " + id);
             User user = redis.getObject("login:" + id);
+            System.out.println("user: " + user);
             if (user == null) { //Redis的User过期了，查询数据库
                 user = userDao.selectById(id);
             }

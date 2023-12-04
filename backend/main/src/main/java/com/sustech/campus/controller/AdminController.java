@@ -5,6 +5,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.param.BuslineParam;
+import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.param.ReserveRoomInfoParam;
 import com.sustech.campus.model.param.ReserveUserInfoParam;
 import com.sustech.campus.model.vo.BuildingInfo;
@@ -47,6 +48,16 @@ public class AdminController {
         return adminService.getAllUsers();
     }
 
+    @ApiOperation("管理员批量注册用户")
+    @PostMapping("/user/batchRegister")
+    public ResponseEntity<Object> batchRegister(@RequestBody @Validated List<RegisterParam> registerParams) {
+        try {
+            return ResponseEntity.ok(adminService.batchRegister(registerParams));
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation("管理员获取某个用户的所有信息")
     @RequestMapping("/user/info")
     public User getUserInfo(@ApiParam("用户id") @RequestParam @NotNull Integer userId) {
@@ -69,6 +80,30 @@ public class AdminController {
                         request.getParameter("phone"),
                         request.getParameter("email"),
                         request.getParameter("password")));
+    }
+
+    @ApiOperation("管理员拉黑某个用户")
+    @PostMapping("/user/block")
+    public ResponseEntity<Object> blockUser(@ApiParam("用户id") @RequestParam @NotNull Integer userId) {
+        System.out.println("blocking User: " + userId);
+        try {
+            adminService.blockUser(userId);
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation("管理员解除拉黑某个用户")
+    @PostMapping("/user/unblock")
+    public ResponseEntity<Object> unblockUser(@ApiParam("用户id") @RequestParam @NotNull Integer userId) {
+        System.out.println("unblocking User: " + userId);
+        try {
+            adminService.unblockUser(userId);
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation("管理员删除一个用户")
@@ -181,6 +216,12 @@ public class AdminController {
     ) {
         return ApiResponse.success(
                 adminService.approveComment(commentId, adminId));
+    }
+
+    @ApiOperation("管理员获取所有非法操作记录")
+    @RequestMapping("/illegal/all")
+    public ResponseEntity<Object> getAllIllegal() {
+        return ResponseEntity.ok(adminService.getAllIllegal());
     }
 
     @ApiOperation("管理员获取所有公交线路")

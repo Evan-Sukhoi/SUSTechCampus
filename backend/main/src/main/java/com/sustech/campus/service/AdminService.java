@@ -6,6 +6,7 @@ import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
 import com.sustech.campus.model.param.BuslineParam;
+import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -101,4 +102,11 @@ public interface AdminService {
     Boolean updateAllBusLine(List<BuslineParam> buslines) throws IOException;
 
 
+    Boolean blockUser(Integer userId);
+
+    void unblockUser(Integer userId);
+
+    Boolean batchRegister(List<RegisterParam> registerParams);
+
+    Object getAllIllegal();
 }
