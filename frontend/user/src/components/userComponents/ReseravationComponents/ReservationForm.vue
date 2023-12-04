@@ -126,14 +126,18 @@ export default {
           return
         }
         var changeDate = {}
-        changeDate.reservationID = this.$store.state.reservationID
-        changeDate.roomID = this.$store.state.roomID
-        changeDate.department = this.$store.state.department
-        changeDate.buildingType = this.$store.state.buildingType
-        changeDate.buildingName = this.$store.state.buildingName
-        changeDate.date = this.$store.state.date
-        changeDate.startTime = this.$store.state.start_time
-        changeDate.endTime = this.$store.state.end_time
+        var reserveDay = this.$store.state.date.split('-')
+        const year = parseInt(reserveDay[0])
+        const month = parseInt(reserveDay[1])
+        const day = parseInt(reserveDay[2])
+        var startTime = this.$store.state.start_time
+        var endTime = this.$store.state.end_time
+        changeDate.userId = localStorage.getItem('userID')
+        changeDate.reservation_id = this.$store.state.reservationID
+        changeDate.room_id = this.$store.state.roomID
+        changeDate.description = this.$store.state.department
+        changeDate.startTime = new Date(year, month-1, day, startTime.getHours(), startTime.getMinutes(), startTime.getSeconds())
+        changeDate.endTime = new Date(year, month-1, day, endTime.getHours(), endTime.getMinutes(), endTime.getSeconds())
         console.log(changeDate)
         this.$http({
           method: 'post',
@@ -159,7 +163,7 @@ export default {
         var endTime = this.$store.state.end_time
         newDate.userId = localStorage.getItem('userID')
         newDate.roomId = this.$store.state.roomID
-        newDate.department = this.$store.state.department
+        newDate.description = this.$store.state.department
         newDate.startTime = new Date(year, month-1, day, startTime.getHours(), startTime.getMinutes(), startTime.getSeconds())
         newDate.endTime = new Date(year, month-1, day, endTime.getHours(), endTime.getMinutes(), endTime.getSeconds())
         //傻逼js，month必须-1
@@ -173,14 +177,13 @@ export default {
           },
           data: newDate
         }).then(resp => {
-          if (resp.data.code === 200){
+          if (resp.status === 200){
             this.$vs.notification({
               color: 'success',
               position: 'top-center',
               title: this.$t('lang.reserveSuccess'),
               text: '',
             })
-            location.reload()
           }else {
             this.$vs.notification({
               color: 'danger',

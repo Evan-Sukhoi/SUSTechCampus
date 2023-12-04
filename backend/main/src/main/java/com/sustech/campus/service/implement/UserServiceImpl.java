@@ -226,6 +226,7 @@ public class UserServiceImpl implements UserService {
                 .startTime(startTime)
                 .endTime(endTime)
                 .userId(userId)
+                .description(description)
                 .build();
         return reservationDao.insert(reservation) != 0;
     }
