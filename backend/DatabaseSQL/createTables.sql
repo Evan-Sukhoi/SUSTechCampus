@@ -1554,6 +1554,9 @@ values ('创园',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E5%88%9B%E5%9B%AD.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (7,
+        41);
 --第一教学楼
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('第一教学楼',
@@ -1567,6 +1570,9 @@ values ('第一教学楼',
         1);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E7%AC%AC%E4%B8%80%E6%95%99%E5%AD%A6%E6%A5%BC.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (8,
+        42);
 --二期宿舍
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('二期宿舍',
@@ -1580,6 +1586,9 @@ values ('二期宿舍',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%BA%8C%E6%9C%9F%E5%AE%BF%E8%88%8D.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (9,
+        43);
 --风雨操场
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('风雨操场',
@@ -1593,6 +1602,9 @@ values ('风雨操场',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E9%A3%8E%E9%9B%A8%E6%93%8D%E5%9C%BA.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (10,
+        44);
 --工学院
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('工学院',
@@ -1606,6 +1618,9 @@ values ('工学院',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E5%B7%A5%E5%AD%A6%E9%99%A2.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (11,
+        45);
 --涵泳图书馆
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('涵泳图书馆',
@@ -1619,6 +1634,9 @@ values ('涵泳图书馆',
         1);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E6%B6%B5%E6%B3%B3%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (12,
+        46);
 --会议中心
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('会议中心',
@@ -1632,6 +1650,9 @@ values ('会议中心',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%BC%9A%E8%AE%AE%E4%B8%AD%E5%BF%83.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (13,
+        47);
 --教师公寓
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('教师公寓',
@@ -1645,6 +1666,9 @@ values ('教师公寓',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E6%95%99%E5%B8%88%E5%85%AC%E5%AF%93.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (14,
+        48);
 --荔园
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('荔园',
@@ -1658,6 +1682,9 @@ values ('荔园',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E8%8D%94%E5%9B%AD.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (15,
+        49);
 --南科大中心
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('南科大中心',
@@ -1671,6 +1698,9 @@ values ('南科大中心',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E5%8D%97%E7%A7%91%E5%A4%A7%E4%B8%AD%E5%BF%83.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (16,
+        50);
 --人文社科学院
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('人文社科学院',
@@ -1684,6 +1714,9 @@ values ('人文社科学院',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E4%BA%BA%E6%96%87%E7%A4%BE%E7%A7%91%E5%AD%A6%E9%99%A2.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (17,
+        51);
 --润扬体育馆
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('润扬体育馆',
@@ -1697,6 +1730,9 @@ values ('润扬体育馆',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E6%B6%A6%E6%89%AC%E4%BD%93%E8%82%B2%E9%A6%86.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (18,
+        52);
 --商学院
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable)
 values ('商学院',
@@ -1710,6 +1746,9 @@ values ('商学院',
         0);
 insert into Image(image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E5%95%86%E5%AD%A6%E9%99%A2.jpg');
+insert into Buildings_Image(building_ID, image_ID)
+values (19,
+        53);
 --松禾体育场
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable) values ('松禾体育场',
         '00:00:00',
@@ -1722,6 +1761,9 @@ insert into Building (name, open_time, close_time, location_name, introduction, 
         0);
 insert into Image (image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E6%9D%BE%E7%A6%BE%E4%BD%93%E8%82%B2%E5%9C%BA.jpg');
+insert into Buildings_Image (building_ID, image_ID)
+values (20,
+        54);
 --第一科研楼
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, is_reservable) values ('第一科研楼',
         '00:00:00',
@@ -1734,4 +1776,7 @@ insert into Building (name, open_time, close_time, location_name, introduction, 
         0);
 insert into Image (image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%B8%80%E7%A7%91.jpg');
+insert into Buildings_Image (building_ID, image_ID)
+values (21,
+        55);
 
