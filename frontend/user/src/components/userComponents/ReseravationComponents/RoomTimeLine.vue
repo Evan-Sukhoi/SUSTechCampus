@@ -86,7 +86,11 @@ export default {
   },
   beforeMount() {
     console.log(this.$route.params.date)
-    this.$http.get(`user/reservation/get?buildingId=${this.$route.params.buildingId}`).then(resp => {
+    var data = {
+      buildingId: this.$route.params.buildingId,
+      date: this.$route.params.date
+    }
+    this.$http.post(`user/reservation/get`, data).then(resp => {
       if (resp.status === 200){
         this.roomDetail = resp.data
         console.log(resp.data)
