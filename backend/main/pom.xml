@@ -21,8 +21,6 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-
-
 		<dependency>
 			<groupId>com.sustech.campus</groupId>
 			<artifactId>SUSTechCampus-web</artifactId>
@@ -114,7 +112,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-
 
     </dependencies>
 

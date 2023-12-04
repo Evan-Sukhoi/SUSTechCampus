@@ -29,7 +29,6 @@ public interface UserService{
      */
     List<RoomInfo> getRoomByBuilding(Integer buildingId);
 
-
     /**
      * 根据教室类型ID获取教室类型
      */
