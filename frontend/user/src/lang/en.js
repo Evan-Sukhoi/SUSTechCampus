@@ -55,6 +55,11 @@ export const lang = {
   library: 'Library',
   teachingBuilding: 'TeachingBuilding',
   playGround: 'Playground',
+  residence: 'Residence',
+  college: 'College',
+  park: 'Park',
+  conventionCenter: 'ConventionCenter',
+  officeSpace: 'OfficeSpace',
 
   /*reservation*/
   reserve:'reserve',

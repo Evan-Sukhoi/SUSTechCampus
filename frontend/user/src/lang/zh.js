@@ -54,7 +54,12 @@ export const lang = {
   canteen: '食堂',
   library: '图书馆',
   teachingBuilding: '教学楼',
-  playGround: '运动场',
+  playGround: '体育场地',
+  residence: '居住场所',
+  college: '学院',
+  park: '园区',
+  conventionCenter: '会议中心',
+  officeSpace: '行政办公场所',
 
   /*reservation*/
   reserve:'点击预约',
