@@ -7,7 +7,9 @@ import com.sustech.campus.database.annotation.TimeField;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
+import com.sustech.campus.database.utils.RedisUtil;
 import com.sustech.campus.model.vo.AvailableReservationInfo;
+import com.sustech.campus.model.vo.ReservationInfo;
 import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.model.vo.RoomsInfo;
 import com.sustech.campus.service.UserService;
@@ -26,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
+import static com.sustech.campus.web.utils.ExceptionUtils.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,6 +53,8 @@ public class UserServiceImpl implements UserService {
     private BuslineDao buslineDao;
     @Autowired
     private ImgHostUploader imgHostUploader;
+    @Resource
+    private RedisUtil redis;
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 
 
@@ -163,6 +167,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<ReservationInfo> getAllReservation(Integer userId) {
+        User user = redis.getObject("login:" + userId);
+        warns(userId.equals(user.getUserId()),
+                "非法操作：查询的用户与你的信息不符！你的用户ID为：" + user.getUserId() +
+                "，要查询的用户ID为：" + userId +
+                "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
+                "非法查询：ID为" + user.getUserId() + "的预约信息"
+                );
+
+        List<Reservation> reservations = reservationDao.selectList(
+                new LambdaQueryWrapper<Reservation>()
+                        .eq(Reservation::getUserId, userId)
+        );
+
+        return reservations.stream().map(reservation -> {
+            Room room = roomDao.selectById(reservation.getRoomId());
+            Building building = buildingDao.selectById(room.getBuildingId());
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            List<RoomTypeImage> roomTypeImages = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            );
+            List<String> image_url = roomTypeImages.stream().map(roomTypeImage -> imageDao.selectById(roomTypeImage.getImageId()).getImageUrl()).toList();
+            return ReservationInfo.builder()
+                    .reservationId(reservation.getReservationId())
+                    .roomId(reservation.getRoomId())
+                    .userId(reservation.getUserId())
+                    .startTime(reservation.getStartTime())
+                    .endTime(reservation.getEndTime())
+                    .description(reservation.getDescription())
+                    .roomType(roomType.getType())
+                    .buildingName(building.getName())
+                    .buildingType(building.getBuildingType())
+                    .roomTypeImages(image_url)
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime, String description) {
         asserts(startTime.before(endTime), "开始时间必须早于结束时间");
         asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
@@ -178,8 +222,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId) {
-        return null;
+    public Boolean updateReservation(Long reservationId, Integer roomId, Date startTime, Date endTime, Integer userId, String description) {
+        asserts(startTime.before(endTime), "开始时间必须早于结束时间");
+        asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
+        asserts(description != null, "预约描述不能为空");
+
+        Reservation reservation = reservationDao.selectById(reservationId);
+
+        asserts(reservation != null, "预约不存在");
+        User user = redis.getObject("login:" + userId);
+        warns(reservation.getUserId().equals(user.getUserId()),
+                "非法操作：该预约不属于该用户！你的用户ID为：" + user.getUserId() +
+                "，该预约的用户ID为：" + reservation.getUserId() +
+                        "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
+                "非法修改：ID为" + reservation.getReservationId() + "的预约信息");
+        reservation.setRoomId(roomId);
+        reservation.setStartTime(startTime);
+        reservation.setEndTime(endTime);
+        reservation.setDescription(description);
+        return reservationDao.updateById(reservation) != 0;
     }
 
     @Override

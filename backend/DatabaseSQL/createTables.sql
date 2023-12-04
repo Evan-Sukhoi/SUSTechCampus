@@ -205,6 +205,17 @@ CREATE TABLE login_log
     port       VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS `illegal_operation_log`;
+CREATE TABLE illegal_operation_log
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    user_ID    INT,
+    operation VARCHAR(255),
+    operation_time TIMESTAMP,
+    ip_address VARCHAR(255),
+    port       VARCHAR(255)
+);
+
 -- 商品表  构造器输入的都是字符串
 
 CREATE TABLE Product

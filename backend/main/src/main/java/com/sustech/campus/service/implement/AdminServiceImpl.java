@@ -15,6 +15,7 @@ import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.AdminService;
 
 import com.sustech.campus.service.PublicService;
+import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
 
 import org.slf4j.LoggerFactory;
@@ -57,16 +58,14 @@ public class AdminServiceImpl implements AdminService {
     private ImageDao imageDao;
 
     @Resource
-    private UserDao usersDao;
-
-    @Resource
     private ReservationDao reservationDao;
 
     @Resource
     private BlacklistDao blacklistDao;
     @Resource
     private PublicService publicService;
-
+//    @Resource
+//    private UserService userService;
     @Resource
     private ImgHostUploader imgHostUploader;
 
@@ -74,12 +73,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User getUserInfo(Integer userId) {
-        return usersDao.selectById(userId);
+        return userDao.selectById(userId);
     }
 
     @Override
     public Boolean updateUserInfo(Integer userId, String name, String phone, String email, String password) {
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         if (user == null) {
             return false;
         } else {
@@ -87,23 +86,23 @@ public class AdminServiceImpl implements AdminService {
             user.setPhone(phone);
             user.setEmail(email);
             user.setPassword(password);
-            usersDao.updateById(user);
+            userDao.updateById(user);
             return true;
         }
     }
 
     @Override
     public List<User> getAllUsers() {
-        return usersDao.selectList(null);
+        return userDao.selectList(null);
     }
 
     @Override
     public Boolean deleteUser(Integer userId) {
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         if (user == null) {
             return false;
         } else {
-            usersDao.deleteById(userId);
+            userDao.deleteById(userId);
             return true;
         }
     }
@@ -196,7 +195,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ReservationInfo> getReservationUserInfo(Integer userId) {
         asserts(userId != null, "用户id不能为空");
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         asserts(user != null, "用户不存在");
         asserts(blacklistDao.selectOne(new MPJLambdaWrapper<Blacklist>()
                 .eq(Blacklist::getUserId, userId)
@@ -271,7 +270,7 @@ public class AdminServiceImpl implements AdminService {
                         .select(Comment::getCommentId, Comment::getUserId, Comment::getTime, Comment::getText, Comment::getBuildingId, Comment::getScore, Comment::getAdminId)
         );
         return comments.stream().map(comment -> {
-            User user = usersDao.selectById(comment.getUserId());
+            User user = userDao.selectById(comment.getUserId());
             String userImageUrl = null;
             if (imageDao.selectById(user.getImageId()) == null) {
                 LOGGER.warn("imageDao.selectById(user.getImageId()) == null");
@@ -332,19 +331,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Boolean blockUser(Integer userId) {
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         asserts(user != null, "用户不存在");
         user.setIsBlocked(true);
-        usersDao.updateById(user);
+        userDao.updateById(user);
         return true;
     }
 
     @Override
     public void unblockUser(Integer userId) {
-        User user = usersDao.selectById(userId);
+        User user = userDao.selectById(userId);
         asserts(user != null, "用户不存在");
         user.setIsBlocked(false);
-        usersDao.updateById(user);
+        userDao.updateById(user);
     }
 
     @Override

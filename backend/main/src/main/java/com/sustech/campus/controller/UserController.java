@@ -60,16 +60,30 @@ public class UserController {
 
     @ApiOperation("用户修改一个预约请求")
     @RequestMapping("/reservation/update")
-    public ApiResponse<Boolean> updateReservation(@RequestBody @Validated ReserveUpdateParam reserveUpdateParam) {
-        return ApiResponse.success(
-                userService.updateReservation(
-                        reserveUpdateParam.getReservation_id(),
-                        reserveUpdateParam.getRoom_id(),
-                        reserveUpdateParam.getStartTime(),
-                        reserveUpdateParam.getEndTime(),
-                        reserveUpdateParam.getUserId()
-                )
-        );
+    public ResponseEntity<Object> updateReservation(@RequestBody @Validated ReserveUpdateParam reserveUpdateParam) {
+        try{
+            userService.updateReservation(
+                    reserveUpdateParam.getReservation_id(),
+                    reserveUpdateParam.getRoom_id(),
+                    reserveUpdateParam.getStartTime(),
+                    reserveUpdateParam.getEndTime(),
+                    reserveUpdateParam.getUserId(),
+                    reserveUpdateParam.getDescription()
+            );
+            return ResponseEntity.ok().build();
+        }catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation("用户获取所有预约请求")
+    @RequestMapping("/reservation/get/all")
+    public ResponseEntity<Object> getAllReservation(@ApiParam("用户id") @RequestParam Integer userId) {
+        try{
+            return ResponseEntity.ok().body(userService.getAllReservation(userId));
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 //    @ApiOperation("用户根据地点获取巴士线路信息")

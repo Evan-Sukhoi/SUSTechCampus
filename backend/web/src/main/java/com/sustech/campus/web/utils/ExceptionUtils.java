@@ -8,4 +8,10 @@ public class ExceptionUtils{
             throw ApiException.badRequest(message);
         }
     }
+
+    public static void warns(boolean condition, String message, String operation){
+        if(!condition){
+            throw ApiException.unauthorized(message);
+        }
+    }
 }
