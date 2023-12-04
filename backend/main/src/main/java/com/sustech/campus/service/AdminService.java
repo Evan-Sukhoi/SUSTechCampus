@@ -107,4 +107,6 @@ public interface AdminService {
     void unblockUser(Integer userId);
 
     Boolean batchRegister(List<RegisterParam> registerParams);
+
+    Object getAllIllegal();
 }
