@@ -14,8 +14,8 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class JwtUtil {
     public static final long DEFAULT_TTL = 3600 * 24 * 7; //JWT的默认TTL为一周
-    public static final String KEY = "QuanQuan"; //解加密使用的密钥
-    public static final String ISSUER = "QuanQuan"; //签发者
+    public static final String KEY = "Sukhoi"; //解加密使用的密钥
+    public static final String ISSUER = "Sukhoi"; //签发者
 
     public static final Logger LOGGER = LogManager.getLogger(JwtUtil.class);
 

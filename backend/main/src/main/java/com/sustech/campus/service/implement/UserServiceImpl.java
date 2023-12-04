@@ -15,10 +15,16 @@ import com.sustech.campus.model.vo.RoomsInfo;
 import com.sustech.campus.service.UserService;
 import com.sustech.campus.utils.TimeUtil;
 import com.sustech.campus.web.handler.ApiException;
+import com.sustech.campus.web.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -49,6 +55,8 @@ public class UserServiceImpl implements UserService {
     private ImageDao imageDao;
     @Resource
     private CommentIdImageDao commentIdImageDao;
+    @Resource
+    private IllegalOperationLogDao illegalOperationLogDao;
     @Resource
     private BuslineDao buslineDao;
     @Autowired
@@ -168,13 +176,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ReservationInfo> getAllReservation(Integer userId) {
-        User user = redis.getObject("login:" + userId);
-        warns(userId.equals(user.getUserId()),
-                "非法操作：查询的用户与你的信息不符！你的用户ID为：" + user.getUserId() +
+        Integer currentUserId = getCurrentUserId();
+        User user = redis.getObject("login:" + currentUserId);
+        warns(userId.equals(currentUserId),
+                "非法操作：查询的用户与你的信息不符！你的用户ID为：" + currentUserId +
                 "，要查询的用户ID为：" + userId +
                 "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
-                "非法查询：ID为" + user.getUserId() + "的预约信息"
-                );
+                "非法查询：ID为" + userId + "的预约信息",
+                user, illegalOperationLogDao);
 
         List<Reservation> reservations = reservationDao.selectList(
                 new LambdaQueryWrapper<Reservation>()
@@ -217,6 +226,7 @@ public class UserServiceImpl implements UserService {
                 .startTime(startTime)
                 .endTime(endTime)
                 .userId(userId)
+                .description(description)
                 .build();
         return reservationDao.insert(reservation) != 0;
     }
@@ -230,12 +240,16 @@ public class UserServiceImpl implements UserService {
         Reservation reservation = reservationDao.selectById(reservationId);
 
         asserts(reservation != null, "预约不存在");
-        User user = redis.getObject("login:" + userId);
+
+        Integer currentUserId = getCurrentUserId();
+        User user = redis.getObject("login:" + currentUserId);
+
         warns(reservation.getUserId().equals(user.getUserId()),
                 "非法操作：该预约不属于该用户！你的用户ID为：" + user.getUserId() +
                 "，该预约的用户ID为：" + reservation.getUserId() +
                         "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
-                "非法修改：ID为" + reservation.getReservationId() + "的预约信息");
+                "非法修改：ID为" + reservation.getReservationId() + "的预约信息",
+                user, illegalOperationLogDao);
         reservation.setRoomId(roomId);
         reservation.setStartTime(startTime);
         reservation.setEndTime(endTime);
@@ -286,5 +300,16 @@ public class UserServiceImpl implements UserService {
                     .availableTimeEnd(availableTimeEnd)
                     .build();
         }).toList();
+    }
+
+    private Integer getCurrentUserId() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("token");
+        String id = null;
+        if (StringUtils.hasText(token)) {
+            Claims claims = JwtUtil.parseJwt(token);
+            id = claims.getSubject();
+        }
+        return id == null ? null : Integer.parseInt(id);
     }
 }

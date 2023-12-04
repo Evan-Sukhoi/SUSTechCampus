@@ -62,6 +62,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private BlacklistDao blacklistDao;
+
+    @Resource
+    private IllegalOperationLogDao illegalOperationLogDao;
     @Resource
     private PublicService publicService;
 //    @Resource
@@ -365,5 +368,10 @@ public class AdminServiceImpl implements AdminService {
             userDao.insert(user);
         }
         return true;
+    }
+
+    @Override
+    public List<IllegalOperationLog> getAllIllegal() {
+        return illegalOperationLogDao.selectList(null);
     }
 }

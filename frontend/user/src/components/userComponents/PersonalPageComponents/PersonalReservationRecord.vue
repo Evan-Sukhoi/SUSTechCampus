@@ -100,7 +100,7 @@ export default {
         department:'计算机系',
         buildingType:'食堂',
         buildingName:'building1',
-        date:'2023/9/10',
+        date:'2023-9-10',
         start_time:new Date(2023, 9, 10, 15, 56, 23),
         end_time:new Date(2023, 9, 10, 17, 11, 12),
       }, {
@@ -108,21 +108,17 @@ export default {
         department:'数学系',
         buildingType:'图书馆',
         buildingName:'building2',
-        date:'2023/9/10',
+        date:'2023-9-10',
         start_time:new Date(2023, 9, 10, 14, 23, 23),
         end_time:new Date(2023, 9, 10, 16, 23, 12),
       }],
       formLabelWidth: '120px'
     }
   },beforeMount() {
-    this.$http({
-      method: 'post',
-      url: '',
-      headers: {
-        'content-type': 'application/json'
-      },
-      data: localStorage.getItem('userID')
-    }).then(resp => {
+    this.$http.get('/user/reservation/get/all?userId='+ localStorage.getItem('userID')).then(resp => {
+      if (resp.status === 200){
+        this.tableData = resp.data
+      }
       console.log(resp);
     }).catch(err=>err)
   }

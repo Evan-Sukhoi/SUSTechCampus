@@ -9,36 +9,38 @@
     <div class="map_content">
 
       <div class="navi">
-        <button @click="startNavigation">{{ isNavigating ? "取消导航" : "进入导航" }}</button>
-        <button @click="chooseStart" :disabled="!isNavigating">{{ selectedStart ? "确认起点" : "选择起点" }}</button>
-        <button @click="chooseEnd" :disabled="!isNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</button>
-        <button @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</button>
-        <button @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</button>
+        <el-button type="primary" @click="startNavigation">{{ isNavigating ? "取消导航" : "进入导航" }}</el-button>
+        <el-button @click="chooseStart" :disabled="!isNavigating">{{ selectedStart ? "确认起点" : "选择起点" }}</el-button>
+        <el-button @click="chooseEnd" :disabled="!isNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</el-button>
+
       </div>
 
+      <div>
+        <el-button type="info" @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</el-button>
+        <el-button type="info" @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</el-button>
+      </div>
 
       <div class="busline">
-        <div>
-          <label for="startBuilding">起始建筑：</label>
-          <select v-model="startBuildingId" id="startBuilding" @click="getStartStation">
-            <!-- 这里添加起始点的选项 -->
-            <option value="1">林恩图书馆</option>
-            <option value="2">第一教学楼</option>
-            <!-- 添加更多选项 -->
-          </select>
-        </div>
+        <div class="select">
+          <el-select v-model="startBuildingId" filterable placeholder="请选择起始建筑">
+            <el-option
+                v-for="item in buildings"
+                :key="item.buildingId"
+                :label="item.name"
+                :value="item.buildingId">
+            </el-option>
+          </el-select>
 
-        <div>
-          <label for="endBuilding">目标建筑：</label>
-          <select v-model="endBuildingId" id="endBuilding" @click="getEndStation">
-            <!-- 这里添加目标点的选项 -->
-            <option value="1">林恩图书馆</option>
-            <option value="2">第一教学楼</option>
-            <!-- 添加更多选项 -->
-          </select>
+          <el-select v-model="endBuildingId" filterable placeholder="请选择目标建筑">
+            <el-option
+                v-for="item in buildings"
+                :key="item.buildingId"
+                :label="item.name"
+                :value="item.buildingId">
+            </el-option>
+          </el-select>
         </div>
-
-        <button v-if="startBuildingId && endBuildingId" @click="seeBusline">{{ this.seebusline ? "关闭公交线路" : "查看公交线路" }}</button>
+        <el-button type="success" @click="seeBusline">{{ this.seebusline ? "关闭公交线路" : "查看公交线路" }}</el-button>
 
 
       </div>
@@ -53,7 +55,6 @@
 <script>
 import AMapLoader from "@amap/amap-jsapi-loader";
 import locations from "../../assets/location/location.json"
-import buslines from "../../assets/location/busline.json"
 
 import MapContent from "@/components/userComponents/MapContent.vue";
 import Vue from "vue";
@@ -68,21 +69,21 @@ export default {
     return {
       map: '',
       AMap: '',
+      buildings: [],
       isNavigating: false,
       selectedStart: false,
       selectedEnd: false,
       longitude: 114.000725,
       latitude: 22.595509,
       infoWin: '',
-      startBuildingId: "1",
-      endBuildingId: "2",
-      startStation: "行政楼",
-      endStation: "科研楼",
+      startBuildingId: "",
+      endBuildingId: "",
+      startStation: "工学院",
+      endStation: "3号门",
       startPoint: [],
       startMarker: '',
       endPoint: [],
       endMarker: '',
-      buildings: [],
       walking: '',
       driving: '',
       showWalkingPanel: false,
@@ -397,6 +398,7 @@ export default {
       this.$http.get("/public/building/get/simple")
           .then(response => {
             this.buildings = response.data.data;
+            console.log(this.buildings)
           })
           .catch(function (error) {
           })
@@ -451,6 +453,8 @@ export default {
     },
 
     seeBusline() {
+      this.getStartStation()
+      this.getEndStation()
       this.seebusline = !this.seebusline;
       if (this.seebusline) {
         let startPosition = ''
@@ -694,6 +698,7 @@ export default {
   top: 0;
   left: 100px;
   z-index: 2; /* 设置一个大于1的z-index值 */
+  border: 2px solid deepskyblue;
 }
 
 .map_content {
@@ -706,5 +711,9 @@ export default {
 
 .navi {
   display: flex;
+}
+
+.select {
+  display: block;
 }
 </style>

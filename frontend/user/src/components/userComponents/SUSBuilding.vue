@@ -5,19 +5,19 @@
      <ul>
        <li>
          <div>
-           <h1>{{$t('lang.canteen')}}</h1>
+           <h1>{{$t('lang.library')}}</h1>
          </div>
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in buildings" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.library')}`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
                      <h3>{{ building.name}}</h3>
                    </template>
                    <template #img>
-                     <img v-bind:src= img  alt="" style="height: 300px;">
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
                    </template>
                    <template #text>
                      <p>
@@ -30,9 +30,201 @@
            </el-row>
          </div>
        </li>
+
        <li>
          <div>
-           <h1>{{$t('lang.library')}}</h1>
+           <h1>{{$t('lang.teachingBuilding')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.teachingBuilding')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
+
+       <li>
+         <div>
+           <h1>{{$t('lang.playGround')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.playGround')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
+
+       <li>
+         <div>
+           <h1>{{$t('lang.residence')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.residence')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
+
+       <li>
+         <div>
+           <h1>{{$t('lang.college')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.college')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
+
+       <li>
+         <div>
+           <h1>{{$t('lang.park')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.park')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
+
+       <li>
+         <div>
+           <h1>{{$t('lang.conventionCenter')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.conventionCenter')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
+
+
+       <li>
+         <div>
+           <h1>{{$t('lang.officeSpace')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.officeSpace')}`" :key="building.buildingId" :span="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
          </div>
        </li>
      </ul>
@@ -47,7 +239,6 @@ export default {
   data() {
     return {
       buildings: [],
-      img: require("../../assets/pad(canDelete)/background/img.png"),
 
     }
   },
@@ -75,10 +266,16 @@ export default {
 <style scoped>
 #back {
   width: 100%;
-  height: 1000px;
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  background-image: url("../../assets/pad(canDelete)/background/提瓦特.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 ul {
   list-style-type: none;
 }
+
 </style>
