@@ -232,6 +232,7 @@ public class AdminServiceImpl implements AdminService {
                     .roomType(roomType.getType())
                     .buildingName(building.getName())
                     .buildingType(building.getBuildingType())
+                    .roomNumber(room.getNumber())
                     .roomTypeImages(image_url)
                     .build();
         }).collect(Collectors.toList());
