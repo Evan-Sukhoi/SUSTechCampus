@@ -272,6 +272,5 @@ public class AdminController {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 }

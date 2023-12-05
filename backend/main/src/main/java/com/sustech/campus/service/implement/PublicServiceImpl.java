@@ -3,7 +3,6 @@ package com.sustech.campus.service.implement;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
@@ -14,32 +13,21 @@ import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.AuthCodeUtil;
 import com.sustech.campus.utils.EmailUtil;
 import com.sustech.campus.web.utils.JwtUtil;
-import io.jsonwebtoken.Claims;
-import io.swagger.annotations.ApiOperation;
 import jakarta.annotation.Resource;
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -319,6 +307,7 @@ public class PublicServiceImpl implements PublicService {
                 .email(email)
                 .phone(phoneNumber)
                 .imageId(image.getImageId())
+                .isBlocked(false)
                 .build();
         userDao.insert(user);
         return true;

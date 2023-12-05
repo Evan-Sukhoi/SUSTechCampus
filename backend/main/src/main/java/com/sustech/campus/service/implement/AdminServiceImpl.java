@@ -19,6 +19,7 @@ import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,6 +72,8 @@ public class AdminServiceImpl implements AdminService {
 //    private UserService userService;
     @Resource
     private ImgHostUploader imgHostUploader;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 
@@ -372,7 +375,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Boolean batchRegister(List<RegisterParam> registerParams) {
         for (RegisterParam registerParam : registerParams) {
-            asserts(registerParam.getUsername() != null && registerParam.getPassword() != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
+            asserts(registerParam.getUsername() != null && passwordEncoder.encode(registerParam.getPassword()) != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
             asserts(registerParam.getUsername().length() >= 3 && registerParam.getUsername().length() <= 20, "用户名长度应在3-20之间");
             asserts(registerParam.getPassword().length() >= 6 && registerParam.getPassword().length() <= 20, "密码长度应在6-20之间");
             asserts(registerParam.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
@@ -384,6 +387,7 @@ public class AdminServiceImpl implements AdminService {
                     .password(registerParam.getPassword())
                     .email(registerParam.getEmail())
                     .imageId(1)
+                    .isBlocked(false)
                     .build();
             userDao.insert(user);
         }

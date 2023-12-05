@@ -314,7 +314,7 @@ public class UserServiceImpl implements UserService {
     private Integer getCurrentUserId() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("token");
-        System.out.println(request.getRequestURL() + "token: " + token);
+        System.out.println(request.getRequestURL() + ", token: " + token);
         String id = null;
         if (StringUtils.hasText(token)) {
             Claims claims = JwtUtil.parseJwt(token);

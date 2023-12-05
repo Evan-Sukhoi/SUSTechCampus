@@ -4,49 +4,21 @@ WHERE table_schema = 'ooad';
 
 
 DROP TABLE IF EXISTS `admin`;
-
-
-DROP TABLE IF EXISTS `blacklist`;
-
-
 DROP TABLE IF EXISTS `building`;
-
-
-DROP TABLE IF EXISTS `bus_line`;
-
-
-DROP TABLE IF EXISTS `comment`;
-
-
 DROP TABLE IF EXISTS `buildings_image`;
-
-
-DROP TABLE IF EXISTS `room_type_image`;
-
-
+DROP TABLE IF EXISTS `bus_line`;
+DROP TABLE IF EXISTS `comment`;
 DROP TABLE IF EXISTS `comment_id_image`;
-
-
+DROP TABLE IF EXISTS `illegal_operation_log`;
 DROP TABLE IF EXISTS `image`;
-
-
+DROP TABLE IF EXISTS `login_log`;
+DROP TABLE IF EXISTS `product`;
 DROP TABLE IF EXISTS `reservation`;
-
-
 DROP TABLE IF EXISTS `room`;
-
-
 DROP TABLE IF EXISTS `room_type`;
-
-
-DROP TABLE IF EXISTS `test`;
-
-
+DROP TABLE IF EXISTS `room_type_image`;
 DROP TABLE IF EXISTS `user`;
 
-DROP TABLE IF EXISTS `login_log`;
-
-DROP TABLE IF EXISTS `product`;
 
 -- 用户表
 
