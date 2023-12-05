@@ -168,10 +168,11 @@ export default {
         password: this.password,
       }
       this.$http.post('/public/login', data).then(resp =>{
+        console.log(resp)
         if (resp.status == 200){
           this.active = false
           this.isLogin = true
-          this.photo = resp.data.data.imageUrl
+          this.photo = resp.data.imageUrl
           if (this.remember){
             localStorage.setItem('username', this.username)
             localStorage.setItem('password', this.password)
@@ -180,10 +181,10 @@ export default {
           // localStorage.setItem('userID', userID)
           localStorage.setItem('photo', this.photo)
           localStorage.setItem('isLogin', this.isLogin)
-          localStorage.setItem('userID', resp.data.data.userId)
-          localStorage.setItem('token', resp.data.data.token)
-          localStorage.setItem('isBlocked', resp.data.data.isBlocked)
-          console.log(resp.data.data.isBlocked)
+          localStorage.setItem('userID', resp.data.userId)
+          localStorage.setItem('token', resp.data.token)
+          localStorage.setItem('isBlocked', resp.data.isBlocked)
+          console.log(resp.data.isBlocked)
         }else {
           this.$vs.notification({
             color:'danger',

@@ -90,6 +90,7 @@ export default {
       buildingId: this.$route.params.buildingId,
       date: this.$route.params.date
     }
+    console.log(data)
     this.$http.post(`user/reservation/get`, data).then(resp => {
       if (resp.status === 200){
         this.roomDetail = resp.data

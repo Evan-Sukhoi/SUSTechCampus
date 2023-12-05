@@ -282,7 +282,8 @@ public class UserServiceImpl implements UserService {
             List<Reservation> reservations = reservationDao.selectList(
                     new MPJLambdaWrapper<>(Reservation.class)
                             .eq(Reservation::getRoomId, room.getRoomId())
-                            .between(Reservation::getStartTime, startDate, endDate)
+                            .ge(Reservation::getStartTime, startDate)
+                            .lt(Reservation::getEndTime, endDate)
             );
             List<Date> occupiedTimeBeginImmutable = reservations.stream().map(Reservation::getStartTime).toList();
             List<Date> occupiedTimeEndImmutable = reservations.stream().map(Reservation::getEndTime).toList();

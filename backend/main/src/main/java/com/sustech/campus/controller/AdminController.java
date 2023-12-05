@@ -230,6 +230,16 @@ public class AdminController {
         }
     }
 
+    @ApiOperation("管理员获取所有预约请求")
+    @RequestMapping("/reservation/all")
+    public ResponseEntity<Object> getAllReservation() {
+        try {
+            return ResponseEntity.ok(adminService.getAllReservation());
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation("管理员获取所有评论")
     @RequestMapping("/comment/all")
     public List<CommentInfo> getAllComments() {

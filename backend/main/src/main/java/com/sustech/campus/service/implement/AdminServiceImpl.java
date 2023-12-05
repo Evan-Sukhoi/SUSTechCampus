@@ -140,6 +140,8 @@ public class AdminServiceImpl implements AdminService {
             buildingChange.setIntroduction(building.getIntroduction());
             buildingChange.setNearestStation(building.getNearestStation());
             buildingChange.setVideoUrl(building.getVideoUrl());
+            buildingChange.setBuildingType(building.getBuildingType());
+            buildingChange.setIsReservable(building.getIsReservable());
             buildingDao.updateById(buildingChange);
             return true;
         }
@@ -193,17 +195,6 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    // TODO: 图片处理逻辑
-    @Override
-    public String uploadRoomTypeCover(MultipartFile picture, Integer roomId) {
-        return null;
-    }
-
-    @Override
-    public String uploadRoomTypeMedia(MultipartFile media, Integer roomId) {
-        return null;
-    }
-
     @Override
     public List<Reservation> getReservationRoomInfo(Integer roomId) {
         return reservationDao.selectJoinList(
@@ -214,6 +205,38 @@ public class AdminServiceImpl implements AdminService {
                         .leftJoin(User.class, User::getUserId, Reservation::getUserId)
                         .eq(Reservation::getRoomId, roomId)
         );
+    }
+
+    @Override
+    public List<ReservationInfo> getAllReservation(){
+        List<Reservation> reservations = reservationDao.selectList(null);
+        return reservations.stream().map(reservation -> {
+            Room room = roomDao.selectById(reservation.getRoomId());
+            Building building = buildingDao.selectById(room.getBuildingId());
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            List<RoomTypeImage> roomTypeImages = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            );
+            List<String> image_url = roomTypeImages.stream().map(roomTypeImage -> {
+                return imageDao.selectById(roomTypeImage.getImageId()).getImageUrl();
+            }).toList();
+            return ReservationInfo.builder()
+                    .reservationId(reservation.getReservationId())
+                    .roomId(reservation.getRoomId())
+                    .userId(reservation.getUserId())
+                    .startTime(reservation.getStartTime())
+                    .endTime(reservation.getEndTime())
+                    .description(reservation.getDescription())
+                    .roomType(roomType.getType())
+                    .buildingId(building.getBuildingId())
+                    .buildingName(building.getName())
+                    .buildingType(building.getBuildingType())
+                    .roomNumber(room.getNumber())
+                    .roomTypeImages(image_url)
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -260,6 +283,8 @@ public class AdminServiceImpl implements AdminService {
         }).collect(Collectors.toList());
     }
 
+
+
     @Override
     public Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException {
         asserts(username != null && password != null && email != null && phoneNumber != null, "用户名、密码、邮箱、手机号不能为空");
@@ -284,6 +309,7 @@ public class AdminServiceImpl implements AdminService {
                 .email(email)
                 .phone(phoneNumber)
                 .imageId(image.getImageId())
+                .isBlocked(false)
                 .build();
         userDao.insert(user);
         return true;
