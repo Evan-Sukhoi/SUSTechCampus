@@ -15,7 +15,7 @@
       </el-carousel>
     </div>
 
-    <div class="video">
+    <div class="board">
       <div class="video-container">
         <buildingVideo></buildingVideo>
       </div>
@@ -75,6 +75,15 @@ export default {
 
 }
 
+.content {
+  margin-top: 50px;
+  margin-left: 10%;
+  width: 40%;
+  height: 80%;
+  background-color: white;
+  border-radius: 20px;
+  overflow: auto;
+}
 
 .video {
 }

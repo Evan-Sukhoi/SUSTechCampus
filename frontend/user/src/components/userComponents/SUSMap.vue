@@ -318,7 +318,7 @@ export default {
                   isOutline: true,
                   outlineColor: '#ffeeff',
                   borderWeight: 3,
-                  strokeColor: "#3366FF",
+                  strokeColor: "#4733ff",
                   strokeOpacity: 0.8,
                   strokeWeight: 6,
                   // 折线样式还支持 'dashed'

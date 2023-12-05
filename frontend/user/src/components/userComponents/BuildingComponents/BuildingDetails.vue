@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :style="{ backgroundImage: `${this.img}`}">
+  <div class="container" :style="{ backgroundImage: `url(${this.img})`, backgroundColor: 'rgba(255, 255, 255, 0)'}">
 
 
     <div class="detail">
