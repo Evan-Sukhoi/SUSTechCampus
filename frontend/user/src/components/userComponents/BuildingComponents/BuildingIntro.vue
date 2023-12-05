@@ -9,8 +9,8 @@
 
     <div id="ppt">
       <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <h3 text="2xl" justify="center">{{ item }}</h3>
+        <el-carousel-item v-for="(url, index) in building.imageUrl" :key="index">
+          <el-image :src=url alt="Photo" style="width: 100%; height: 100%;"></el-image>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -72,7 +72,9 @@ export default {
 <style scoped>
 .intro {
   display: block;
+
 }
+
 
 .video {
 }

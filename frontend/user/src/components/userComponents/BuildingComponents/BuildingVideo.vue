@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       videoUrl: 'https://1001b.cn/chronus/url/v1/getVideoUrl/da007a025ffb43019ab8ae69448d3a61',
-      posterUrl: 'https://play.1001b.cn/25fc6ec1vodtransnj1257837729/592f7bc73270835012374887671/coverBySnapshot/coverBySnapshot_20134_0.jpg'
+      // posterUrl: 'https://play.1001b.cn/25fc6ec1vodtransnj1257837729/592f7bc73270835012374887671/coverBySnapshot/coverBySnapshot_20134_0.jpg'
     };
   },
 };

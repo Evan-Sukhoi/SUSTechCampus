@@ -125,6 +125,24 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Boolean updateBuilding(Building building) {
+        Building buildingChange = buildingDao.selectById(building.getBuildingId());
+        if (buildingChange == null) {
+            return false;
+        } else {
+            buildingChange.setName(building.getName());
+            buildingChange.setLocationName(building.getLocationName());
+            buildingChange.setOpenTime(building.getOpenTime());
+            buildingChange.setCloseTime(building.getCloseTime());
+            buildingChange.setIntroduction(building.getIntroduction());
+            buildingChange.setNearestStation(building.getNearestStation());
+            buildingChange.setVideoUrl(building.getVideoUrl());
+            buildingDao.updateById(buildingChange);
+            return true;
+        }
+    }
+
+    @Override
     public Boolean uploadRoom(Room room) {
         roomDao.insert(room);
         return true;

@@ -51,6 +51,13 @@ public interface AdminService {
     Boolean uploadBuilding(Building building);
 
     /**
+     * 更新建筑信息
+     * @param building
+     * @return
+     */
+    Boolean updateBuilding(Building building);
+
+    /**
      * 上传教室信息
      * @param room 教室信息
      */
@@ -95,7 +102,7 @@ public interface AdminService {
 
     List<CommentInfo> getAllComments();
 
-    public Boolean approveComment(Integer commentId, Integer adminId);
+    Boolean approveComment(Integer commentId, Integer adminId);
 
     Object getAllBusLine() throws IOException;
 

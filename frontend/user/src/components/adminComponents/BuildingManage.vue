@@ -128,12 +128,7 @@ export default {
     }
   }),
   beforeMount() {
-    this.$http.get('/admin/building/all').then(resp=>{
-      this.building = resp.data
-      console.log(resp)
-    }).catch(err=>{
-      console.log(err)
-    })
+    this.fetchBuildingData()
   },
   methods:{
     restore() {
@@ -164,9 +159,16 @@ export default {
       this.active = true
     },
     submit(){
-      this.$http.post('', this.editInfo).then(resp=>{
+      this.$http.post(`/admin/building/change?buildingId=${this.editInfo.buildingId}&name=${this.editInfo.name}&introduction=${this.editInfo.introduction}&openTime=${this.editInfo.openTime}&closeTime=${this.editInfo.closeTime}&location_name=${this.editInfo.locationName}&nearest_station=${this.editInfo.nearestStation}&videoUrl=${this.editInfo.videoUrl}`, ).then(resp=>{
         console.log(resp)
-
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    fetchBuildingData() {
+      this.$http.get('/admin/building/all').then(resp=>{
+        this.building = resp.data
+        console.log(resp)
       }).catch(err=>{
         console.log(err)
       })

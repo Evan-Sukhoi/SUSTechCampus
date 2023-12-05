@@ -146,6 +146,33 @@ public class AdminController {
                         .build()));
     }
 
+    @ApiOperation("管理员修改一个建筑")
+    @PostMapping("/building/change")
+    public ApiResponse<Boolean> addBuilding(
+            @ApiParam("建筑id") @RequestParam @NotEmpty Integer buildingId,
+            @ApiParam("建筑名称") @RequestParam @NotEmpty String name,
+            @ApiParam("建筑简介") @RequestParam @NotEmpty String introduction,
+            @ApiParam("开放时间") @RequestParam @NotNull Time openTime,
+            @ApiParam("关闭时间") @RequestParam @NotNull Time closeTime,
+            @ApiParam("位置") @RequestParam @NotEmpty String location_name,
+            @ApiParam("附近车站") @RequestParam @NotEmpty String nearest_station,
+            @ApiParam("视频链接") @RequestParam @NotEmpty String videoUrl
+    ) {
+        return ApiResponse.success(
+                adminService.updateBuilding(Building.builder()
+                        .buildingId(buildingId)
+                        .name(name)
+                        .introduction(introduction)
+                        .openTime(openTime)
+                        .closeTime(closeTime)
+                        .locationName(location_name)
+                        .nearestStation(nearest_station)
+                        .videoUrl(videoUrl)
+                        .build()));
+    }
+
+
+
     @ApiOperation("管理员删除一个建筑")
     @PostMapping("/building/delete")
     public ApiResponse<Boolean> deleteBuilding(@ApiParam("建筑id") @RequestParam @NotNull Integer buildingId) {
