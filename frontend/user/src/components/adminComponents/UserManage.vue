@@ -12,9 +12,6 @@
           <div class="header-container">
             <vs-input v-model="search" border placeholder="Search"/>
             <div class="button-container">
-              <vs-button flat icon relief :disabled="selected.length === 0">
-                <i class='bx bxs-face-mask'></i>
-              </vs-button>
               <vs-button danger icon relief :disabled="selected.length === 0">
                 <i class='bx bx-trash'></i>
               </vs-button>
@@ -70,7 +67,10 @@
             </vs-td>
             <vs-td>
               <div style="display: flex; align-items: center;">
-                <vs-button flat icon>
+                <vs-button flat icon @click="block(tr.userId)" v-if="!tr.isBlocked">
+                  <i class='bx bxs-face-mask'></i>
+                </vs-button>
+                <vs-button flat icon @click="unBlock(tr.userId)" v-else danger>
                   <i class='bx bxs-face-mask'></i>
                 </vs-button>
                 <vs-button @click="editUser(tr)">
@@ -288,6 +288,7 @@ export default {
         }
         set.add(k)
       }
+      var accountList = []
       for (var i=0; i < this.registerList.length; i++){
         var data = {
           username:this.registerList[i],
@@ -295,35 +296,62 @@ export default {
           email:this.registerList[i] + '@mail.sustech.edu.cn',
           phoneNumber:'00000000000',
         }
-        this.$http.post('/public/register', data).then(resp => {
-          console.log(resp);
-          if (resp.status===200){
-            this.registerList = []
-            this.registerActive = true
-            this.$vs.notification({
-              color:'success',
-              position: 'top-center',
-              title: 'register sucess',
-              text: '',
-            })
-          }else {
-            this.$vs.notification({
-              color:'primary',
-              position: 'top-center',
-              title: resp.status,
-              text: '',
-            })
-          }
-        }).catch(err=>{
+        accountList.push(data)
+      }
+      this.$http.post('/admin/user/batchRegister', accountList).then(resp => {
+        console.log(resp);
+        if (resp.status===200){
+          this.registerList = []
+          this.registerActive = true
+          this.$vs.notification({
+            color:'success',
+            position: 'top-center',
+            title: 'register sucess',
+            text: '',
+          })
+        }else {
           this.$vs.notification({
             color:'primary',
             position: 'top-center',
-            title: 'error',
-            text: err,
+            title: resp.status,
+            text: '',
           })
+        }
+      }).catch(err=>{
+        this.$vs.notification({
+          color:'primary',
+          position: 'top-center',
+          title: 'error',
+          text: err,
         })
-      }
+      })
       this.fetchUsers()
+    },
+    block(userId){
+        this.$http.post('/admin/user/block?userId='+userId).then(resp => {
+          if (resp.status === 200){
+            this.$vs.notification({
+              color:'success',
+              position: 'top-center',
+              title: 'Block successfully',
+              text: '',
+            })
+            this.fetchUsers()
+          }
+        }).catch(err=>{console.log(err)})
+    },
+    unBlock(userId) {
+      this.$http.post('/admin/user/unblock?userId=' + userId).then(resp => {
+        if (resp.status === 200) {
+          this.$vs.notification({
+            color: 'success',
+            position: 'top-center',
+            title: 'unBlock successfully',
+            text: '',
+          })
+          this.fetchUsers()
+        }
+      })
     }
   },
   name: 'UserManage',

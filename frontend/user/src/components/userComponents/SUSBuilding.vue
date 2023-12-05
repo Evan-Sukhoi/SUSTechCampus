@@ -10,7 +10,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.library')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === '图书馆'" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -38,7 +38,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.teachingBuilding')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `教学楼`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -66,7 +66,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.playGround')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `体育场地`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -94,7 +94,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.residence')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `居住场所`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -122,7 +122,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.college')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `学院`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -150,7 +150,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.park')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `园区`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -178,7 +178,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.conventionCenter')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `会议中心`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>
@@ -207,7 +207,7 @@
 
          <div>
            <el-row :gutter="20">
-             <el-col v-for="building in this.buildings" v-if="building.buildingType === `${$t('lang.officeSpace')}`" :key="building.buildingId" :span="6">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `行政办公场所`" :key="building.buildingId" :span="6">
                <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
                  <vs-card type=2>
                    <template #title>

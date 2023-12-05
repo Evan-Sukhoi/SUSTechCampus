@@ -4,12 +4,14 @@
       <el-scrollbar style="height: 100%" class="scrollbar-for" wrap-style="overflow-x:hidden;">
         <div id="comment">
           <div v-for="comment in comments" :key="comment.id" class="comment">
-            <div>{{ comment.username }}</div>
-            <img :src="comment.userImageUrl" alt="User Image" width="20px">
-            <div>{{ comment.time }}</div>
+            <div class="comment-header">
+              <div class="username">{{ comment.username }}</div>
+              <img :src="comment.userImageUrl" alt="User Image" class="user-image">
+              <div class="time">{{ comment.time }}</div>
+            </div>
             <div class="comment-text">{{ comment.text }}</div>
-            <div v-for="img in comment.imageUrl">
-              <img :src="img" alt="comment image" width="100px">
+            <div class="comment-images">
+              <img v-for="img in comment.imageUrl" :src="img" alt="comment image" class="comment-image" width="100px">
             </div>
           </div>
         </div>
@@ -85,7 +87,14 @@ export default {
       formData.append('commentParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
       console.log(formData)
       this.$http.post('/user/comment/upload',  formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
-            console.log(resp)});
+        if (resp.status === 200) {
+          this.$vs.notification({
+            color:'success',
+            position: 'top-center',
+            title: 'Edit successfully',
+            text: '',
+          })
+        }});
       this.newComment.text = ''
       this.photos = []
 
@@ -126,8 +135,8 @@ export default {
   justify-content: center; /* 水平居中 */
   align-items: center;
   height: 99%;
-  background-image: url("../../../assets/pad(canDelete)/background/keli.png");
-  background-size: cover;
+  //background-image: url("../../../assets/pad(canDelete)/background/keli.png");
+  //background-size: cover;
 }
 
 .post {
@@ -180,6 +189,33 @@ export default {
   .blog {
     display: block;
   }
+}
+
+
+
+.comment-header {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.user-image {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.comment-images {
+  margin-top: 8px;
+}
+
+.comment-image {
+  margin-right: 8px;
 }
 
 </style>

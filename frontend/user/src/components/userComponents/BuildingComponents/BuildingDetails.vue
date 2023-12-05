@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="{ backgroundImage: `url(${this.img})`, backgroundColor: 'rgba(255, 255, 255, 0)'}">
 
 
     <div class="detail">
@@ -24,14 +24,43 @@
 import sideBar from "@/components/userComponents/BuildingComponents/BuildingSideBar.vue";
 export default {
   name: "buildingDetails",
+  data() {
+    return {
+      img: '',
+    }
+  },
   components: {
     sideBar,
+  },
+  beforeMount() {
+    this.fetchBuildingData(this.$route.params.id)
+  },
+  methods: {
+    fetchBuildingData(id) {
+      this.$http.get(`/public/building/get/simpleThroughId?buildingId=${id}`)
+          .then(response => {
+            this.img = response.data.data.coverUrl;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+          });
+    }
   },
 }
 </script>
 
 <style scoped>
-
+.container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  //background-image: ;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .detail {
   display: flex;

@@ -22,7 +22,7 @@
 
       <div class="busline">
         <div class="select">
-          <el-select v-model="startBuildingId" filterable placeholder="请选择起始建筑">
+          <el-select v-model="startBuildingId" filterable placeholder="请选择起始建筑" @change="getStartStation">
             <el-option
                 v-for="item in buildings"
                 :key="item.buildingId"
@@ -31,7 +31,7 @@
             </el-option>
           </el-select>
 
-          <el-select v-model="endBuildingId" filterable placeholder="请选择目标建筑">
+          <el-select v-model="endBuildingId" filterable placeholder="请选择目标建筑" @change="getEndStation">
             <el-option
                 v-for="item in buildings"
                 :key="item.buildingId"
@@ -78,8 +78,8 @@ export default {
       infoWin: '',
       startBuildingId: "",
       endBuildingId: "",
-      startStation: "工学院",
-      endStation: "3号门",
+      startStation: "",
+      endStation: "",
       startPoint: [],
       startMarker: '',
       endPoint: [],
@@ -318,7 +318,7 @@ export default {
                   isOutline: true,
                   outlineColor: '#ffeeff',
                   borderWeight: 3,
-                  strokeColor: "#3366FF",
+                  strokeColor: "#4733ff",
                   strokeOpacity: 0.8,
                   strokeWeight: 6,
                   // 折线样式还支持 'dashed'
@@ -488,7 +488,7 @@ export default {
             endIndex1 = i
           }
         }
-        if (startIndex1 !== '' && endIndex1 !== '') {
+        if (startIndex1 !== '' && endIndex1 !== '' && startIndex1 !== endIndex1) {
           const subPath1 = this.path1.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
           this.subLine1 = new this.AMap.Polyline({
             path: subPath1,
@@ -522,7 +522,7 @@ export default {
             endIndex2 = i
           }
         }
-        if (startIndex2 !== '' && endIndex2 !== '') {
+        if (startIndex2 !== '' && endIndex2 !== '' && startIndex2 !== endIndex2) {
           const subPath2 = this.path2.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
           this.subLine2 = new this.AMap.Polyline({
             path: subPath2,

@@ -4,45 +4,21 @@ WHERE table_schema = 'ooad';
 
 
 DROP TABLE IF EXISTS `admin`;
-
-
-DROP TABLE IF EXISTS `blacklist`;
-
-
 DROP TABLE IF EXISTS `building`;
-
-
-DROP TABLE IF EXISTS `bus_line`;
-
-
-DROP TABLE IF EXISTS `comment`;
-
-
 DROP TABLE IF EXISTS `buildings_image`;
-
-
-DROP TABLE IF EXISTS `room_type_image`;
-
-
+DROP TABLE IF EXISTS `bus_line`;
+DROP TABLE IF EXISTS `comment`;
 DROP TABLE IF EXISTS `comment_id_image`;
-
-
+DROP TABLE IF EXISTS `illegal_operation_log`;
 DROP TABLE IF EXISTS `image`;
-
-
+DROP TABLE IF EXISTS `login_log`;
+DROP TABLE IF EXISTS `product`;
 DROP TABLE IF EXISTS `reservation`;
-
-
 DROP TABLE IF EXISTS `room`;
-
-
 DROP TABLE IF EXISTS `room_type`;
-
-
-DROP TABLE IF EXISTS `test`;
-
-
+DROP TABLE IF EXISTS `room_type_image`;
 DROP TABLE IF EXISTS `user`;
+
 
 -- 用户表
 
@@ -1781,15 +1757,15 @@ values (19,
         53);
 --松禾体育场
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, building_type, is_reservable) values ('松禾体育场',
-        '00:00:01',
-        '23:59:59',
-        '松禾体育场',
-        '松禾体育场是一个体育场',
-        '教工餐厅',
-        'https://www.bilibili.com/video/BV1Y7411H7jZ',
-        54,
-        '体育场地',
-        0);
+                                                                                                                                                            '00:00:01',
+                                                                                                                                                            '23:59:59',
+                                                                                                                                                            '松禾体育场',
+                                                                                                                                                            '松禾体育场是一个体育场',
+                                                                                                                                                            '教工餐厅',
+                                                                                                                                                            'https://www.bilibili.com/video/BV1Y7411H7jZ',
+                                                                                                                                                            54,
+                                                                                                                                                            '体育场地',
+                                                                                                                                                            0);
 insert into Image (image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost/building/%E6%9D%BE%E7%A6%BE%E4%BD%93%E8%82%B2%E5%9C%BA.jpg');
 insert into Buildings_Image (building_ID, image_ID)
@@ -1797,15 +1773,15 @@ values (20,
         54);
 --第一科研楼
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, building_type, is_reservable) values ('第一科研楼',
-        '00:00:01',
-        '23:59:59',
-        '第一科研楼',
-        '第一科研楼是一个科研楼',
-        '科研楼',
-        'https://www.bilibili.com/video/BV1Y7411H7jZ',
-        55,
-        '科研楼',
-        0);
+                                                                                                                                                            '00:00:01',
+                                                                                                                                                            '23:59:59',
+                                                                                                                                                            '第一科研楼',
+                                                                                                                                                            '第一科研楼是一个科研楼',
+                                                                                                                                                            '科研楼',
+                                                                                                                                                            'https://www.bilibili.com/video/BV1Y7411H7jZ',
+                                                                                                                                                            55,
+                                                                                                                                                            '科研楼',
+                                                                                                                                                            0);
 insert into Image (image_url)
 values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%B8%80%E7%A7%91.jpg');
 insert into Buildings_Image (building_ID, image_ID)

@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import jakarta.annotation.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
@@ -56,10 +57,14 @@ public class PublicController {
 
     @ApiOperation("根据建筑ID获取详细建筑信息")
     @RequestMapping("/building/get/details")
-    public ApiResponse<BuildingInfo> getBuildingDetails(@RequestParam Integer buildingId) {
-        return ApiResponse.success(
-                publicService.getBuildingDetails(buildingId)
-        );
+    public ResponseEntity<Object> getBuildingDetails(@RequestParam Integer buildingId) {
+        try {
+            return ResponseEntity.ok().body(
+                    publicService.getBuildingDetails(buildingId)
+            );
+        } catch (ApiException e) {
+            return ResponseEntity.accepted().body(e.getMessage());
+        }
     }
 
     @ApiOperation("根据建筑ID获取公交站信息")
@@ -93,13 +98,12 @@ public class PublicController {
 
     @ApiOperation("访客登录")
     @RequestMapping("/login")
-    public ApiResponse<UserInfo> login(@RequestBody @Validated LoginParam loginParam) {
-        return ApiResponse.success(
-                publicService.login(
-                        loginParam.getUsername(),
-                        loginParam.getPassword()
-                )
-        );
+    public ResponseEntity<Object> login(@RequestBody @Validated LoginParam loginParam) {
+        try{
+            return new ResponseEntity<>(publicService.login(loginParam.getUsername(), loginParam.getPassword()), HttpStatus.OK);
+        }catch (ApiException e){
+            return ResponseEntity.accepted().body(e.getMessage());
+        }
     }
 
 //    @ApiOperation("获取所有公交线路信息")

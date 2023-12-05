@@ -41,6 +41,9 @@
           <vs-th sort @click="comments = $vs.sortData($event ,comments, 'adminId')">
             adminId
           </vs-th>
+          <vs-th>
+            operation
+          </vs-th>
         </vs-tr>
       </template>
       <template #tbody>
@@ -84,18 +87,16 @@
           <vs-td>
             {{tr.adminId}}
           </vs-td>
-          <template #expand>
+          <vs-td>
             <div class="con-content">
-              <div>
                 <vs-button border danger @click="disapproveComment(tr.commentId, tr)" :disabled="tr.adminId === 0" >
                   disapprove
                 </vs-button>
                 <vs-button border safe @click="approveComment(tr.commentId, tr)" :disabled="tr.adminId > 0">
                   approve
                 </vs-button>
-              </div>
             </div>
-          </template>
+          </vs-td>
         </vs-tr>
       </template>
       <template #footer>
@@ -140,6 +141,14 @@ export default {
     approveComment(id, tr) {
       this.$http.post(`/admin/comment/approve?commentId=${id}&adminId=1`)
           .then(response => {
+            if (response.status === 200) {
+              this.$vs.notification({
+                color:'success',
+                position: 'top-center',
+                title: 'Approve successfully',
+                text: '',
+              })
+            }
           })
           .catch(function (error) {
           })
@@ -151,6 +160,14 @@ export default {
     disapproveComment(id, tr) {
       this.$http.post(`/admin/comment/approve?commentId=${id}&adminId=0`)
           .then(response => {
+            if (response.status === 200) {
+              this.$vs.notification({
+                color:'success',
+                position: 'top-center',
+                title: 'Disapprove successfully',
+                text: '',
+              })
+            }
           })
           .catch(function (error) {
           })
@@ -165,5 +182,9 @@ export default {
 <style scoped>
 .center {
   max-width: 1000px;
+}
+.con-content{
+  display: flex;
+  justify-content: space-between;
 }
 </style>

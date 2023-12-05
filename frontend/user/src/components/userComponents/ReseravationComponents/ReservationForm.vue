@@ -141,7 +141,7 @@ export default {
         console.log(changeDate)
         this.$http({
           method: 'post',
-          url: '',
+          url: '/user/reservation/update',
           headers: {
             'content-type': 'application/json'
           },

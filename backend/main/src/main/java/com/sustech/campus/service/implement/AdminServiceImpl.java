@@ -19,6 +19,7 @@ import com.sustech.campus.service.UserService;
 import jakarta.annotation.Resource;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,6 +72,8 @@ public class AdminServiceImpl implements AdminService {
 //    private UserService userService;
     @Resource
     private ImgHostUploader imgHostUploader;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 
@@ -125,6 +128,26 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Boolean updateBuilding(Building building) {
+        Building buildingChange = buildingDao.selectById(building.getBuildingId());
+        if (buildingChange == null) {
+            return false;
+        } else {
+            buildingChange.setName(building.getName());
+            buildingChange.setLocationName(building.getLocationName());
+            buildingChange.setOpenTime(building.getOpenTime());
+            buildingChange.setCloseTime(building.getCloseTime());
+            buildingChange.setIntroduction(building.getIntroduction());
+            buildingChange.setNearestStation(building.getNearestStation());
+            buildingChange.setVideoUrl(building.getVideoUrl());
+            buildingChange.setBuildingType(building.getBuildingType());
+            buildingChange.setIsReservable(building.getIsReservable());
+            buildingDao.updateById(buildingChange);
+            return true;
+        }
+    }
+
+    @Override
     public Boolean uploadRoom(Room room) {
         roomDao.insert(room);
         return true;
@@ -172,17 +195,6 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    // TODO: 图片处理逻辑
-    @Override
-    public String uploadRoomTypeCover(MultipartFile picture, Integer roomId) {
-        return null;
-    }
-
-    @Override
-    public String uploadRoomTypeMedia(MultipartFile media, Integer roomId) {
-        return null;
-    }
-
     @Override
     public List<Reservation> getReservationRoomInfo(Integer roomId) {
         return reservationDao.selectJoinList(
@@ -193,6 +205,38 @@ public class AdminServiceImpl implements AdminService {
                         .leftJoin(User.class, User::getUserId, Reservation::getUserId)
                         .eq(Reservation::getRoomId, roomId)
         );
+    }
+
+    @Override
+    public List<ReservationInfo> getAllReservation(){
+        List<Reservation> reservations = reservationDao.selectList(null);
+        return reservations.stream().map(reservation -> {
+            Room room = roomDao.selectById(reservation.getRoomId());
+            Building building = buildingDao.selectById(room.getBuildingId());
+            RoomType roomType = roomTypeDao.selectById(room.getRoomTypeId());
+            List<RoomTypeImage> roomTypeImages = roomTypeImageDao.selectList(
+                    new MPJLambdaWrapper<RoomTypeImage>()
+                            .select(RoomTypeImage::getImageId)
+                            .eq(RoomTypeImage::getRoomTypeId, roomType.getRoomTypeId())
+            );
+            List<String> image_url = roomTypeImages.stream().map(roomTypeImage -> {
+                return imageDao.selectById(roomTypeImage.getImageId()).getImageUrl();
+            }).toList();
+            return ReservationInfo.builder()
+                    .reservationId(reservation.getReservationId())
+                    .roomId(reservation.getRoomId())
+                    .userId(reservation.getUserId())
+                    .startTime(reservation.getStartTime())
+                    .endTime(reservation.getEndTime())
+                    .description(reservation.getDescription())
+                    .roomType(roomType.getType())
+                    .buildingId(building.getBuildingId())
+                    .buildingName(building.getName())
+                    .buildingType(building.getBuildingType())
+                    .roomNumber(room.getNumber())
+                    .roomTypeImages(image_url)
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -230,12 +274,16 @@ public class AdminServiceImpl implements AdminService {
                     .description(reservation.getDescription())
                     .userName(user.getName())
                     .roomType(roomType.getType())
+                    .buildingId(building.getBuildingId())
                     .buildingName(building.getName())
                     .buildingType(building.getBuildingType())
+                    .roomNumber(room.getNumber())
                     .roomTypeImages(image_url)
                     .build();
         }).collect(Collectors.toList());
     }
+
+
 
     @Override
     public Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException {
@@ -261,6 +309,7 @@ public class AdminServiceImpl implements AdminService {
                 .email(email)
                 .phone(phoneNumber)
                 .imageId(image.getImageId())
+                .isBlocked(false)
                 .build();
         userDao.insert(user);
         return true;
@@ -352,7 +401,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Boolean batchRegister(List<RegisterParam> registerParams) {
         for (RegisterParam registerParam : registerParams) {
-            asserts(registerParam.getUsername() != null && registerParam.getPassword() != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
+            asserts(registerParam.getUsername() != null && passwordEncoder.encode(registerParam.getPassword()) != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
             asserts(registerParam.getUsername().length() >= 3 && registerParam.getUsername().length() <= 20, "用户名长度应在3-20之间");
             asserts(registerParam.getPassword().length() >= 6 && registerParam.getPassword().length() <= 20, "密码长度应在6-20之间");
             asserts(registerParam.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
@@ -364,6 +413,7 @@ public class AdminServiceImpl implements AdminService {
                     .password(registerParam.getPassword())
                     .email(registerParam.getEmail())
                     .imageId(1)
+                    .isBlocked(false)
                     .build();
             userDao.insert(user);
         }

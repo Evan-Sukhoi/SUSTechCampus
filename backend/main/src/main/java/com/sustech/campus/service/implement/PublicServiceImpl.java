@@ -3,7 +3,6 @@ package com.sustech.campus.service.implement;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
@@ -14,31 +13,21 @@ import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.AuthCodeUtil;
 import com.sustech.campus.utils.EmailUtil;
 import com.sustech.campus.web.utils.JwtUtil;
-import io.jsonwebtoken.Claims;
-import io.swagger.annotations.ApiOperation;
 import jakarta.annotation.Resource;
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,6 +47,8 @@ public class PublicServiceImpl implements PublicService {
     @Resource
     private ImageDao imageDao;
     @Resource
+    private BuildingsImageDao buildingsImageDao;
+    @Resource
     private UserDao userDao;
     @Resource
     private RedisUtil redis;
@@ -71,27 +62,27 @@ public class PublicServiceImpl implements PublicService {
     @Autowired
     private ImgHostUploader imgHostUploader;
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
-//    @Resource
-//    private PasswordEncoder passwordEncoder;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Object getAllBusLine() throws IOException {
         BufferedReader reader = null;
         JSONArray ret = null;
-        try{
+        try {
             File file = new File("backend/main/src/main/resources/static/busline/busline.json");
             FileInputStream resource = new FileInputStream(file);
             reader = new BufferedReader(new InputStreamReader(resource));
             StringBuilder builder = new StringBuilder();
-            String line ="";
-            while((line = reader.readLine())!=null) {
+            String line = "";
+            while ((line = reader.readLine()) != null) {
                 builder.append(line);
             }
-            ret =  JSON.parseArray(builder.toString());
-        }catch(Exception e){
+            ret = JSON.parseArray(builder.toString());
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            if(reader!=null){
+        } finally {
+            if (reader != null) {
                 reader.close();
             }
         }
@@ -144,26 +135,24 @@ public class PublicServiceImpl implements PublicService {
                         .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
                         .eq(Building::getBuildingId, buildingId)
         );
-        List<BuildingsImage> buildingsImages = buildingDao.selectJoinList(
-                BuildingsImage.class,
-                new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId)
-                        .eq(Building::getBuildingId, buildingId)
-        );
-        List<String> image_url = buildingsImages.stream().map(buildingsImage -> {
-            Image image = imageDao.selectById(buildingsImage.getImageId());
-            if (image == null) {
-                LOGGER.warn("imageDao.selectById(buildingsImage.getImageId()) == null");
-                return null;
-            }
-            String url = image.getImageUrl();
-            if (url == null) {
-                LOGGER.warn("imageDao.selectById(buildingsImage.getImageId()).getImageUrl() == null");
-                return null;
-            } else {
-                return url;
-            }
-        }).toList();
+        List<Integer> buildingImgIds = buildingsImageDao.selectList(
+                new MPJLambdaWrapper<BuildingsImage>()
+                        .select(BuildingsImage::getImageId)
+                        .eq(BuildingsImage::getBuildingId, buildingId)
+        ).stream().map(BuildingsImage::getImageId).toList();
+
+        List<String> image_url = buildingsImageDao.selectList(
+                new MPJLambdaWrapper<BuildingsImage>()
+                        .select(BuildingsImage::getImageId)
+                        .eq(BuildingsImage::getBuildingId, buildingId)
+        )
+                .stream()
+                .map(BuildingsImage::getImageId)
+                .map(imageId -> imageDao
+                        .selectById(imageId)
+                        .getImageUrl()
+                ).toList();
+
         String cover_url = null;
         Image image = imageDao.selectById(building.getCoverId());
         if (image == null) {
@@ -237,9 +226,7 @@ public class PublicServiceImpl implements PublicService {
         }
         User user = userDao.selectOne(queryWrapper);
         asserts(user != null, "用户不存在");
-        asserts(user.getPassword().equals(password), "密码错误");
-        // TODO: 密码加密
-//        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
+        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
 
         // 添加login log和authenticate
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -274,6 +261,7 @@ public class PublicServiceImpl implements PublicService {
 
     @Resource
     private EmailUtil emailUtil;
+
     @Override
     public Boolean sendAuthCode(String email) {
         asserts(email != null, "邮箱不能为空");
@@ -315,11 +303,12 @@ public class PublicServiceImpl implements PublicService {
 
         User user = User.builder()
                 .name(username)
-//                .password(passwordEncoder.encode(password))
-                .password(password)
+                .password(passwordEncoder.encode(password))
+//                .password(password)
                 .email(email)
                 .phone(phoneNumber)
                 .imageId(image.getImageId())
+                .isBlocked(false)
                 .build();
         userDao.insert(user);
         return true;

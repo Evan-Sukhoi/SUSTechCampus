@@ -51,6 +51,13 @@ public interface AdminService {
     Boolean uploadBuilding(Building building);
 
     /**
+     * 更新建筑信息
+     * @param building
+     * @return
+     */
+    Boolean updateBuilding(Building building);
+
+    /**
      * 上传教室信息
      * @param room 教室信息
      */
@@ -71,22 +78,6 @@ public interface AdminService {
      */
     Boolean deleteRoom(Integer roomId);
 
-    /**
-     * 上传教室封面
-     * @param picture 上传的图片
-     * @param roomId 教室id
-     * @return 返回上传房型封面之后的获取url
-     */
-    String uploadRoomTypeCover(MultipartFile picture, Integer roomId);
-
-    /**
-     * 上传教室图片/视频
-     * @param media 上传的图片/视频
-     * @param roomId 教室id
-     * @return 返回上传房型图片之后的获取url
-     */
-    String uploadRoomTypeMedia(MultipartFile media, Integer roomId);
-
     List<Reservation> getReservationRoomInfo(Integer roomId);
 
     List<ReservationInfo> getReservationUserInfo(Integer userId);
@@ -95,7 +86,7 @@ public interface AdminService {
 
     List<CommentInfo> getAllComments();
 
-    public Boolean approveComment(Integer commentId, Integer adminId);
+    Boolean approveComment(Integer commentId, Integer adminId);
 
     Object getAllBusLine() throws IOException;
 
@@ -109,4 +100,6 @@ public interface AdminService {
     Boolean batchRegister(List<RegisterParam> registerParams);
 
     Object getAllIllegal();
+
+    List<ReservationInfo> getAllReservation();
 }
