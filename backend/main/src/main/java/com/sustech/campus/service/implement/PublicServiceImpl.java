@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -71,8 +72,8 @@ public class PublicServiceImpl implements PublicService {
     @Autowired
     private ImgHostUploader imgHostUploader;
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
-//    @Resource
-//    private PasswordEncoder passwordEncoder;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Object getAllBusLine() throws IOException {
@@ -237,9 +238,7 @@ public class PublicServiceImpl implements PublicService {
         }
         User user = userDao.selectOne(queryWrapper);
         asserts(user != null, "用户不存在");
-        asserts(user.getPassword().equals(password), "密码错误");
-        // TODO: 密码加密
-//        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
+        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
 
         // 添加login log和authenticate
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -315,8 +314,8 @@ public class PublicServiceImpl implements PublicService {
 
         User user = User.builder()
                 .name(username)
-//                .password(passwordEncoder.encode(password))
-                .password(password)
+                .password(passwordEncoder.encode(password))
+//                .password(password)
                 .email(email)
                 .phone(phoneNumber)
                 .imageId(image.getImageId())

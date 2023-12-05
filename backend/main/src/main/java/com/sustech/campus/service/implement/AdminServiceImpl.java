@@ -248,6 +248,7 @@ public class AdminServiceImpl implements AdminService {
                     .description(reservation.getDescription())
                     .userName(user.getName())
                     .roomType(roomType.getType())
+                    .buildingId(building.getBuildingId())
                     .buildingName(building.getName())
                     .buildingType(building.getBuildingType())
                     .roomNumber(room.getNumber())

@@ -1,5 +1,6 @@
 package com.sustech.campus.service;
 
+import com.sustech.campus.database.annotation.DateField;
 import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.database.po.Room;
@@ -27,7 +28,6 @@ public interface UserService{
      * @return 教室信息
      */
     List<RoomInfo> getRoomByBuilding(Integer buildingId);
-
 
     /**
      * 根据教室类型ID获取教室类型

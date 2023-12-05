@@ -3,6 +3,7 @@ package com.sustech.campus.controller;
 
 import com.sustech.campus.database.annotation.DateField;
 import com.sustech.campus.database.po.Room;
+import com.sustech.campus.model.param.AvailableReserveParam;
 import com.sustech.campus.model.param.CommentParam;
 import com.sustech.campus.model.param.ReserveParam;
 import com.sustech.campus.model.param.ReserveUpdateParam;
@@ -35,9 +36,14 @@ public class UserController {
 
     @ApiOperation("用户获取可用预约时段")
     @RequestMapping("/reservation/get")
-    public ResponseEntity<Object> getAvailableReservation(@ApiParam("建筑id") @RequestParam Integer buildingId, @ApiParam @RequestParam Date date) {
+    public ResponseEntity<Object> getAvailableReservation(@RequestBody @Validated AvailableReserveParam availableReserveParam) {
         try{
-            return ResponseEntity.ok().body(userService.getAvailableReservation(buildingId, date));
+            return ResponseEntity.ok().body(
+                    userService.getAvailableReservation(
+                            availableReserveParam.getBuildingId(),
+                            availableReserveParam.getDate()
+                    )
+            );
         } catch (ApiException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
