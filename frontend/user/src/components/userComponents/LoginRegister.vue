@@ -182,6 +182,8 @@ export default {
           localStorage.setItem('isLogin', this.isLogin)
           localStorage.setItem('userID', resp.data.data.userId)
           localStorage.setItem('token', resp.data.data.token)
+          localStorage.setItem('isBlocked', resp.data.data.isBlocked)
+          console.log(resp.data.data.isBlocked)
         }else {
           this.$vs.notification({
             color:'danger',

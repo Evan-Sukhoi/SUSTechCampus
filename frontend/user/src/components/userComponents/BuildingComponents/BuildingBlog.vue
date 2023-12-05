@@ -87,7 +87,14 @@ export default {
       formData.append('commentParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
       console.log(formData)
       this.$http.post('/user/comment/upload',  formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
-            console.log(resp)});
+        if (resp.status === 200) {
+          this.$vs.notification({
+            color:'success',
+            position: 'top-center',
+            title: 'Edit successfully',
+            text: '',
+          })
+        }});
       this.newComment.text = ''
       this.photos = []
 

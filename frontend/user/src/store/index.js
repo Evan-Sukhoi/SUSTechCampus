@@ -27,7 +27,7 @@ const store = new Vuex.Store({
         this.state.rangeTime = reservation.rangeTime
         this.state.isShow = true
       },
-      edit(state, info){
+      edit(state, info, rangeTime){
         this.state.reservationID = info.reservationId
         this.state.roomID = info.roomId
         this.state.roomNumber = info.roomNumber
@@ -37,7 +37,7 @@ const store = new Vuex.Store({
         this.state.date = info.date
         this.state.start_time = new Date(info.startTime)
         this.state.end_time = new Date(info.endTime)
-        this.state.rangeTime = info.rangeTime
+        this.state.rangeTime = rangeTime
         this.state.isShow = true
         this.state.isEdit = true
       },

@@ -160,6 +160,17 @@ export default {
     },
     submit(){
       this.$http.post(`/admin/building/change?buildingId=${this.editInfo.buildingId}&name=${this.editInfo.name}&introduction=${this.editInfo.introduction}&openTime=${this.editInfo.openTime}&closeTime=${this.editInfo.closeTime}&location_name=${this.editInfo.locationName}&nearest_station=${this.editInfo.nearestStation}&videoUrl=${this.editInfo.videoUrl}`, ).then(resp=>{
+        if (resp.status === 200){
+          this.$vs.notification({
+            color:'success',
+            position: 'top-center',
+            title: 'Edit successfully',
+            text: '',
+          })
+          this.active = false
+          this.fetchBuildingData()
+        }
+
         console.log(resp)
       }).catch(err=>{
         console.log(err)

@@ -81,25 +81,45 @@ export default {
     fetchData(){
       console.log(1)
       this.$http.get('/user/reservation/get/all?userId='+ localStorage.getItem('userID')).then(resp => {
-        if (resp.status === 200){
+        if (resp.status === 200) {
           this.tableData = resp.data
           for (let i = 0; i < this.tableData.length; i++) {
-            var time =new Date(this.tableData[i].startTime)
+            var time = new Date(this.tableData[i].startTime)
             var day = time.getDate()
             if (day >= 0 && day <= 9) {
               day = "0" + String(day);
             }
-            this.tableData[i]["date"] = time.getFullYear() + '-' + (time.getMonth()+1) + '-' + day
+            this.tableData[i]["date"] = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + day
+            var data = {buildingId:this.tableData[i].buildingId, date:time}
+            this.$http.post(`user/reservation/get`, data).then(resp => {
+              if (resp.status === 200){
+                for (let j = 0; j < resp.data.length; j++) {
+                  if (resp.data[j].roomId === this.tableData[i].roomId){
+                    this.tableData[i].availableTimeBegin = resp.data[j].availableTimeBegin
+                    this.tableData[i].availableTimeEnd = resp.data[j].availableTimeEnd
+                  }
+                }
+              }
+            }).catch(err=>err)
+            console.log(resp.data)
+            console.log(this.tableData)
           }
-          console.log(resp.data)
         }
       }).catch(err=>err)
+
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
     edit(index, tableData){
-      this.$store.commit('edit', tableData[index])
+      const availableTimeBegin = tableData[index].availableTimeBegin
+      const availableTimeEnd = tableData[index].availableTimeEnd
+      const len = availableTimeBegin.length
+      var reserveTime = []
+      for (let i = 0; i < len; i++) {
+        reserveTime.push(availableTimeBegin[i] + '-' + availableTimeEnd[i])
+      }
+      this.$store.commit('edit', tableData[index], reserveTime)
     },
     formatDate(row, column) {
       let data = row[column.property]
