@@ -47,6 +47,8 @@ public class PublicServiceImpl implements PublicService {
     @Resource
     private ImageDao imageDao;
     @Resource
+    private BuildingsImageDao buildingsImageDao;
+    @Resource
     private UserDao userDao;
     @Resource
     private RedisUtil redis;
@@ -67,20 +69,20 @@ public class PublicServiceImpl implements PublicService {
     public Object getAllBusLine() throws IOException {
         BufferedReader reader = null;
         JSONArray ret = null;
-        try{
+        try {
             File file = new File("backend/main/src/main/resources/static/busline/busline.json");
             FileInputStream resource = new FileInputStream(file);
             reader = new BufferedReader(new InputStreamReader(resource));
             StringBuilder builder = new StringBuilder();
-            String line ="";
-            while((line = reader.readLine())!=null) {
+            String line = "";
+            while ((line = reader.readLine()) != null) {
                 builder.append(line);
             }
-            ret =  JSON.parseArray(builder.toString());
-        }catch(Exception e){
+            ret = JSON.parseArray(builder.toString());
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            if(reader!=null){
+        } finally {
+            if (reader != null) {
                 reader.close();
             }
         }
@@ -133,26 +135,24 @@ public class PublicServiceImpl implements PublicService {
                         .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
                         .eq(Building::getBuildingId, buildingId)
         );
-        List<BuildingsImage> buildingsImages = buildingDao.selectJoinList(
-                BuildingsImage.class,
-                new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId)
-                        .eq(Building::getBuildingId, buildingId)
-        );
-        List<String> image_url = buildingsImages.stream().map(buildingsImage -> {
-            Image image = imageDao.selectById(buildingsImage.getImageId());
-            if (image == null) {
-                LOGGER.warn("imageDao.selectById(buildingsImage.getImageId()) == null");
-                return null;
-            }
-            String url = image.getImageUrl();
-            if (url == null) {
-                LOGGER.warn("imageDao.selectById(buildingsImage.getImageId()).getImageUrl() == null");
-                return null;
-            } else {
-                return url;
-            }
-        }).toList();
+        List<Integer> buildingImgIds = buildingsImageDao.selectList(
+                new MPJLambdaWrapper<BuildingsImage>()
+                        .select(BuildingsImage::getImageId)
+                        .eq(BuildingsImage::getBuildingId, buildingId)
+        ).stream().map(BuildingsImage::getImageId).toList();
+
+        List<String> image_url = buildingsImageDao.selectList(
+                new MPJLambdaWrapper<BuildingsImage>()
+                        .select(BuildingsImage::getImageId)
+                        .eq(BuildingsImage::getBuildingId, buildingId)
+        )
+                .stream()
+                .map(BuildingsImage::getImageId)
+                .map(imageId -> imageDao
+                        .selectById(imageId)
+                        .getImageUrl()
+                ).toList();
+
         String cover_url = null;
         Image image = imageDao.selectById(building.getCoverId());
         if (image == null) {
@@ -261,6 +261,7 @@ public class PublicServiceImpl implements PublicService {
 
     @Resource
     private EmailUtil emailUtil;
+
     @Override
     public Boolean sendAuthCode(String email) {
         asserts(email != null, "邮箱不能为空");
