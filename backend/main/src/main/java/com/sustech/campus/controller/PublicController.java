@@ -1,5 +1,6 @@
 package com.sustech.campus.controller;
 
+import com.alipay.api.AlipayApiException;
 import com.sustech.campus.database.po.Busline;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.model.param.LoginParam;
@@ -155,6 +156,19 @@ public class PublicController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (IOException e) {
             return new ResponseEntity<>("图片保存失败，请稍后再试", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ApiOperation("购买商品")
+    @RequestMapping("/buy")
+    public ResponseEntity<Object> buy(@ApiParam("返回时跳转的url") @RequestParam String url,
+                                      @ApiParam("商品ID") @RequestParam Integer productId) {
+        try {
+            return ResponseEntity.ok().body(
+                    publicService.buy(url, productId)
+            );
+        } catch (ApiException | AlipayApiException e) {
+            return ResponseEntity.accepted().body(e.getMessage());
         }
     }
 }

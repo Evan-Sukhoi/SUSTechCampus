@@ -192,17 +192,29 @@ CREATE TABLE illegal_operation_log
     port       VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS `product`;
 -- 商品表  构造器输入的都是字符串
-
 CREATE TABLE Product
 (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
     subject VARCHAR(255) NOT NULL,
     body    VARCHAR(1000),
-    amount  VARCHAR(20)  NOT NULL,
-    CDKEK   VARCHAR(255) NOT NULL,
+    amount  FLOAT NOT NULL,
     shop    VARCHAR(255) NOT NULL,
-    inventory INT NOT NULL
+    inventory INT NOT NULL,
+    image_ID INT
+);
+
+DROP TABLE IF EXISTS `order`;
+-- 订单表
+CREATE TABLE  `Order`
+(
+    order_id VARCHAR(12) PRIMARY KEY,
+    product_ID INT NOT NULL,
+    amount FLOAT NOT NULL,
+    time TIMESTAMP NOT NULL,
+    CDKEK VARCHAR(8) NOT NULL,
+    status INT NOT NULL
 );
 
 insert into User(phone, name, email, password, image_ID, is_blocked)
@@ -1788,3 +1800,9 @@ insert into Buildings_Image (building_ID, image_ID)
 values (21,
         55);
 
+
+insert into product (subject, body, amount, shop, inventory)
+values ('南科大校徽', '南科大校徽 *1', '29.8', '南科大纪念品商店', 200);
+
+insert into product (subject, body, amount, shop, inventory)
+values ('南科大T恤', '南科大T恤 XL *1', '79.8', '南科大纪念品商店', 50);

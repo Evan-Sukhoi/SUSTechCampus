@@ -2,6 +2,7 @@ package com.sustech.campus.service.implement;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
@@ -26,8 +27,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import sustech.ln.alipay.config.AliPayTemplate;
+import sustech.ln.alipay.pojo.PayVo;
+import sustech.ln.alipay.service.OrderService;
 
 import java.io.*;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,6 +63,14 @@ public class PublicServiceImpl implements PublicService {
     private ResourceLoader resourceLoader;
     @Resource
     private CommentIdImageDao commentIdImageDao;
+    @Resource
+    private ProductDao productDao;
+    @Resource
+    private OrderDao orderDao;
+    @Resource
+    private OrderService orderService;
+    @Resource
+    private AliPayTemplate aliPayTemplate;
     org.springframework.core.io.Resource buslineResource;
     @Autowired
     private ImgHostUploader imgHostUploader;
@@ -135,24 +148,17 @@ public class PublicServiceImpl implements PublicService {
                         .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
                         .eq(Building::getBuildingId, buildingId)
         );
-        List<Integer> buildingImgIds = buildingsImageDao.selectList(
-                new MPJLambdaWrapper<BuildingsImage>()
-                        .select(BuildingsImage::getImageId)
-                        .eq(BuildingsImage::getBuildingId, buildingId)
-        ).stream().map(BuildingsImage::getImageId).toList();
-
         List<String> image_url = buildingsImageDao.selectList(
-                new MPJLambdaWrapper<BuildingsImage>()
-                        .select(BuildingsImage::getImageId)
-                        .eq(BuildingsImage::getBuildingId, buildingId)
-        )
+                        new MPJLambdaWrapper<BuildingsImage>()
+                                .select(BuildingsImage::getImageId)
+                                .eq(BuildingsImage::getBuildingId, buildingId)
+                )
                 .stream()
                 .map(BuildingsImage::getImageId)
                 .map(imageId -> imageDao
                         .selectById(imageId)
                         .getImageUrl()
                 ).toList();
-
         String cover_url = null;
         Image image = imageDao.selectById(building.getCoverId());
         if (image == null) {
@@ -278,6 +284,7 @@ public class PublicServiceImpl implements PublicService {
         return true;
     }
 
+
     @Override
     public Boolean register(String username, String password, String email, String phoneNumber, Integer authCode, MultipartFile file) throws IOException {
         asserts(username != null && password != null && email != null && phoneNumber != null, "用户名、密码、邮箱、手机号不能为空");
@@ -324,4 +331,39 @@ public class PublicServiceImpl implements PublicService {
         );
     }
 
+    @Override
+    public String buy(String url, Integer productId) throws AlipayApiException {
+        Product product = productDao.selectById(productId);
+        asserts(product != null, "商品不存在");
+        String cdkey = generateCDKey(8);
+        String sn = generateCDKey(15);
+        Order order = Order.builder()
+                .orderSn(sn)
+                .productId(productId)
+                .amount(product.getAmount())
+                .cdkey(cdkey)
+                .time(new Date())
+                .status(0)
+                .build();
+        LOGGER.info("订单已生成，即将跳转支付宝");
+
+        PayVo payVo = orderService.getOrderPay(
+                sn,
+                product.getSubject(),
+                product.getBody(),
+                String.valueOf(product.getAmount())
+        );
+        return aliPayTemplate.pay(payVo);
+    }
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static SecureRandom random = new SecureRandom();
+    private static String generateCDKey(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(randomIndex));
+        }
+        return sb.toString();
+    }
 }
