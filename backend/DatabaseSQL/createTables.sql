@@ -206,14 +206,16 @@ CREATE TABLE Product
 );
 
 DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS `order_info`;
 -- 订单表
-CREATE TABLE  `Order`
+CREATE TABLE  `Order_Info`
 (
-    order_id VARCHAR(12) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_sn BIGINT NOT NULL UNIQUE,
     product_ID INT NOT NULL,
     amount FLOAT NOT NULL,
     time TIMESTAMP NOT NULL,
-    CDKEK VARCHAR(8) NOT NULL,
+    cdkey VARCHAR(8) NOT NULL,
     status INT NOT NULL
 );
 

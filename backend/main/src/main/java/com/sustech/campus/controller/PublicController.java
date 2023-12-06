@@ -159,16 +159,16 @@ public class PublicController {
         }
     }
 
-    @ApiOperation("购买商品")
-    @RequestMapping("/buy")
-    public ResponseEntity<Object> buy(@ApiParam("返回时跳转的url") @RequestParam String url,
-                                      @ApiParam("商品ID") @RequestParam Integer productId) {
-        try {
-            return ResponseEntity.ok().body(
-                    publicService.buy(url, productId)
-            );
-        } catch (ApiException | AlipayApiException e) {
-            return ResponseEntity.accepted().body(e.getMessage());
-        }
-    }
+//    @ApiOperation("购买商品")
+//    @RequestMapping("/buy")
+//    public ResponseEntity<Object> buy(@ApiParam("返回时跳转的url") @RequestParam String url,
+//                                      @ApiParam("商品ID") @RequestParam Integer productId) {
+//        try {
+//            return ResponseEntity.ok().body(
+//                    publicService.buy(url, productId)
+//            );
+//        } catch (ApiException | AlipayApiException e) {
+//            return ResponseEntity.accepted().body(e.getMessage());
+//        }
+//    }
 }

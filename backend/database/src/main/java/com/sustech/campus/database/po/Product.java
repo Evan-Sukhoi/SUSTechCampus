@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Product {
     @TableId(type = IdType.AUTO)
-    private Integer orderId;
+    private Integer productId;
     private String subject;
     private String body;
     private Float amount;

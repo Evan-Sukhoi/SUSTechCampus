@@ -27,9 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import com.sustech.campus.alipay.config.AliPayTemplate;
-import com.sustech.campus.alipay.pojo.PayVo;
-import com.sustech.campus.alipay.service.OrderService;
 
 import java.io.*;
 import java.security.SecureRandom;
@@ -326,31 +323,5 @@ public class PublicServiceImpl implements PublicService {
                         .eq(Building::getBuildingId, buildingId)
         );
     }
-
-    @Override
-    public String buy(String url, Integer productId) throws AlipayApiException {
-        Product product = productDao.selectById(productId);
-        asserts(product != null, "商品不存在");
-        String cdkey = generateCDKey(8);
-        String sn = generateCDKey(15);
-        Order order = Order.builder()
-                .orderSn(sn)
-                .productId(productId)
-                .amount(product.getAmount())
-                .cdkey(cdkey)
-                .time(new Date())
-                .status(0)
-                .build();
-        LOGGER.info("订单已生成，即将跳转支付宝");
-
-        PayVo payVo = orderService.getOrderPay(
-                sn,
-                product.getSubject(),
-                product.getBody(),
-                String.valueOf(product.getAmount())
-        );
-        return aliPayTemplate.pay(payVo);
-    }
-
 
 }

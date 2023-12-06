@@ -15,9 +15,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Order {
-    @TableId
-    private String orderSn;
+public class OrderInfo {
+    @TableId(type = IdType.AUTO)
+    private Integer id;
+    private Long orderSn;
     private Integer productId;
     private Float amount;
     @DateTimeField
