@@ -2,7 +2,6 @@ package com.sustech.campus.alipay.controller;
 
 import com.alipay.api.AlipayApiException;
 import com.sustech.campus.alipay.config.AliPayTemplate;
-import com.sustech.campus.alipay.model.PayInfo;
 import com.sustech.campus.alipay.pojo.PayVo;
 import com.sustech.campus.alipay.service.OrderService;
 import com.sustech.campus.alipay.util.SnowflakeIdWorker;
