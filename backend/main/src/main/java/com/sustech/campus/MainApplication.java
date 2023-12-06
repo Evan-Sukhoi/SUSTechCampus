@@ -4,12 +4,13 @@ import com.alibaba.fastjson.parser.ParserConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 //@MapperScan("com.sustech.campus.service")
 @MapperScan("com.sustech.campus.database.dao")
-@SpringBootApplication(scanBasePackages = {"com.sustech.campus.alipay.service"})
+@SpringBootApplication(scanBasePackages = {"com.sustech.campus.alipay.service"}, exclude = {SecurityAutoConfiguration.class })
 public class MainApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

@@ -67,10 +67,6 @@ public class PublicServiceImpl implements PublicService {
     private ProductDao productDao;
     @Resource
     private OrderDao orderDao;
-    @Resource
-    private OrderService orderService;
-    @Autowired
-    private AliPayTemplate aliPayTemplate;
     org.springframework.core.io.Resource buslineResource;
     @Autowired
     private ImgHostUploader imgHostUploader;
@@ -356,14 +352,5 @@ public class PublicServiceImpl implements PublicService {
         return aliPayTemplate.pay(payVo);
     }
 
-    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private static SecureRandom random = new SecureRandom();
-    private static String generateCDKey(int length) {
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(CHARACTERS.length());
-            sb.append(CHARACTERS.charAt(randomIndex));
-        }
-        return sb.toString();
-    }
+
 }
