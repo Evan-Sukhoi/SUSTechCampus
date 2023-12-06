@@ -55,12 +55,12 @@ mybatis-plus-join: 1.4.2
 并没有解决问题。
 之后，参考[这篇文章](https://www.cnblogs.com/cyb-652356/p/11718424.html)的说法：“**这个类确实在eclipse中自带java EE 5 Libraries中没有，但是我引用了外面的包还是报错，具体原因还是加载jar包的先后顺序问题，项目先去引用自带jar包中的mail类，所以外部引用的jar包自带mail不会引用。所以会报错。**”，我发现了自己代码中的
 ```
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>compile</scope>
-        </dependency>
+<dependency>
+    <groupId>javax</groupId>
+    <artifactId>javaee-api</artifactId>
+    <version>7.0</version>
+    <scope>compile</scope>
+</dependency>
 ```
 这里出现了问题。把`<scope>compile</scope>`改成`<scope>provided</scope>`就解决了。
 GPT给出的解释是：
@@ -74,3 +74,50 @@ GPT给出的解释是：
 
 ### 12.5 支付宝api微服务的Maven build时报错 \[ERROR\] Failed to execute goal maven-resources-plugin:3.3.1:resources Input length = 1
 这个问题是由于项目的 application.properties 配置文件里面包含了中文链接，编码格式不一致导致。文件编码为 GB2312，将它改为 UTF 编码即可。
+
+### 12.6 多模块调用（main调用alipay的）Service时，遇到了以下诸多问题。虽然最后发现这样写并不对，但还是记录探索过程如下
+- **循环依赖**：
+  依赖不可以有循环，否则无法正常run与install
+- **链条式model在install时，报错找不到某某类，但IDE中明明没报错**：
+  找到整个依赖链的中间模块（除去共同的父模块和要运行的主类的模块）的pom.xml文件，删去以下即可。
+  ```
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+             </plugin>
+        </plugins>
+    </build>
+  ```
+  这段配置是关于 Spring Boot 项目的 Maven 插件。`spring-boot-maven-plugin`主要负责将 Spring Boot 应用打包成可执行的 JAR 或者 WAR 文件，其中 JAR 文件通常包含了所有需要的依赖项，使得应用可以独立运行。
+  另外，它可以启动应用程序，通过 Maven 命令 `mvn spring-boot:run`，该插件可以在开发阶段启动应用程序，而无需显式构建和运行 JAR 文件。这对开发过程中的快速迭代和测试非常有用
+- **运行项目时，报错找不到另一个模块中的某某类，但IDE中明明没报错**
+    ```
+    Description:
+    A component required a bean of type 'com.sustech.campus.database.dao.ProductDao' that could not be found.
+    ```
+    解决方案：
+    在主类上添加   `@MapperScan("com.sustech.campus.database.dao")`
+  
+    或者
+  ```
+    @SpringBootApplication(scanBasePackages = {"com.sustech.campus.alipay.service"}) 
+    public class MainApplication extends SpringBootServletInitializer {...}
+  ```
+- **使用AliPay的沙箱模式（仅可用于开发时期测试）API时，在启动主类时提示Using generated security password:  .......然后打开网址时显示一个登录页面**
+- 
+  ![](https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/img/20231207015420.png)
+  解决：在主类上注解上添加
+  ```
+  @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+  ```
+  `@SpringBootApplication` 是一个组合注解，它整合了多个其他的 Spring Boot 注解，包括 `@EnableAutoConfiguration`、`@ComponentScan` 和 `@Configuration`。它会自动扫描应用程序中的组件，并基于类路径上的内容进行自动配置。
+  
+    而通过 `exclude` 属性，你可以告诉 Spring Boot 在自动配置时忽略某些特定的自动配置类。在这个例子中，`SecurityAutoConfiguration.class` 被排除，这意味着安全相关的自动配置将不会被应用。
+- **两个包含需要独立运行的主类的module产生依赖（即起初我把main和alipay放到了一起），会导致两个主类同时启动（其实是被依赖的模块先启动）（因而产生冲突）**
+  
+  两个模块可以添加同一个模块的依赖（比如database和web），但互相之间不要有依赖；
+
+  启动时分别启动两个，同时确保各自的配置文件被配置、端口号被指定（否则会从8080往上加）
+
