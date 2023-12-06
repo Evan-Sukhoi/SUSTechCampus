@@ -71,3 +71,6 @@ GPT给出的解释是：
 > 一般来说，在开发 Java EE 应用时，你应该使用`provided`范围，因为 Java EE 容器通常会提供 Java EE API。这样做可以减小部署包的大小，并确保运行时使用的是容器提供的正确版本的 API
 
 由此，可知是该版本的javaEE中的mail包版本与本地的其他包发生了冲突
+
+### 12.5 支付宝api微服务的Maven build时报错 \[ERROR\] Failed to execute goal maven-resources-plugin:3.3.1:resources Input length = 1
+这个问题是由于项目的 application.properties 配置文件里面包含了中文链接，编码格式不一致导致。文件编码为 GB2312，将它改为 UTF 编码即可。
