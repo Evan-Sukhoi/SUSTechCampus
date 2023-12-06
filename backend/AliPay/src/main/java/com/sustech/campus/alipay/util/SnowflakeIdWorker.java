@@ -1,4 +1,4 @@
-package sustech.ln.alipay.util;
+package com.sustech.campus.alipay.util;
 
 
 import org.apache.commons.lang3.RandomUtils;

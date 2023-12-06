@@ -1,4 +1,4 @@
-package sustech.ln.alipay.config;
+package com.sustech.campus.alipay.config;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -7,7 +7,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import sustech.ln.alipay.pojo.PayVo;
+import com.sustech.campus.alipay.pojo.PayVo;
 
 /**
  * @ClassName AliPayTemplate

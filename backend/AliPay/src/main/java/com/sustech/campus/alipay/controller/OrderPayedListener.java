@@ -1,14 +1,14 @@
-package sustech.ln.alipay.controller;
+package com.sustech.campus.alipay.controller;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.sustech.campus.alipay.config.AliPayTemplate;
+import com.sustech.campus.alipay.pojo.PayAsyncVo;
+import com.sustech.campus.alipay.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sustech.ln.alipay.config.AliPayTemplate;
-import sustech.ln.alipay.pojo.PayAsyncVo;
-import sustech.ln.alipay.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;

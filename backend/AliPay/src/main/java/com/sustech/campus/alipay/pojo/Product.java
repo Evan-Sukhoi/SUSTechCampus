@@ -1,4 +1,4 @@
-package sustech.ln.alipay.pojo;
+package com.sustech.campus.alipay.pojo;
 
 
 import lombok.Data;

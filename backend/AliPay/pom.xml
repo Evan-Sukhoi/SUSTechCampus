@@ -15,9 +15,10 @@
         <java.version>20</java.version>
     </properties>
     <dependencies>
+
         <dependency>
-            <groupId>com.sustech.main</groupId>
-            <artifactId>SUSTechCampus-main</artifactId>
+            <groupId>com.sustech.campus</groupId>
+            <artifactId>SUSTechCampus-web</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -53,22 +54,6 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-
-        </plugins>
 
     </build>
 

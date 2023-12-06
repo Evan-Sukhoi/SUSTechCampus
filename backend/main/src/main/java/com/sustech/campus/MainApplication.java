@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 //@MapperScan("com.sustech.campus.service")
 @MapperScan("com.sustech.campus.database.dao")
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.sustech.campus.alipay.service"})
 public class MainApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

@@ -27,9 +27,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import sustech.ln.alipay.config.AliPayTemplate;
-import sustech.ln.alipay.pojo.PayVo;
-import sustech.ln.alipay.service.OrderService;
+import com.sustech.campus.alipay.config.AliPayTemplate;
+import com.sustech.campus.alipay.pojo.PayVo;
+import com.sustech.campus.alipay.service.OrderService;
 
 import java.io.*;
 import java.security.SecureRandom;
@@ -69,7 +69,7 @@ public class PublicServiceImpl implements PublicService {
     private OrderDao orderDao;
     @Resource
     private OrderService orderService;
-    @Resource
+    @Autowired
     private AliPayTemplate aliPayTemplate;
     org.springframework.core.io.Resource buslineResource;
     @Autowired

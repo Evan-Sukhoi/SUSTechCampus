@@ -1,19 +1,18 @@
-package sustech.ln.alipay.controller;
+package com.sustech.campus.alipay.controller;
 
 import com.alipay.api.AlipayApiException;
+import com.sustech.campus.alipay.config.AliPayTemplate;
+import com.sustech.campus.alipay.model.OrderParam;
+import com.sustech.campus.alipay.pojo.PayVo;
+import com.sustech.campus.alipay.service.OrderService;
+import com.sustech.campus.alipay.util.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sustech.ln.alipay.config.AliPayTemplate;
-import sustech.ln.alipay.model.OrderParam;
-import sustech.ln.alipay.pojo.PayVo;
-import sustech.ln.alipay.service.OrderService;
-import sustech.ln.alipay.util.SnowflakeIdWorker;
 
 /**
  * @ClassName PayWebController

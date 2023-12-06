@@ -1,4 +1,4 @@
-package sustech.ln.alipay.model;
+package com.sustech.campus.alipay.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;

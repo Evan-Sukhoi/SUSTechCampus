@@ -1,4 +1,4 @@
-package sustech.ln.alipay.config;
+package com.sustech.campus.alipay.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

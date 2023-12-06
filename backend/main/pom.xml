@@ -23,7 +23,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.sustech.campus</groupId>
-			<artifactId>SUSTechCampus-web</artifactId>
+			<artifactId>SUSTechCampus-alipay</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -112,12 +112,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-		<dependency>
-			<groupId>com.sustech.campus</groupId>
-			<artifactId>SUSTechCampus-alipay</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
+
 
 	</dependencies>
 

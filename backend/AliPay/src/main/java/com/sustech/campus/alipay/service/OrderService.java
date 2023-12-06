@@ -1,12 +1,10 @@
-package sustech.ln.alipay.service;
+package com.sustech.campus.alipay.service;
 
 
+import com.sustech.campus.alipay.pojo.PayAsyncVo;
 import org.springframework.stereotype.Service;
-import sustech.ln.alipay.pojo.PayAsyncVo;
-import sustech.ln.alipay.pojo.PayVo;
-import sustech.ln.alipay.pojo.TransactionStatus;
-
-import java.util.ArrayList;
+import com.sustech.campus.alipay.pojo.PayVo;
+import com.sustech.campus.alipay.pojo.TransactionStatus;
 
 @Service
 public class OrderService {

@@ -1,4 +1,4 @@
-package sustech.ln.alipay;
+package com.sustech.campus.alipay;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

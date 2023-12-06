@@ -1,4 +1,4 @@
-package sustech.ln.alipay.controller;
+package com.sustech.campus.alipay.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
