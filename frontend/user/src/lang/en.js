@@ -61,6 +61,14 @@ export const lang = {
   conventionCenter: 'ConventionCenter',
   officeSpace: 'OfficeSpace',
 
+  /*building blog*/
+  commentContent: 'Comment Content',
+  uploadPhoto: 'Upload Photo',
+  selectFile: 'Select Files',
+  submitComment: 'Submit Comment',
+  fileSelected: 'File Selected',
+  deleteFile: 'delete',
+
   /*reservation*/
   reserve:'reserve',
   roomID: 'RoomID',
