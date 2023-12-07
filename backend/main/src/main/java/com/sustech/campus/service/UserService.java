@@ -67,4 +67,6 @@ public interface UserService{
     Object getAllReservation(Integer userId);
 
     Boolean deleteReservation(Integer reservationId);
+
+    Boolean likeComment(Integer commentId, Integer userId);
 }

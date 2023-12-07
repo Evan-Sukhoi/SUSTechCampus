@@ -1,15 +1,11 @@
 package com.sustech.campus.controller;
 
 
-import com.sustech.campus.database.annotation.DateField;
-import com.sustech.campus.database.po.Room;
 import com.sustech.campus.model.param.AvailableReserveParam;
 import com.sustech.campus.model.param.CommentParam;
 import com.sustech.campus.model.param.ReserveParam;
 import com.sustech.campus.model.param.ReserveUpdateParam;
-import com.sustech.campus.model.vo.RoomInfo;
 import com.sustech.campus.service.UserService;
-import com.sustech.campus.utils.ApiResponse;
 import com.sustech.campus.web.annotation.MappingController;
 import com.sustech.campus.web.handler.ApiException;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @MappingController("/user")
@@ -105,6 +100,18 @@ public class UserController {
         }
     }
 
+    @ApiOperation("用户点赞")
+    @RequestMapping("/comment/like")
+    public ResponseEntity<Object> likeBuilding(@ApiParam("用户id") @RequestParam Integer userId, @ApiParam("评论id") @RequestParam Integer commentId) {
+        try{
+            userService.likeComment(commentId, userId);
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 //    @ApiOperation("用户根据地点获取巴士线路信息")
 //    @RequestMapping("/busline/get/location")
 //    public ApiResponse<Boolean> getBusLine(@RequestBody @Validated BusLineLocationParam busLineLocationParam) {
@@ -133,7 +140,6 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     @ApiOperation("用户获取建筑物所有教室")
     @RequestMapping("/room/get/building")
