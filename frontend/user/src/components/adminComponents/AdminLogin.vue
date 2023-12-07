@@ -38,7 +38,6 @@
 import JSEncrypt from "jsencrypt";
 
 const encrypt = new JSEncrypt();
-encrypt.setPublicKey('你的公钥');
 export default {
   data:() => ({
     active: true,
@@ -55,6 +54,7 @@ export default {
       });
     },
     sign(){
+      console.log(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`)
       this.$http.post(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`).then(resp=>{
         console.log(resp)
         if (resp.status===200){

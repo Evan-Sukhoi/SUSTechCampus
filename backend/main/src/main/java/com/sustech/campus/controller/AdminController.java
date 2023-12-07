@@ -4,10 +4,7 @@ import com.sustech.campus.database.po.Building;
 import com.sustech.campus.database.po.Reservation;
 import com.sustech.campus.database.po.Room;
 import com.sustech.campus.database.po.User;
-import com.sustech.campus.model.param.BuslineParam;
-import com.sustech.campus.model.param.RegisterParam;
-import com.sustech.campus.model.param.ReserveRoomInfoParam;
-import com.sustech.campus.model.param.ReserveUserInfoParam;
+import com.sustech.campus.model.param.*;
 import com.sustech.campus.model.vo.BuildingInfo;
 import com.sustech.campus.model.vo.CommentInfo;
 import com.sustech.campus.model.vo.ReservationInfo;
@@ -44,10 +41,12 @@ public class AdminController {
 
     @ApiOperation("管理员登录")
     @RequestMapping("/login")
-    public ResponseEntity<Object> login(@ApiParam("用户名") @RequestParam @NotEmpty String username,
-                                        @ApiParam("密码") @RequestParam @NotEmpty String password) {
+    public ResponseEntity<Object> login(@RequestBody @Validated AdminLoginParam adminLoginParam) {
         try {
-            return ResponseEntity.ok(adminService.login(username, password));
+            return ResponseEntity.ok(adminService.login(
+                    adminLoginParam.getUsername(),
+                    adminLoginParam.getPassword()
+            ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -254,14 +254,17 @@ public class AdminServiceImpl implements AdminService {
                 .eq(Admin::getName, username)
         );
         try {
+            System.out.println(username);
+            System.out.println(password);
             String privateKey = redis.getObject("RSA_PRIVATE_KEY");
             String decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
-            asserts(admin != null && passwordEncoder.matches(decrypt, admin.getPassword()), "用户名或密码错误");
+            asserts(admin != null && decrypt.equals(admin.getPassword()), "用户名或密码错误");
         } catch (Exception e) {
             LOGGER.warn(e.getMessage());
             throw e;
         }
         String token = authenticate(admin);
+        System.out.println(token);
         return AdminInfo.builder()
                 .adminId(admin.getAdminId())
                 .name(admin.getName())

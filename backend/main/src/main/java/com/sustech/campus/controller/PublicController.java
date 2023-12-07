@@ -186,4 +186,16 @@ public class PublicController {
             return ResponseEntity.accepted().body(e.getMessage());
         }
     }
+
+    @ApiOperation("获取所有商品")
+    @RequestMapping("/product/all")
+    public ResponseEntity<Object> getAllProduct() {
+        try {
+            return ResponseEntity.ok().body(
+                    publicService.getAllProduct()
+            );
+        } catch (ApiException e) {
+            return ResponseEntity.accepted().body(e.getMessage());
+        }
+    }
 }

@@ -35,16 +35,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Resource
     private AdminDao adminDao;
     private static final String TOKEN_HEADER = "token";
+    private static final String ADMIN_TOKEN_HEADER = "admin_token";
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         //每次请求都是一个独立的SecurityContext
         String token = request.getHeader(TOKEN_HEADER);
+        String adminToken = request.getHeader(ADMIN_TOKEN_HEADER);
         if (StringUtils.hasText(token)) {
             LOGGER.info("token: {}", token);
             Claims claims = JwtUtil.parseJwt(token);
             String id = claims.getSubject();
+            System.out.println(id);
 
             if (id.startsWith("user")) {
                 User user = redis.getObject("User login:" + id.substring(4)); //Redis中的key是"user" + userId，value是User对象
@@ -57,20 +60,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword(), null);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            }else if (id.startsWith("admin")) {
-                Admin admin = redis.getObject("Admin login:" + id.substring(5));
+            } else {
+                LOGGER.warn("token: {} is invalid", token);
+            }
+        } else if (StringUtils.hasText(adminToken)) {
+            LOGGER.info("admin token: {}", adminToken);
+            Claims claims = JwtUtil.parseJwt(adminToken);
+            String id = claims.getSubject();
+            System.out.println(id);
+
+            if (id.startsWith("admin")) {
+                Admin admin = redis.getObject("Admin login:" + id.substring(5)); //Redis中的key是"admin" + adminId，value是Admin对象
                 LOGGER.info("admin login: {}", admin);
-                if (admin == null) { //Redis的User过期了，查询数据库
+                if (admin == null) { //Redis的Admin过期了，查询数据库
                     admin = adminDao.selectById(id);
                 }
-                if (admin != null) { //如果Redis和数据库中都没有User，则SecurityContext中没有Authentication对象
+                if (admin != null) { //如果Redis和数据库中都没有Admin，则SecurityContext中没有Authentication对象
                     redis.setObject("Admin login:" + id, admin, 60 * 10 * 2); //刷新ttl为20min
                     Authentication authentication = new UsernamePasswordAuthenticationToken(admin.getAdminId(), admin.getPassword(), null);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            }else {
-                LOGGER.warn("token: {} is invalid", token);
+            } else {
+                LOGGER.warn("admin token: {} is invalid", adminToken);
             }
+        } else {
+            LOGGER.info("no token");
         }
         filterChain.doFilter(request, response); //没有user也直接放行，之后会被Interceptor拦截，因为SecurityContext中没有Authentication对象
     }
