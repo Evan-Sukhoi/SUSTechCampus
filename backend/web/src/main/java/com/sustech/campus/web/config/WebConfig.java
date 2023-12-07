@@ -33,14 +33,14 @@ public class WebConfig implements WebMvcConfigurer {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * WebSocket 配置
-     * @return WebSocket配置类
-     */
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter(){
-        return new ServerEndpointExporter();
-    }
+//    /**
+//     * WebSocket 配置  弃用
+//     * @return WebSocket配置类
+//     */
+//    @Bean
+//    public ServerEndpointExporter serverEndpointExporter(){
+//        return new ServerEndpointExporter();
+//    }
 
     //https://github.com/spring-projects/spring-security/issues/11792
     @Bean

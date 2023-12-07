@@ -120,7 +120,10 @@ export default {
         title: this.$t('lang.attention'),
         text: this.$t('lang.getCommodity')
       })
-    }
+    },
+    fetchProducts() {
+
+    },
   }
 }
 </script>

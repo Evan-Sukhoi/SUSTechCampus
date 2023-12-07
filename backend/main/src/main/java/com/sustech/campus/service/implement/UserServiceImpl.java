@@ -336,7 +336,7 @@ public class UserServiceImpl implements UserService {
             Claims claims = JwtUtil.parseJwt(token);
             id = claims.getSubject();
         }
-        asserts(id != null, "认证信息无效或已过期，请重新登录");
-        return Integer.parseInt(id);
+        asserts(id.startsWith("user") && id != null, "认证信息无效或已过期，请重新登录");
+        return Integer.parseInt(id.substring(4));
     }
 }
