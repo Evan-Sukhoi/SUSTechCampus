@@ -17,7 +17,7 @@ public class ThymeleafController {
         return "index";
     }
 
-    @RequestMapping("/success.html")
+    @RequestMapping("/user/service")
     public String success(Model model){
         model.addAttribute("name", "LN");
         return "success";

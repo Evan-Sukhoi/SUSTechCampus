@@ -10,6 +10,7 @@
     <artifactId>SUSTechCampus-alipay</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>AliPay</name>
+    <packaging>jar</packaging>
     <description>支付宝沙箱环境</description>
     <properties>
         <java.version>20</java.version>

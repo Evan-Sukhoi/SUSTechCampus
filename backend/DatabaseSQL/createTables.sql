@@ -216,7 +216,8 @@ CREATE TABLE  `Order_Info`
     amount FLOAT NOT NULL,
     time TIMESTAMP NOT NULL,
     cdkey VARCHAR(8) NOT NULL,
-    status INT NOT NULL
+    status INT NOT NULL,
+    buyer_id VARCHAR(16)
 );
 
 insert into User(phone, name, email, password, image_ID, is_blocked)

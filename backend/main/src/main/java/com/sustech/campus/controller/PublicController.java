@@ -91,9 +91,9 @@ public class PublicController {
                                                @Email @NotNull @RequestParam String email) {
         try {
             publicService.sendAuthCode(email);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+            return ResponseEntity.ok().body("验证码已发送");
         } catch (ApiException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.accepted().body(e.getMessage());
         }
     }
 
@@ -152,10 +152,10 @@ public class PublicController {
             System.out.println("ok");
             return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (ApiException e) {
-            System.out.println(e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+            return ResponseEntity.accepted().body(e.getMessage());
         } catch (IOException e) {
-            return new ResponseEntity<>("图片保存失败，请稍后再试", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.accepted().body("文件上传失败");
         }
     }
 
@@ -171,4 +171,16 @@ public class PublicController {
 //            return ResponseEntity.accepted().body(e.getMessage());
 //        }
 //    }
+
+    @ApiOperation("获取公钥")
+    @RequestMapping("/get-key")
+    public ResponseEntity<Object> getKey() {
+        try {
+            return ResponseEntity.ok().body(
+                    publicService.getKey()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.accepted().body(e.getMessage());
+        }
+    }
 }

@@ -42,5 +42,7 @@ public interface PublicService {
 
     Boolean sendAuthCode(String email);
 
+    String getKey() throws Exception;
+
 //    String buy(String url, Integer productId) throws AlipayApiException;
 }

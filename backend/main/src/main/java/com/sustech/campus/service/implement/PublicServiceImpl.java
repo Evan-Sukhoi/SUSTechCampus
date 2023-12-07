@@ -12,7 +12,9 @@ import com.sustech.campus.database.utils.RedisUtil;
 import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.PublicService;
 import com.sustech.campus.utils.AuthCodeUtil;
+import com.sustech.campus.utils.Base64Util;
 import com.sustech.campus.utils.EmailUtil;
+import com.sustech.campus.utils.RsaUtil;
 import com.sustech.campus.web.utils.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +31,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.security.SecureRandom;
+import java.security.KeyPair;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -275,6 +277,23 @@ public class PublicServiceImpl implements PublicService {
         redis.setObject("verification:" + email, code, 60 * 5);
 
         return true;
+    }
+
+    @Override
+    public String getKey() throws Exception {
+        Object privateKey = redis.getObject("RSA_PRIVATE_KEY");
+        Object publicKey = redis.getObject("RSA_PUBLIC_KEY");
+        if (privateKey == null || publicKey == null) {
+            KeyPair keyPair = RsaUtil.getKeyPair();
+            privateKey = new String(Base64Util.encoder(keyPair.getPrivate().getEncoded()));
+            publicKey = new String(Base64Util.encoder(keyPair.getPublic().getEncoded()));
+            // 存入私钥
+            redis.setObject("RSA_PRIVATE_KEY", privateKey);
+            // 存入公钥
+            redis.setObject("RSA_PUBLIC_KEY", publicKey);
+        }
+        LOGGER.info("privateKey = {}，publicKey = {}", privateKey, publicKey);
+        return publicKey.toString();
     }
 
 

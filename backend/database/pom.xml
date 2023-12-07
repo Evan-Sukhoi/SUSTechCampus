@@ -12,6 +12,7 @@
     <artifactId>SUSTechCampus-db</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>database</name>
+    <packaging>jar</packaging>
     <description>database</description>
 
     <properties>
