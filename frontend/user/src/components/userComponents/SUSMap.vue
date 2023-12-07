@@ -15,10 +15,10 @@
 
       </div>
 
-      <div>
-        <el-button type="info" @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</el-button>
-        <el-button type="info" @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</el-button>
-      </div>
+<!--      <div>-->
+<!--        <el-button type="info" @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</el-button>-->
+<!--        <el-button type="info" @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</el-button>-->
+<!--      </div>-->
 
       <div class="busline">
         <div class="select">
@@ -40,7 +40,7 @@
             </el-option>
           </el-select>
         </div>
-        <el-button type="success" @click="seeBusline">{{ this.seebusline ? "关闭公交线路" : "查看公交线路" }}</el-button>
+<!--        <el-button type="success" @click="seeBusline">{{ this.seebusline ? "关闭公交线路" : "查看公交线路" }}</el-button>-->
 
 
       </div>
@@ -88,28 +88,37 @@ export default {
       driving: '',
       showWalkingPanel: false,
       showDrivingPanel: false,
-      busline1: '',
-      seebusline1: false,
-      busline2: '',
-      seebusline2: false,
-      markers1: [],
-      markers2: [],
-      path1: [],
-      path2: [],
-      seebusline: false,
-      subLine1: '',
-      subLine2: '',
-      buslines: [],
+      // busline1: '',
+      // seebusline1: false,
+      // busline2: '',
+      // seebusline2: false,
+      // markers1: [],
+      // markers2: [],
+      // path1: [],
+      // path2: [],
+      // seebusline: false,
+      // subLine1: '',
+      // subLine2: '',
+      // buslines: [],
       geolocation: '',
       location: [],
     }
   },
 
-  beforeMount() {
 
+  // beforeRouteEnter(to, from, next) {
+  //   // 在路由进入前获取数据
+  //   next(vm => {
+  //     vm.fetchAllBuslines();
+  //     vm.fetchBuildingData();
+  //     vm.initAMap()
+  //   });
+  // },
+
+  beforeMount() {
   },
   mounted() {
-    this.fetchAllBuslines();
+    // this.fetchAllBuslines();
     this.fetchBuildingData();
     this.initAMap();
   },
@@ -289,120 +298,6 @@ export default {
             this.driving = new this.AMap.Driving(drivingOption)
 
             // (this.buslines.length === 0 ? buslines : this.buslines)
-            for (const busline of this.buslines) {
-              for (let i = 0; i < busline.list.length - 1; i++) {
-                for (const item of busline.list[i].point) {
-                  if (busline.name === 'busline1') {
-                    this.path1.push(item)
-                  } else {
-                    this.path2.push(item)
-                  }
-                }
-
-                const text = busline.list[i].two[0];
-                const position = busline.list[i].point[0];
-                const marker = new this.AMap.Marker({
-                  position: position,
-                  icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
-                  iconSize: new this.AMap.Size(20, 20),
-                  extData: { flag: `${text}` }
-                })
-                marker.setLabel({
-                  offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
-                  content: `<div class='info'>${text}</div>`, //设置文本标注内容
-                  direction: 'right', //设置文本标注方位
-                });
-                if (busline.name === "busline1") {
-                  this.markers1.push(marker);
-                } else {
-                  this.markers2.push(marker);
-                }
-
-              }
-
-              for (const item of busline.list[busline.list.length - 1].point) {
-                if (busline.name === 'busline1') {
-                  this.path1.push(item)
-                } else {
-                  this.path2.push(item)
-                }
-              }
-
-              if (busline.name === "busline1") {
-
-                this.busline1 = new this.AMap.Polyline({
-                  path: this.path1,
-                  isOutline: true,
-                  outlineColor: '#ffeeff',
-                  borderWeight: 3,
-                  strokeColor: "#4733ff",
-                  strokeOpacity: 0.8,
-                  strokeWeight: 6,
-                  // 折线样式还支持 'dashed'
-                  strokeStyle: "solid",
-                  // strokeStyle是dashed时有效
-                  strokeDasharray: [10, 5],
-                  lineJoin: 'round',
-                  lineCap: 'round',
-                  zIndex: 50,
-                })
-              } else {
-                this.busline2 = new this.AMap.Polyline({
-                  path: this.path2,
-                  isOutline: true,
-                  outlineColor: '#ffeeff',
-                  borderWeight: 3,
-                  strokeColor: "#4eff33",
-                  strokeOpacity: 1,
-                  strokeWeight: 6,
-                  // 折线样式还支持 'dashed'
-                  strokeStyle: "solid",
-                  // strokeStyle是dashed时有效
-                  strokeDasharray: [10, 5],
-                  lineJoin: 'round',
-                  lineCap: 'round',
-                  zIndex: 50,
-                })
-              }
-
-              let text = busline.list[busline.list.length - 1].two[0];
-              let position = busline.list[busline.list.length - 1].point[0];
-              let marker = new this.AMap.Marker({
-                position: position,
-                icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
-                iconSize: new this.AMap.Size(20, 20),
-                extData: { flag: `${text}` }
-              })
-              marker.setLabel({
-                offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
-                content: `<div class='info'>${text}</div>`, //设置文本标注内容
-                direction: 'right' //设置文本标注方位
-              });
-              if (busline.name === "busline1") {
-                this.markers1.push(marker);
-              } else {
-                this.markers2.push(marker);
-              }
-              text = busline.list[busline.list.length - 1].two[1];
-              position = busline.list[busline.list.length - 1].point[busline.list[busline.list.length - 1].point.length-1];
-              marker = new this.AMap.Marker({
-                position: position,
-                icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
-                iconSize: new this.AMap.Size(20, 20),
-                extData: { flag: `${text}` }
-              })
-              marker.setLabel({
-                offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
-                content: `<div class='info'>${text}</div>`, //设置文本标注内容
-                direction: 'right', //设置文本标注方位
-              });
-              if (busline.name === "busline1") {
-                this.markers1.push(marker);
-              } else {
-                this.markers2.push(marker);
-              }
-
-            }
 
             this.map.on("click", this.handleMapClick.bind(this));
           })
@@ -423,17 +318,132 @@ export default {
           });
     },
 
-    fetchAllBuslines() {
-      this.$http.get("/public/busline/all")
-          .then(response => {
-            this.buslines = response.data;
-            // console.log(this.buslines)
-          })
-          .catch(function (error) {
-          })
-          .finally(function () {
-          });
-    },
+    // fetchAllBuslines() {
+    //   this.$http.get("/public/busline/all")
+    //       .then(response => {
+    //         this.buslines = response.data;
+    //         // console.log(this.buslines)
+    //       })
+    //       .catch(function (error) {
+    //       })
+    //       .finally(function () {
+    //       });
+    //
+    //   for (const busline of this.buslines) {
+    //     for (let i = 0; i < busline.list.length - 1; i++) {
+    //       for (const item of busline.list[i].point) {
+    //         if (busline.name === 'busline1') {
+    //           this.path1.push(item)
+    //         } else {
+    //           this.path2.push(item)
+    //         }
+    //       }
+    //
+    //       const text = busline.list[i].two[0];
+    //       const position = busline.list[i].point[0];
+    //       const marker = new this.AMap.Marker({
+    //         position: position,
+    //         icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+    //         iconSize: new this.AMap.Size(20, 20),
+    //         extData: { flag: `${text}` }
+    //       })
+    //       marker.setLabel({
+    //         offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
+    //         content: `<div class='info'>${text}</div>`, //设置文本标注内容
+    //         direction: 'right', //设置文本标注方位
+    //       });
+    //       if (busline.name === "busline1") {
+    //         this.markers1.push(marker);
+    //       } else {
+    //         this.markers2.push(marker);
+    //       }
+    //
+    //     }
+    //
+    //     for (const item of busline.list[busline.list.length - 1].point) {
+    //       if (busline.name === 'busline1') {
+    //         this.path1.push(item)
+    //       } else {
+    //         this.path2.push(item)
+    //       }
+    //     }
+    //
+    //     if (busline.name === "busline1") {
+    //
+    //       this.busline1 = new this.AMap.Polyline({
+    //         path: this.path1,
+    //         isOutline: true,
+    //         outlineColor: '#ffeeff',
+    //         borderWeight: 3,
+    //         strokeColor: "#4733ff",
+    //         strokeOpacity: 0.8,
+    //         strokeWeight: 6,
+    //         // 折线样式还支持 'dashed'
+    //         strokeStyle: "solid",
+    //         // strokeStyle是dashed时有效
+    //         strokeDasharray: [10, 5],
+    //         lineJoin: 'round',
+    //         lineCap: 'round',
+    //         zIndex: 50,
+    //       })
+    //     } else {
+    //       this.busline2 = new this.AMap.Polyline({
+    //         path: this.path2,
+    //         isOutline: true,
+    //         outlineColor: '#ffeeff',
+    //         borderWeight: 3,
+    //         strokeColor: "#4eff33",
+    //         strokeOpacity: 1,
+    //         strokeWeight: 6,
+    //         // 折线样式还支持 'dashed'
+    //         strokeStyle: "solid",
+    //         // strokeStyle是dashed时有效
+    //         strokeDasharray: [10, 5],
+    //         lineJoin: 'round',
+    //         lineCap: 'round',
+    //         zIndex: 50,
+    //       })
+    //     }
+    //
+    //     let text = busline.list[busline.list.length - 1].two[0];
+    //     let position = busline.list[busline.list.length - 1].point[0];
+    //     let marker = new this.AMap.Marker({
+    //       position: position,
+    //       icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+    //       iconSize: new this.AMap.Size(20, 20),
+    //       extData: { flag: `${text}` }
+    //     })
+    //     marker.setLabel({
+    //       offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
+    //       content: `<div class='info'>${text}</div>`, //设置文本标注内容
+    //       direction: 'right' //设置文本标注方位
+    //     });
+    //     if (busline.name === "busline1") {
+    //       this.markers1.push(marker);
+    //     } else {
+    //       this.markers2.push(marker);
+    //     }
+    //     text = busline.list[busline.list.length - 1].two[1];
+    //     position = busline.list[busline.list.length - 1].point[busline.list[busline.list.length - 1].point.length-1];
+    //     marker = new this.AMap.Marker({
+    //       position: position,
+    //       icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+    //       iconSize: new this.AMap.Size(20, 20),
+    //       extData: { flag: `${text}` }
+    //     })
+    //     marker.setLabel({
+    //       offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
+    //       content: `<div class='info'>${text}</div>`, //设置文本标注内容
+    //       direction: 'right', //设置文本标注方位
+    //     });
+    //     if (busline.name === "busline1") {
+    //       this.markers1.push(marker);
+    //     } else {
+    //       this.markers2.push(marker);
+    //     }
+    //
+    //   }
+    // },
 
     getStartStation() {
       this.$http.get(`/public/building/get/station?buildingId=${parseInt(this.startBuildingId)}`)
@@ -469,141 +479,143 @@ export default {
       }
     },
 
-    seeBusline() {
-      this.getStartStation()
-      this.getEndStation()
-      this.seebusline = !this.seebusline;
-      if (this.seebusline) {
-        let startPosition = ''
-        let endPosition = ''
-        // let startPosition2 = ''
-        // let endPosition2 = ''
-        for (const marker of this.markers1) {
-          if (marker.getExtData().flag === this.startStation) {
-            startPosition = marker.getPosition();
-          }
-          if (marker.getExtData().flag === this.endStation) {
-            endPosition = marker.getPosition();
-          }
-        }
-        for (const marker of this.markers2) {
-          if (marker.getExtData().flag === this.startStation) {
-            startPosition = marker.getPosition();
-          }
-          if (marker.getExtData().flag === this.endStation) {
-            endPosition = marker.getPosition();
-          }
-        }
+    // seeBusline() {
+    //   this.getStartStation()
+    //   this.getEndStation()
+    //   this.seebusline = !this.seebusline;
+    //   if (this.seebusline) {
+    //     let startPosition = ''
+    //     let endPosition = ''
+    //     // let startPosition2 = ''
+    //     // let endPosition2 = ''
+    //     console.log(this.markers1)
+    //     for (const marker of this.markers1) {
+    //       if (marker.getExtData().flag === this.startStation) {
+    //         startPosition = marker.getPosition();
+    //       }
+    //       if (marker.getExtData().flag === this.endStation) {
+    //         endPosition = marker.getPosition();
+    //       }
+    //     }
+    //     for (const marker of this.markers2) {
+    //       if (marker.getExtData().flag === this.startStation) {
+    //         startPosition = marker.getPosition();
+    //       }
+    //       if (marker.getExtData().flag === this.endStation) {
+    //         endPosition = marker.getPosition();
+    //       }
+    //     }
+    //
+    //     let startIndex1 = ''
+    //     let endIndex1 = ''
+    //     for (let i = 0; i < this.path1.length; i++) {
+    //       if (this.path1[i].lng === startPosition.lng && this.path1[i].lat === startPosition.lat) {
+    //         startIndex1 = i
+    //       }
+    //       if (this.path1[i].lng === endPosition.lng && this.path1[i].lat === endPosition.lat) {
+    //         endIndex1 = i
+    //       }
+    //     }
+    //     if (startIndex1 !== '' && endIndex1 !== '' && startIndex1 !== endIndex1) {
+    //       const subPath1 = this.path1.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
+    //       this.subLine1 = new this.AMap.Polyline({
+    //         path: subPath1,
+    //         isOutline: true,
+    //         outlineColor: '#ffeeff',
+    //         borderWeight: 3,
+    //         strokeColor: "#bb33ff",
+    //         strokeOpacity: 1,
+    //         strokeWeight: 6,
+    //         // 折线样式还支持 'dashed'
+    //         strokeStyle: "solid",
+    //         // strokeStyle是dashed时有效
+    //         strokeDasharray: [10, 5],
+    //         lineJoin: 'round',
+    //         lineCap: 'round',
+    //         zIndex: 50,
+    //       })
+    //       console.log(subPath1)
+    //       this.map.add(this.subLine1)
+    //       if (!this.seebusline1) {
+    //         this.seeBusline1()
+    //       }
+    //     }
+    //
+    //     let startIndex2 = ''
+    //     let endIndex2 = ''
+    //     for (let i = 0; i < this.path2.length; i++) {
+    //       if (this.path2[i].lng === startPosition.lng && this.path2[i].lat === startPosition.lat) {
+    //         startIndex2 = i
+    //       }
+    //       if (this.path2[i].lng === endPosition.lng && this.path2[i].lat === endPosition.lat) {
+    //         endIndex2 = i
+    //       }
+    //     }
+    //     if (startIndex2 !== '' && endIndex2 !== '' && startIndex2 !== endIndex2) {
+    //       const subPath2 = this.path2.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
+    //       this.subLine2 = new this.AMap.Polyline({
+    //         path: subPath2,
+    //         isOutline: true,
+    //         outlineColor: '#ffeeff',
+    //         borderWeight: 3,
+    //         strokeColor: "#ffc533",
+    //         strokeOpacity: 1,
+    //         strokeWeight: 6,
+    //         // 折线样式还支持 'dashed'
+    //         strokeStyle: "solid",
+    //         // strokeStyle是dashed时有效
+    //         strokeDasharray: [10, 5],
+    //         lineJoin: 'round',
+    //         lineCap: 'round',
+    //         zIndex: 50,
+    //       })
+    //       this.map.add(this.subLine2)
+    //       if (!this.seebusline2) {
+    //         this.seeBusline2()
+    //       }
+    //     }
+    //   } else {
+    //     if (this.seebusline1) {
+    //       this.seeBusline1()
+    //     }
+    //     if (this.seebusline2) {
+    //       this.seeBusline2()
+    //     }
+    //
+    //     this.map.remove(this.subLine1)
+    //     this.map.remove(this.subLine2)
+    //   }
+    // },
 
-        let startIndex1 = ''
-        let endIndex1 = ''
-        for (let i = 0; i < this.path1.length; i++) {
-          if (this.path1[i].lng === startPosition.lng && this.path1[i].lat === startPosition.lat) {
-            startIndex1 = i
-          }
-          if (this.path1[i].lng === endPosition.lng && this.path1[i].lat === endPosition.lat) {
-            endIndex1 = i
-          }
-        }
-        if (startIndex1 !== '' && endIndex1 !== '' && startIndex1 !== endIndex1) {
-          const subPath1 = this.path1.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
-          this.subLine1 = new this.AMap.Polyline({
-            path: subPath1,
-            isOutline: true,
-            outlineColor: '#ffeeff',
-            borderWeight: 3,
-            strokeColor: "#bb33ff",
-            strokeOpacity: 1,
-            strokeWeight: 6,
-            // 折线样式还支持 'dashed'
-            strokeStyle: "solid",
-            // strokeStyle是dashed时有效
-            strokeDasharray: [10, 5],
-            lineJoin: 'round',
-            lineCap: 'round',
-            zIndex: 50,
-          })
-          this.map.add(this.subLine1)
-          if (!this.seebusline1) {
-            this.seeBusline1()
-          }
-        }
-
-        let startIndex2 = ''
-        let endIndex2 = ''
-        for (let i = 0; i < this.path2.length; i++) {
-          if (this.path2[i].lng === startPosition.lng && this.path2[i].lat === startPosition.lat) {
-            startIndex2 = i
-          }
-          if (this.path2[i].lng === endPosition.lng && this.path2[i].lat === endPosition.lat) {
-            endIndex2 = i
-          }
-        }
-        if (startIndex2 !== '' && endIndex2 !== '' && startIndex2 !== endIndex2) {
-          const subPath2 = this.path2.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
-          this.subLine2 = new this.AMap.Polyline({
-            path: subPath2,
-            isOutline: true,
-            outlineColor: '#ffeeff',
-            borderWeight: 3,
-            strokeColor: "#ffc533",
-            strokeOpacity: 1,
-            strokeWeight: 6,
-            // 折线样式还支持 'dashed'
-            strokeStyle: "solid",
-            // strokeStyle是dashed时有效
-            strokeDasharray: [10, 5],
-            lineJoin: 'round',
-            lineCap: 'round',
-            zIndex: 50,
-          })
-          this.map.add(this.subLine2)
-          if (!this.seebusline2) {
-            this.seeBusline2()
-          }
-        }
-      } else {
-        if (this.seebusline1) {
-          this.seeBusline1()
-        }
-        if (this.seebusline2) {
-          this.seeBusline2()
-        }
-
-        this.map.remove(this.subLine1)
-        this.map.remove(this.subLine2)
-      }
-    },
-
-    seeBusline1() {
-      this.seebusline1 = !this.seebusline1;
-      if (this.seebusline1) {
-        this.map.add(this.busline1)
-        for (const marker of this.markers1) {
-          this.map.add(marker)
-        }
-      } else {
-        this.map.remove(this.busline1)
-        for (const marker of this.markers1) {
-          this.map.remove(marker)
-        }
-      }
-    },
-
-    seeBusline2() {
-      this.seebusline2 = !this.seebusline2;
-      if (this.seebusline2) {
-        this.map.add(this.busline2)
-        for (const marker of this.markers2) {
-          this.map.add(marker)
-        }
-      } else {
-        this.map.remove(this.busline2)
-        for (const marker of this.markers2) {
-          this.map.remove(marker)
-        }
-      }
-    },
+    // seeBusline1() {
+    //   this.seebusline1 = !this.seebusline1;
+    //   if (this.seebusline1) {
+    //     this.map.add(this.busline1)
+    //     for (const marker of this.markers1) {
+    //       this.map.add(marker)
+    //     }
+    //   } else {
+    //     this.map.remove(this.busline1)
+    //     for (const marker of this.markers1) {
+    //       this.map.remove(marker)
+    //     }
+    //   }
+    // },
+    //
+    // seeBusline2() {
+    //   this.seebusline2 = !this.seebusline2;
+    //   if (this.seebusline2) {
+    //     this.map.add(this.busline2)
+    //     for (const marker of this.markers2) {
+    //       this.map.add(marker)
+    //     }
+    //   } else {
+    //     this.map.remove(this.busline2)
+    //     for (const marker of this.markers2) {
+    //       this.map.remove(marker)
+    //     }
+    //   }
+    // },
     startNavigation() {
       this.isNavigating = !this.isNavigating;
       if (this.isNavigating) {
@@ -660,7 +672,7 @@ export default {
       this.geolocation.getCurrentPosition((data) => {
         // this.location = data.position;
         console.log(data.position)
-        this.startPoint = data.position;
+        this.startMarker.position = data.position;
         // console.log('经度：' + data.position.getLng());
         // console.log('纬度：' + data.position.getLat());
       });

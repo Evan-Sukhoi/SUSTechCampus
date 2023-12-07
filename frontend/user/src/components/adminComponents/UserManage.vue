@@ -1,9 +1,5 @@
 <template>
   <div>
-    <p>
-      this is user manage
-    </p>
-
     <div class="center">
       <vs-table
           v-model="selected"
@@ -40,6 +36,9 @@
               Id
             </vs-th>
             <vs-th>
+              isBlocked
+            </vs-th>
+            <vs-th>
               operation
             </vs-th>
           </vs-tr>
@@ -64,6 +63,9 @@
             </vs-td>
             <vs-td>
               {{ tr.userId }}
+            </vs-td>
+            <vs-td>
+              {{tr.isBlocked}}
             </vs-td>
             <vs-td>
               <div style="display: flex; align-items: center;">
