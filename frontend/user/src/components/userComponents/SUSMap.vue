@@ -95,7 +95,7 @@ export default {
       showWalkingPanel: false,
       showDrivingPanel: false,
       paths: [[], [], []],
-      buslines: [],
+      buslines: [[], [], []],
       markers: [[], [], []],
 
       // busline1: '',
@@ -113,6 +113,7 @@ export default {
       geolocation: '',
       location: [],
       choose: false,
+      busLine: [],
     }
   },
 
@@ -468,7 +469,7 @@ export default {
           content: `<div class='info'>${text}</div>`, //设置文本标注内容
           direction: 'right' //设置文本标注方位
         });
-        this.paths[i].push(position)
+        this.paths[i].push(this.buslines[i].list[this.buslines[i].list.length - 1].point[0])
         this.markers[i].push(marker);
         text = this.buslines[i].list[this.buslines[i].list.length - 1].two[1];
         position = this.buslines[i].list[this.buslines[i].list.length - 1].point[this.buslines[i].list[this.buslines[i].list.length - 1].point.length - 1];
@@ -483,23 +484,61 @@ export default {
           content: `<div class='info'>${text}</div>`, //设置文本标注内容
           direction: 'right', //设置文本标注方位
         });
-        this.paths[i].push(position)
+        this.paths[i].push(this.buslines[i].list[this.buslines[i].list.length - 1].point[this.buslines[i].list[this.buslines[i].list.length - 1].point.length - 1])
         this.markers[i].push(marker);
       }
-      console.log(this.paths)
-      console.log(this.markers)
 
+      for (const path of this.paths) {
+        console.log(path)
+        // const pathUsed = path.map(p => [p.lng, p.lat])
+        // console.log(pathUsed)
+        let busline = ''
+        busline = new this.AMap.Polyline({
+                  path: path,
+                  isOutline: true,
+                  outlineColor: '#ffeeff',
+                  borderWeight: 3,
+                  strokeColor: "#4733ff",
+                  strokeOpacity: 0.8,
+                  strokeWeight: 6,
+                  // 折线样式还支持 'dashed'
+                  strokeStyle: "solid",
+                  // strokeStyle是dashed时有效
+                  strokeDasharray: [10, 5],
+                  lineJoin: 'round',
+                  lineCap: 'round',
+                  zIndex: 50,
+                })
+        this.map.add(busline)
+        this.busLine.push(busline)
+      }
 
+      this.getStartStation()
+      this.getEndStation()
+
+      let startPosition = ''
+      let endPosition = ''
+
+      for (const markers of this.markers) {
+        for (const marker of markers) {
+                if (marker.getExtData().flag === this.startStation) {
+                  startPosition = marker.getPosition();
+                }
+                if (marker.getExtData().flag === this.endStation) {
+                  endPosition = marker.getPosition();
+                }
+        }
+      }
+      console.log(startPosition)
+      console.log(endPosition)
 
     },
 
     // seeBusline() {
-    //   this.getStartStation()
-    //   this.getEndStation()
+
     //   this.seebusline = !this.seebusline;
     //   if (this.seebusline) {
-    //     let startPosition = ''
-    //     let endPosition = ''
+
     //     // let startPosition2 = ''
     //     // let endPosition2 = ''
     //     console.log(this.markers1)
