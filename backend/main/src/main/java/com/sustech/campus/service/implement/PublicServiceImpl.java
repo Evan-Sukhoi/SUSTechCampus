@@ -328,7 +328,7 @@ public class PublicServiceImpl implements PublicService {
         String trueCode = redis.getObject("verification:" + email);
 
         asserts(trueCode != null, "验证码已过期或未获取，请重新获取");
-        asserts(authCode.equals(Integer.parseInt(trueCode)), "验证码错误");
+        asserts(authCode.equals(trueCode), "验证码错误");
 
         String url = imgHostUploader.upload(file);
         Image image = Image.builder()

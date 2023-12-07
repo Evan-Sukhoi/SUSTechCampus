@@ -23,8 +23,8 @@ import AppointmentManage from "@/components/adminComponents/AppointmentManage.vu
 import BuildingManage from "@/components/adminComponents/BuildingManage.vue";
 import BuslineManage from "@/components/adminComponents/BuslineManage.vue";
 import CommentManage from "@/components/adminComponents/CommentManage.vue";
-import InformationSending from "@/components/adminComponents/LoginLog.vue";
-import LogLog from "@/components/adminComponents/IllegalLog.vue";
+import LoginLog from "@/components/adminComponents/LoginLog.vue";
+import IllegalLog from "@/components/adminComponents/IllegalLog.vue";
 import UserManage from "@/components/adminComponents/UserManage.vue";
 import AdminLogin from "@/components/adminComponents/AdminLogin.vue";
 
@@ -73,8 +73,11 @@ const routes = [
   },
   {
     path: '/admin',
-    redirect: '/admin/login',
-    name: 'adminLogin',
+    redirect: '/admin/appointmentManage',
+    name: '',
+    meta: {
+      requireAuth: true,
+    },
     beforeEnter: (to, from, next) => {
       console.log('Navigating to:', to.path)
       next()
@@ -84,15 +87,18 @@ const routes = [
       {path: '/admin/buildingManage', name: 'buildingManage', component: BuildingManage},
       {path: '/admin/buslineManage', name: 'buslineManage', component: BuslineManage},
       {path: '/admin/commentManage', name: 'commentManage', component: CommentManage},
-      {path: '/admin/informationSending', name: 'informationSending', component: InformationSending},
-      {path: '/admin/log', name: 'log', component: LogLog},
+      {path: '/admin/informationSending', name: 'informationSending', component: LoginLog},
+      {path: '/admin/log', name: 'log', component: IllegalLog},
       {path: '/admin/userManage', name: 'userManage', component: UserManage},
       {path: '/admin/visualization', name: 'visualization', component: VisualizationDashboard},
-      {path: '/admin/login', name: 'login', component: AdminLogin},
     ],
     component: AdminView
-
   },
+  {
+    path: '/adminLogin',
+    name: 'adminLogin',
+    component: AdminLogin
+  }
 ]
 
 const router = new VueRouter({
@@ -100,5 +106,24 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((r) => r.meta.requireAuth)) {
+    let admin = localStorage.getItem('admin');
+    if (admin==='True') {
+      console.log('这是通过拦截后到处理',from);
+
+      next();
+    } else {
+      next({
+        path: '/adminLogin',
+        query: {redirect: to.fullPath}   //登录成功后重定向到当前页面
+      });
+    }
+  } else {
+    console.log('这是拦截');
+    next();
+  }
+});
 
 export default router
