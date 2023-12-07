@@ -2121,5 +2121,309 @@ values (1, '2023-12-05 10:10:55', '湖畔食堂的菜品种类不够多，但价
 insert into comment(user_ID, time, text, building_ID, score, admin_ID)
 values (2, '2023-12-06 15:50:25', '湖畔宿舍的环境宜人，但有时候设施运行不够稳定。', 6, 4.00, 1);
 
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (69, '2023-12-01 08:30:45', '2023-12-01 10:30:45', 1, '离散数学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (70, '2023-12-02 12:15:20', '2023-12-02 14:15:20', 2, '计算机网络课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (71, '2023-12-03 19:45:10', '2023-12-03 21:45:10', 3, '计算机组成原理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (72, '2023-12-04 14:55:30', '2023-12-04 16:55:30', 4, '计算机操作系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (73, '2023-12-05 10:10:55', '2023-12-05 12:10:55', 5, '计算机图形学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (74, '2023-12-06 15:50:25', '2023-12-06 17:50:25', 1, '计算机体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (75, '2023-12-01 21:20:40', '2023-12-01 23:20:40', 2, '概率论与数理统计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (76, '2023-12-02 09:05:15', '2023-12-02 11:05:15', 3, '面向对象设计项目讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (77, '2023-12-03 16:30:22', '2023-12-03 18:30:22', 4, '软件工程课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (80, '2023-12-04 11:45:50', '2023-12-04 13:45:50', 5, '线性代数课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (81, '2023-12-05 18:10:35', '2023-12-05 20:10:35', 1, '离散数学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (82, '2023-12-06 12:25:05', '2023-12-06 14:25:05', 2, '计算机网络课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (83, '2023-12-01 14:55:30', '2023-12-01 16:55:30', 3, '计算机组成原理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (84, '2023-12-02 10:30:15', '2023-12-02 12:30:15', 4, '计算机操作系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (85, '2023-12-03 17:45:22', '2023-12-03 19:45:22', 5, '计算机图形学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (86, '2023-12-04 13:10:50', '2023-12-04 15:10:50', 1, '计算机体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (87, '2023-12-05 08:25:35', '2023-12-05 10:25:35', 2, '概率论与数理统计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (88, '2023-12-06 16:40:05', '2023-12-06 18:40:05', 3, '面向对象设计项目讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (89, '2023-12-01 11:20:45', '2023-12-01 13:20:45', 4, '软件工程课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (90, '2023-12-02 14:15:20', '2023-12-02 16:15:20', 5, '线性代数课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (69, '2023-12-03 21:45:10', '2023-12-03 23:45:10', 1, '离散数学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (70, '2023-12-04 16:55:30', '2023-12-04 18:55:30', 2, '计算机网络课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (71, '2023-12-05 12:10:55', '2023-12-05 14:10:55', 3, '计算机组成原理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (72, '2023-12-06 17:50:25', '2023-12-06 19:50:25', 4, '计算机操作系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (73, '2023-12-01 23:20:40', '2023-12-02 01:20:40', 5, '计算机图形学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (74, '2023-12-02 11:05:15', '2023-12-02 13:05:15', 1, '计算机体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (75, '2023-12-03 18:30:22', '2023-12-03 20:30:22', 2, '概率论与数理统计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (76, '2023-12-04 14:25:05', '2023-12-04 16:25:05', 3, '面向对象设计项目讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (77, '2023-12-05 20:10:35', '2023-12-05 22:10:35', 4, '软件工程课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (80, '2023-12-06 13:45:50', '2023-12-06 15:45:50', 5, '线性代数课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (81, '2023-12-01 13:20:45', '2023-12-01 15:20:45', 1, '离散数学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (82, '2023-12-02 16:15:20', '2023-12-02 18:15:20', 2, '计算机网络课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (83, '2023-12-03 19:45:10', '2023-12-03 21:45:10', 3, '计算机组成原理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (84, '2023-12-04 12:30:15', '2023-12-04 14:30:15', 4, '计算机操作系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (85, '2023-12-05 19:45:22', '2023-12-05 21:45:22', 5, '计算机图形学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (86, '2023-12-06 15:10:50', '2023-12-06 17:10:50', 1, '计算机体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (87, '2023-12-01 10:25:35', '2023-12-01 12:25:35', 2, '概率论与数理统计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (88, '2023-12-02 18:40:05', '2023-12-02 20:40:05', 3, '面向对象设计项目讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (89, '2023-12-03 13:20:45', '2023-12-03 15:20:45', 4, '软件工程课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (90, '2023-12-04 16:15:20', '2023-12-04 18:15:20', 5, '线性代数课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (69, '2023-12-05 14:30:15', '2023-12-05 16:30:15', 1, '离散数学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (70, '2023-12-06 18:55:30', '2023-12-06 20:55:30', 2, '计算机网络课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (71, '2023-12-01 01:20:40', '2023-12-01 03:20:40', 3, '计算机组成原理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (72, '2023-12-02 01:20:40', '2023-12-02 03:20:40', 4, '计算机操作系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (73, '2023-12-03 01:20:40', '2023-12-03 03:20:40', 5, '计算机图形学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (74, '2023-12-04 20:30:22', '2023-12-04 22:30:22', 1, '计算机体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (75, '2023-12-05 22:10:35', '2023-12-06 00:10:35', 2, '概率论与数理统计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (76, '2023-12-06 16:25:05', '2023-12-06 18:25:05', 3, '面向对象设计项目讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (77, '2023-12-01 15:45:50', '2023-12-01 17:45:50', 4, '软件工程课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (80, '2023-12-02 20:40:05', '2023-12-02 22:40:05', 5, '线性代数课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (81, '2023-12-03 15:20:45', '2023-12-03 17:20:45', 1, '离散数学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (82, '2023-12-04 18:15:20', '2023-12-04 20:15:20', 2, '计算机网络课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (83, '2023-12-05 21:45:10', '2023-12-05 23:45:10', 3, '计算机组成原理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (84, '2023-12-06 14:30:15', '2023-12-06 16:30:15', 4, '计算机操作系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (85, '2023-12-01 17:10:50', '2023-12-01 19:10:50', 5, '计算机图形学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (86, '2023-12-02 12:25:35', '2023-12-02 14:25:35', 1, '计算机体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (87, '2023-12-03 12:25:35', '2023-12-03 14:25:35', 2, '概率论与数理统计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (88, '2023-12-04 22:40:05', '2023-12-05 00:40:05', 3, '面向对象设计项目讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (89, '2023-12-05 15:20:45', '2023-12-05 17:20:45', 4, '软件工程课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (90, '2023-12-06 18:15:20', '2023-12-06 20:15:20', 5, '线性代数课程讨论');
+
+-- Additional Reservation Records
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (69, '2023-12-03 09:30:00', '2023-12-03 11:30:00', 2, '数据库管理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (70, '2023-12-04 14:00:00', '2023-12-04 16:00:00', 3, '人工智能课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (71, '2023-12-05 17:30:00', '2023-12-05 19:30:00', 4, '数据结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (72, '2023-12-06 12:00:00', '2023-12-06 14:00:00', 5, '操作研究课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (73, '2023-12-01 08:00:00', '2023-12-01 10:00:00', 1, '计算机安全课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (74, '2023-12-02 15:30:00', '2023-12-02 17:30:00', 2, '软件测试课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (75, '2023-12-03 20:00:00', '2023-12-03 22:00:00', 3, '算法设计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (76, '2023-12-04 10:30:00', '2023-12-04 12:30:00', 4, '计算机伦理学讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (77, '2023-12-05 16:00:00', '2023-12-05 18:00:00', 5, '信息检索课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (80, '2023-12-06 11:30:00', '2023-12-06 13:30:00', 1, '网络安全课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (81, '2023-12-01 14:00:00', '2023-12-01 16:00:00', 2, '计算机语言学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (82, '2023-12-02 17:30:00', '2023-12-02 19:30:00', 3, '人机交互课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (83, '2023-12-03 21:00:00', '2023-12-03 23:00:00', 4, '分布式系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (84, '2023-12-04 13:30:00', '2023-12-04 15:30:00', 5, '计算理论课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (85, '2023-12-05 18:00:00', '2023-12-05 20:00:00', 1, '机器学习课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (86, '2023-12-06 14:30:00', '2023-12-06 16:30:00', 2, '信息安全管理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (87, '2023-12-01 12:30:00', '2023-12-01 14:30:00', 3, '软件体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (88, '2023-12-02 20:00:00', '2023-12-02 22:00:00', 4, '软件项目管理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (89, '2023-12-03 15:30:00', '2023-12-03 17:30:00', 5, '数据库设计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (90, '2023-12-04 18:00:00', '2023-12-04 20:00:00', 1, '大数据分析课程讨论');
+
+-- Additional Reservation Records
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (69, '2023-12-03 14:30:00', '2023-12-03 16:30:00', 2, '人工智能课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (70, '2023-12-04 10:00:00', '2023-12-04 12:00:00', 3, '数据结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (71, '2023-12-05 19:30:00', '2023-12-05 21:30:00', 4, '操作研究课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (72, '2023-12-06 14:00:00', '2023-12-06 16:00:00', 5, '计算机伦理学讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (73, '2023-12-01 09:30:00', '2023-12-01 11:30:00', 1, '计算机安全课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (74, '2023-12-02 16:30:00', '2023-12-02 18:30:00', 2, '软件测试课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (75, '2023-12-03 21:00:00', '2023-12-03 23:00:00', 3, '算法设计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (76, '2023-12-04 11:30:00', '2023-12-04 13:30:00', 4, '计算机语言学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (77, '2023-12-05 16:30:00', '2023-12-05 18:30:00', 5, '信息检索课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (80, '2023-12-06 09:00:00', '2023-12-06 11:00:00', 1, '网络安全课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (81, '2023-12-01 12:00:00', '2023-12-01 14:00:00', 2, '计算机语言学课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (82, '2023-12-02 18:30:00', '2023-12-02 20:30:00', 3, '人机交互课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (83, '2023-12-03 22:00:00', '2023-12-04 00:00:00', 4, '分布式系统课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (84, '2023-12-04 14:30:00', '2023-12-04 16:30:00', 5, '计算理论课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (85, '2023-12-05 19:00:00', '2023-12-05 21:00:00', 1, '机器学习课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (86, '2023-12-06 15:30:00', '2023-12-06 17:30:00', 2, '信息安全管理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (87, '2023-12-01 13:00:00', '2023-12-01 15:00:00', 3, '软件体系结构课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (88, '2023-12-02 21:30:00', '2023-12-02 23:30:00', 4, '软件项目管理课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (89, '2023-12-03 16:30:00', '2023-12-03 18:30:00', 5, '数据库设计课程讨论');
+
+insert into Reservation(room_ID, start_time, end_time, user_ID, description)
+values (90, '2023-12-04 19:00:00', '2023-12-04 21:00:00', 1, '大数据分析课程讨论');
+
 
 
