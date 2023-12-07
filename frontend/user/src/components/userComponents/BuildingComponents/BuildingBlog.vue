@@ -18,7 +18,7 @@
       </el-scrollbar>
 
     </div>
-    <div class="upload">
+    <div class="upload" v-if="show">
       <el-form :model="newComment" label-position="top" @submit.prevent="submitComment" class="form">
         <el-form-item label="评论内容">
           <el-input v-model="newComment.text" type="textarea"/>
@@ -47,8 +47,23 @@
           <el-button type="primary" native-type="submit" @click="submitComment">提交评论</el-button>
         </el-form-item>
       </el-form>
+
+
     </div>
+
+    <div v-if="!show">
+      <div>
+        <div class="permission">
+          登录后可评论
+        </div>
+      </div>
+    </div>
+
+
   </div>
+
+
+
 </template>
 
 
@@ -61,9 +76,13 @@ export default {
       newComment: {},
       comments: [],
       photos: [],
+      show: false,
     }
   },
   created() {
+    if (localStorage.getItem('isLogin')) {
+      this.show = true
+    }
     this.buildingId = this.$route.params.id;
     this.fetchCommentData(this.buildingId);
   },
@@ -158,12 +177,20 @@ export default {
 
 .upload {
   margin-top: 50px;
-  margin-left: 10%;
+
   width: 40%;
   height: 80%;
   background-color: white;
   border-radius: 20px;
   overflow: auto;
+}
+
+.permission {
+  margin-left: 200px;
+  width: 200px;
+  background-color: white;
+  border-radius: 20px;
+  font-size: 30px;
 }
 
 .form {

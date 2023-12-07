@@ -1,5 +1,10 @@
 <template>
   <div class="background">
+    <div v-if="loading">
+      <el-container v-loading="true"></el-container>
+      <el-dialog :visible="visable" :title="$t('lang.isLogin')" @close="closeDialog"></el-dialog>
+    </div>
+
     <div class="roomList">
       <vs-card type="3" v-for="room in roomInfo" :key="room.roomTypeId" class="box-card">
         <template #title>
@@ -24,11 +29,20 @@ export default {
   name: "BuildingRoom",
   data() {
     return {
-      roomInfo: []
+      roomInfo: [],
+      loading: false,
+      visable: false,
     }
   },
   beforeMount() {
-    this.fetchRoomData(this.$route.params.id);
+    this.loading = true
+    if (localStorage.getItem('isLogin')) {
+      this.loading = false
+      this.fetchRoomData(this.$route.params.id);
+    } else {
+      this.visable = true
+    }
+
   },
   methods: {
     fetchRoomData(id) {
@@ -42,7 +56,10 @@ export default {
           })
           .finally(function () {
           });
-    }
+    },
+    closeDialog() {
+      this.visable = false
+    },
   }
 
 }

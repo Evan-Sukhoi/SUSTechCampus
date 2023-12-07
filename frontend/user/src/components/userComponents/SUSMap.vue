@@ -100,6 +100,7 @@ export default {
       subLine1: '',
       subLine2: '',
       buslines: [],
+      geolocation: '',
     }
   },
 
@@ -129,7 +130,7 @@ export default {
       AMapLoader.load({
         key: "2a44874f8490449d6ecc495f738c674b", // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "1.4.15", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: ['AMap.Driving', 'AMap.LngLat', 'AMap.Walking', 'AMap.ControlBar', 'AMap.ToolBar', 'AMap.Marker', 'AMap.Polygon', 'AMap.InfoWindow', 'AMap.Driving'], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        plugins: ['AMap.Driving', 'AMap.LngLat', 'AMap.Walking', 'AMap.ControlBar', 'AMap.ToolBar', 'AMap.Marker', 'AMap.Polygon', 'AMap.InfoWindow', 'AMap.Driving', 'AMap.Geolocation'], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       })
           .then((AMap) => {
             this.AMap = AMap;
@@ -145,6 +146,20 @@ export default {
               lang: this.$i18n.locale === 'zh-CN' ? 'zh_cn' : 'en',
             });
 
+            this.geolocation = new this.AMap.Geolocation({
+                  enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                  timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                  buttonOffset: new this.AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                  zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+            })
+
+            this.geolocation.on('complete', function(data) {
+              // data包含定位结果信息，其中的position属性即为经纬度信息
+              console.log('经度：' + data.position.getLng());
+              console.log('纬度：' + data.position.getLat());
+            });
+
+            this.map.addControl(this.geolocation);
 
             // 添加工具条
             const toolBar = new this.AMap.ToolBar({
@@ -637,6 +652,10 @@ export default {
         } else {
         }
       });
+    },
+
+    getCurrentPosition() {
+
     }
 
 

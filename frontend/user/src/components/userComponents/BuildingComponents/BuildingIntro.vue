@@ -54,7 +54,7 @@ export default {
     fetchBuildingData(id) {
       this.$http.get(`/public/building/get/details?buildingId=${id}`)
           .then(response => {
-            this.building = response.data.data;
+            this.building = response.data;
             console.log(response.data);
           })
           .catch(function (error) {
