@@ -81,7 +81,7 @@
           Illegal Log
         </vs-sidebar-item>
 
-        <vs-sidebar-item id="logout" @click.native="handleLink('login')">
+        <vs-sidebar-item id="logout" @click.native="logout">
           <template #icon>
             <i class='bx bx-chat'></i>
           </template>
@@ -105,6 +105,10 @@ export default {
       console.log(link)
       this.$router.push({name:link, params:{}}).catch(err=>err)
     },
+    logout() {
+      localStorage.setItem('admin', 'False')
+      this.$router.push('/adminLogin').catch(err=>err)
+    }
   }
 }
 </script>
