@@ -1,34 +1,19 @@
 <template>
   <!--TODO-->
   <div id="back">
-    <div class="show">
-      <h1>{{$t('lang.path')}}</h1>
-      <el-form label-position="left" label-width="80px">
-        <el-form-item style="width: 400px;">
-          <h3>{{$t('lang.from')+": "+from}}</h3>
-          <h3>{{$t('lang.to')+": "+to}}</h3>
-        </el-form-item>
-      </el-form>
-    </div>
     <div class="box">
-      <div class="small-box">
-        <el-timeline>
-          <el-timeline-item
-              v-for="(activity, index) in busLine"
-              :key="index"
-              :color="activity.color">
-            {{activity.content}}
-          </el-timeline-item>
-        </el-timeline>
-      </div>
-      <div class="small-box">
-        <el-timeline>
-          <el-timeline-item
-              v-for="(activity, index) in busLine2"
-              :key="index">
-            {{activity.content}}
-          </el-timeline-item>
-        </el-timeline>
+      <div class="small-box" >
+        <el-row :gutter="20">
+          <el-col :xs="12" :sm="12" v-for="(bus,i) in busLine" :key="i">
+            <el-timeline>
+              <el-timeline-item
+                  v-for="(activity, index) in bus"
+                  :key="index">
+                {{activity}}
+              </el-timeline-item>
+            </el-timeline>
+          </el-col>
+        </el-row>
       </div>
     </div>
   </div>
@@ -70,7 +55,18 @@ export default {
       method:'get',
       url:'public/busline/all'
     }).then(resp =>{
-      console.log(resp)
+      console.log(resp.data)
+      var busline = []
+      for (let i = 0; i < resp.data.length; i++) {
+        busline.push([])
+        console.log(busline)
+        busline[i].push(resp.data[i].list[0].two[0])
+        for (let j = 0; j < resp.data[i].list.length; j++) {
+          busline[i].push(resp.data[i].list[j].two[1])
+        }
+      }
+      console.log(busline)
+      this.busLine = busline
     }).catch(err=>{
       console.log(err)
     })
@@ -99,20 +95,22 @@ export default {
 
 <style scoped>
 #back{
-  /*width: 100%;*/
-  /*height: 100%;*/
+  width: 100%;
+  height: 100%;
   /*background-image: url("../../assets/pad(canDelete)/background/狐狸.jpg");*/
   /*background-size: cover;*/
-  /*position: relative;*/
+  position: relative;
 }
 .box{
   border-radius: 20px;
-  position: absolute;
-  top:60%;
+  position: relative;
+  top:50%;
   left:50%;
+  height: 100%;
+  width: 50%;
   transform:translate(-50%,-50%);
   background-color: #ffffff;
-
+  overflow: auto;
 }
 .show{
   background-color: rgba(255, 255, 255);
@@ -128,5 +126,19 @@ export default {
 .small-box{
   display: flex;
   float: left;
+  width: 80%;
+}
+@media screen and (max-width: 768px){
+  .box{
+    border-radius: 0px;
+    position: relative;
+    top:50%;
+    left:50%;
+    height: 100%;
+    width: 100%;
+    transform:translate(-50%,-50%);
+    background-color: #ffffff;
+    overflow: auto;
+  }
 }
 </style>

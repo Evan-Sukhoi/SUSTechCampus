@@ -153,7 +153,7 @@ public class PublicController {
             return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.accepted().body(e.getMessage());
         }
     }
 

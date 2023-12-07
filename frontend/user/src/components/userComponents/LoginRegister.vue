@@ -151,8 +151,16 @@ export default {
             title: this.$t('lang.seeCode'),
             text: '',
           })
+        }else {
+          this.$vs.notification({
+            color:'primary',
+            position: 'top-center',
+            title: resp.data,
+            text: '',
+          })
         }
       }).catch(err=>{
+        console.log(err)
         this.$vs.notification({
           color:'danger',
           position: 'top-center',
@@ -361,16 +369,17 @@ export default {
           this.$vs.notification({
             color:'primary',
             position: 'top-center',
-            title: resp.status,
+            title: resp.data,
             text: '',
           })
         }
       }).catch(err=>{
+        console.log(err)
         this.$vs.notification({
           color:'primary',
           position: 'top-center',
           title: this.$t('lang.error'),
-          text: err,
+          text: err.body,
         })
       })
     },
