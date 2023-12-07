@@ -144,6 +144,14 @@ CREATE TABLE Comment_ID_Image
     image_ID   INT
 );
 
+DROP TABLE IF EXISTS `Comment_Like`;
+CREATE TABLE Comment_Like
+(
+    like_ID    INT AUTO_INCREMENT PRIMARY KEY,
+    comment_ID INT,
+    user_ID    INT
+);
+
 -- 创建图片表
 
 CREATE TABLE Image
