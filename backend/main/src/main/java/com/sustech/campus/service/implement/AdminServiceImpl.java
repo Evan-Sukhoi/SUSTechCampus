@@ -447,7 +447,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Boolean batchRegister(List<RegisterParam> registerParams) {
         for (RegisterParam registerParam : registerParams) {
-            asserts(registerParam.getUsername() != null && passwordEncoder.encode(registerParam.getPassword()) != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
+            asserts(registerParam.getUsername() != null && registerParam.getPassword() != null && registerParam.getEmail() != null, "用户名、密码、邮箱不能为空");
             asserts(registerParam.getUsername().length() >= 3 && registerParam.getUsername().length() <= 20, "用户名长度应在3-20之间");
             asserts(registerParam.getPassword().length() >= 6 && registerParam.getPassword().length() <= 20, "密码长度应在6-20之间");
             asserts(registerParam.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
@@ -456,7 +456,7 @@ public class AdminServiceImpl implements AdminService {
 
             User user = User.builder()
                     .name(registerParam.getUsername())
-                    .password(registerParam.getPassword())
+                    .password(passwordEncoder.encode(registerParam.getPassword()))
                     .email(registerParam.getEmail())
                     .imageId(1)
                     .isBlocked(false)
@@ -498,5 +498,65 @@ public class AdminServiceImpl implements AdminService {
                     .blocked(user.getIsBlocked())
                     .build();
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BuildingStatisticsInfo> getBuildingStatistics() {
+        List<Building> buildings = buildingDao.selectList(null);
+        return buildings.stream().map(building -> {
+            List<Room> rooms = roomDao.selectList(
+                    new LambdaQueryWrapper<Room>()
+                            .eq(Room::getBuildingId, building.getBuildingId())
+            );
+
+            Integer totalLike = 0;
+            Integer totalReserve = 0;
+
+            for (Room room: rooms){
+                RoomStatisticsInfo roomStatisticsInfo = getOneRoomStatistics(room.getRoomId());
+                totalLike += roomStatisticsInfo.getTotalLike();
+                totalReserve += roomStatisticsInfo.getTotalReserve();
+            }
+
+            return BuildingStatisticsInfo.builder()
+                    .buildingId(building.getBuildingId())
+                    .buildingName(building.getName())
+                    .totalRoom(rooms.size())
+                    .totalReserve(totalReserve)
+                    .totalLike(totalLike)
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomStatisticsInfo> getRoomStatistics() {
+        List<Room> rooms = roomDao.selectList(null);
+        return rooms.stream().map(room -> {
+            return getOneRoomStatistics(room.getRoomId());
+        }).collect(Collectors.toList());
+    }
+
+    private RoomStatisticsInfo getOneRoomStatistics(Integer roomId) {
+        Room room = roomDao.selectById(roomId);
+        List<Reservation> reservations = reservationDao.selectList(
+                new MPJLambdaWrapper<>(Reservation.class)
+                        .eq(Reservation::getRoomId, roomId)
+        );
+        Integer totalReserve = reservations.size();
+        Integer totalLike = 0;
+        List<Comment> comments = commentDao.selectList(
+                new MPJLambdaWrapper<>(Comment.class)
+                        .eq(Comment::getBuildingId, room.getBuildingId())
+        );
+        for (Comment comment : comments) {
+            totalLike += comment.getScore();
+        }
+        String buildingName = buildingDao.selectById(room.getBuildingId()).getName();
+        return RoomStatisticsInfo.builder()
+                .roomId(roomId)
+                .roomName(buildingName + room.getNumber())
+                .totalLike(totalLike)
+                .totalReserve(totalReserve)
+                .build();
     }
 }

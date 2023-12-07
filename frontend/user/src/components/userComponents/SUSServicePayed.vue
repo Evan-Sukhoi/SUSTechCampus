@@ -5,9 +5,7 @@
     </div>
     <div class="cdkey-label">{{ $t('lang.cdk') }}</div>
     <div class="cdkey-box">
-      <!-- 使用vue-qrcode组件显示二维码 -->
-      <qrcode-vue :value="qrData" class="qrcode"></qrcode-vue>
-      <div class="cdkey-value">ABC123-DEF456-GHI789</div>
+      <div class="cdkey-value">{{ cdk }}</div>
     </div>
     <div class="instructions">
       {{ $t('lang.cdkHint') }}
@@ -17,26 +15,34 @@
 </template>
 
 <script>
-import QrcodeVue from 'vue-qrcode';
-
 export default {
-  components: {
-    QrcodeVue,
-  },
   data() {
     return {
-      qrData: 'ABC123-DEF456-GHI789', // 设置二维码的值
+      cdk: '',
     };
   },
   methods: {
     redirectToService() {
-      // 处理跳转到服务页面的逻辑
+      this.$router.push('/user/service');
     },
+    getCdkey() {
+      const outTradeNo = this.$route.query.out_trade_no;
+      this.$http.get(`http://localhost:8081/public/get-cdkey?orderId=${outTradeNo}`).then((res) => {
+        console.log(res);
+        this.cdk = res.data.cdkey;
+      }).catch((err) => {
+        console.error('Failed to fetch cdkey:', err);
+      });
+    },
+  },
+  mounted() {
+    this.getCdkey();
   },
 };
 </script>
 
 <style scoped>
+
 .cdkey-card {
   margin: 20px;
   background-color: #f0f8ff; /* 浅蓝色背景 */

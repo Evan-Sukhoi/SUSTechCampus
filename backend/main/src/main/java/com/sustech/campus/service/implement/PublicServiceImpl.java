@@ -319,6 +319,20 @@ public class PublicServiceImpl implements PublicService {
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public String getCDKey(Long orderId) {
+        OrderInfo order = orderDao.selectOne(
+                new LambdaQueryWrapper<OrderInfo>()
+                        .select(OrderInfo::getCdkey, OrderInfo::getStatus)
+                        .eq(OrderInfo::getOrderSn, orderId));
+        asserts(order != null, "订单不存在");
+        asserts(order.getStatus() == 0, "该订单的CDKEY已被获取");
+        order.setStatus(1);
+        orderDao.updateById(order);
+        LOGGER.info("订单{}已支付", order);
+        return order.getCdkey();
+    }
+
 
     @Override
     public Boolean register(String username, String password, String email, String phoneNumber, String authCode, MultipartFile file) throws Exception {

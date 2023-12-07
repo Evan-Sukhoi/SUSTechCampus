@@ -198,4 +198,16 @@ public class PublicController {
             return ResponseEntity.accepted().body(e.getMessage());
         }
     }
+
+    @ApiOperation("获取CDKey")
+    @RequestMapping("/get-cdkey")
+    public ResponseEntity<Object> getCDKey(@ApiParam("订单ID") @RequestParam String orderId) {
+        try {
+            Map<String, String> response = new HashMap<>();
+            response.put("cdkey", publicService.getCDKey(Long.valueOf(orderId)));
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            return ResponseEntity.accepted().body(e.getMessage());
+        }
+    }
 }

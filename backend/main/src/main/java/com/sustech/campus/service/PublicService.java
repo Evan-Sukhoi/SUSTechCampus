@@ -46,5 +46,7 @@ public interface PublicService {
 
     List<ProductInfo> getAllProduct();
 
+    String getCDKey(Long orderId);
+
 //    String buy(String url, Integer productId) throws AlipayApiException;
 }

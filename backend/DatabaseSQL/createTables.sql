@@ -225,7 +225,7 @@ CREATE TABLE  `Order_Info`
     product_ID INT NOT NULL,
     amount FLOAT NOT NULL,
     time TIMESTAMP NOT NULL,
-    cdkey VARCHAR(8) NOT NULL,
+    cdkey VARCHAR(16) NOT NULL,
     status INT NOT NULL,
     buyer_id VARCHAR(16)
 );
