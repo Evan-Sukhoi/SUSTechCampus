@@ -14,15 +14,13 @@
               <img v-for="img in comment.imageUrl" :src="img" alt="comment image" class="comment-image" width="100px">
             </div>
 
-            {{comment.score}}
-            <el-button @click="toggleLike" :class="{ liked: isLiked }">
-              <el-icon :class="{ 'el-icon-heart': isLiked, 'el-icon-heart-off': !isLiked }"></el-icon>
-              {{ isLiked ? '取消点赞' : '点赞' }}
-            </el-button>
+<!--            {{comment.score}}-->
+<!--            <el-button @click="toggleLike" :class="{ liked: isLiked }">-->
+<!--              <el-icon :class="{ 'el-icon-heart': isLiked, 'el-icon-heart-off': !isLiked }"></el-icon>-->
+<!--              {{ isLiked ? '取消点赞' : '点赞' }}-->
+<!--            </el-button>-->
           </div>
         </div>
-
-
       </el-scrollbar>
 
     </div>
@@ -87,7 +85,7 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem('isLogin')) {
+    if (localStorage.getItem('isLogin') && localStorage.getItem('isBlocked')) {
       this.show = true
     }
     this.buildingId = this.$route.params.id;
