@@ -54,8 +54,11 @@ export default {
       });
     },
     sign(){
-      console.log(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`)
-      this.$http.post(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`).then(resp=>{
+      var data={
+        username:this.username,
+        password:encrypt.encrypt(this.password),
+      }
+      this.$http.post('/admin/login', data).then(resp=>{
         console.log(resp)
         if (resp.status===200){
           localStorage.setItem('admin', 'True')
