@@ -421,7 +421,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<IllegalOperationLog> getAllIllegal() {
-        return illegalOperationLogDao.selectList(null);
+    public List<IllegalLogInfo> getAllIllegal() {
+        List<IllegalOperationLog> illegalOperationLogs = illegalOperationLogDao.selectList(null);
+        return illegalOperationLogs.stream().map(illegalOperationLog -> {
+            User user = userDao.selectById(illegalOperationLog.getUserId());
+            return IllegalLogInfo.builder()
+                    .username(user.getName())
+                    .operationTime(illegalOperationLog.getOperationTime())
+                    .operation(illegalOperationLog.getOperation())
+                    .ipAddress(illegalOperationLog.getIpAddress())
+                    .port(illegalOperationLog.getPort())
+                    .blocked(user.getIsBlocked())
+                    .build();
+        }).collect(Collectors.toList());
     }
 }

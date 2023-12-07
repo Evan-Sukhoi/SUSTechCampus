@@ -189,7 +189,7 @@ CREATE TABLE illegal_operation_log
     operation VARCHAR(255),
     operation_time TIMESTAMP,
     ip_address VARCHAR(255),
-    port       VARCHAR(255)
+    port       INT
 );
 
 DROP TABLE IF EXISTS `product`;

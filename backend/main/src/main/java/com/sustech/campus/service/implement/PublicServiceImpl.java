@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -217,7 +218,7 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public UserInfo login(String username, String password) {
+    public UserInfo login(String username, String password) throws Exception {
         asserts(username != null && password != null, "用户名或密码不能为空");
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         if (username.contains("@")) {
@@ -227,8 +228,14 @@ public class PublicServiceImpl implements PublicService {
         }
         User user = userDao.selectOne(queryWrapper);
         asserts(user != null, "用户不存在");
-        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
-
+        try {
+            String privateKey = redis.getObject("RSA_PRIVATE_KEY");
+            String decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
+            asserts(passwordEncoder.matches(decrypt, user.getPassword()), "密码错误");
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+            throw e;
+        }
         // 添加login log和authenticate
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         loginLogDao.insert(new LoginLog()
@@ -298,16 +305,25 @@ public class PublicServiceImpl implements PublicService {
 
 
     @Override
-    public Boolean register(String username, String password, String email, String phoneNumber, Integer authCode, MultipartFile file) throws IOException {
+    public Boolean register(String username, String password, String email, String phoneNumber, String authCode, MultipartFile file) throws Exception {
         asserts(username != null && password != null && email != null && phoneNumber != null, "用户名、密码、邮箱、手机号不能为空");
         asserts(username.length() >= 3 && username.length() <= 20, "用户名长度应在3-20之间");
-        asserts(password.length() >= 6 && password.length() <= 20, "密码长度应在6-20之间");
+        String decrypt = null;
+        try {
+            String privateKey = redis.getObject("RSA_PRIVATE_KEY");
+            decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+            throw e;
+        }
+        asserts(decrypt.length() >= 6 && decrypt.length() <= 20, "密码长度应在6-20之间");
         asserts(email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
         asserts(phoneNumber.matches("^\\d{11}$"), "手机号格式不正确");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getName, username)) == null, "该用户名已被注册");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)) == null, "该邮箱已被注册");
         asserts(userDao.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone, phoneNumber)) == null, "该手机号已被注册");
         asserts(authCode != null, "验证码不能为空");
+        asserts(authCode.toString().matches("^\\d{6}$"), "验证码格式不正确");
 
         String trueCode = redis.getObject("verification:" + email);
 
@@ -322,7 +338,7 @@ public class PublicServiceImpl implements PublicService {
 
         User user = User.builder()
                 .name(username)
-                .password(passwordEncoder.encode(password))
+                .password(passwordEncoder.encode(decrypt))
 //                .password(password)
                 .email(email)
                 .phone(phoneNumber)

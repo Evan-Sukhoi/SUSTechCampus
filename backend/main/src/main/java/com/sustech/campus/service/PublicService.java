@@ -32,9 +32,9 @@ public interface PublicService {
 
     List<CommentInfo> getApprovedComments(Integer buildingId);
 
-    UserInfo login(String username, String password);
+    UserInfo login(String username, String password) throws Exception;
 
-    Boolean register(String username, String password, String email, String phoneNumber, Integer authCode, MultipartFile file) throws IOException;
+    Boolean register(String username, String password, String email, String phoneNumber, String authCode, MultipartFile file) throws Exception;
 
     List<Comment> getCommentByBuilding(Integer buildingId);
 

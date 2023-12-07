@@ -99,7 +99,7 @@ public interface AdminService {
 
     Boolean batchRegister(List<RegisterParam> registerParams);
 
-    Object getAllIllegal();
+    List<IllegalLogInfo> getAllIllegal();
 
     List<ReservationInfo> getAllReservation();
 }
