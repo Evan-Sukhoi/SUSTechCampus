@@ -102,6 +102,10 @@ export const lang = {
   ok:'确定',
   cancel:'取消',
   attention:'注意',
+  commodityDescription: '商品描述',
+  shop: '购买店',
+  inventory: '库存',
+  image: '图片',
 
   /*personalPage*/
   record:'记录',

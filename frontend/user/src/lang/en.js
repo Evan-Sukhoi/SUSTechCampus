@@ -102,6 +102,14 @@ export const lang = {
   ok:'Ok',
   cancel:'Cancel',
   attention:'Attention',
+  commodityDescription: 'Commodity Description',
+  shop: 'shop',
+  inventory: 'inventory',
+  image: 'image',
+
+
+
+
 
   /*personalPage*/
   record:'Record',

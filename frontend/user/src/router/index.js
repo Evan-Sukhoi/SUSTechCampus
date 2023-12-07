@@ -23,8 +23,8 @@ import AppointmentManage from "@/components/adminComponents/AppointmentManage.vu
 import BuildingManage from "@/components/adminComponents/BuildingManage.vue";
 import BuslineManage from "@/components/adminComponents/BuslineManage.vue";
 import CommentManage from "@/components/adminComponents/CommentManage.vue";
-import InformationSending from "@/components/adminComponents/InformationSending.vue";
-import LogLog from "@/components/adminComponents/LogLog.vue";
+import InformationSending from "@/components/adminComponents/LoginLog.vue";
+import LogLog from "@/components/adminComponents/IllegalLog.vue";
 import UserManage from "@/components/adminComponents/UserManage.vue";
 import AdminLogin from "@/components/adminComponents/AdminLogin.vue";
 
