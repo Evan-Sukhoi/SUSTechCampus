@@ -109,7 +109,32 @@ export default {
 
     },
     deleteRow(index, rows) {
-      rows.splice(index, 1);
+      this.$http.post('/user/reservation/delete?reservationId='+rows[index].reservationId).then(resp => {
+        if (resp.status === 200) {
+          this.$vs.notification({
+            color: 'success',
+            position: 'top-center',
+            title: this.$t('lang.deleteSuccess'),
+            text: '',
+          })
+          rows.splice(index, 1);
+        }else {
+          this.$vs.notification({
+            color: 'danger',
+            position: 'top-center',
+            title: resp.data,
+            text: '',
+          })
+        }
+      }).catch(err=>{
+        this.$vs.notification({
+          color: 'danger',
+          position: 'top-center',
+          title: err,
+          text: '',
+        })
+      })
+
     },
     edit(index, tableData){
       const availableTimeBegin = tableData[index].availableTimeBegin

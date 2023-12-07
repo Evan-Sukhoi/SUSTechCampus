@@ -9,9 +9,9 @@
     <div class="map_content">
 
       <div class="navi">
-        <el-button type="primary" @click="startNavigation">{{ isNavigating ? "取消导航" : "进入导航" }}</el-button>
-        <el-button @click="chooseStart" :disabled="!isNavigating">{{ selectedStart ? "确认起点" : "选择起点" }}</el-button>
-        <el-button @click="chooseEnd" :disabled="!isNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</el-button>
+        <el-button type="primary" @click="startWalkingNavigation" :disabled="this.isDrivingNavigating">{{ this.isWalkingNavigating ? "取消步行导航" : "进入步行导航" }}</el-button>
+        <el-button type="primary" @click="startDrivingNavigation" :disabled="this.isWalkingNavigating">{{ this.isDrivingNavigating ? "取消车载导航" : "进入车载导航" }}</el-button>
+        <el-button @click="chooseEnd" :disabled="!this.isWalkingNavigating && !this.isDrivingNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</el-button>
 
       </div>
 
@@ -70,7 +70,8 @@ export default {
       map: '',
       AMap: '',
       buildings: [],
-      isNavigating: false,
+      isDrivingNavigating: false,
+      isWalkingNavigating: false,
       selectedStart: false,
       selectedEnd: false,
       longitude: 114.000725,
@@ -102,6 +103,7 @@ export default {
       // buslines: [],
       geolocation: '',
       location: [],
+      choose: false,
     }
   },
 
@@ -123,7 +125,17 @@ export default {
     this.fetchBuildingData();
     this.initAMap();
     setInterval(() => {
-      this.getCurrentPosition();
+      if ((this.isWalkingNavigating || this.isDrivingNavigating) && !this.choose) {
+        this.getCurrentPosition();
+      }
+      if (!this.choose) {
+        if (this.isWalkingNavigating) {
+          this.startWalking();
+        } else if (this.isDrivingNavigating) {
+          this.startDriving()
+        }
+      }
+
     }, 5000); // 5000 毫秒（5秒）为例，你可以根据实际需求调整时间间隔
   },
   unmounted() {
@@ -285,7 +297,7 @@ export default {
               hideMarkers: true,
               isOutline: true,
               outlineColor: '#ffeeee',
-              autoFitView: true,
+              autoFitView: false,
             }
 
             this.walking = new this.AMap.Walking(walkOption)
@@ -296,7 +308,7 @@ export default {
               hideMarkers: true,
               isOutline: true,
               outlineColor: '#00FF00',
-              autoFitView: true,
+              autoFitView: false,
             }
 
             this.driving = new this.AMap.Driving(drivingOption)
@@ -622,35 +634,39 @@ export default {
     //     }
     //   }
     // },
-    startNavigation() {
-      this.isNavigating = !this.isNavigating;
-      if (this.isNavigating) {
+    startWalkingNavigation() {
+      this.isWalkingNavigating = !this.isWalkingNavigating;
+      if (this.isWalkingNavigating) {
         this.startMarker.show();
         this.endMarker.show();
         this.showWalkingPanel = true;
-        this.showDrivingPanel = true;
-        this.start();
+        this.startWalking();
       } else {
         this.startMarker.hide();
         this.endMarker.hide();
         this.showWalkingPanel = false;
-        this.showDrivingPanel = false;
         this.walking.clear();
-        this.driving.clear();
       }
     },
 
-    chooseStart() {
-      this.selectedStart = !this.selectedStart;
-      if (this.selectedStart) {
-        this.startMarker.setDraggable(true);
+    startDrivingNavigation() {
+      this.isDrivingNavigating = !this.isDrivingNavigating;
+      if (this.isDrivingNavigating) {
+        this.startMarker.show();
+        this.endMarker.show();
+        this.showDrivingPanel = true;
+        this.startDriving();
       } else {
-        this.startMarker.setDraggable(false);
+        this.startMarker.hide();
+        this.endMarker.hide();
+        this.showDrivingPanel = false;
+        this.driving.clear();
       }
     },
 
     chooseEnd() {
       this.selectedEnd = !this.selectedEnd;
+      this.choose = !this.choose;
       if (this.selectedEnd) {
         this.endMarker.setDraggable(true);
       } else {
@@ -658,14 +674,16 @@ export default {
       }
     },
 
-    start() {
+    startWalking() {
       this.walking.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function (status, result) {
         // result即是对应的不行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_RidingResult
         if (status === 'complete') {
         } else {
         }
       });
+    },
 
+    startDriving() {
       this.driving.search([this.startMarker.getPosition().lng, this.startMarker.getPosition().lat], [this.endMarker.getPosition().lng, this.endMarker.getPosition().lat], function (status, result) {
         // result即是对应的不行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_RidingResult
         if (status === 'complete') {
@@ -673,6 +691,7 @@ export default {
         }
       });
     },
+
 
     getCurrentPosition() {
       this.geolocation.getCurrentPosition((status, result) => {
@@ -727,7 +746,7 @@ export default {
   max-height: 90%;
   overflow-y: auto;
   top: 10%;
-  right: 28%;
+  right: 8%;
   width: 280px;
 }
 
