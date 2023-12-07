@@ -71,6 +71,7 @@ export const lang = {
 
   /*reservation*/
   reserve:'点击预约',
+  reserveTime:'不在可预约时段',
   roomID: '房间号',
   roomType: '房间类型',
   chooseADate:'请选择日期',
@@ -89,6 +90,7 @@ export const lang = {
   reserveSuccess: '预约成功！',
   errorTime:'开始时间晚于结束时间',
   errorReserve:'此建筑不可预约',
+  errorRangeTime:'不能跨时间段选择',
 
   /*service*/
   commodity:'商品名',

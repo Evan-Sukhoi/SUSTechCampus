@@ -71,6 +71,7 @@ export const lang = {
 
   /*reservation*/
   reserve:'reserve',
+  reserveTime:'invalid time',
   roomID: 'RoomID',
   roomType: 'RoomType',
   chooseADate:'Choose a date',
@@ -89,6 +90,7 @@ export const lang = {
   reserveSuccess: 'Reserve successfully!',
   errorTime:'Start time no later than the end time',
   errorReserve:'This building can not be reserved',
+  errorRangeTime:'Can not across time periods',
 
   /*service*/
   commodity:'Commodity name',
