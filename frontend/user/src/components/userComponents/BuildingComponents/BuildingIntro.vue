@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import buildingVideo from "@/components/userComponents/BuildingComponents/BuildingVideo.vue";
 export default {
   name: "BuildingIntro",
   data() {
