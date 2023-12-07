@@ -83,6 +83,7 @@ export const lang = {
   location:'Location',
   chooseAPlace:'Choose a place',
   suchAs434A:'Such as 434A',
+  deleteSuccess:'Delete successfully!',
   filter:'Filter',
   filter_buildingName:'Building name',
   filter_Reservable:'Show reservable building',

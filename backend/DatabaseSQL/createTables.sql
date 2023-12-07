@@ -305,6 +305,17 @@ insert into Buildings_Image(building_ID, image_ID)
 values (1,
         1);
 
+insert into Buildings_Image(building_ID, image_ID)
+values (1,
+        2);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (1,
+        5);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (1,
+        8);
 
 insert into Room_type(type, capacity, description)
 values ('机房1',
@@ -799,6 +810,18 @@ insert into Buildings_Image(building_ID, image_ID)
 values (2,
         11);
 
+insert into Buildings_Image(building_ID, image_ID)
+values (2,
+        12);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (2,
+        13);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (2,
+        14);
+
 
 insert into Room_type(type, capacity, description)
 values ('密集书库',
@@ -1119,6 +1142,12 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lynn_li
 insert into Buildings_Image(building_ID, image_ID)
 values (3,
         23);
+insert into Buildings_Image(building_ID, image_ID)
+values (3,
+        24);
+insert into Buildings_Image(building_ID, image_ID)
+values (3,
+        25);
 -- 讨论间 18
 insert into Room(building_ID, number, room_type_ID)
 values (3,
@@ -1256,6 +1285,9 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/college
 insert into Buildings_Image(building_ID, image_ID)
 values (4,
         26);
+insert into Buildings_Image(building_ID, image_ID)
+values (4,
+        28);
 
 insert into Room_type(type, capacity, description)
 values ('实验室',
@@ -1334,6 +1366,15 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_ca
 insert into Buildings_Image(building_ID, image_ID)
 values (5,
         31);
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        32);
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        34);
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        36);
 
 insert into Room_type(type, capacity, description)
 values ('档口1',
@@ -1513,6 +1554,9 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_do
 insert into Buildings_Image(building_ID, image_ID)
 values (6,
         39);
+insert into Buildings_Image(building_ID, image_ID)
+values (6,
+        40);
 
 insert into Room_type(type, capacity, description)
 values ('宿舍1',
@@ -1798,14 +1842,173 @@ insert into Building (name, open_time, close_time, location_name, introduction, 
                                                                                                                                                             '科研楼',
                                                                                                                                                             0);
 insert into Image (image_url)
-values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%B8%80%E7%A7%91.jpg');
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/10%E5%91%A8%E5%B9%B4%E6%A0%A1%E5%BA%86%E9%9B%86%E5%AD%97%E4%B9%A6%E7%AD%BE%E5%A5%97%E8%A3%85.png');
 insert into Buildings_Image (building_ID, image_ID)
 values (21,
         55);
 
 
-insert into product (subject, body, amount, shop, inventory)
-values ('南科大校徽', '南科大校徽 *1', '29.8', '南科大纪念品商店', 200);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/10%E5%91%A8%E5%B9%B4%E6%A0%A1%E5%BA%86%E9%9B%86%E5%AD%97%E4%B9%A6%E7%AD%BE%E5%A5%97%E8%A3%85.png');
 
-insert into product (subject, body, amount, shop, inventory)
-values ('南科大T恤', '南科大T恤 XL *1', '79.8', '南科大纪念品商店', 50);
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('10周年校庆集字书签套装',
+        '10周年校庆集字书签套装*1',
+        78,
+        '南科大纪念品商店',
+        100,
+        56);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E6%8A%B1%E6%9E%95%E8%A2%AB.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可抱枕被',
+        '荔可抱枕被*1',
+        118,
+        '南科大纪念品商店',
+        100,
+        57);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E8%A7%A3%E5%8E%8B%E7%90%83.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可解压球',
+        '荔可解压球*1',
+        18,
+        '南科大纪念品商店',
+        100,
+        58);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E5%8D%A1%E5%A5%97.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可卡套',
+        '荔可卡套*1',
+        18,
+        '南科大纪念品商店',
+        100,
+        59);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E9%92%A5%E5%8C%99%E6%89%A3.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可钥匙扣',
+        '荔可钥匙扣*1',
+        18,
+        '南科大纪念品商店',
+        100,
+        60);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E8%8D%94%E6%9E%9D%E5%A8%83%E5%A8%83%E8%8D%94%E5%8F%AF.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔枝娃娃荔可',
+        '荔枝娃娃荔可*1',
+        68,
+        '南科大纪念品商店',
+        100,
+        61);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E7%90%B3%E6%81%A9%E5%9B%BE%E4%B9%A6%E9%A6%86%E8%93%9D%E7%89%99%E9%9F%B3%E7%AE%B1.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('琳恩图书馆蓝牙音箱',
+        '琳恩图书馆蓝牙音箱*1',
+        348,
+        '南科大纪念品商店',
+        100,
+        62);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E6%97%85%E8%A1%8C%E6%94%B6%E7%BA%B3%E5%8C%85.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制旅行收纳包',
+        '南科大定制旅行收纳包*1',
+        128,
+        '南科大纪念品商店',
+        100,
+        63);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E5%8D%97%E7%A7%91%E9%87%91%E5%B1%9E%E4%B9%A6%E7%AD%BE.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制旅行收纳包',
+        '南科大定制旅行收纳包*1',
+        128,
+        '南科大纪念品商店',
+        100,
+        64);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E5%8D%97%E7%A7%91%E9%87%91%E5%B1%9E%E4%B9%A6%E7%AD%BE.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制南科金属书签',
+        '南科大定制南科金属书签*1',
+        68,
+        '南科大纪念品商店',
+        100,
+        65);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E4%B9%A6%E5%8C%85.png');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制书包',
+        '南科大定制书包*1',
+        108,
+        '南科大纪念品商店',
+        100,
+        66);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E9%9B%A8%E4%BC%9E.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制雨伞',
+        '南科大定制雨伞*1',
+        38,
+        '南科大纪念品商店',
+        100,
+        67);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E4%BA%BA%E4%B8%93%E5%B1%9E%E5%8F%A3%E7%BD%A9.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科人专属口罩',
+        '南科人专属口罩*5',
+        10,
+        '南科大纪念品商店',
+        100,
+        68);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E4%BA%BA%E4%B8%93%E5%B1%9E%E6%89%8B%E8%B4%A6%E6%9C%AC.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科人专属手账本',
+        '南科人专属手账本*1',
+        28,
+        '南科大纪念品商店',
+        100,
+        69);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E4%BA%BA%E4%B8%93%E5%B1%9E%E9%9B%A8%E4%BC%9E.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科人专属雨伞',
+        '南科人专属雨伞*1',
+        38,
+        '南科大纪念品商店',
+        100,
+        70);
