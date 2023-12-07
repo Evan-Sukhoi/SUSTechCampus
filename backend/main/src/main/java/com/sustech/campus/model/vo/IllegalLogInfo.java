@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class IllegalLogInfo {
+    private Integer userId;
     private String username;
     @DateTimeField
     private Date operationTime;

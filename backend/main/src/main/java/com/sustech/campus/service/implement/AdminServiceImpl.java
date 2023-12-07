@@ -427,6 +427,7 @@ public class AdminServiceImpl implements AdminService {
             User user = userDao.selectById(illegalOperationLog.getUserId());
             return IllegalLogInfo.builder()
                     .username(user.getName())
+                    .userId(user.getUserId())
                     .operationTime(illegalOperationLog.getOperationTime())
                     .operation(illegalOperationLog.getOperation())
                     .ipAddress(illegalOperationLog.getIpAddress())
