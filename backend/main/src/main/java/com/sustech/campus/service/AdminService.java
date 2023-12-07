@@ -1,10 +1,7 @@
 package com.sustech.campus.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sustech.campus.database.po.Building;
-import com.sustech.campus.database.po.Reservation;
-import com.sustech.campus.database.po.Room;
-import com.sustech.campus.database.po.User;
+import com.sustech.campus.database.po.*;
 import com.sustech.campus.model.param.BuslineParam;
 import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.*;
@@ -80,6 +77,8 @@ public interface AdminService {
 
     List<Reservation> getReservationRoomInfo(Integer roomId);
 
+    String authenticate(Admin admin);
+
     List<ReservationInfo> getReservationUserInfo(Integer userId);
 
     Boolean register(String username, String password, String email, String phoneNumber, MultipartFile file) throws IOException;
@@ -102,4 +101,6 @@ public interface AdminService {
     List<IllegalLogInfo> getAllIllegal();
 
     List<ReservationInfo> getAllReservation();
+
+    AdminInfo login(String username, String password) throws Exception;
 }

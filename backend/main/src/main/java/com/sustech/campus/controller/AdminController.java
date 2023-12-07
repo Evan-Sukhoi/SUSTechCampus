@@ -42,6 +42,17 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
+    @ApiOperation("管理员登录")
+    @RequestMapping("/login")
+    public ResponseEntity<Object> login(@ApiParam("用户名") @RequestParam @NotEmpty String username,
+                                        @ApiParam("密码") @RequestParam @NotEmpty String password) {
+        try {
+            return ResponseEntity.ok(adminService.login(username, password));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation("管理员获取所有用户")
     @RequestMapping("/user/all")
     public List<User> getAllUsers() {

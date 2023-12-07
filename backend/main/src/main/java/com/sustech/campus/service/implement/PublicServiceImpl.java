@@ -263,8 +263,8 @@ public class PublicServiceImpl implements PublicService {
         String id = String.valueOf(user.getUserId());
         Authentication authentication = new UsernamePasswordAuthenticationToken(id, password, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        redis.setObject("login:" + id, user, 60 * 60 * 2);
-        return JwtUtil.createJwt(id);
+        redis.setObject("User login:" + id, user, 60 * 60 * 2);
+        return JwtUtil.createJwt("user" + id);
     }
 
     @Resource

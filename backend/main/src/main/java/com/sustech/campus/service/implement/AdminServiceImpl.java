@@ -3,29 +3,32 @@ package com.sustech.campus.service.implement;
 import cn.hutool.json.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.sustech.campus.database.dao.*;
 import com.sustech.campus.database.po.*;
 import com.sustech.campus.database.utils.ImgHostUploader;
+import com.sustech.campus.database.utils.RedisUtil;
 import com.sustech.campus.model.param.BuslineParam;
 import com.sustech.campus.model.param.RegisterParam;
 import com.sustech.campus.model.vo.*;
 import com.sustech.campus.service.AdminService;
 
 import com.sustech.campus.service.PublicService;
-import com.sustech.campus.service.UserService;
+import com.sustech.campus.utils.RsaUtil;
+import com.sustech.campus.web.utils.JwtUtil;
 import jakarta.annotation.Resource;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,9 @@ import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+    @Resource
+    private AdminDao adminDao;
 
     @Resource
     private UserDao userDao;
@@ -74,6 +80,9 @@ public class AdminServiceImpl implements AdminService {
     private ImgHostUploader imgHostUploader;
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private RedisUtil redis;
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ImgHostUploader.class);
 
@@ -237,6 +246,40 @@ public class AdminServiceImpl implements AdminService {
                     .roomTypeImages(image_url)
                     .build();
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public AdminInfo login(String username, String password) throws Exception {
+        Admin admin = adminDao.selectOne(new MPJLambdaWrapper<>(Admin.class)
+                .eq(Admin::getName, username)
+        );
+        try {
+            String privateKey = redis.getObject("RSA_PRIVATE_KEY");
+            String decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
+            asserts(admin != null && passwordEncoder.matches(decrypt, admin.getPassword()), "用户名或密码错误");
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+            throw e;
+        }
+        String token = authenticate(admin);
+        return AdminInfo.builder()
+                .adminId(admin.getAdminId())
+                .name(admin.getName())
+                .email(admin.getEmail())
+                .phone(admin.getPhone())
+                .imageUrl(imageDao.selectById(admin.getImageId()).getImageUrl())
+                .token(token)
+                .build();
+    }
+
+    @Override
+    public String authenticate(Admin admin) {
+        String password = admin.getPassword();
+        String id = String.valueOf(admin.getAdminId());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(id, password, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        redis.setObject("Admin login:" + id, admin, 60 * 10 * 2); //刷新ttl为20min
+        return JwtUtil.createJwt("admin" + id);
     }
 
     @Override
