@@ -1,6 +1,14 @@
 import axios from 'axios';
-axios.defaults.baseURL = "http://localhost:8081"
 
+let host = window.location.host // 主机
+let reg = /^localhost+/
+if (reg.test(host)) {
+  // 若本地项目调试使用
+  axios.defaults.baseURL = 'http://localhost:8081'
+} else {
+  // 远程访问 使用代理
+  axios.defaults.baseURL = '/api'
+}
 // 创建axios实例
 var instance = axios.create({timeout: 1000 * 12});
 instance.interceptors.request.use(
