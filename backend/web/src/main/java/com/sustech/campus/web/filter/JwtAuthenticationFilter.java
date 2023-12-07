@@ -63,7 +63,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 LOGGER.warn("token: {} is invalid", token);
             }
-        } else if (StringUtils.hasText(adminToken)) {
+        }
+
+        if (StringUtils.hasText(adminToken)) {
             LOGGER.info("admin token: {}", adminToken);
             Claims claims = JwtUtil.parseJwt(adminToken);
             String id = claims.getSubject();
@@ -83,9 +85,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 LOGGER.warn("admin token: {} is invalid", adminToken);
             }
-        } else {
-            LOGGER.info("no token");
         }
+
         filterChain.doFilter(request, response); //没有user也直接放行，之后会被Interceptor拦截，因为SecurityContext中没有Authentication对象
     }
 }
