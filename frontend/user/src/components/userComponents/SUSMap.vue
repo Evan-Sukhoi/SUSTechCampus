@@ -117,10 +117,14 @@ export default {
 
   beforeMount() {
   },
+
   mounted() {
     // this.fetchAllBuslines();
     this.fetchBuildingData();
     this.initAMap();
+    setInterval(() => {
+      this.getCurrentPosition();
+    }, 5000); // 5000 毫秒（5秒）为例，你可以根据实际需求调整时间间隔
   },
   unmounted() {
     this.map?.destroy();
@@ -300,6 +304,8 @@ export default {
             // (this.buslines.length === 0 ? buslines : this.buslines)
 
             this.map.on("click", this.handleMapClick.bind(this));
+
+            this.getCurrentPosition()
           })
           .catch((e) => {
           });
@@ -669,12 +675,17 @@ export default {
     },
 
     getCurrentPosition() {
-      this.geolocation.getCurrentPosition((data) => {
-        // this.location = data.position;
-        console.log(data.position)
-        this.startMarker.position = data.position;
-        // console.log('经度：' + data.position.getLng());
-        // console.log('纬度：' + data.position.getLat());
+      this.geolocation.getCurrentPosition((status, result) => {
+        if (status === 'complete' && result.position) {
+          const lnglat = result.position;  // 获取经纬度信息
+          console.log(lnglat)
+          this.startMarker.setPosition([lnglat.lng, lnglat.lat])
+
+          // 在这里可以进行进一步的处理，例如更新地图标记的位置
+          // this.startMarker.setPosition(lnglat);
+        } else {
+          console.error('获取位置信息失败');
+        }
       });
     }
 
