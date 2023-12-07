@@ -16,9 +16,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/index.html").setViewName("index");
-        registry.addViewController("http://localhost:8080/user/service").setViewName("success");
-        registry.addViewController("http://localhost:8080").setViewName("success");
+//        registry.addViewController("/").setViewName("index");
+//        registry.addViewController("/index.html").setViewName("index");
+//        registry.addViewController("http://localhost:8080/user/service").setViewName("success");
+//        registry.addViewController("http://localhost:8080").setViewName("success");
     }
 }

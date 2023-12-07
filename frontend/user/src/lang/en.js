@@ -106,6 +106,9 @@ export const lang = {
   shop: 'shop',
   inventory: 'inventory',
   image: 'image',
+  thanking: 'Thank you for your purchase!',
+  cdk: 'Your CDK is',
+  cdkHint: 'Please copy and save this code, go to the offline store or vending machine to redeem.',
 
 
 
