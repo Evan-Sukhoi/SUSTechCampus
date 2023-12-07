@@ -10,6 +10,7 @@ export const lang = {
   login: 'Login',
   logout: 'Logout',
   personalPage:'Person',
+  menu:'Menu',
 
   /*login*/
   welcome: 'Welcome to SUSTECH CAMPUS',

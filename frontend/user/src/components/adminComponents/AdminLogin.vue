@@ -38,7 +38,6 @@
 import JSEncrypt from "jsencrypt";
 
 const encrypt = new JSEncrypt();
-encrypt.setPublicKey('你的公钥');
 export default {
   data:() => ({
     active: true,
@@ -55,14 +54,18 @@ export default {
       });
     },
     sign(){
-      // this.$http.post(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`).then(resp=>{
-      //   console.log(resp)
-      //   if (resp.status===200){
-      //
-      //   }
-      // })
-      localStorage.setItem('admin', 'True')
-      this.$router.push('/admin/appointmentManage')
+      var data={
+        username:this.username,
+        password:encrypt.encrypt(this.password),
+      }
+      this.$http.post('/admin/login', data).then(resp=>{
+        console.log(resp)
+        if (resp.status===200){
+          localStorage.setItem('admin', 'True')
+          localStorage.setItem('admin_token', resp.data.token)
+          this.$router.push('/admin/appointmentManage')
+        }
+      })
 
     }
   },
