@@ -112,12 +112,6 @@ public class PublicController {
         }
     }
 
-//    @ApiOperation("获取所有公交线路信息")
-//    @RequestMapping("/busline/all")
-//    public List<Busline> getAllBusLine() {
-//        return publicService.getAllBusLine();
-//    }
-
 
     @ApiOperation("获取所有公交线路")
     @RequestMapping("/busline/all")
@@ -132,9 +126,10 @@ public class PublicController {
 
     @ApiOperation("获取所有评论信息")
     @RequestMapping("/comment/get/building")
-    public List<Comment> getCommentByBuilding(@RequestParam Integer buildingId) {
+    public List<Comment> getCommentByBuilding(@ApiParam("建筑id") @RequestParam Integer buildingId) {
         return publicService.getCommentByBuilding(buildingId);
     }
+
 
     /**
      * 这是新的注册方法
@@ -161,19 +156,6 @@ public class PublicController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-//    @ApiOperation("购买商品")
-//    @RequestMapping("/buy")
-//    public ResponseEntity<Object> buy(@ApiParam("返回时跳转的url") @RequestParam String url,
-//                                      @ApiParam("商品ID") @RequestParam Integer productId) {
-//        try {
-//            return ResponseEntity.ok().body(
-//                    publicService.buy(url, productId)
-//            );
-//        } catch (ApiException | AlipayApiException e) {
-//            return ResponseEntity.accepted().body(e.getMessage());
-//        }
-//    }
 
     @ApiOperation("获取公钥")
     @RequestMapping("/get-key")
