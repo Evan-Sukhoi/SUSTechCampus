@@ -61,6 +61,14 @@ export const lang = {
   conventionCenter: '会议中心',
   officeSpace: '行政办公场所',
 
+  /*building blog*/
+  commentContent: '评论内容',
+  uploadPhoto: '上传图片',
+  selectFile: '选择文件',
+  submitComment: '提交评论',
+  fileSelected: '已选择的文件',
+  deleteFile: '删除',
+
   /*reservation*/
   reserve:'点击预约',
   roomID: '房间号',

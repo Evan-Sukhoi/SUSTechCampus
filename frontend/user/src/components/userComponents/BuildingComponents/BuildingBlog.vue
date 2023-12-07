@@ -20,31 +20,31 @@
     </div>
     <div class="upload" v-if="show">
       <el-form :model="newComment" label-position="top" @submit.prevent="submitComment" class="form">
-        <el-form-item label="评论内容">
+        <el-form-item :label="$t('lang.commentContent')">
           <el-input v-model="newComment.text" type="textarea"/>
         </el-form-item>
 
-        <el-form-item label="上传照片">
+        <el-form-item :label="$t('lang.uploadPhoto')">
           <el-upload
               class="upload-demo"
               :show-file-list="false"
               action=""
               :before-upload="handleFileChange"
           >
-            <el-button>选取文件</el-button>
+            <el-button>{{$t('lang.selectFile')}}</el-button>
           </el-upload>
         </el-form-item>
 
         <div v-if="photos.length > 0" class="image">
-          <h3>已选择的照片</h3>
+          <h3>{{$t('lang.fileSelected')}}</h3>
           <div v-for="(photo, index) in photos" :key="index" class="selected-photo">
             <el-image :src="getPhotoUrl(photo)" alt="Selected Photo" :width="500"/>
-            <el-button @click="removePhoto(index)">删除</el-button>
+            <el-button @click="removePhoto(index)">{{$t('lang.deleteFile')}}</el-button>
           </div>
         </div>
 
         <el-form-item>
-          <el-button type="primary" native-type="submit" @click="submitComment">提交评论</el-button>
+          <el-button type="primary" native-type="submit" @click="submitComment">{{$t('lang.submitComment')}}</el-button>
         </el-form-item>
       </el-form>
 

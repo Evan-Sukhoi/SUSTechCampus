@@ -101,13 +101,15 @@ export default {
       subLine2: '',
       buslines: [],
       geolocation: '',
+      location: [],
     }
   },
 
   beforeMount() {
-    this.fetchAllBuslines();
+
   },
   mounted() {
+    this.fetchAllBuslines();
     this.fetchBuildingData();
     this.initAMap();
   },
@@ -155,11 +157,11 @@ export default {
 
             this.geolocation.on('complete', function(data) {
               // data包含定位结果信息，其中的position属性即为经纬度信息
-              console.log('经度：' + data.position.getLng());
-              console.log('纬度：' + data.position.getLat());
+              this.position = data.position;
             });
 
             this.map.addControl(this.geolocation);
+
 
             // 添加工具条
             const toolBar = new this.AMap.ToolBar({
@@ -655,7 +657,13 @@ export default {
     },
 
     getCurrentPosition() {
-
+      this.geolocation.getCurrentPosition((data) => {
+        // this.location = data.position;
+        console.log(data.position)
+        this.startPoint = data.position;
+        // console.log('经度：' + data.position.getLng());
+        // console.log('纬度：' + data.position.getLat());
+      });
     }
 
 
