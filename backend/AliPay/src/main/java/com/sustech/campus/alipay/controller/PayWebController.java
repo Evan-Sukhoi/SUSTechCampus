@@ -51,8 +51,7 @@ public class PayWebController {
      */
     @GetMapping(value = "/payOrder", produces = "text/html")
     @ResponseBody
-    public ResponseEntity<Object> payOrder(
-                                           @ApiParam("商品ID") @RequestParam Integer productId) {
+    public ResponseEntity<Object> payOrder(@ApiParam("商品ID") @RequestParam Integer productId) {
         try {
             // 这里订单号应该是前端传过来的，即orderSn
             // 但是为了Demo方便测试，前端传来的是一个固定的数字(按理说前端应该传的是具体订单号)
