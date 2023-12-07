@@ -52,6 +52,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     private CommentDao commentDao;
     @Resource
+    private CommentLikeDao commentLikeDao;
+    @Resource
     private ReservationDao reservationDao;
     @Resource
     private ImageDao imageDao;
@@ -236,7 +238,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean likeComment(Integer commentId, Integer userId) {
-        return null;
+        Integer currentUserId = getCurrentUserId();
+        User user = redis.getObject("login:" + currentUserId);
+        warns(userId.equals(currentUserId),
+                "非法操作：点赞的用户与你的信息不符！你的用户ID为：" + currentUserId +
+                "，要点赞的用户ID为：" + userId +
+                "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
+                "非法点赞：ID为" + commentId + "的评论",
+                user, illegalOperationLogDao);
+        CommentLike commentLike = commentLikeDao.selectOne(
+                new LambdaQueryWrapper<CommentLike>()
+                        .eq(CommentLike::getCommentId, commentId)
+                        .eq(CommentLike::getUserId, userId)
+        );
+        if (commentLike != null) {
+            commentLikeDao.deleteById(commentLike.getLikeId());
+            Comment comment = commentDao.selectById(commentId);
+            comment.setScore(comment.getScore() - 1);
+            commentDao.updateById(comment);
+            LOGGER.info("用户" + userId + "取消点赞了评论" + commentId);
+            return false;
+        }
+        commentLike = CommentLike.builder()
+                .commentId(commentId)
+                .userId(userId)
+                .build();
+        Comment comment = commentDao.selectById(commentId);
+        comment.setScore(comment.getScore() + 1);
+        commentDao.updateById(comment);
+        commentLikeDao.insert(commentLike);
+        LOGGER.info("用户" + userId + "点赞了评论" + commentId);
+        return true;
     }
 
     @Override

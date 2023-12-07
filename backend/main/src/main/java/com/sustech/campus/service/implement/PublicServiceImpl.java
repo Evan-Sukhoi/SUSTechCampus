@@ -312,6 +312,7 @@ public class PublicServiceImpl implements PublicService {
                     .subject(product.getSubject())
                     .body(product.getBody())
                     .shop(product.getShop())
+                    .amount(product.getAmount())
                     .inventory(product.getInventory())
                     .imageUrl(imageDao.selectById(product.getImageId()).getImageUrl())
                     .build();

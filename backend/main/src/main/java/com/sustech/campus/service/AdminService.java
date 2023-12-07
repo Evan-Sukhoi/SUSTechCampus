@@ -98,9 +98,11 @@ public interface AdminService {
 
     Boolean batchRegister(List<RegisterParam> registerParams);
 
-    List<IllegalLogInfo> getAllIllegal();
-
     List<ReservationInfo> getAllReservation();
 
     AdminInfo login(String username, String password) throws Exception;
+
+    List<IllegalLogInfo> getAllIllegal();
+
+    List<LoginLogInfo> getAllLoginLog();
 }

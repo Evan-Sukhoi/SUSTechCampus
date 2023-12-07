@@ -271,6 +271,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllIllegal());
     }
 
+    @ApiOperation("管理员获取所有用户登录记录")
+    @RequestMapping("/loginlog/all")
+    public ResponseEntity<Object> getAllLoginLog() {
+        return ResponseEntity.ok(adminService.getAllLoginLog());
+    }
+
+
     @ApiOperation("管理员获取所有公交线路")
     @RequestMapping("/busline/all")
     public ResponseEntity<Object> getAllBusLine() {
