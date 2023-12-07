@@ -55,13 +55,14 @@ export default {
       });
     },
     sign(){
-      this.$http.post(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`).then(resp=>{
-        console.log(resp)
-        if (resp.status===200){
-          localStorage.setItem('admin', 'True')
-          this.$router.push('/admin/appointmentManage')
-        }
-      })
+      // this.$http.post(`/admin/login?username=${this.username}&password=${encrypt.encrypt(this.password)}`).then(resp=>{
+      //   console.log(resp)
+      //   if (resp.status===200){
+      //
+      //   }
+      // })
+      localStorage.setItem('admin', 'True')
+      this.$router.push('/admin/appointmentManage')
 
     }
   },

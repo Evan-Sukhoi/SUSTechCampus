@@ -21,10 +21,9 @@
 
       </div>
 
-      <!--      <div>-->
-      <!--        <el-button type="info" @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</el-button>-->
-      <!--        <el-button type="info" @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</el-button>-->
-      <!--      </div>-->
+            <div>
+              <el-button type="primary" @click="setBuslines">setbusline</el-button>
+            </div>
 
       <div class="busline">
         <div class="select">
@@ -95,9 +94,9 @@ export default {
       driving: '',
       showWalkingPanel: false,
       showDrivingPanel: false,
-      paths: [],
+      paths: [[], [], []],
       buslines: [],
-      markers: [],
+      markers: [[], [], []],
 
       // busline1: '',
       // seebusline1: false,
@@ -131,7 +130,7 @@ export default {
   },
 
   mounted() {
-    // this.fetchAllBuslines();
+    this.fetchAllBuslines();
     this.fetchBuildingData();
     this.initAMap();
     setInterval(() => {
@@ -350,76 +349,12 @@ export default {
       this.$http.get("/public/busline/all")
           .then(response => {
             this.buslines = response.data;
-            // console.log(this.buslines)
           })
           .catch(function (error) {
           })
           .finally(function () {
           });
 
-
-      //const busline of this.buslines
-      for (let i = 0; i < this.buslines.length; i++) {
-
-        for (let j = 0; i < this.buslines[i].list.length - 1; j++) {
-          for (const item of this.buslines[i].list[j].point) {
-            this.paths[i].push(item)
-          }
-          const text = this.buslines[i].two[0];
-          const position = this.buslines.list[j].point[0];
-          const marker = new this.AMap.Marker({
-            position: position,
-            icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
-            iconSize: new this.AMap.Size(20, 20),
-            extData: {flag: `${text}`}
-          })
-          marker.setLabel({
-            offset: new AMap.Pixel(10, 10),  //设置文本标注偏移量
-            content: `<div class='info'>${text}</div>`, //设置文本标注内容
-            direction: 'right', //设置文本标注方位
-          });
-          this.markers[i].push(marker)
-        }
-
-        //     let text = busline.list[busline.list.length - 1].two[0];
-        //     let position = busline.list[busline.list.length - 1].point[0];
-        //     let marker = new this.AMap.Marker({
-        //       position: position,
-        //       icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
-        //       iconSize: new this.AMap.Size(20, 20),
-        //       extData: { flag: `${text}` }
-        //     })
-        //     marker.setLabel({
-        //       offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
-        //       content: `<div class='info'>${text}</div>`, //设置文本标注内容
-        //       direction: 'right' //设置文本标注方位
-        //     });
-        //     if (busline.name === "busline1") {
-        //       this.markers1.push(marker);
-        //     } else {
-        //       this.markers2.push(marker);
-        //     }
-        //     text = busline.list[busline.list.length - 1].two[1];
-        //     position = busline.list[busline.list.length - 1].point[busline.list[busline.list.length - 1].point.length-1];
-        //     marker = new this.AMap.Marker({
-        //       position: position,
-        //       icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
-        //       iconSize: new this.AMap.Size(20, 20),
-        //       extData: { flag: `${text}` }
-        //     })
-        //     marker.setLabel({
-        //       offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
-        //       content: `<div class='info'>${text}</div>`, //设置文本标注内容
-        //       direction: 'right', //设置文本标注方位
-        //     });
-        //     if (busline.name === "busline1") {
-        //       this.markers1.push(marker);
-        //     } else {
-        //       this.markers2.push(marker);
-        //     }
-
-
-      }
       //
       //     if (busline.name === "busline1") {
       //
@@ -495,6 +430,64 @@ export default {
       if (this.infoWindow) {
         this.infoWindow.close();
       }
+    },
+
+    setBuslines() {
+      for (let i = 0; i < this.buslines.length; i++) {
+        for (let j = 0; j < this.buslines[i].list.length - 1; j++) {
+
+          for (const item of this.buslines[i].list[j].point) {
+            this.paths[i].push(item)
+          }
+          const text = this.buslines[i].list[j].two[0];
+          const position = this.buslines[i].list[j].point[0];
+          const marker = new this.AMap.Marker({
+            position: position,
+            icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+            iconSize: new this.AMap.Size(20, 20),
+            extData: {flag: `${text}`}
+          })
+          marker.setLabel({
+            offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
+            content: `<div class='info'>${text}</div>`, //设置文本标注内容
+            direction: 'right', //设置文本标注方位
+          });
+          this.markers[i].push(marker)
+        }
+
+        let text = this.buslines[i].list[this.buslines[i].list.length - 1].two[0];
+        let position = this.buslines[i].list[this.buslines[i].list.length - 1].point[0];
+        let marker = new this.AMap.Marker({
+          position: position,
+          icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+          iconSize: new this.AMap.Size(20, 20),
+          extData: {flag: `${text}`}
+        })
+        marker.setLabel({
+          offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
+          content: `<div class='info'>${text}</div>`, //设置文本标注内容
+          direction: 'right' //设置文本标注方位
+        });
+        this.paths[i].push(position)
+        this.markers[i].push(marker);
+        text = this.buslines[i].list[this.buslines[i].list.length - 1].two[1];
+        position = this.buslines[i].list[this.buslines[i].list.length - 1].point[this.buslines[i].list[this.buslines[i].list.length - 1].point.length - 1];
+        marker = new this.AMap.Marker({
+          position: position,
+          icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+          iconSize: new this.AMap.Size(20, 20),
+          extData: {flag: `${text}`}
+        })
+        marker.setLabel({
+          offset: new this.AMap.Pixel(10, 10),  //设置文本标注偏移量
+          content: `<div class='info'>${text}</div>`, //设置文本标注内容
+          direction: 'right', //设置文本标注方位
+        });
+        this.paths[i].push(position)
+        this.markers[i].push(marker);
+      }
+      console.log(this.paths)
+      console.log(this.markers)
     },
 
     // seeBusline() {
@@ -697,7 +690,6 @@ export default {
       this.geolocation.getCurrentPosition((status, result) => {
         if (status === 'complete' && result.position) {
           const lnglat = result.position;  // 获取经纬度信息
-          console.log(lnglat)
           this.startMarker.setPosition([lnglat.lng, lnglat.lat])
 
           // 在这里可以进行进一步的处理，例如更新地图标记的位置
