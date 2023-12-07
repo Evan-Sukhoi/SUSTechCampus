@@ -11,6 +11,7 @@ const store = new Vuex.Store({
       buildingName:'',
       start_time:'',
       end_time:'',
+      rangeTime:'',
       isShow: false,
       isEdit:false,
     //   user: localStorage.getItem('user') ? localStorage.getItem('user') : null,

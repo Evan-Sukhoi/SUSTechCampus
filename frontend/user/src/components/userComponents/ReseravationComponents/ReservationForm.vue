@@ -117,6 +117,35 @@ export default {
         })
         return false
       }
+      var flag = false
+      for (let i = 0; i < this.$store.state.rangeTime.length; i++) {
+        var judge = this.$store.state.rangeTime[i].split('-')
+        var start = judge[0]
+        var end = judge[1]
+        var judge_start_part = start.split(':')
+        var judge_end_part = end.split(':')
+        var judge_start = new Date()
+        var judge_end = new Date()
+        judge_start.setHours(judge_start_part[0], judge_start_part[1], judge_start_part[2], 0)
+        judge_end.setHours(judge_end_part[0], judge_end_part[1], judge_end_part[2], 0)
+        var test_start = new Date()
+        var test_end = new Date()
+        test_start.setHours(start_hour, start_minute, start_second, 0)
+        test_end.setHours(end_hour, end_minute, end_second, 0)
+        if (judge_start.getTime() <= test_start.getTime() && judge_end.getTime() >= test_end.getTime()){
+          flag = true
+          break
+        }
+      }
+      if (!flag){
+        this.$vs.notification({
+          color:'danger',
+          position: 'top-center',
+          title: this.$t('lang.errorRangeTime'),
+          text: '',
+        })
+        return false
+      }
       return true
     },
     submit() {
