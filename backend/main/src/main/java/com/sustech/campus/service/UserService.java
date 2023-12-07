@@ -65,4 +65,6 @@ public interface UserService{
     List<RoomsInfo> getBuildingRoom(Integer buildingId);
 
     Object getAllReservation(Integer userId);
+
+    Boolean deleteReservation(Integer reservationId);
 }

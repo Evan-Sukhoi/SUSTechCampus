@@ -220,6 +220,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean deleteReservation(Integer reservationId) {
+        Reservation reservation = reservationDao.selectById(reservationId);
+        asserts(reservation != null, "预约不存在");
+        Integer currentUserId = getCurrentUserId();
+        User user = redis.getObject("login:" + currentUserId);
+        warns(reservation.getUserId().equals(user.getUserId()),
+                "非法操作：该预约不属于你！你的用户ID为：" + user.getUserId() +
+                "，该预约的用户ID为：" + reservation.getUserId() +
+                "你的行为已被记录，请立即停止非法操作并联系管理员说明情况，否则可能会被封禁账号。",
+                "非法删除：ID为" + reservation.getReservationId() + "的预约信息",
+                user, illegalOperationLogDao);
+        return reservationDao.deleteById(reservationId) != 0;
+    }
+
+    @Override
     public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime, String description) {
         asserts(startTime.before(endTime), "开始时间必须早于结束时间");
         asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
