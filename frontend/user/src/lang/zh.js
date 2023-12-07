@@ -83,6 +83,7 @@ export const lang = {
   location:'位置',
   chooseAPlace:'选个地方',
   suchAs434A:'诸如434A',
+  deleteSuccess:'删除成功！',
   filter:'筛选',
   filter_buildingName:'建筑名',
   filter_Reservable:'查看可预约建筑',
