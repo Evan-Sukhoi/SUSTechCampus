@@ -235,6 +235,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean likeComment(Integer commentId, Integer userId) {
+        return null;
+    }
+
+    @Override
     public Boolean uploadReservation(Integer userId, Integer roomId, Date startTime, Date endTime, String description) {
         asserts(startTime.before(endTime), "开始时间必须早于结束时间");
         asserts(startTime.after(new Date()), "开始时间必须晚于当前时间");
