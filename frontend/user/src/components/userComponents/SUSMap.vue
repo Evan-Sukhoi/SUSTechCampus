@@ -488,6 +488,9 @@ export default {
       }
       console.log(this.paths)
       console.log(this.markers)
+
+
+
     },
 
     // seeBusline() {

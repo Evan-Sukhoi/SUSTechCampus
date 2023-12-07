@@ -195,7 +195,6 @@ export default {
 
 .upload {
   margin-top: 50px;
-
   width: 40%;
   height: 80%;
   background-color: white;

@@ -1,80 +1,91 @@
 <template>
   <div class="back">
-    <div class="box">
-      <vs-table>
-        <template #thead>
-          <vs-tr>
-            <vs-th>
-              {{ $t('lang.orderID') }}
-            </vs-th>
-            <vs-th>
-              {{ $t('lang.commodity') }}
-            </vs-th>
-            <vs-th>
-              {{ $t('lang.commodityDescription')}}
-            </vs-th>
-            <vs-th>
-              {{ $t('lang.shop')}}
-            </vs-th>
-            <vs-th>
-              {{ $t('lang.price') }}
-            </vs-th>
-            <vs-th>
-              {{ $t('lang.image')}}
-            </vs-th>
+    <vs-table
+        v-model="selected"
+    >
+      <template #header>
+        <div class="header-container">
+          <vs-input v-model="search" border placeholder="Search"/>
+        </div>
+      </template>
+      <template #thead>
+        <vs-tr>
+          <vs-th>
+            <vs-checkbox
+                :indeterminate="selected.length === products.length" v-model="allCheck"
+                @change="selected = $vs.checkAll(selected, products)"
+            />
+          </vs-th>
+          <vs-th sort @click="products = $vs.sortData($event ,products, 'productId')">
+            {{ $t('lang.orderID') }}
+          </vs-th>
+          <vs-th sort @click="products = $vs.sortData($event ,products, 'subject')">
+            {{ $t('lang.commodity') }}
+          </vs-th>
+          <vs-th sort @click="products = $vs.sortData($event ,products, 'body')">
+            {{ $t('lang.commodityDescription')}}
+          </vs-th>
+          <vs-th sort @click="products = $vs.sortData($event ,products, 'shop')">
+            {{ $t('lang.shop')}}
+          </vs-th>
+          <vs-th sort @click="products = $vs.sortData($event ,products, 'amount')">
+            {{ $t('lang.price') }}
+          </vs-th>
+          <vs-th>
+            {{ $t('lang.image')}}
+          </vs-th>
 
-          </vs-tr>
-        </template>
-        <template #tbody>
-          <vs-tr
-              :key="i"
-              v-for="(tr, i) in products"
-          >
-            <vs-td>
-              {{ tr.name }}
-            </vs-td>
-            <vs-td>
-              {{ tr.price }}
-            </vs-td>
-            <vs-td>
-              {{ tr.id }}
-            </vs-td>
+          <vs-th>
+            {{ $t('lang.buy')}}
+          </vs-th>
 
-            <vs-td>
+        </vs-tr>
+      </template>
+      <template #tbody>
+        <vs-tr
+            :key="i"
+            v-for="(tr, i) in $vs.getPage($vs.getSearch(products, search), page, max)"
+            :data="tr"
+            :is-selected="!!selected.includes(tr)"
+            not-click-selected
+            open-expand-only-td
+        >
+          <vs-td checkbox>
+            <vs-checkbox :val="tr" v-model="selected" />
+          </vs-td>
+          <vs-td>
+            {{ tr.productId}}
+          </vs-td>
+          <vs-td>
+            {{ tr.subject }}
+          </vs-td>
+          <vs-td>
+            {{ tr.body }}
+          </vs-td>
 
-            </vs-td>
+          <vs-td>
+            {{tr.shop}}
+          </vs-td>
 
-            <vs-td>
+          <vs-td>
+            {{tr.amount}}
+          </vs-td>
+          <vs-td>
+            <img :src="tr.imageUrl" alt="" width="100px">
+          </vs-td>
 
-            </vs-td>
-            <vs-td>
+          <vs-td>
+            <el-button @click="buyProduct(tr.productId)">
+              {{ $t('lang.buy')}}
+            </el-button>
+          </vs-td>
+        </vs-tr>
+      </template>
+      <template #footer>
+        <vs-pagination v-model="page" :length="$vs.getLength($vs.getSearch(products, search), max)" />
+      </template>
+    </vs-table>
 
-            </vs-td>
-
-          </vs-tr>
-        </template>
-      </vs-table>
-    </div>
-<!--    <vs-dialog width="300px" not-center v-model="active">-->
-<!--      <template #header>-->
-<!--        <h4 class="not-margin">-->
-<!--          Welcome to <b>Vuesax</b>-->
-<!--        </h4>-->
-<!--      </template>-->
-<!--      <div class="con-content">-->
-<!--        <vs-avatar size="300" square><img src="../../assets/pad(canDelete)/photo/buy.png"></vs-avatar>-->
-<!--      </div>-->
-<!--      <template #footer>-->
-<!--        <div class="con-footer">-->
-<!--          <vs-button @click="active=false" dark transparent class="button">-->
-<!--            {{$t('lang.cancel')}}-->
-<!--          </vs-button>-->
-<!--          <vs-button @click="ok" transparent class="button">-->
-<!--            {{$t('lang.ok')}}-->
-<!--          </vs-button>-->
-<!--        </div>-->
-<!--      </template>-->
-<!--    </vs-dialog>-->
   </div>
 </template>
 <script>
@@ -86,29 +97,25 @@ export default {
     search: '',
     allCheck: false,
     page: 1,
-    max: 5,
+    max: 4,
     active: false,
     selected: [],
     products: [
     ]
   }),
+  mounted() {
+    this.fetchProducts()
+  },
   methods:{
-    buySomething(){
-      this.active = true
+    buyProduct(id) {
+
     },
-    // ok(){
-    //   this.active = false
-    //   this.$vs.notification({
-    //     position:'top-center',
-    //     color:'success',
-    //     duration: '6000',
-    //     progress: 'auto',
-    //     title: this.$t('lang.attention'),
-    //     text: this.$t('lang.getCommodity')
-    //   })
-    // },
     fetchProducts() {
-      this.$http.get('public/product/all')
+      this.$http.get('public/product/all').then(res => {
+        this.products = res.data;
+        console.log(res.data)
+      }).catch(err => {
+      });
     },
   }
 }
@@ -117,15 +124,11 @@ export default {
 
 
 <style scoped>
-.box{
-  background-color: #ffffff;
-  padding: 50px;
-  margin-left: 300px;
-  margin-right: 300px;
-  border-radius: 10px;
+
+
+.back {
+
+  max-width: 1000px;
 }
-.button{
-  float: right;
-  width: 50px;
-}
+
 </style>
