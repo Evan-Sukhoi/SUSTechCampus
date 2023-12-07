@@ -59,13 +59,11 @@
 
     </div>
 
-    <div v-if="!show">
-      <div>
+      <div v-else class="info">
         <div class="permission">
           登录后可评论
         </div>
       </div>
-    </div>
 
 
   </div>
@@ -200,11 +198,15 @@ export default {
   background-color: white;
   border-radius: 20px;
   overflow: auto;
+  margin-left: 50px;
 }
-
+.info{
+  width: 50%;
+  text-align: center;
+}
 .permission {
-  margin-left: 200px;
-  width: 200px;
+  margin-left: 40px;
+  width: 50%;
   background-color: white;
   border-radius: 20px;
   font-size: 30px;
@@ -219,19 +221,29 @@ export default {
   max-width: 200px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 768px) {
   .post {
     width: 80%;
     margin: 10%;
-    float: left;
+  }
+  .info{
+    width: 80%;
+  }
+
+  .permission{
+    width: 80%;
+    background-color: white;
+    border-radius: 20px;
+    font-size: 30px;
   }
 
   .upload {
-    float: left;
+    width: 80%;
   }
 
   .blog {
     display: block;
+    align-content: center;
   }
 }
 

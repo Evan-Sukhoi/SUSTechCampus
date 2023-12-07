@@ -2,29 +2,52 @@
   <div class="center_examples">
     <vs-navbar v-model="active" not-line>
       <template #left>
-        <a href="https://www.sustech.edu.cn/"><img src="../../assets/logo/NKLogo.png" style="width: 50px; height: 50px"></a>
+        <a href="https://www.sustech.edu.cn/" class="NKIcon"><img src="../../assets/logo/NKLogo.png" style="width: 50px; height: 50px" class="NKIcon"></a>
         <nav class="lang_bar">
           <h5 style="float: left" @click="changeLanguage('zh-CN')" class="lang">中文</h5>
           <h5 style="float: left">|</h5>
           <h5 style="float: left" @click="changeLanguage('en-US')" class="lang">En</h5>
         </nav>
+        <vs-navbar-group v-if="!itemVisible">
+          {{$t('lang.menu')}}
+          <template #items>
+            <vs-navbar-item :active="active === 'home'" id="home" @click="handleLink('userHome')">
+              {{$t('lang.homePage')}}
+            </vs-navbar-item>
+            <vs-navbar-item :active="active === 'building'" id="building" @click="handleLink('building')" >
+              {{$t('lang.building')}}
+            </vs-navbar-item>
+            <vs-navbar-item :active="active === 'map'" id="map" @click="handleLink('map')">
+              {{$t('lang.map')}}
+            </vs-navbar-item>
+            <vs-navbar-item :active="active === 'bus'" id="bus" @click="handleLink('bus')" >
+              {{$t('lang.busLine')}}
+            </vs-navbar-item>
+            <vs-navbar-item :active="active === 'service'" id="service" @click="handleLink('service')" >
+              {{$t('lang.service')}}
+            </vs-navbar-item>
+            <vs-navbar-item :active="active === 'reservation'" id="reservation" @click="handleLink('reservation')">
+              {{$t('lang.reservation')}}
+            </vs-navbar-item>
+          </template>
+        </vs-navbar-group>
       </template>
-      <vs-navbar-item :active="active === 'home'" id="home" @click="handleLink('userHome')">
+      <vs-navbar-item :active="active === 'home'" id="home" @click="handleLink('userHome')" v-if="itemVisible">
         {{$t('lang.homePage')}}
       </vs-navbar-item>
-      <vs-navbar-item :active="active === 'building'" id="building" @click="handleLink('building')">
+      <vs-navbar-item :active="active === 'building'" id="building" @click="handleLink('building')" v-if="itemVisible">
         {{$t('lang.building')}}
       </vs-navbar-item>
-      <vs-navbar-item :active="active === 'map'" id="map" @click="handleLink('map')">
+      <vs-navbar-item :active="active === 'map'" id="map" @click="handleLink('map')" v-if="itemVisible">
         {{$t('lang.map')}}
       </vs-navbar-item>
-      <vs-navbar-item :active="active === 'bus'" id="bus" @click="handleLink('bus')">
+      <vs-navbar-item :active="active === 'bus'" id="bus" @click="handleLink('bus')" v-if="itemVisible">
         {{$t('lang.busLine')}}
       </vs-navbar-item>
-      <vs-navbar-item :active="active === 'service'" id="service" @click="handleLink('service')">
+      <vs-navbar-item :active="active === 'service'" id="service" @click="handleLink('service')" v-if="itemVisible">
         {{$t('lang.service')}}
       </vs-navbar-item>
-      <vs-navbar-item :active="active === 'reservation'" id="reservation" @click="handleLink('reservation')">
+      <vs-navbar-item :active="active === 'reservation'" id="reservation" @click="handleLink('reservation')" v-if="itemVisible">
         {{$t('lang.reservation')}}
       </vs-navbar-item>
       <vs-navbar-item>
@@ -52,6 +75,7 @@ export default {
       active: 'home',
       search: '',
       show:true,
+      itemVisible:true,
     }
   },
   beforeMount() {
@@ -61,13 +85,22 @@ export default {
     this.active = path[path.length - 1]
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
+    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('change', this.handleChange)
+    this.handleResize()
+    this.handleChange()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
   },
   methods:{
     handleResize() {
       const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
       this.show = !isSmallScreen;
+    },
+    handleChange() {
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      this.itemVisible = !isSmallScreen;
     },
     handleLink(link){
       this.$router.push({name:link, params:{}}).catch(err=>err)
@@ -93,6 +126,9 @@ export default {
 }
 @media screen and (max-width: 900px) {
   .lang_bar{
+    display: none;
+  }
+  .NKIcon{
     display: none;
   }
 }

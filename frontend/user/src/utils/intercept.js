@@ -7,7 +7,7 @@ if (reg.test(host)) {
   axios.defaults.baseURL = 'http://localhost:8081'
 } else {
   // 远程访问 使用代理
-  axios.defaults.baseURL = '/api'
+  axios.defaults.baseURL = 'http://10.26.144.3:8081'
 }
 // 创建axios实例
 var instance = axios.create({timeout: 1000 * 12});

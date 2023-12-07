@@ -10,6 +10,7 @@ export const lang = {
   login: '登录',
   logout: '登出',
   personalPage:'个人主页',
+  menu:'菜单',
 
   /*login*/
   welcome: '欢迎来到南科大导航',
