@@ -102,7 +102,7 @@ public class UserController {
 
     @ApiOperation("用户点赞")
     @RequestMapping("/comment/like")
-    public ResponseEntity<Object> likeBuilding(@ApiParam("用户id") @RequestParam Integer userId, @ApiParam("评论id") @RequestParam Integer commentId) {
+    public ResponseEntity<Object> likeComment(@ApiParam("用户id") @RequestParam Integer userId, @ApiParam("评论id") @RequestParam Integer commentId) {
         try{
             userService.likeComment(commentId, userId);
             return ResponseEntity.ok().build();

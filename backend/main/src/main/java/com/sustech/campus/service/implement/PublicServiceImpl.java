@@ -303,6 +303,21 @@ public class PublicServiceImpl implements PublicService {
         return publicKey.toString();
     }
 
+    @Override
+    public List<ProductInfo> getAllProduct() {
+        List<Product> products = productDao.selectList(null);
+        return products.stream().map(product -> {
+            return ProductInfo.builder()
+                    .productId(product.getProductId())
+                    .subject(product.getSubject())
+                    .body(product.getBody())
+                    .shop(product.getShop())
+                    .inventory(product.getInventory())
+                    .imageUrl(imageDao.selectById(product.getImageId()).getImageUrl())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
 
     @Override
     public Boolean register(String username, String password, String email, String phoneNumber, String authCode, MultipartFile file) throws Exception {

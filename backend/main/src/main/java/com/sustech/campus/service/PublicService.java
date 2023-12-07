@@ -44,5 +44,7 @@ public interface PublicService {
 
     String getKey() throws Exception;
 
+    List<ProductInfo> getAllProduct();
+
 //    String buy(String url, Integer productId) throws AlipayApiException;
 }
