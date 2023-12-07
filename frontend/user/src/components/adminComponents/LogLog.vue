@@ -25,7 +25,7 @@
               userName
             </vs-th>
             <vs-th sort @click="users = $vs.sortData($event ,logs, 'id')">
-              loginTime
+              operationTime
             </vs-th>
             <vs-th>
               ipAddress
@@ -51,26 +51,26 @@
               <vs-checkbox :val="tr" v-model="selected"/>
             </vs-td>
             <vs-td>
-              {{ tr.id }}
-            </vs-td>
-            <vs-td>
-              {{ tr.email }}
-            </vs-td>
-            <vs-td>
               {{ tr.userId }}
             </vs-td>
             <vs-td>
-              {{tr.isBlocked}}
+              {{ tr.username }}
             </vs-td>
             <vs-td>
-              {{tr.isBlocked}}
+              {{ tr.operationTime }}
             </vs-td>
             <vs-td>
-              {{tr.isBlocked}}
+              {{tr.ipAddress}}
+            </vs-td>
+            <vs-td>
+              {{tr.port}}
+            </vs-td>
+            <vs-td>
+              {{tr.blocked}}
             </vs-td>
             <vs-td>
               <div style="display: flex; align-items: center;">
-                <vs-button flat icon @click="block(tr.userId)" v-if="!tr.isBlocked">
+                <vs-button flat icon @click="block(tr.userId)" v-if="!tr.blocked">
                   <i class='bx bxs-face-mask'></i>
                 </vs-button>
                 <vs-button flat icon @click="unBlock(tr.userId)" v-else danger>
@@ -109,10 +109,13 @@ export default {
       },
     ],
   }),
+  created() {
+    this.fetchLogs()
+  },
   methods: {
     fetchLogs() {
       // 使用axios或fetch发送GET请求获取后端数据
-      this.$http.get('/admin/user/all') // 根据你的后端API端点进行设置
+      this.$http.get('/admin/illegal/all') // 根据你的后端API端点进行设置
           .then(response => {
             this.logs = response.data; // 将后端数据赋值给前端users数据
             console.log(response);
@@ -130,7 +133,7 @@ export default {
             title: 'Block successfully',
             text: '',
           })
-          this.fetchUsers()
+          this.fetchLogs()
         }
       }).catch(err=>{console.log(err)})
     },
@@ -143,7 +146,7 @@ export default {
             title: 'unBlock successfully',
             text: '',
           })
-          this.fetchUsers()
+          this.fetchLogs()
         }
       })
     }
