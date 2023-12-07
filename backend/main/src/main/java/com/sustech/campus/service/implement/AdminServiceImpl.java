@@ -257,8 +257,6 @@ public class AdminServiceImpl implements AdminService {
                 .eq(Admin::getName, username)
         );
         try {
-            System.out.println(username);
-            System.out.println(password);
             String privateKey = redis.getObject("RSA_PRIVATE_KEY");
             String decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
             asserts(admin != null && decrypt.equals(admin.getPassword()), "用户名或密码错误");
@@ -267,13 +265,12 @@ public class AdminServiceImpl implements AdminService {
             throw e;
         }
         String token = authenticate(admin);
-        System.out.println(token);
+        System.out.println("token: " + token);
         return AdminInfo.builder()
                 .adminId(admin.getAdminId())
                 .name(admin.getName())
                 .email(admin.getEmail())
                 .phone(admin.getPhone())
-                .imageUrl(imageDao.selectById(admin.getImageId()).getImageUrl())
                 .token(token)
                 .build();
     }

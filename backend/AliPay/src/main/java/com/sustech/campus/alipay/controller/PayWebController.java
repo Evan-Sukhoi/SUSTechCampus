@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 
@@ -78,8 +80,9 @@ public class PayWebController {
                     product.getBody(),
                     String.valueOf(product.getAmount())
             );
-
-            return ResponseEntity.ok().body(aliPayTemplate.pay(payVo));
+            Map<String, String> map = new HashMap<>();
+            map.put("url", aliPayTemplate.pay(payVo));
+            return ResponseEntity.ok().body(map);
         } catch (AlipayApiException e) {
             return ResponseEntity.accepted().body(e.getMessage());
         }
