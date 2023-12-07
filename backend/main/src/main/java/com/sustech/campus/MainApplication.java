@@ -28,6 +28,7 @@ public class MainApplication extends SpringBootServletInitializer {
 		// https://github.com/alibaba/fastjson/wiki/enable_autotype
 //		ParserConfig.getGlobalInstance().addAccept("org.springframework.security.core.authority.SimpleGrantedAuthority");
 		ParserConfig.getGlobalInstance().addAccept("com.sustech.campus.database.po.User");
+		ParserConfig.getGlobalInstance().addAccept("com.sustech.campus.database.po.Admin");
 		ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
 	}
 
