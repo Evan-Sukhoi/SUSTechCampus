@@ -110,12 +110,7 @@ export default {
   },
   methods:{
     buyProduct(id) {
-      axios.get(`http://localhost:8082/payOrder?productId=${id}`).then(response => {
-        console.log(response.data.url)
-      }).catch(function (error) {
-          })
-          .finally(function () {
-          });
+      window.location.href = `http://localhost:8082/payOrder?productId=${id}`;
     },
     fetchProducts() {
       this.$http.get('public/product/all').then(res => {
