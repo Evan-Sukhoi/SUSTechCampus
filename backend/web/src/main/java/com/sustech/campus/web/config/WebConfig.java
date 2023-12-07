@@ -83,7 +83,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") //允许所有API
-//                .allowedOrigins("*") //允许所有域名
                 .allowedOriginPatterns("*") //允许所有域名
                 .allowCredentials(true) //允许Cookie
                 .allowedMethods("*") //允许任何方法

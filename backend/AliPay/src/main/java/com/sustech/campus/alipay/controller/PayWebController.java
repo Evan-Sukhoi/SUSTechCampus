@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +30,6 @@ import static com.sustech.campus.web.utils.ExceptionUtils.asserts;
 /**
  * @ClassName PayWebController
  * @Description 支付调用的Controller
- * @Author LN
  * @Date 2023/12/3
  */
 @Controller
@@ -52,12 +52,10 @@ public class PayWebController {
      * @throws AlipayApiException 支付异常
      */
     @GetMapping(value = "/payOrder", produces = "text/html")
+    @CrossOrigin(origins = "*")
     @ResponseBody
-    public ResponseEntity<Object> payOrder(@ApiParam("商品ID") @RequestParam Integer productId) {
+    public Object payOrder(@ApiParam("商品ID") @RequestParam Integer productId) {
         try {
-            // 这里订单号应该是前端传过来的，即orderSn
-            // 但是为了Demo方便测试，前端传来的是一个固定的数字(按理说前端应该传的是具体订单号)
-            // 支付宝这个订单号又不能重复，所以在这个方法里实际使用了一个雪花算法生成的订单号，即noStr
             Product product = productDao.selectById(productId);
             asserts(product != null, "商品不存在");
             String cdkey = generateCDKey(8);
@@ -82,7 +80,8 @@ public class PayWebController {
             );
             Map<String, String> map = new HashMap<>();
             map.put("url", aliPayTemplate.pay(payVo));
-            return ResponseEntity.ok().body(map);
+            System.out.println(map);
+            return aliPayTemplate.pay(payVo);
         } catch (AlipayApiException e) {
             return ResponseEntity.accepted().body(e.getMessage());
         }
