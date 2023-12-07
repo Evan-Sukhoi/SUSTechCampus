@@ -10,6 +10,7 @@ export const lang = {
   login: '登录',
   logout: '登出',
   personalPage:'个人主页',
+  menu:'菜单',
 
   /*login*/
   welcome: '欢迎来到南科大导航',
@@ -106,6 +107,9 @@ export const lang = {
   shop: '购买店',
   inventory: '库存',
   image: '图片',
+  thanking: '感谢惠顾！',
+  cdk: '您的兑换码是',
+  cdkHint: '请妥善保管您的兑换码，前往线下商店或自动售货机兑换。',
 
   /*personalPage*/
   record:'记录',

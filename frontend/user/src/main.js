@@ -26,7 +26,7 @@ Vue.use(VueI18n);
 
 
 
-let lang = localStorage.getItem('language') || 'en-US';
+let lang = localStorage.getItem('language') || 'zh-CN';
 const i18n = new VueI18n({
   locale: lang,    // 语言标识
   messages: {

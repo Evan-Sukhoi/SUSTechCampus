@@ -300,4 +300,24 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @ApiOperation("管理员获取所有建筑总预约量和点赞量")
+    @RequestMapping("/building/statistics")
+    public ResponseEntity<Object> getBuildingStatistics() {
+        try {
+            return ResponseEntity.ok(adminService.getBuildingStatistics());
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation("管理员获取所有房间总预约量和点赞量")
+    @RequestMapping("/room/statistics")
+    public ResponseEntity<Object> getRoomStatistics() {
+        try {
+            return ResponseEntity.ok(adminService.getRoomStatistics());
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

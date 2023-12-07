@@ -105,4 +105,8 @@ public interface AdminService {
     List<IllegalLogInfo> getAllIllegal();
 
     List<LoginLogInfo> getAllLoginLog();
+
+    List<BuildingStatisticsInfo> getBuildingStatistics();
+
+    List<RoomStatisticsInfo> getRoomStatistics();
 }

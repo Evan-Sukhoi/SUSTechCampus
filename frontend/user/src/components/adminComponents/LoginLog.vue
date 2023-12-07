@@ -25,6 +25,9 @@
               userName
             </vs-th>
             <vs-th sort @click="users = $vs.sortData($event ,logs, 'id')">
+              email
+            </vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,logs, 'id')">
               operationTime
             </vs-th>
             <vs-th>
@@ -57,7 +60,10 @@
               {{ tr.username }}
             </vs-td>
             <vs-td>
-              {{ tr.operationTime }}
+              {{ tr.email }}
+            </vs-td>
+            <vs-td>
+              {{ tr.loginTime }}
             </vs-td>
             <vs-td>
               {{tr.ipAddress}}
@@ -102,7 +108,14 @@ export default {
   },
   methods: {
     fetchLogs() {
-
+      this.$http.get('/admin/loginlog/all').then(resp=>{
+        console.log(resp)
+        if (resp.status===200){
+          this.logs = resp.data
+        }
+      }).catch(err=>{
+        err
+      })
     }
   }
 }

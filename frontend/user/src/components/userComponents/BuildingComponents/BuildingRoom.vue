@@ -6,7 +6,7 @@
     </div>
 
     <div class="roomList">
-      <vs-card type="3" v-for="room in roomInfo" :key="room.roomTypeId" class="box-card">
+      <vs-card :type="card_type" v-for="room in roomInfo" :key="room.roomTypeId" class="box-card">
         <template #title>
           <h3>{{ room.roomTypeName }}</h3>+
         </template>
@@ -32,6 +32,7 @@ export default {
       roomInfo: [],
       loading: false,
       visable: false,
+      card_type:3,
     }
   },
   beforeMount() {
@@ -44,7 +45,20 @@ export default {
     }
 
   },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
   methods: {
+    handleResize() {
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      if (isSmallScreen){
+        this.card_type = 2
+      }
+    },
     fetchRoomData(id) {
       this.$http.get(`user/room/get/building?buildingId=${id}`)
           .then(response => {
@@ -70,7 +84,7 @@ export default {
   //top: 150px;
   position: relative;
   width: 1000px;
-  background-color: #f4d1cc;
+  background-color: rgba(244, 209, 204, 0.5);
   border-radius: 20px;
 }
 
@@ -81,6 +95,7 @@ export default {
   position: relative;
   height: 100%;
   overflow: auto;
+  overflow-x: hidden;
 }
 
 .box-card {
@@ -93,5 +108,15 @@ export default {
 .card-img {
   margin-left: 10px;
   top: 10px;
+}
+@media screen and (max-width: 768px) {
+  .roomList{
+    width: 77.3%;
+    display: block;
+    justify-content: center;
+  }
+  .box-card{
+    margin-top: 80px;
+  }
 }
 </style>

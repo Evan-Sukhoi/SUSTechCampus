@@ -58,7 +58,7 @@ public class PayWebController {
         try {
             Product product = productDao.selectById(productId);
             asserts(product != null, "商品不存在");
-            String cdkey = generateCDKey(8);
+            String cdkey = generateCDKey(12);
             Long sn = SnowflakeIdWorker.generateId();
             log.info("订单ID：{}", sn);
 
@@ -78,9 +78,6 @@ public class PayWebController {
                     product.getBody(),
                     String.valueOf(product.getAmount())
             );
-            Map<String, String> map = new HashMap<>();
-            map.put("url", aliPayTemplate.pay(payVo));
-            System.out.println(map);
             return aliPayTemplate.pay(payVo);
         } catch (AlipayApiException e) {
             return ResponseEntity.accepted().body(e.getMessage());
@@ -93,6 +90,9 @@ public class PayWebController {
     private static String generateCDKey(int length) {
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
+            if (i % 4 == 0 && i != 0) {
+                sb.append("-");
+            }
             int randomIndex = random.nextInt(CHARACTERS.length());
             sb.append(CHARACTERS.charAt(randomIndex));
         }

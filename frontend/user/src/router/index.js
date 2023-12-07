@@ -7,6 +7,7 @@ import SUSBuilding from "@/components/userComponents/SUSBuilding.vue";
 import BuildingDetails from "@/components/userComponents/BuildingComponents/BuildingDetails.vue";
 import SUSMap from "@/components/userComponents/SUSMap.vue";
 import SUSService from "@/components/userComponents/SUSService.vue";
+import SUSServicePayed from "@/components/userComponents/SUSServicePayed.vue";
 import SUSBusLine from "@/components/userComponents/SUSBusLine.vue";
 import BuildingIntro from "@/components/userComponents/BuildingComponents/BuildingIntro.vue";
 import BuildingBlog from "@/components/userComponents/BuildingComponents/BuildingBlog.vue";
@@ -46,6 +47,7 @@ const routes = [
       next()
     },
     children:[
+      {path:'/user/service/payed', name:'servicePayed', component: SUSServicePayed},
       {path:'/user/map', name:'map', component: SUSMap},
       {path:'/user/reservation', name:'reservation', component: SUSReservation},
       {path: '/user/reservation/:buildingType/:buildingName', name: 'roomReservation', component: ReservationView,
@@ -54,7 +56,10 @@ const routes = [
         {path: '/user/reservation/:buildingType/:buildingId:buildingName/:date', name: 'roomTimeLine', component: RoomTimeLine}
       ]},
       {path:'/user/bus', name:'bus', component: SUSBusLine},
-      {path:'/user/service', name:'service', component: SUSService},
+      {path:'/user/service', name:'service', component: SUSService,
+      children:[
+
+        ]},
       {path: '/user/building', name:'building', component: SUSBuilding},
       {path: '/user/building/:id', name: 'buildingDetails', component: BuildingDetails,
       children: [
