@@ -107,6 +107,7 @@ export default {
     },
     logout() {
       localStorage.setItem('admin', 'False')
+      localStorage.removeItem('admin_token')
       this.$router.push('/adminLogin').catch(err=>err)
     }
   }
