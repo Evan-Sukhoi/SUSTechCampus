@@ -89,6 +89,8 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data:() => ({
     editActive: false,
@@ -108,7 +110,12 @@ export default {
   },
   methods:{
     buyProduct(id) {
-
+      axios.post(`http://localhost:8082/payOrder?productId=${id}`).then(response => {
+        console.log(response.data)
+      }).catch(function (error) {
+          })
+          .finally(function () {
+          });
     },
     fetchProducts() {
       this.$http.get('public/product/all').then(res => {
@@ -128,7 +135,7 @@ export default {
 
 .back {
 
-  max-width: 1000px;
+  max-width: 100%;
 }
 
 </style>
