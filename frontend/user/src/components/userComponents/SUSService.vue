@@ -110,8 +110,8 @@ export default {
   },
   methods:{
     buyProduct(id) {
-      axios.post(`http://localhost:8082/payOrder?productId=${id}`).then(response => {
-        console.log(response.data)
+      axios.get(`http://localhost:8082/payOrder?productId=${id}`).then(response => {
+        console.log(response.data.url)
       }).catch(function (error) {
           })
           .finally(function () {
