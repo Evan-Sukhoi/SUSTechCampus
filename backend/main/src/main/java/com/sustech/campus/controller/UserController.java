@@ -84,6 +84,17 @@ public class UserController {
         }
     }
 
+    @ApiOperation("用户删除一个预约请求")
+    @RequestMapping("/reservation/delete")
+    public ResponseEntity<Object> deleteReservation(@ApiParam("预约id") @RequestParam Integer reservationId) {
+        try{
+            userService.deleteReservation(reservationId);
+            return ResponseEntity.ok().build();
+        } catch (ApiException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation("用户获取所有预约请求")
     @RequestMapping("/reservation/get/all")
     public ResponseEntity<Object> getAllReservation(@ApiParam("用户id") @RequestParam Integer userId) {
