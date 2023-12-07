@@ -336,16 +336,18 @@ export default {
           });
     },
 
-    // fetchAllBuslines() {
-    //   this.$http.get("/public/busline/all")
-    //       .then(response => {
-    //         this.buslines = response.data;
-    //         // console.log(this.buslines)
-    //       })
-    //       .catch(function (error) {
-    //       })
-    //       .finally(function () {
-    //       });
+    fetchAllBuslines() {
+      this.$http.get("/public/busline/all")
+          .then(response => {
+            this.buslines = response.data;
+            // console.log(this.buslines)
+          })
+          .catch(function (error) {
+          })
+          .finally(function () {
+          });
+
+
     //
     //   for (const busline of this.buslines) {
     //     for (let i = 0; i < busline.list.length - 1; i++) {
@@ -461,7 +463,7 @@ export default {
     //     }
     //
     //   }
-    // },
+    },
 
     getStartStation() {
       this.$http.get(`/public/building/get/station?buildingId=${parseInt(this.startBuildingId)}`)

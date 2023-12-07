@@ -16,8 +16,11 @@
     </div>
 
     <div class="board">
-      <div class="video-container">
-        <buildingVideo></buildingVideo>
+      <div class="video-container" v-if="videoUrl !== ''">
+        <video ref="videoPlayer" controls class="custom-video">
+          <source :src="this.videoUrl" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       <div class="content">
@@ -26,24 +29,20 @@
         {{this.building.closeTime}}
       </div>
     </div>
-
   </div>
-
-
 </template>
 
 <script>
-import buildingVideo from "@/components/userComponents/BuildingComponents/BuildingVideo.vue";
 export default {
   name: "BuildingIntro",
   data() {
     return {
       buildingId: '',
       building: {},
+      videoUrl: '',
    }
   },
   components: {
-    buildingVideo,
   },
 
   created() {
@@ -56,6 +55,8 @@ export default {
           .then(response => {
             this.building = response.data;
             console.log(response.data);
+            this.videoUrl = this.building.videoUrl
+            console.log(this.videoUrl)
           })
           .catch(function (error) {
             console.log(error);
@@ -85,8 +86,6 @@ export default {
   overflow: auto;
 }
 
-.video {
-}
 
 .content {
   left: 20px;
@@ -95,6 +94,14 @@ export default {
 .video-container {
   max-width: 500px;
   float: left;
+  margin: 0 auto;
+}
+
+
+.custom-video {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .custom-video {

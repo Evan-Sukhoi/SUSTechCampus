@@ -270,18 +270,6 @@ values ('admin',
         'evan3li@outlook.com',
         '123456');
 
-
-insert into comment(comment_ID, user_ID, time, text, building_ID, score, admin_ID) VALUE (1, 1, '2021-1-1', 'hhh', 1, 2.00, 1);
-
-
-insert into comment(comment_ID, user_ID, time, text, building_ID, score, admin_ID) VALUE (2, 1, '2021-1-1', 'hhh', 1, 2.00, 1);
-
-
-insert into comment(comment_ID, user_ID, time, text, building_ID, score, admin_ID) VALUE (3, 1, '2021-1-1', 'hhh', 2, 2.00, 1);
-
-
-insert into comment(comment_ID, user_ID, time, text, building_ID, score, admin_ID) VALUE (4, 1, '2021-1-1', 'hhh', 2, 2.00, 0);
-
 -- 第三教学楼
 
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, building_type, is_reservable)
@@ -305,6 +293,17 @@ insert into Buildings_Image(building_ID, image_ID)
 values (1,
         1);
 
+insert into Buildings_Image(building_ID, image_ID)
+values (1,
+        2);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (1,
+        5);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (1,
+        8);
 
 insert into Room_type(type, capacity, description)
 values ('机房1',
@@ -799,6 +798,18 @@ insert into Buildings_Image(building_ID, image_ID)
 values (2,
         11);
 
+insert into Buildings_Image(building_ID, image_ID)
+values (2,
+        12);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (2,
+        13);
+
+insert into Buildings_Image(building_ID, image_ID)
+values (2,
+        14);
+
 
 insert into Room_type(type, capacity, description)
 values ('密集书库',
@@ -1119,6 +1130,12 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lynn_li
 insert into Buildings_Image(building_ID, image_ID)
 values (3,
         23);
+insert into Buildings_Image(building_ID, image_ID)
+values (3,
+        24);
+insert into Buildings_Image(building_ID, image_ID)
+values (3,
+        25);
 -- 讨论间 18
 insert into Room(building_ID, number, room_type_ID)
 values (3,
@@ -1256,6 +1273,9 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/college
 insert into Buildings_Image(building_ID, image_ID)
 values (4,
         26);
+insert into Buildings_Image(building_ID, image_ID)
+values (4,
+        28);
 
 insert into Room_type(type, capacity, description)
 values ('实验室',
@@ -1334,6 +1354,15 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_ca
 insert into Buildings_Image(building_ID, image_ID)
 values (5,
         31);
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        32);
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        34);
+insert into Buildings_Image(building_ID, image_ID)
+values (5,
+        36);
 
 insert into Room_type(type, capacity, description)
 values ('档口1',
@@ -1513,6 +1542,9 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/lake_do
 insert into Buildings_Image(building_ID, image_ID)
 values (6,
         39);
+insert into Buildings_Image(building_ID, image_ID)
+values (6,
+        40);
 
 insert into Room_type(type, capacity, description)
 values ('宿舍1',
@@ -1798,14 +1830,296 @@ insert into Building (name, open_time, close_time, location_name, introduction, 
                                                                                                                                                             '科研楼',
                                                                                                                                                             0);
 insert into Image (image_url)
-values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E4%B8%80%E7%A7%91.jpg');
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/10%E5%91%A8%E5%B9%B4%E6%A0%A1%E5%BA%86%E9%9B%86%E5%AD%97%E4%B9%A6%E7%AD%BE%E5%A5%97%E8%A3%85.png');
 insert into Buildings_Image (building_ID, image_ID)
 values (21,
         55);
 
 
-insert into product (subject, body, amount, shop, inventory)
-values ('南科大校徽', '南科大校徽 *1', '29.8', '南科大纪念品商店', 200);
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/10%E5%91%A8%E5%B9%B4%E6%A0%A1%E5%BA%86%E9%9B%86%E5%AD%97%E4%B9%A6%E7%AD%BE%E5%A5%97%E8%A3%85.png');
 
-insert into product (subject, body, amount, shop, inventory)
-values ('南科大T恤', '南科大T恤 XL *1', '79.8', '南科大纪念品商店', 50);
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('10周年校庆集字书签套装',
+        '10周年校庆集字书签套装*1',
+        78,
+        '南科大纪念品商店',
+        100,
+        56);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E6%8A%B1%E6%9E%95%E8%A2%AB.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可抱枕被',
+        '荔可抱枕被*1',
+        118,
+        '南科大纪念品商店',
+        100,
+        57);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E8%A7%A3%E5%8E%8B%E7%90%83.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可解压球',
+        '荔可解压球*1',
+        18,
+        '南科大纪念品商店',
+        100,
+        58);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E5%8D%A1%E5%A5%97.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可卡套',
+        '荔可卡套*1',
+        18,
+        '南科大纪念品商店',
+        100,
+        59);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E9%92%A5%E5%8C%99%E6%89%A3.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔可钥匙扣',
+        '荔可钥匙扣*1',
+        18,
+        '南科大纪念品商店',
+        100,
+        60);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E8%8D%94%E5%8F%AF%E8%8D%94%E6%9E%9D%E5%A8%83%E5%A8%83%E8%8D%94%E5%8F%AF.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('荔枝娃娃荔可',
+        '荔枝娃娃荔可*1',
+        68,
+        '南科大纪念品商店',
+        100,
+        61);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E7%90%B3%E6%81%A9%E5%9B%BE%E4%B9%A6%E9%A6%86%E8%93%9D%E7%89%99%E9%9F%B3%E7%AE%B1.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('琳恩图书馆蓝牙音箱',
+        '琳恩图书馆蓝牙音箱*1',
+        348,
+        '南科大纪念品商店',
+        100,
+        62);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E6%97%85%E8%A1%8C%E6%94%B6%E7%BA%B3%E5%8C%85.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制旅行收纳包',
+        '南科大定制旅行收纳包*1',
+        128,
+        '南科大纪念品商店',
+        100,
+        63);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E5%8D%97%E7%A7%91%E9%87%91%E5%B1%9E%E4%B9%A6%E7%AD%BE.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制旅行收纳包',
+        '南科大定制旅行收纳包*1',
+        128,
+        '南科大纪念品商店',
+        100,
+        64);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E5%8D%97%E7%A7%91%E9%87%91%E5%B1%9E%E4%B9%A6%E7%AD%BE.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制南科金属书签',
+        '南科大定制南科金属书签*1',
+        68,
+        '南科大纪念品商店',
+        100,
+        65);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E4%B9%A6%E5%8C%85.png');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制书包',
+        '南科大定制书包*1',
+        108,
+        '南科大纪念品商店',
+        100,
+        66);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E5%A4%A7%E5%AE%9A%E5%88%B6%E9%9B%A8%E4%BC%9E.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科大定制雨伞',
+        '南科大定制雨伞*1',
+        38,
+        '南科大纪念品商店',
+        100,
+        67);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E4%BA%BA%E4%B8%93%E5%B1%9E%E5%8F%A3%E7%BD%A9.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科人专属口罩',
+        '南科人专属口罩*5',
+        10,
+        '南科大纪念品商店',
+        100,
+        68);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E4%BA%BA%E4%B8%93%E5%B1%9E%E6%89%8B%E8%B4%A6%E6%9C%AC.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科人专属手账本',
+        '南科人专属手账本*1',
+        28,
+        '南科大纪念品商店',
+        100,
+        69);
+
+insert into Image(image_url)
+values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/souvenir/%E5%8D%97%E7%A7%91%E4%BA%BA%E4%B8%93%E5%B1%9E%E9%9B%A8%E4%BC%9E.jpg');
+
+insert into product (subject, body, amount, shop, inventory, image_ID)
+values ('南科人专属雨伞',
+        '南科人专属雨伞*1',
+        38,
+        '南科大纪念品商店',
+        100,
+        70);
+
+-- Comment 1
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-01 08:30:45', '喜欢在第三教学楼学习，环境优雅，设施齐全。', 1, 4.00, 1);
+
+-- Comment 2
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-02 12:15:20', '在一丹图书馆度过愉快的阅读时光，氛围很好。', 2, 5.00, 1);
+
+-- Comment 3
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (3, '2023-12-03 19:45:10', '琳恩图书馆的设计很有特色，是一个安静学习的好地方。', 3, 4.00, 1);
+
+-- Comment 4
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (4, '2023-12-04 14:55:30', '理学院的实验设备先进，老师也很热情，学习体验很好。', 4, 5.00, 1);
+
+-- Comment 5
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (5, '2023-12-05 10:10:55', '湖畔食堂的菜品口味独特，价格适中，是我常去的用餐地点。', 5, 3.00, 1);
+
+-- Comment 6
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-06 15:50:25', '湖畔宿舍环境舒适，生活设施完备，住得很满意。', 6, 4.00, 1);
+
+-- Comment 7
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-01 21:20:40', '第三教学楼设施先进，尤其是实验室，让学习变得更有趣。', 1, 5.00, 1);
+
+-- Comment 8
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (3, '2023-12-02 09:05:15', '一丹图书馆的藏书丰富，对于我的专业研究提供了很多参考资料。', 2, 4.00, 1);
+
+-- Comment 9
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (4, '2023-12-03 16:30:22', '琳恩图书馆的窗外景色美丽，常常在这里找到灵感。', 3, 5.00, 1);
+
+-- Comment 10
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (5, '2023-12-04 11:45:50', '理学院的学术氛围浓厚，对于科研工作提供了良好的平台。', 4, 4.00, 1);
+
+-- Comment 11
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-05 18:10:35', '湖畔食堂的服务态度很好，让用餐变得更加愉快。', 5, 5.00, 1);
+
+-- Comment 12
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-06 12:25:05', '湖畔宿舍的周围环境宜人，生活很方便，是一个理想的居住地。', 6, 4.00, 1);
+
+-- Comment 13
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (3, '2023-12-01 14:55:30', '第三教学楼的自习室设备齐全，适合集中学习。', 1, 4.00, 1);
+
+-- Comment 14
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (4, '2023-12-02 10:30:15', '一丹图书馆的座位舒适，是我学术写作的首选地点。', 2, 5.00, 1);
+
+-- Comment 15
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (5, '2023-12-03 17:45:22', '琳恩图书馆的夜景很美，夜间学习的氛围很棒。', 3, 4.00, 1);
+
+-- Comment 16
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-04 13:10:50', '理学院的课程设置合理，培养了我很多专业技能。', 4, 5.00, 1);
+
+-- Comment 17
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-05 08:25:35', '湖畔食堂的菜品新颖，经常有新口味尝试，让人惊喜。', 5, 4.00, 1);
+
+-- Comment 18
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (3, '2023-12-06 16:40:05', '湖畔宿舍的宿管服务态度好，让居住更加安心。', 6, 5.00, 1);
+
+-- Negative Comment 1
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-01 11:20:45', '第三教学楼的座椅不舒服，影响了我的学习体验。', 1, 2.00, 1);
+
+-- Negative Comment 2
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-02 14:15:20', '一丹图书馆的空调效果很差，夏天里很难集中注意力。', 2, 3.00, 1);
+
+-- Negative Comment 3
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (3, '2023-12-03 21:45:10', '琳恩图书馆的电脑总是出故障，导致我无法顺利完成作业。', 3, 2.00, 1);
+
+-- Negative Comment 4
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (4, '2023-12-04 17:55:30', '理学院的实验室设备陈旧，需要进行更新和维护。', 4, 3.00, 1);
+
+-- Negative Comment 5
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (5, '2023-12-05 13:10:55', '湖畔食堂的卫生状况堪忧，经常发现不干净的餐具。', 5, 2.00, 1);
+
+-- Negative Comment 6
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-06 19:50:25', '湖畔宿舍的楼道噪音太大，严重影响了我的休息时间。', 6, 3.00, 1);
+
+-- Mixed Comment 1
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-01 08:30:45', '第三教学楼的设施一般，但教学氛围还算不错。', 1, 3.00, 1);
+
+-- Mixed Comment 2
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (3, '2023-12-02 12:15:20', '一丹图书馆的空间设计独特，但馆内设备有待提升。', 2, 4.00, 1);
+
+-- Mixed Comment 3
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (4, '2023-12-03 19:45:10', '琳恩图书馆的外观很漂亮，但座位相对较拥挤。', 3, 3.00, 1);
+
+-- Mixed Comment 4
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (5, '2023-12-04 14:55:30', '理学院的课程设置很有深度，但教学设施需要改进。', 4, 4.00, 1);
+
+-- Mixed Comment 5
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (1, '2023-12-05 10:10:55', '湖畔食堂的菜品种类不够多，但价格相对亲民。', 5, 3.00, 1);
+
+-- Mixed Comment 6
+insert into comment(user_ID, time, text, building_ID, score, admin_ID)
+values (2, '2023-12-06 15:50:25', '湖畔宿舍的环境宜人，但有时候设施运行不够稳定。', 6, 4.00, 1);
+
+
+
