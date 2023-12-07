@@ -25,4 +25,5 @@ public class OrderInfo {
     private Date time;
     private String cdkey;
     private Integer status;
+    private String buyerId;
 }

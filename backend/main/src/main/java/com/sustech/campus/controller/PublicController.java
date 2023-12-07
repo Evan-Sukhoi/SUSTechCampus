@@ -1,6 +1,7 @@
 package com.sustech.campus.controller;
 
 import com.alipay.api.AlipayApiException;
+import com.sun.mail.smtp.SMTPSendFailedException;
 import com.sustech.campus.database.po.Busline;
 import com.sustech.campus.database.po.Comment;
 import com.sustech.campus.model.param.LoginParam;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,9 +94,9 @@ public class PublicController {
                                                @Email @NotNull @RequestParam String email) {
         try {
             publicService.sendAuthCode(email);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
-        } catch (ApiException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok().body("验证码已发送");
+        } catch (Exception e) {
+            return ResponseEntity.accepted().body(e.getMessage());
         }
     }
 
@@ -102,8 +105,10 @@ public class PublicController {
     public ResponseEntity<Object> login(@RequestBody @Validated LoginParam loginParam) {
         try{
             return new ResponseEntity<>(publicService.login(loginParam.getUsername(), loginParam.getPassword()), HttpStatus.OK);
-        }catch (ApiException e){
-            return ResponseEntity.accepted().body(e.getMessage());
+        }catch (Exception e){
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.accepted().body(response);
         }
     }
 
@@ -151,11 +156,9 @@ public class PublicController {
                     file);
             System.out.println("ok");
             return new ResponseEntity<>("Success", HttpStatus.OK);
-        } catch (ApiException e) {
-            System.out.println(e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IOException e) {
-            return new ResponseEntity<>("图片保存失败，请稍后再试", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -171,4 +174,16 @@ public class PublicController {
 //            return ResponseEntity.accepted().body(e.getMessage());
 //        }
 //    }
+
+    @ApiOperation("获取公钥")
+    @RequestMapping("/get-key")
+    public ResponseEntity<Object> getKey() {
+        try {
+            Map<String, String> response = new HashMap<>();
+            response.put("publicKey", publicService.getKey());
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            return ResponseEntity.accepted().body(e.getMessage());
+        }
+    }
 }

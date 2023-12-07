@@ -31,5 +31,5 @@ public class RegisterParam {
 
     @ApiModelProperty(value = "验证码",required = true, example = "123456")
     @Size(min=6,max=6,message="6位")
-    Integer authCode;
+    String authCode;
 }

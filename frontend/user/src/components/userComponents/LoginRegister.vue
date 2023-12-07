@@ -94,6 +94,10 @@
 </template>
 <script>
 import FormData from 'form-data'
+import JSEncrypt from 'jsencrypt';
+
+const encrypt = new JSEncrypt();
+encrypt.setPublicKey('你的公钥');
 export default {
   name:'LoginRegister',
   data(){
@@ -118,6 +122,15 @@ export default {
     }
   },
   methods:{
+    getPublicKey() {
+      this.$http.get('http://localhost:8081/public/get-key').then(res => {
+        let publicKey = res.data.publicKey;
+        console.log("publicKey: ", publicKey);
+        encrypt.setPublicKey(publicKey);
+      }).catch(err => {
+        console.error('Failed to fetch public key:', err);
+      });
+    },
     sendCode(){
       if (this.email === ''){
         this.$vs.notification({
@@ -163,10 +176,11 @@ export default {
     login(){
       /*if request is success*/
       /*this.photo need to be correct*/
-      var data = {
+      const data = {
         username: this.username,
-        password: this.password,
-      }
+        password: encrypt.encrypt(this.password)
+      };
+      console.log("Encrypted password: ", data.password);
       this.$http.post('/public/login', data).then(resp =>{
         console.log(resp)
         if (resp.status == 200){
@@ -317,11 +331,12 @@ export default {
       formData.append('file', this.imgFile);
       var data = {
         username:this.username,
-        password:this.password,
+        password:encrypt.encrypt(this.password),
         email:this.email,
         phoneNumber:this.phoneNumber,
         authCode:this.code
       }
+      console.log("Encrypted password: ", data.password)
       formData.append('registerParam', new Blob([JSON.stringify(data)], {type: "application/json"}))
       console.log(formData)
       this.$http.post('/public/register', formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(resp => {
@@ -367,6 +382,8 @@ export default {
     this.userID = localStorage.getItem('userID') || ''
     this.photo = localStorage.getItem('photo') || ''
     this.isLogin = localStorage.getItem('isLogin') || ''
+    //获取公钥
+    this.getPublicKey();
   }
 }
 </script>

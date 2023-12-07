@@ -50,4 +50,6 @@ public class PayAsyncVo {
     private String sign_type;
     /** 商家的id */
     private String seller_id;
+
+    private String CDKEY;
 }

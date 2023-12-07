@@ -45,6 +45,7 @@ public class OrderService {
                             .eq(OrderInfo::getOrderSn, outTradeNo)
             );
             order.setStatus(1);
+            order.setBuyerId(vo.getBuyer_id());
         }
         return "success";
     }

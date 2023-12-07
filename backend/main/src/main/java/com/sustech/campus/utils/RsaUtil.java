@@ -13,11 +13,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * @Description: RSA加解密
- * @BelongsProject: fckj-restaurant
  * @BelongsPackage: com.fckj.fckjrestaurant.util.RSA
- * @Author: ChenYongJia
- * @CreateTime: 2021-06-04 11:46
- * @Email: chen87647213@163.com
  * @Version: 1.0
  */
 @Slf4j
@@ -40,9 +36,6 @@ public class RsaUtil {
      * 获取密钥对
      *
      * @return java.security.KeyPair
-     * @date 2021/6/7 15:32
-     * @author ChenYongJia
-     * @version 1.0
      */
     public static KeyPair getKeyPair() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance(ALGORITHM_NAME);
@@ -55,8 +48,6 @@ public class RsaUtil {
      *
      * @param privateKey 私钥字符串
      * @return java.security.PrivateKey
-     * @date 2021/6/7 15:32
-     * @author ChenYongJia
      * @version 1.0
      */
     public static PrivateKey getPrivateKey(String privateKey) throws Exception {
@@ -72,8 +63,6 @@ public class RsaUtil {
      * @param publicKey 公钥字符串
      * @param publicKey
      * @return java.security.PublicKey
-     * @date 2021/6/7 15:32
-     * @author ChenYongJia
      * @version 1.0
      */
     public static PublicKey getPublicKey(String publicKey) throws Exception {
@@ -89,8 +78,6 @@ public class RsaUtil {
      * @param data      待加密数据
      * @param publicKey 公钥
      * @return java.lang.String
-     * @date 2021/6/7 15:32
-     * @author ChenYongJia
      * @version 1.0
      */
     public static String encrypt(String data, PublicKey publicKey) throws Exception {
@@ -125,8 +112,6 @@ public class RsaUtil {
      * @param data       待解密数据
      * @param privateKey 私钥
      * @return java.lang.String
-     * @date 2021/6/7 15:33
-     * @author ChenYongJia
      * @version 1.0
      */
     public static String decrypt(String data, PrivateKey privateKey) throws Exception {
@@ -161,8 +146,6 @@ public class RsaUtil {
      * @param data       待签名数据
      * @param privateKey 私钥
      * @return java.lang.String
-     * @date 2021/6/7 15:33
-     * @author ChenYongJia
      * @version 1.0
      */
     public static String sign(String data, PrivateKey privateKey) throws Exception {
@@ -183,8 +166,6 @@ public class RsaUtil {
      * @param publicKey 公钥
      * @param sign      签名
      * @return boolean
-     * @date 2021/6/7 15:33
-     * @author ChenYongJia
      * @version 1.0
      */
     public static boolean verify(String srcData, PublicKey publicKey, String sign) throws Exception {

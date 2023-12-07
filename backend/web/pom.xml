@@ -10,9 +10,10 @@
 	<artifactId>SUSTechCampus-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>web</name>
+	<packaging>jar</packaging>
 	<description>web</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>20</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

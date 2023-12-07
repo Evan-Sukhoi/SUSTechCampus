@@ -189,7 +189,7 @@ CREATE TABLE illegal_operation_log
     operation VARCHAR(255),
     operation_time TIMESTAMP,
     ip_address VARCHAR(255),
-    port       VARCHAR(255)
+    port       INT
 );
 
 DROP TABLE IF EXISTS `product`;
@@ -216,7 +216,8 @@ CREATE TABLE  `Order_Info`
     amount FLOAT NOT NULL,
     time TIMESTAMP NOT NULL,
     cdkey VARCHAR(8) NOT NULL,
-    status INT NOT NULL
+    status INT NOT NULL,
+    buyer_id VARCHAR(16)
 );
 
 insert into User(phone, name, email, password, image_ID, is_blocked)
