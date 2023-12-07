@@ -54,7 +54,7 @@ public class PayWebController {
     @GetMapping(value = "/payOrder", produces = "text/html")
     @CrossOrigin(origins = "*")
     @ResponseBody
-    public ResponseEntity<Object> payOrder(@ApiParam("商品ID") @RequestParam Integer productId) {
+    public Object payOrder(@ApiParam("商品ID") @RequestParam Integer productId) {
         try {
             Product product = productDao.selectById(productId);
             asserts(product != null, "商品不存在");
@@ -81,7 +81,7 @@ public class PayWebController {
             Map<String, String> map = new HashMap<>();
             map.put("url", aliPayTemplate.pay(payVo));
             System.out.println(map);
-            return ResponseEntity.ok().body(aliPayTemplate.pay(payVo));
+            return aliPayTemplate.pay(payVo);
         } catch (AlipayApiException e) {
             return ResponseEntity.accepted().body(e.getMessage());
         }
