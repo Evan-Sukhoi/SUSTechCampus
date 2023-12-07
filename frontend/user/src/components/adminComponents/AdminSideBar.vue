@@ -67,18 +67,18 @@
           </vs-sidebar-item>
         </vs-sidebar-group>
 
-        <vs-sidebar-item id="informationSending" @click.native="handleLink('informationSending')">
+        <vs-sidebar-item id="loginlog" @click.native="handleLink('informationSending')">
           <template #icon>
             <i class='bx bx-grid-alt'></i>
           </template>
-          InformationSending
+          Login Log
         </vs-sidebar-item>
 
-        <vs-sidebar-item id="log" @click.native="handleLink('log')">
+        <vs-sidebar-item id="illegallog" @click.native="handleLink('log')">
           <template #icon>
-            <i class='bx bx-grid-alt'></i>
+            <i class='bx bxl-twitter'></i>
           </template>
-          Log
+          Illegal Log
         </vs-sidebar-item>
 
         <vs-sidebar-item id="logout" @click.native="handleLink('login')">

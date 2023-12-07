@@ -1,8 +1,6 @@
 <template>
   <div>
-    <p>
-      this is visualization-dashboard
-    </p>
+
   </div>
 </template>
 
