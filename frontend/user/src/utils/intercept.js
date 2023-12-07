@@ -19,6 +19,9 @@ instance.interceptors.request.use(
         // console.log('请求头加入token')
         config.headers.token = localStorage.getItem('token')
       }
+      if (localStorage.getItem('admin_token')){
+        config.headers.admin_token = localStorage.getItem('admin_token')
+      }
 
       return config
 

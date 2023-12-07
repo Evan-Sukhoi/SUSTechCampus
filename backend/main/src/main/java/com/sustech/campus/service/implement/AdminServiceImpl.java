@@ -71,6 +71,9 @@ public class AdminServiceImpl implements AdminService {
     private BlacklistDao blacklistDao;
 
     @Resource
+    private LoginLogDao loginLogDao;
+
+    @Resource
     private IllegalOperationLogDao illegalOperationLogDao;
     @Resource
     private PublicService publicService;
@@ -478,6 +481,23 @@ public class AdminServiceImpl implements AdminService {
                     .operation(illegalOperationLog.getOperation())
                     .ipAddress(illegalOperationLog.getIpAddress())
                     .port(illegalOperationLog.getPort())
+                    .blocked(user.getIsBlocked())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LoginLogInfo> getAllLoginLog() {
+        List<LoginLog> loginLogs = loginLogDao.selectList(null);
+        return loginLogs.stream().map(loginLog -> {
+            User user = userDao.selectById(loginLog.getUserId());
+            return LoginLogInfo.builder()
+                    .userId(user.getUserId())
+                    .username(user.getName())
+                    .email(user.getEmail())
+                    .ipAddress(loginLog.getIpAddress())
+                    .loginTime(loginLog.getLoginTime())
+                    .port(loginLog.getPort())
                     .blocked(user.getIsBlocked())
                     .build();
         }).collect(Collectors.toList());
