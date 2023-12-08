@@ -1,6 +1,6 @@
 <template>
   <div>
-  <el-dialog :title="title" :visible.sync="$store.state.isShow" :before-close="cancel" >
+  <el-dialog :title="title" :visible.sync="$store.state.isShow" :before-close="cancel" :width="width">
     <el-form :model="$store.state">
       <el-form-item :label="$t('lang.roomID')" :label-width="formLabelWidth">
         <el-input v-model="$store.state.roomNumber" autocomplete="off" placeholder="Room + number" disabled></el-input>
@@ -73,12 +73,23 @@ export default {
   name: "ReservationForm",
   data(){
     return{
+      width:'50%',
       title: this.$t('lang.reservation'),
       latent_index:-1,
       formLabelWidth: '120px'
     }
   },
+  mounted() {
+    window.addEventListener("resize", this.handleResize)
+    this.handleResize()
+  },
   methods:{
+    handleResize(){
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      if (isSmallScreen){
+        this.width='100%'
+      }
+    },
     restore() {
       this.$store.state.department = ''
       this.$store.state.start_time = ''

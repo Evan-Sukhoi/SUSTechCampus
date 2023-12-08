@@ -1,12 +1,15 @@
 <template>
   <div id="out_container">
     <div class="map">
+      <vs-button v-if="!show" style="position: absolute;z-index: 2" @click="openDialog=true">
+        {{$t('lang.operation')}}
+      </vs-button>
       <div id="container"></div>
       <div id="walkingPanel" v-if="showWalkingPanel"></div>
       <div id="drivingPanel" v-if="showDrivingPanel"></div>
     </div>
 
-    <div class="map_content">
+    <div class="map_content" v-if="show">
 
       <div class="navi">
         <el-button type="primary" @click="startWalkingNavigation">{{ isWalkingNavigating ? "取消步行导航" : "进入步行导航" }}</el-button>
@@ -51,6 +54,44 @@
       </div>
 
     </div>
+    <el-dialog :visible.sync="openDialog" width="100%">
+      <div class="navi">
+        <el-button type="primary" @click="startWalkingNavigation">{{ isWalkingNavigating ? "取消步行导航" : "进入步行导航" }}</el-button>
+        <el-button type="primary" @click="startDrivingNavigation">{{ isDrivingNavigating ? "取消车载导航" : "进入车载导航" }}</el-button>
+        <el-button @click="chooseEnd" :disabled="!this.isDrivingNavigating && !this.isWalkingNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</el-button>
+
+      </div>
+
+      <div>
+        <el-button type="info" @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</el-button>
+        <el-button type="info" @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</el-button>
+        <el-button type="info" @click="seeBusline3">{{ seebusline3 ? "关闭公交线路3" : "查看公交线路3" }}</el-button>
+      </div>
+
+      <div class="busline">
+        <div class="select">
+          <el-select v-model="startBuildingId" filterable placeholder="请选择起始建筑" @change="getStartStation">
+            <el-option
+                v-for="item in buildings"
+                :key="item.buildingId"
+                :label="item.name"
+                :value="item.buildingId">
+            </el-option>
+          </el-select>
+
+          <el-select v-model="endBuildingId" filterable placeholder="请选择目标建筑" @change="getEndStation">
+            <el-option
+                v-for="item in buildings"
+                :key="item.buildingId"
+                :label="item.name"
+                :value="item.buildingId">
+            </el-option>
+          </el-select>
+        </div>
+        <el-button type="success" @click="seeBusline">{{ this.seebusline ? "关闭公交线路" : "查看公交线路" }}</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -68,6 +109,8 @@ export default {
   name: "SUSMap",
   data() {
     return {
+      openDialog:false,
+      show:true,
       map: '',
       AMap: '',
       buildings: [],
@@ -117,6 +160,8 @@ export default {
 
   },
   mounted() {
+    window.addEventListener("resize", this.handleResize)
+    this.handleResize()
     this.fetchAllBuslines();
     this.fetchBuildingData();
 
@@ -149,6 +194,10 @@ export default {
     }
   },
   methods: {
+    handleResize(){
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      this.show = !isSmallScreen
+    },
     initAMap() {
       AMapLoader.load({
         key: "2a44874f8490449d6ecc495f738c674b", // 申请好的Web端开发者Key，首次调用 load 时必填
@@ -685,6 +734,7 @@ export default {
           this.map.remove(marker)
         }
       }
+      this.openDialog = false
     },
 
     seeBusline2() {
@@ -700,6 +750,7 @@ export default {
           this.map.remove(marker)
         }
       }
+      this.openDialog = false
     },
 
     seeBusline3() {
@@ -715,6 +766,7 @@ export default {
           this.map.remove(marker)
         }
       }
+      this.openDialog = false
     },
     startWalkingNavigation() {
       this.getCurrentPosition()
@@ -730,6 +782,7 @@ export default {
         this.showWalkingPanel = false;
         this.walking.clear();
       }
+      this.openDialog = false
     },
 
     startDrivingNavigation() {
@@ -746,6 +799,7 @@ export default {
         this.showDrivingPanel = false;
         this.driving.clear();
       }
+      this.openDialog = false
     },
 
     chooseEnd() {
@@ -867,5 +921,19 @@ export default {
 
 .select {
   display: block;
+}
+@media screen and (max-width: 768px){
+  .map_content{
+    width: 50%;
+    left: 0px;
+  }
+  #out_container{
+    width: 100%;
+  }
+  .navi {
+    display: block;
+    justify-content: center;
+  }
+
 }
 </style>

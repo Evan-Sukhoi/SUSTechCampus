@@ -250,7 +250,7 @@ export default {
   }
 
   .box {
-    background-color: #99a9bf;
+    background-color: rgba(153, 169, 191, 0.7);
     border-radius: 20px;
     margin: 10%;
     height: 934px;

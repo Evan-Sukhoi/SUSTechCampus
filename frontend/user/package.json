@@ -12,6 +12,7 @@
     "axios": "^1.5.1",
     "boxicons": "^2.1.4",
     "core-js": "^3.8.3",
+    "echarts": "^5.4.3",
     "element-ui": "^2.15.14",
     "jsencrypt": "^3.3.2",
     "qrcode": "^1.5.3",
