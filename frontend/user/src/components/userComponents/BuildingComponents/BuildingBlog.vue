@@ -15,7 +15,7 @@
             </div>
 
             {{comment.score}}
-            <el-button @click="toggleLike(comment.commentId)"  icon="el-icon-star-off">
+            <el-button @click="toggleLike(comment.commentId, comment.score)"  icon="el-icon-star-off">
             </el-button>
           </div>
         </div>
@@ -121,11 +121,14 @@ export default {
 
     },
 
-    toggleLike(id) {
+    toggleLike(id, score) {
       const userId = localStorage.getItem("userID")
       this.$http.get(`/user/comment/like?userId=${userId}&commentId=${id}`).then(res=>{
-        console.log(res)
+        console.log(res.data)
+        this.fetchCommentData(this.buildingId);
+
       })
+
     },
 
     handleFileChange(file) {
