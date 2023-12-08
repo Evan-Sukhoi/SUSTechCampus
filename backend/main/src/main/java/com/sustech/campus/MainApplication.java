@@ -29,6 +29,7 @@ public class MainApplication extends SpringBootServletInitializer {
 //		ParserConfig.getGlobalInstance().addAccept("org.springframework.security.core.authority.SimpleGrantedAuthority");
 		ParserConfig.getGlobalInstance().addAccept("com.sustech.campus.database.po.User");
 		ParserConfig.getGlobalInstance().addAccept("com.sustech.campus.database.po.Admin");
+		ParserConfig.getGlobalInstance().addAccept("java.security.PrivateKey");
 		ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
 	}
 

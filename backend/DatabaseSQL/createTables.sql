@@ -1801,7 +1801,7 @@ values ('羽毛球场',
         30,
         "润扬体育馆的羽毛球场是南科大校园内最热门的羽毛球场");
 
-insert into Room(building_ID, number, room_type_ID
+insert into Room(building_ID, number, room_type_ID)
 values (18,
         101,
         69);

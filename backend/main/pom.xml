@@ -155,6 +155,7 @@
 					<include>**/*.xml</include>
 					<include>**/*.yml</include>
 					<include>**/*.yaml</include>
+					<include>**/*.json</include>
 					<include>static/**</include>
 				</includes>
 				<filtering>false</filtering>
