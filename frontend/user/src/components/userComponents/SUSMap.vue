@@ -18,6 +18,7 @@
       <div>
         <el-button type="info" @click="seeBusline1">{{ seebusline1 ? "关闭公交线路1" : "查看公交线路1" }}</el-button>
         <el-button type="info" @click="seeBusline2">{{ seebusline2 ? "关闭公交线路2" : "查看公交线路2" }}</el-button>
+        <el-button type="info" @click="seeBusline3">{{ seebusline3 ? "关闭公交线路3" : "查看公交线路3" }}</el-button>
       </div>
 
       <div class="busline">
@@ -93,13 +94,18 @@ export default {
       seebusline1: false,
       busline2: '',
       seebusline2: false,
+      busline3: '',
+      seebusline3: false,
       markers1: [],
       markers2: [],
+      markers3: [],
       path1: [],
       path2: [],
+      path3: [],
       seebusline: false,
       subLine1: '',
       subLine2: '',
+      subline3: '',
       buslines: [],
       geolocation: '',
       location: [],
@@ -113,7 +119,7 @@ export default {
   mounted() {
     this.fetchAllBuslines();
     this.fetchBuildingData();
-    this.initAMap();
+
     setInterval(() => {
       if ((this.isWalkingNavigating || this.isDrivingNavigating) && !this.choose) {
         this.getCurrentPosition();
@@ -309,8 +315,10 @@ export default {
                 for (const item of busline.list[i].point) {
                   if (busline.name === 'busline1') {
                     this.path1.push(item)
-                  } else {
+                  } else if (busline.name === 'busline2'){
                     this.path2.push(item)
+                  } else {
+                    this.path3.push(item)
                   }
                 }
 
@@ -329,8 +337,10 @@ export default {
                 });
                 if (busline.name === "busline1") {
                   this.markers1.push(marker);
-                } else {
+                } else if (busline.name === "busline2") {
                   this.markers2.push(marker);
+                } else {
+                  this.markers3.push(marker);
                 }
 
               }
@@ -338,8 +348,10 @@ export default {
               for (const item of busline.list[busline.list.length - 1].point) {
                 if (busline.name === 'busline1') {
                   this.path1.push(item)
-                } else {
+                } else if (busline.name === "busline2"){
                   this.path2.push(item)
+                } else {
+                  this.path3.push(item)
                 }
               }
 
@@ -361,13 +373,30 @@ export default {
                   lineCap: 'round',
                   zIndex: 50,
                 })
-              } else {
+              } else if (busline.name === "busline2"){
                 this.busline2 = new this.AMap.Polyline({
                   path: this.path2,
                   isOutline: true,
                   outlineColor: '#ffeeff',
                   borderWeight: 3,
                   strokeColor: "#4eff33",
+                  strokeOpacity: 1,
+                  strokeWeight: 6,
+                  // 折线样式还支持 'dashed'
+                  strokeStyle: "solid",
+                  // strokeStyle是dashed时有效
+                  strokeDasharray: [10, 5],
+                  lineJoin: 'round',
+                  lineCap: 'round',
+                  zIndex: 50,
+                })
+              } else {
+                this.busline3 = new this.AMap.Polyline({
+                  path: this.path3,
+                  isOutline: true,
+                  outlineColor: '#ffeeff',
+                  borderWeight: 3,
+                  strokeColor: "#ffe433",
                   strokeOpacity: 1,
                   strokeWeight: 6,
                   // 折线样式还支持 'dashed'
@@ -395,8 +424,10 @@ export default {
               });
               if (busline.name === "busline1") {
                 this.markers1.push(marker);
-              } else {
+              } else if (busline.name === "busline2"){
                 this.markers2.push(marker);
+              } else {
+                this.markers3.push(marker);
               }
               text = busline.list[busline.list.length - 1].two[1];
               position = busline.list[busline.list.length - 1].point[busline.list[busline.list.length - 1].point.length-1];
@@ -413,8 +444,10 @@ export default {
               });
               if (busline.name === "busline1") {
                 this.markers1.push(marker);
-              } else {
+              } else if (busline.name === "busline2"){
                 this.markers2.push(marker);
+              } else {
+                this.markers3.push(marker);
               }
 
             }
@@ -444,6 +477,7 @@ export default {
       this.$http.get("/public/busline/all")
           .then(response => {
             this.buslines = response.data;
+            this.initAMap();
             // console.log(this.buslines)
           })
           .catch(function (error) {
@@ -511,6 +545,14 @@ export default {
             endPosition = marker.getPosition();
           }
         }
+        for (const marker of this.markers3) {
+          if (marker.getExtData().flag === this.startStation) {
+            startPosition = marker.getPosition();
+          }
+          if (marker.getExtData().flag === this.endStation) {
+            endPosition = marker.getPosition();
+          }
+        }
 
         let startIndex1 = ''
         let endIndex1 = ''
@@ -557,7 +599,7 @@ export default {
           }
         }
         if (startIndex2 !== '' && endIndex2 !== '' && startIndex2 !== endIndex2) {
-          const subPath2 = this.path2.slice(Math.min(startIndex1, endIndex1), Math.max(startIndex1, endIndex1) + 1);
+          const subPath2 = this.path2.slice(Math.min(startIndex2, endIndex2), Math.max(startIndex2, endIndex2) + 1);
           this.subLine2 = new this.AMap.Polyline({
             path: subPath2,
             isOutline: true,
@@ -579,6 +621,40 @@ export default {
             this.seeBusline2()
           }
         }
+
+        let startIndex3 = ''
+        let endIndex3 = ''
+        for (let i = 0; i < this.path3.length; i++) {
+          if (this.path3[i].lng === startPosition.lng && this.path3[i].lat === startPosition.lat) {
+            startIndex3 = i
+          }
+          if (this.path3[i].lng === endPosition.lng && this.path3[i].lat === endPosition.lat) {
+            endIndex3 = i
+          }
+        }
+        if (startIndex3 !== '' && endIndex3 !== '' && startIndex3 !== endIndex3) {
+          const subPath3 = this.path3.slice(Math.min(startIndex3, endIndex3), Math.max(startIndex3, endIndex3) + 1);
+          this.subLine3 = new this.AMap.Polyline({
+            path: subPath3,
+            isOutline: true,
+            outlineColor: '#ffeeff',
+            borderWeight: 3,
+            strokeColor: "#ffc533",
+            strokeOpacity: 1,
+            strokeWeight: 6,
+            // 折线样式还支持 'dashed'
+            strokeStyle: "solid",
+            // strokeStyle是dashed时有效
+            strokeDasharray: [10, 5],
+            lineJoin: 'round',
+            lineCap: 'round',
+            zIndex: 50,
+          })
+          this.map.add(this.subLine3)
+          if (!this.seebusline3) {
+            this.seeBusline3()
+          }
+        }
       } else {
         if (this.seebusline1) {
           this.seeBusline1()
@@ -586,9 +662,13 @@ export default {
         if (this.seebusline2) {
           this.seeBusline2()
         }
+        if (this.seebusline3) {
+          this.seeBusline3()
+        }
 
         this.map.remove(this.subLine1)
         this.map.remove(this.subLine2)
+        this.map.remove(this.subLine3)
       }
     },
 
@@ -617,6 +697,21 @@ export default {
       } else {
         this.map.remove(this.busline2)
         for (const marker of this.markers2) {
+          this.map.remove(marker)
+        }
+      }
+    },
+
+    seeBusline3() {
+      this.seebusline3 = !this.seebusline3;
+      if (this.seebusline3) {
+        this.map.add(this.busline3)
+        for (const marker of this.markers3) {
+          this.map.add(marker)
+        }
+      } else {
+        this.map.remove(this.busline3)
+        for (const marker of this.markers3) {
           this.map.remove(marker)
         }
       }

@@ -24,9 +24,12 @@
       </div>
 
       <div class="content">
+        开放时间: {{this.building.openTime}}
+        <br>
+        关闭时间: {{this.building.closeTime}}
+        <br>
         {{this.building.introduction}}
-        {{this.building.openTime}}
-        {{this.building.closeTime}}
+
       </div>
     </div>
   </div>

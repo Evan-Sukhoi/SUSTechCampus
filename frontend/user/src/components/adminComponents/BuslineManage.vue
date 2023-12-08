@@ -8,11 +8,11 @@
         <template #header>
           <div class="con-form">
             <vs-input v-model="search" border placeholder="Search" />
-<!--            <vs-button style="float: right" @click="addBusLine">-->
-<!--              <i class="bx bx-image-add">-->
-<!--                add busLine-->
-<!--              </i>-->
-<!--            </vs-button>-->
+            <vs-button style="float: right" @click="addBusLine">
+              <i class="bx bx-image-add">
+                add busLine
+              </i>
+            </vs-button>
           </div>
         </template>
         <template #thead>
@@ -176,19 +176,19 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
-      // fs.writeFile('../../assets/location/busline.json', busLine, function (err) {
-      //   if (err) {
-      //     console.error(err)
-      //     return
-      //   }
-      //   console.log('ok');
-      //   this.active = false
-      //   this.editForm =  {
-      //     name:'',
-      //     list:[]
-      //   }
-      //   this.editID = ''
-      // });
+      fs.writeFile('../../assets/location/busline.json', busLine, function (err) {
+        if (err) {
+          console.error(err)
+          return
+        }
+        console.log('ok');
+        this.active = false
+        this.editForm =  {
+          name:'',
+          list:[]
+        }
+        this.editID = ''
+      });
     },
     deleteStation(list, index){
       list.splice(index, 1)
