@@ -48,7 +48,7 @@ public class AdminController {
                     adminLoginParam.getPassword()
             ));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.accepted().body(e.getMessage());
         }
     }
 

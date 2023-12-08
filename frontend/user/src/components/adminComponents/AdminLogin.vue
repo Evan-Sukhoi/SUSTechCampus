@@ -59,11 +59,17 @@ export default {
         password:encrypt.encrypt(this.password),
       }
       this.$http.post('/admin/login', data).then(resp=>{
-        console.log(resp)
         if (resp.status===200){
           localStorage.setItem('admin', 'True')
           localStorage.setItem('admin_token', resp.data.token)
           this.$router.push('/admin/appointmentManage')
+        }else {
+          this.$vs.notification({
+            color:'danger',
+            position: 'top-center',
+            title: resp.data,
+            text: '',
+          })
         }
       })
 

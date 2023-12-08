@@ -9,7 +9,6 @@ DROP TABLE IF EXISTS `buildings_image`;
 DROP TABLE IF EXISTS `bus_line`;
 DROP TABLE IF EXISTS `comment`;
 DROP TABLE IF EXISTS `comment_id_image`;
-DROP TABLE IF EXISTS `comment_like`;
 DROP TABLE IF EXISTS `illegal_operation_log`;
 DROP TABLE IF EXISTS `image`;
 DROP TABLE IF EXISTS `login_log`;
@@ -20,6 +19,7 @@ DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `room_type`;
 DROP TABLE IF EXISTS `room_type_image`;
 DROP TABLE IF EXISTS `user`;
+
 
 
 -- 用户表

@@ -145,4 +145,10 @@ export default {
   position: relative;
   width: 100%;
 }
+@media screen and (max-width: 768px){
+  .content{
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+}
 </style>

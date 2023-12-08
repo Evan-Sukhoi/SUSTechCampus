@@ -223,6 +223,7 @@ export default {
   .post {
     width: 80%;
     margin: 10%;
+    height: 80%;
   }
   .info{
     width: 80%;
@@ -242,6 +243,7 @@ export default {
   .blog {
     display: block;
     align-content: center;
+    overflow-y: hidden;
   }
 }
 

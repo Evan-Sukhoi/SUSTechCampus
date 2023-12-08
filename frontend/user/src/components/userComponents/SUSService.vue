@@ -2,6 +2,7 @@
   <div class="back">
     <vs-table
         v-model="selected"
+        v-if="show"
     >
       <template #header>
         <div class="header-container">
@@ -85,7 +86,52 @@
         <vs-pagination v-model="page" :length="$vs.getLength($vs.getSearch(products, search), max)" />
       </template>
     </vs-table>
-
+    <el-table
+        v-else
+        :data="products"
+        border
+        style="width: 100%">
+      <el-table-column
+          prop="productId"
+          :label="$t('lang.orderID')"
+          width="100">
+      </el-table-column>
+      <el-table-column
+          prop="subject"
+          :label="$t('lang.commodity')"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="body"
+          :label="$t('lang.commodityDescription')"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="shop"
+          :label="$t('lang.shop')"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="amount"
+          :label="$t('lang.price')"
+          width="100">
+      </el-table-column>
+      <el-table-column
+          :label="$t('lang.image')"
+          width="150">
+        <template slot-scope="scope">
+          <img :src="scope.row.imageUrl" alt="" width="100px">
+        </template>
+      </el-table-column>
+      <el-table-column
+          fixed="right"
+          :label="$t('lang.buy')"
+          width="100">
+        <template slot-scope="scope">
+          <el-button @click="buyProductRow(scope.row)" type="text" size="small">{{ $t('lang.buy')}}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 <script>
@@ -93,6 +139,7 @@ import axios from "axios";
 
 export default {
   data:() => ({
+    show: true,
     editActive: false,
     edit: null,
     editProp: '',
@@ -106,11 +153,21 @@ export default {
     ]
   }),
   mounted() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
     this.fetchProducts()
   },
   methods:{
+    handleResize(){
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      this.show = !isSmallScreen;
+    },
     buyProduct(id) {
+      console.log(id)
       window.location.href = `http://localhost:8082/payOrder?productId=${id}`;
+    },
+    buyProductRow(row) {
+      window.location.href = `http://localhost:8082/payOrder?productId=${row.productId}`;
     },
     fetchProducts() {
       this.$http.get('public/product/all').then(res => {
@@ -132,5 +189,9 @@ export default {
 
   max-width: 100%;
 }
-
+@media screen and (max-width: 768px){
+  .back{
+    width: 100%;
+  }
+}
 </style>

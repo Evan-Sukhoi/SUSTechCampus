@@ -278,7 +278,7 @@ export default {
       return isJPG && isLt2M
     },
     register(){
-      if (this.username === '' || this.password === '' || this.passwordAgain === '' || this.email === '' || this.phoneNumber === ''){
+      if (this.username === '' || this.password === '' || this.passwordAgain === '' || this.email === '' || this.phoneNumber === '' || this.code === ''){
         this.$vs.notification({
           color:'danger',
           position: 'top-center',
