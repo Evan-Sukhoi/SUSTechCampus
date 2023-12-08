@@ -9,8 +9,8 @@
     <div class="map_content">
 
       <div class="navi">
-        <el-button type="primary" @click="startWalkingNavigation">{{ isWalkingNavigating ? "取消步行导航" : "进入步行导航" }}</el-button>
-        <el-button type="primary" @click="startDrivingNavigation">{{ isDrivingNavigating ? "取消车载导航" : "进入车载导航" }}</el-button>
+        <el-button type="primary" @click="startWalkingNavigation" :disabled="isDrivingNavigating">{{ isWalkingNavigating ? "取消步行导航" : "进入步行导航" }}</el-button>
+        <el-button type="primary" @click="startDrivingNavigation" :disabled="isWalkingNavigating">{{ isDrivingNavigating ? "取消车载导航" : "进入车载导航" }}</el-button>
         <el-button @click="chooseEnd" :disabled="!this.isDrivingNavigating && !this.isWalkingNavigating">{{ selectedEnd ? "确认终点" : "选择终点" }}</el-button>
 
       </div>
