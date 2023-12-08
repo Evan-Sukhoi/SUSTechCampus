@@ -166,7 +166,8 @@ public class AdminController {
             @ApiParam("关闭时间") @RequestParam @NotNull Time closeTime,
             @ApiParam("位置") @RequestParam @NotEmpty String location_name,
             @ApiParam("附近车站") @RequestParam @NotEmpty String nearest_station,
-            @ApiParam("视频链接") @RequestParam @NotEmpty String videoUrl
+            @ApiParam("视频链接") @RequestParam @NotEmpty String videoUrl,
+            @ApiParam("是否被预约") @RequestParam @NotEmpty Boolean isReservable
     ) {
         return ApiResponse.success(
                 adminService.updateBuilding(Building.builder()
@@ -178,6 +179,7 @@ public class AdminController {
                         .locationName(location_name)
                         .nearestStation(nearest_station)
                         .videoUrl(videoUrl)
+                        .isReservable(isReservable)
                         .build()));
     }
 
