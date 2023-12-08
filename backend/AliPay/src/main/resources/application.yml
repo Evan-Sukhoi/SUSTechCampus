@@ -6,7 +6,7 @@ pay:
         gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
         merchantPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCA1RkQs0lYKiRpAZE1/ZEZGuFj/S7j26qVgIvs4TGbddr8wPToI3rIw9X5+3fEHPfZ1vpseHz02Y655ZR1paRp1F5QqoObF+jujyXbhrpYwM/xJwYUesR8os5hd1CPV3q4clVQ6uuWjDHkPcqNUD1GhQ5PNYHXgvHe91TWat6shlW5HQ0CM9Bp2nsxKckQR4Jv4kgB4CkPkaKHnlXRqYwLHUqIdkwGt/qc/viXnCZ9sbPUdbYbxQjxzrQKtrkSnyrVRLo/LqClQvSluEqBzVHNRfLV3nibuYF8UZnl4KaPB/eqDs9eucguPu+YS7cUXpr+tCmbcF6o+O4hEZ+Wbqb5AgMBAAECggEAH0IU881cRUzsSqH7torQUrQH7be3UcexatamnJHC9IIy4NJ8WXqKRv3lA+M0mtugczVKy1iskMfcblQ6ohTPgHHrdEz64314obEPsWTN/8zAZzVdr0heNhNWWaWWYUELYIc1Fg35nSxkyokHhSPryhlscGF+IGkAAGYoKmIBpwAS3msFRqAs2ldQCCMYWFwK1axZH8LjlUyEpYqmzrJN7YfE48URQgUbOzoKUJGCHoUA87oI4cdPo7cZB/K8YWnQfhDaHIrIXvUOAjX2LGZOKSPky6JeLyo4YuYh4tca6/wy68A8vAd9AntSqerLzu7tl4/Lpj4uw8TEZyzL3/JkAQKBgQDgb3BMMOqjZt7h2FYUnb4mHzTiZQ6Z+upNhgdJYcuMVOCUH3iNIVtl8r7TtVgo46jfdr0nj4eSP5+bhw72+rVWVs3na8Ou6rUN4zNtCNzAL0yMqTXiHkLwXmEUH36P+t5jeXElD2c9hmHsgf6j5h58wZQzhaYDl6TZ4OUnk8QheQKBgQCS85Nq1c11a168BLA2q32jD7qBWbcV6XTszvvwc0MsxwBx5ceux2DX08h/xcGKXDXBiKzHOLIx+4F/Z/vbdskJYhdRWK0M+TUINefKhHF4LCpHUa9eY/Rw3hSCN6Tjq5n85xH+R/o377XnXBXjzckqaxVAapsejM3ON+ESz/bRgQKBgAykuoLQTqed5/h5I4BN0qR7JZOLdeMey4xKfKaZp8nkDjLKAxSQSIHZxv5OPQUwrhbIradI4q5Of0NXvHQVc5nFkhvzaja0aja6Ee+WjDkXcQyLi8mNQuAfsQBdNdgOnfCkqscXsw04QNP+DsZU9Gq6zQqKAOw64sKTdNVh8a6hAoGAOS/RDqJlcmx2UXUBnkTef7Z/PhdLyJsxhXaHVOuGGMbYxXpGWx378gHY5OBwkQeRY99sXZsSvaDCpHIy8RUo5x3lNSLtNT9GBAv2SDmCbuHBEkAXnwQG/GVwVbyRzofZRTInLm2UUnBWudJ8MkrDHl7NxmO2Og1Rig705/1GcAECgYEA0vd3LF5Z0k9eD/2EcDtETpxvfNZmqZ6mWhhqpIo6HH2dXiwuBPEjQXMeVWCKeWkR5WxS81z2rtog73iw0FmE20qnhXpKuTdNaywlcQWPjsdByxcNan0u7pAX2mOw6BDY13pPiMt5TLtMPnqDe4ux9Iscl8l4uR3s5ybwE5QX0LY=
         notifyUrl: http://localhost:8082/payed/notify
-        returnUrl: http://172.0.0.1:8080/user/service/payed
+        returnUrl: http://106.55.191.15:8080/user/service/payed
         signType: RSA2
         timeout: 30m
 server:
@@ -21,7 +21,7 @@ spring:
     datasource:
         url: jdbc:mysql://localhost:3306/ooad?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
         username: root
-        password: lh23
+        password: mxy030310
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
         hibernate:

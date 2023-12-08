@@ -257,14 +257,8 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminDao.selectOne(new MPJLambdaWrapper<>(Admin.class)
                 .eq(Admin::getName, username)
         );
-        try {
-            String privateKey = redis.getObject("RSA_PRIVATE_KEY");
-            String decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
-            asserts(admin != null && decrypt.equals(admin.getPassword()), "用户名或密码错误");
-        } catch (Exception e) {
-            LOGGER.warn(e.getMessage());
-            throw e;
-        }
+        asserts(admin != null, "用户名不存在");
+        asserts(admin.getPassword().equals(password), "密码错误");
         String token = authenticate(admin);
         System.out.println("token: " + token);
         return AdminInfo.builder()

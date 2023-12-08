@@ -228,14 +228,7 @@ public class PublicServiceImpl implements PublicService {
         }
         User user = userDao.selectOne(queryWrapper);
         asserts(user != null, "用户不存在");
-        try {
-            String privateKey = redis.getObject("RSA_PRIVATE_KEY");
-            String decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
-            asserts(passwordEncoder.matches(decrypt, user.getPassword()), "密码错误");
-        } catch (Exception e) {
-            LOGGER.warn(e.getMessage());
-            throw e;
-        }
+        asserts(passwordEncoder.matches(password, user.getPassword()), "密码错误");
         // 添加login log和authenticate
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         loginLogDao.insert(new LoginLog()
@@ -338,14 +331,8 @@ public class PublicServiceImpl implements PublicService {
     public Boolean register(String username, String password, String email, String phoneNumber, String authCode, MultipartFile file) throws Exception {
         asserts(username != null && password != null && email != null && phoneNumber != null, "用户名、密码、邮箱、手机号不能为空");
         asserts(username.length() >= 3 && username.length() <= 20, "用户名长度应在3-20之间");
-        String decrypt = null;
-        try {
-            String privateKey = redis.getObject("RSA_PRIVATE_KEY");
-            decrypt = RsaUtil.decrypt(password, RsaUtil.getPrivateKey(privateKey));
-        } catch (Exception e) {
-            LOGGER.warn(e.getMessage());
-            throw e;
-        }
+        String decrypt = password;
+        System.out.println(decrypt);
         asserts(decrypt.length() >= 6 && decrypt.length() <= 20, "密码长度应在6-20之间");
         asserts(email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$"), "邮箱格式不正确");
         asserts(phoneNumber.matches("^\\d{11}$"), "手机号格式不正确");

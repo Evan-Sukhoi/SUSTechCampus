@@ -188,6 +188,7 @@ export default {
         username: this.username,
         password: this.password
       };
+      console.log("password: ", data.password);
       // console.log("Encrypted password: ", data.password);
       this.$http.post('/public/login', data).then(resp =>{
         console.log(resp)
@@ -339,7 +340,7 @@ export default {
       formData.append('file', this.imgFile);
       var data = {
         username:this.username,
-        password:encrypt.encrypt(this.password),
+        password:this.password,
         email:this.email,
         phoneNumber:this.phoneNumber,
         authCode:this.code
