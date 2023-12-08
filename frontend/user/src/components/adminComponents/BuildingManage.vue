@@ -122,7 +122,7 @@ export default {
     active: false,
     title:'',
     building:[
-      {buildingId: 1, name:'林根',openTime:'10:00:00', closeTime:'12:00:00', locationName:'行政路', introduction:'sdasd', nearestStation:'asda', videoUrl:'asd',coverId:'1'}
+      {buildingId: 1, name:'林根',openTime:'10:00:00', closeTime:'12:00:00', locationName:'行政路', introduction:'sdasd', nearestStation:'asda', videoUrl:'asd',coverId:'1', isReservable: ''}
     ],
     editInfo:{
       buildingId:'',
@@ -132,7 +132,7 @@ export default {
       locationName:'',
       introduction:'',
       nearestStation:'',
-      videoUrl:'',
+      videoUrl: '',
       isReservable: '',
     }
   }),
@@ -170,7 +170,8 @@ export default {
       this.active = true
     },
     submit(){
-      this.$http.post(`/admin/building/change?buildingId=${this.editInfo.buildingId}&name=${this.editInfo.name}&introduction=${this.editInfo.introduction}&openTime=${this.editInfo.openTime}&closeTime=${this.editInfo.closeTime}&location_name=${this.editInfo.locationName}&nearest_station=${this.editInfo.nearestStation}&videoUrl=${this.editInfo.videoUrl}`, ).then(resp=>{
+      console.log(Boolean(this.editInfo.isReservable))
+      this.$http.post(`/admin/building/change?buildingId=${this.editInfo.buildingId}&name=${this.editInfo.name}&introduction=${this.editInfo.introduction}&openTime=${this.editInfo.openTime}&closeTime=${this.editInfo.closeTime}&location_name=${this.editInfo.locationName}&nearest_station=${this.editInfo.nearestStation}&videoUrl=${this.editInfo.videoUrl}&isReservable=${(this.editInfo.isReservable)}`, ).then(resp=>{
         if (resp.status === 200){
           this.$vs.notification({
             color:'success',
