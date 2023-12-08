@@ -100,6 +100,10 @@ export default {
   margin: 0 auto;
 }
 
+.content {
+  float: right;
+  margin: 0 auto;
+}
 
 .custom-video {
   width: 100%;
