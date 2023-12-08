@@ -331,6 +331,7 @@ public class UserServiceImpl implements UserService {
             throw new ApiException(401, "该建筑没有教室");
         }
         return rooms.stream().map(room -> {
+
             List<Reservation> reservations = reservationDao.selectList(
                     new MPJLambdaWrapper<>(Reservation.class)
                             .eq(Reservation::getRoomId, room.getRoomId())
