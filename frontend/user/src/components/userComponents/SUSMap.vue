@@ -1,7 +1,7 @@
 <template>
   <div id="out_container">
     <div class="map">
-      <vs-button v-if="!show" style="position: absolute;z-index: 2" @click="openDialog=true">
+      <vs-button v-if="!show" style="position: absolute;z-index: 2; top: 80%" @click="openDialog=true">
         {{$t('lang.operation')}}
       </vs-button>
       <div id="container"></div>

@@ -251,7 +251,8 @@ export default {
   .blog {
     display: block;
     align-content: center;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
+    overflow-x: hidden;
   }
 }
 

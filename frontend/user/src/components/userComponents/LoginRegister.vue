@@ -186,9 +186,9 @@ export default {
       /*this.photo need to be correct*/
       const data = {
         username: this.username,
-        password: encrypt.encrypt(this.password)
+        password: this.password
       };
-      console.log("Encrypted password: ", data.password);
+      // console.log("Encrypted password: ", data.password);
       this.$http.post('/public/login', data).then(resp =>{
         console.log(resp)
         if (resp.status == 200){
@@ -392,7 +392,7 @@ export default {
     this.photo = localStorage.getItem('photo') || ''
     this.isLogin = localStorage.getItem('isLogin') || ''
     //获取公钥
-    this.getPublicKey();
+    // this.getPublicKey();
   }
 }
 </script>

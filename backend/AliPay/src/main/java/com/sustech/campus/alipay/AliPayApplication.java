@@ -9,9 +9,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @MapperScan("com.sustech.campus.database.dao")
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 public class AliPayApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(AliPayApplication.class, args);
     }
-
 }

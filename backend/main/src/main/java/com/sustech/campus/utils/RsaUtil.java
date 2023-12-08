@@ -39,7 +39,7 @@ public class RsaUtil {
      */
     public static KeyPair getKeyPair() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance(ALGORITHM_NAME);
-        generator.initialize(1024);
+        generator.initialize(256);
         return generator.generateKeyPair();
     }
 
