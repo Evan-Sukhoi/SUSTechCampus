@@ -41,8 +41,12 @@
             videoUrl
           </vs-th>
           <vs-th>
+            isReservable
+          </vs-th>
+          <vs-th>
             operation
           </vs-th>
+
         </vs-tr>
       </template>
       <template #tbody>
@@ -75,6 +79,9 @@
           <vs-td>
             {{ tr.videoUrl }}
           </vs-td>
+          <vs-td>
+            {{tr.isReservable}}
+          </vs-td>
           <div>
             <vs-button @click="edit(tr)">
               Edit
@@ -96,6 +103,7 @@
         <vs-input v-model="editInfo.introduction" label-placeholder="introduction"></vs-input>
         <vs-input v-model="editInfo.nearestStation" label-placeholder="nearestStation"></vs-input>
         <vs-input v-model="editInfo.videoUrl" label-placeholder="videoUrl"></vs-input>
+        <vs-input v-model="editInfo.isReservable" label-placeholder="isReservable"></vs-input>
         <div class="footer-dialog">
           <vs-button @click="submit">Submit</vs-button>
         </div>
@@ -125,6 +133,7 @@ export default {
       introduction:'',
       nearestStation:'',
       videoUrl:'',
+      isReservable: '',
     }
   }),
   beforeMount() {
@@ -140,6 +149,7 @@ export default {
       this.editInfo.locationName = ''
       this.editInfo.nearestStation = ''
       this.editInfo.videoUrl = ''
+      this.editInfo.isReservable = ''
     },
     edit(tr){
       this.title = 'Edit'
@@ -152,6 +162,7 @@ export default {
       this.editInfo.locationName = tr.locationName
       this.editInfo.nearestStation = tr.nearestStation
       this.editInfo.videoUrl = tr.videoUrl
+      this.editInfo.isReservable = tr.isReservable
     },
     add(){
       this.title='add'
@@ -190,7 +201,7 @@ export default {
 
 <style scoped>
 .center{
-  width: 70%;
+  width: 80%;
 }
 .button-container{
   display: flex;
