@@ -14,11 +14,9 @@
               <img v-for="img in comment.imageUrl" :src="img" alt="comment image" class="comment-image" width="100px">
             </div>
 
-<!--            {{comment.score}}-->
-<!--            <el-button @click="toggleLike" :class="{ liked: isLiked }">-->
-<!--              <el-icon :class="{ 'el-icon-heart': isLiked, 'el-icon-heart-off': !isLiked }"></el-icon>-->
-<!--              {{ isLiked ? '取消点赞' : '点赞' }}-->
-<!--            </el-button>-->
+            {{comment.score}}
+            <el-button @click="toggleLike(comment.commentId)"  icon="el-icon-star-off">
+            </el-button>
           </div>
         </div>
       </el-scrollbar>
@@ -81,7 +79,6 @@ export default {
       comments: [],
       photos: [],
       show: false,
-      isLiked: false
     }
   },
   created() {
@@ -124,8 +121,11 @@ export default {
 
     },
 
-    toggleLike() {
-      this.isLiked = !this.isLiked;
+    toggleLike(id) {
+      const userId = localStorage.getItem("userID")
+      this.$http.get(`/user/comment/like?userId=${userId}&commentId=${id}`).then(res=>{
+        console.log(res)
+      })
     },
 
     handleFileChange(file) {

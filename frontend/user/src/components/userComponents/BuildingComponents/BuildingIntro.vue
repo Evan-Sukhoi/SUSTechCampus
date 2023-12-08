@@ -95,13 +95,14 @@ export default {
 }
 
 .video-container {
-  max-width: 500px;
+  max-width: 600px;
   float: left;
   margin: 0 auto;
 }
 
 .content {
   float: right;
+  width: 700px;
   margin: 0 auto;
 }
 

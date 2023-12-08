@@ -268,7 +268,7 @@ export default {
   height: 100%;
   overflow: auto;
   overflow-x: hidden;
-  background-image: url("../../assets/pad(canDelete)/background/提瓦特.jpg");
+  background-image: url("../../assets/pad(canDelete)/background/building.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -11,7 +11,7 @@
           <h3>{{ room.roomTypeName }}</h3>+
         </template>
         <template #img>
-          <img :src="room.roomImageUrls[0]" style="width: 800px;">
+          <img :src="room.roomImageUrls[0]" style="width: 1000px;">
         </template>
         <template #text>
           <p>
@@ -83,9 +83,10 @@ export default {
 .roomList {
   //top: 150px;
   position: relative;
-  width: 1000px;
+  max-width: 1000px;
   background-color: rgba(244, 209, 204, 0.5);
   border-radius: 20px;
+  margin: auto;
 }
 
 .background {
