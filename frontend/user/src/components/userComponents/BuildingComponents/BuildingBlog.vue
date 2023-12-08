@@ -14,11 +14,13 @@
               <img v-for="img in comment.imageUrl" :src="img" alt="comment image" class="comment-image" width="100px">
             </div>
 
-            {{comment.score}} likes
-           <div v-if="show">
-             <el-button  @click="toggleLike(comment.commentId, comment.score)"  icon="el-icon-star-off" >
-             </el-button>
-           </div>
+            <div class="comment-footer">
+              <span>{{ comment.score }} likes</span>
+              <div v-if="show" class="like-button">
+                <el-button @click="toggleLike(comment.commentId, comment.score)" icon="el-icon-star-off">
+                </el-button>
+              </div>
+            </div>
           </div>
         </div>
       </el-scrollbar>
@@ -184,6 +186,7 @@ export default {
   width: 100%;
   background-color: white;
   border-radius: 20px;
+  border: 1px solid black;
 }
 
 .liked {
@@ -280,4 +283,46 @@ export default {
   margin-right: 8px;
 }
 
+.comment {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.username {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.user-image {
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.time {
+  color: #777;
+}
+
+.comment-text {
+  margin-bottom: 10px;
+}
+
+.comment-images img {
+  margin-right: 5px;
+}
+
+.comment-footer {
+  display: flex;
+  align-items: center;
+}
+
+.like-button {
+  margin-left: auto;
+}
 </style>

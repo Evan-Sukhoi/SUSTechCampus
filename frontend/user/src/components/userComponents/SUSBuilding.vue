@@ -227,7 +227,37 @@
            </el-row>
          </div>
        </li>
+
+       <li>
+         <div>
+           <h1>{{$t('lang.canteen')}}</h1>
+         </div>
+
+         <div>
+           <el-row :gutter="20">
+             <el-col v-for="building in this.buildings" v-if="building.buildingType === `食堂`" :key="building.buildingId" :xs="24" :sm="6">
+               <router-link :key="building.name" :to="`/user/building/${building.buildingId}/intro`">
+                 <vs-card type=2>
+                   <template #title>
+                     <h3>{{ building.name}}</h3>
+                   </template>
+                   <template #img>
+                     <img v-bind:src= building.coverUrl  alt="" style="height: 300px;">
+                   </template>
+                   <template #text>
+                     <p>
+                       {{ building.introduction}}
+                     </p>
+                   </template>
+                 </vs-card>
+               </router-link>
+             </el-col>
+           </el-row>
+         </div>
+       </li>
      </ul>
+
+
    </div>
   </div>
 </template>
