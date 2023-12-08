@@ -35,7 +35,7 @@ export default {
 #back2{
   width: 100%;
   height: 1000px;
-  background-image: url("../../assets/pad(canDelete)/background/img.png");
+  background-image: url("../../assets/pad(canDelete)/background/main.jpg");
   background-size: cover;
 }
 #bayleys {
