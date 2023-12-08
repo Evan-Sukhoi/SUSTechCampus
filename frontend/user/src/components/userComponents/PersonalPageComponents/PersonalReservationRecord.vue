@@ -47,7 +47,7 @@
         <el-table-column
             fixed="right"
             :label="$t('lang.operation')"
-            width="120">
+            :width="width">
           <template slot-scope="scope">
             <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
@@ -77,7 +77,17 @@ export default {
   components:{
     ReservationForm
   },
+  mounted() {
+    window.addEventListener("resize", this.handleResize)
+    this.handleResize()
+  },
   methods: {
+    handleResize(){
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      if (isSmallScreen){
+        this.width='80'
+      }
+    },
     fetchData(){
       console.log(1)
       this.$http.get('/user/reservation/get/all?userId='+ localStorage.getItem('userID')).then(resp => {
@@ -157,6 +167,7 @@ export default {
   },
   data() {
     return {
+      width:120,
       tableData: [{
         roomID:101,
         department:'计算机系',
@@ -198,5 +209,14 @@ export default {
 
 #title {
   position: relative;
+}
+@media screen and (max-width: 768px){
+  .inf {
+    padding: 10px;
+    border-style: solid;
+    border-color: rgba(204, 204, 204, 0.7);
+    border-width: 10px;
+    margin: 20px;
+  }
 }
 </style>
