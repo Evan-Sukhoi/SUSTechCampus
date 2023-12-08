@@ -14,9 +14,11 @@
               <img v-for="img in comment.imageUrl" :src="img" alt="comment image" class="comment-image" width="100px">
             </div>
 
-            {{comment.score}}
-            <el-button @click="toggleLike(comment.commentId)"  icon="el-icon-star-off">
-            </el-button>
+            {{comment.score}} likes
+           <div v-if="show">
+             <el-button  @click="toggleLike(comment.commentId, comment.score)"  icon="el-icon-star-off" >
+             </el-button>
+           </div>
           </div>
         </div>
       </el-scrollbar>
@@ -121,11 +123,14 @@ export default {
 
     },
 
-    toggleLike(id) {
+    toggleLike(id, score) {
       const userId = localStorage.getItem("userID")
       this.$http.get(`/user/comment/like?userId=${userId}&commentId=${id}`).then(res=>{
-        console.log(res)
+        console.log(res.data)
+        this.fetchCommentData(this.buildingId);
+
       })
+
     },
 
     handleFileChange(file) {

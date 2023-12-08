@@ -67,6 +67,7 @@ public class WebConfig implements WebMvcConfigurer {
 //                                .requestMatchers(new AntPathRequestMatcher("/user/change-headshot")).authenticated()
 //                                .requestMatchers(new AntPathRequestMatcher("/user/**")).anonymous()
                                 .requestMatchers(new AntPathRequestMatcher("/public/**")).permitAll() //放行获取信息相关URL
+                                .requestMatchers(new AntPathRequestMatcher("/admin")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/admin/login")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/admin/user/all")).permitAll()
 //                                .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()

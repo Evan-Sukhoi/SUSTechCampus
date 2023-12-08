@@ -41,8 +41,12 @@
             videoUrl
           </vs-th>
           <vs-th>
+            isReservable
+          </vs-th>
+          <vs-th>
             operation
           </vs-th>
+
         </vs-tr>
       </template>
       <template #tbody>
@@ -75,6 +79,9 @@
           <vs-td>
             {{ tr.videoUrl }}
           </vs-td>
+          <vs-td>
+            {{tr.isReservable}}
+          </vs-td>
           <div>
             <vs-button @click="edit(tr)">
               Edit
@@ -96,6 +103,7 @@
         <vs-input v-model="editInfo.introduction" label-placeholder="introduction"></vs-input>
         <vs-input v-model="editInfo.nearestStation" label-placeholder="nearestStation"></vs-input>
         <vs-input v-model="editInfo.videoUrl" label-placeholder="videoUrl"></vs-input>
+        <vs-input v-model="editInfo.isReservable" label-placeholder="isReservable"></vs-input>
         <div class="footer-dialog">
           <vs-button @click="submit">Submit</vs-button>
         </div>
@@ -114,7 +122,7 @@ export default {
     active: false,
     title:'',
     building:[
-      {buildingId: 1, name:'林根',openTime:'10:00:00', closeTime:'12:00:00', locationName:'行政路', introduction:'sdasd', nearestStation:'asda', videoUrl:'asd',coverId:'1'}
+      {buildingId: 1, name:'林根',openTime:'10:00:00', closeTime:'12:00:00', locationName:'行政路', introduction:'sdasd', nearestStation:'asda', videoUrl:'asd',coverId:'1', isReservable: ''}
     ],
     editInfo:{
       buildingId:'',
@@ -124,7 +132,8 @@ export default {
       locationName:'',
       introduction:'',
       nearestStation:'',
-      videoUrl:'',
+      videoUrl: '',
+      isReservable: '',
     }
   }),
   beforeMount() {
@@ -140,6 +149,7 @@ export default {
       this.editInfo.locationName = ''
       this.editInfo.nearestStation = ''
       this.editInfo.videoUrl = ''
+      this.editInfo.isReservable = ''
     },
     edit(tr){
       this.title = 'Edit'
@@ -152,6 +162,7 @@ export default {
       this.editInfo.locationName = tr.locationName
       this.editInfo.nearestStation = tr.nearestStation
       this.editInfo.videoUrl = tr.videoUrl
+      this.editInfo.isReservable = tr.isReservable
     },
     add(){
       this.title='add'
@@ -159,7 +170,8 @@ export default {
       this.active = true
     },
     submit(){
-      this.$http.post(`/admin/building/change?buildingId=${this.editInfo.buildingId}&name=${this.editInfo.name}&introduction=${this.editInfo.introduction}&openTime=${this.editInfo.openTime}&closeTime=${this.editInfo.closeTime}&location_name=${this.editInfo.locationName}&nearest_station=${this.editInfo.nearestStation}&videoUrl=${this.editInfo.videoUrl}`, ).then(resp=>{
+      console.log(Boolean(this.editInfo.isReservable))
+      this.$http.post(`/admin/building/change?buildingId=${this.editInfo.buildingId}&name=${this.editInfo.name}&introduction=${this.editInfo.introduction}&openTime=${this.editInfo.openTime}&closeTime=${this.editInfo.closeTime}&location_name=${this.editInfo.locationName}&nearest_station=${this.editInfo.nearestStation}&videoUrl=${this.editInfo.videoUrl}&isReservable=${(this.editInfo.isReservable)}`, ).then(resp=>{
         if (resp.status === 200){
           this.$vs.notification({
             color:'success',
@@ -190,7 +202,7 @@ export default {
 
 <style scoped>
 .center{
-  width: 70%;
+  width: 80%;
 }
 .button-container{
   display: flex;

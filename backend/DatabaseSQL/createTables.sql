@@ -1795,6 +1795,37 @@ values ('https://cdn.jsdelivr.net/gh/Evan-Sukhoi/ImageHost@main/building/%E6%B6%
 insert into Buildings_Image(building_ID, image_ID)
 values (18,
         52);
+
+insert into Room_type(type, capacity, description)
+values ('羽毛球场',
+        30,
+        "润扬体育馆的羽毛球场是南科大校园内最热门的羽毛球场");
+
+insert into Room(building_ID, number, room_type_ID
+values (18,
+        101,
+        69);
+
+insert into Room_type(type, capacity, description)
+values ('健身中心',
+        4,
+        "润扬体育馆的健身中心是南科大校园内规模最大，设施最齐全的健身房");
+
+insert into Room(building_ID, number, room_type_ID)
+values (18,
+        401,
+        70);
+
+insert into Room_type(type, capacity, description)
+values ('野战场地',
+        25,
+        "润扬体育馆的野战场地是南科大校园内唯一的可以进行cs竞技的场地");
+
+insert into Room(building_ID, number, room_type_ID)
+values (18,
+        102,
+        71);
+
 --商学院
 insert into Building (name, open_time, close_time, location_name, introduction, nearest_station, video_url, cover_ID, building_type, is_reservable)
 values ('商学院',

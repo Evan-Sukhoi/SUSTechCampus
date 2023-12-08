@@ -154,6 +154,7 @@ public class AdminServiceImpl implements AdminService {
             buildingChange.setVideoUrl(building.getVideoUrl());
             buildingChange.setBuildingType(building.getBuildingType());
             buildingChange.setIsReservable(building.getIsReservable());
+            System.out.println(buildingChange);
             buildingDao.updateById(buildingChange);
             return true;
         }

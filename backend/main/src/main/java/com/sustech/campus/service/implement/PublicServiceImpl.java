@@ -141,7 +141,7 @@ public class PublicServiceImpl implements PublicService {
         Building building = buildingDao.selectJoinOne(
                 Building.class,
                 new MPJLambdaWrapper<Building>()
-                        .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId)
+                        .select(Building::getBuildingId, Building::getName, Building::getOpenTime, Building::getCloseTime, Building::getLocationName, Building::getIntroduction, Building::getNearestStation, Building::getVideoUrl, Building::getCoverId, Building::getBuildingType, Building::getIsReservable)
                         .eq(Building::getBuildingId, buildingId)
         );
         List<String> image_url = buildingsImageDao.selectList(
