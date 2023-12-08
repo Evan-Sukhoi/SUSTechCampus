@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,8 @@ public class UserController {
                                               @ApiParam("评论id") @RequestParam Integer commentId) {
         try{
             Boolean like = userService.likeComment(commentId, userId);
-            Map<String, Boolean> response = Map.of("like", like);
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("like", like);
             return ResponseEntity.ok().body(response);
         } catch (ApiException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
