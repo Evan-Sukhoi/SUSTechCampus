@@ -56,7 +56,7 @@ export default {
     sign(){
       var data={
         username:this.username,
-        password:encrypt.encrypt(this.password),
+        password:this.password,
       }
       this.$http.post('/admin/login', data).then(resp=>{
         if (resp.status===200){
@@ -76,7 +76,7 @@ export default {
     }
   },
   beforeMount() {
-    this.getPublicKey()
+    // this.getPublicKey()
   }
 }
 </script>
