@@ -121,3 +121,10 @@ GPT给出的解释是：
 
   启动时分别启动两个，同时确保各自的配置文件被配置、端口号被指定（否则会从8080往上加）
 
+### 12.7 
+- http://localhost:8081/admin/login?username=admin&password=C7nS1SD6rPkbuIWKgzuEFBQToRrYtJbktQGtmPOAOp0Lu03rcEHFAUxGIxTsuYuEykXKJKAdgh9H6YgOP4i8rxTvMwuJE5pidekoYgBAMwHo0uISshwLZx5FGQKPDdSnY5LGSworGjU8+O71dC9PBQxVR/Rt5I4W2rPZxHzgnzs=
+里面的+变成了空格，因为url会对特殊字符作转换
+
+- 跨域
+  首先要配置好
+  然后在要被跨域访问的mapping方法加上  @CrossOrigin(origins = "*")

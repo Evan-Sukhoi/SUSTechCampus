@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @MappingController("/user")
 public class UserController {
@@ -102,10 +103,12 @@ public class UserController {
 
     @ApiOperation("用户点赞")
     @RequestMapping("/comment/like")
-    public ResponseEntity<Object> likeComment(@ApiParam("用户id") @RequestParam Integer userId, @ApiParam("评论id") @RequestParam Integer commentId) {
+    public ResponseEntity<Object> likeComment(@ApiParam("用户id") @RequestParam Integer userId,
+                                              @ApiParam("评论id") @RequestParam Integer commentId) {
         try{
-            userService.likeComment(commentId, userId);
-            return ResponseEntity.ok().build();
+            Boolean like = userService.likeComment(commentId, userId);
+            Map<String, Boolean> response = Map.of("like", like);
+            return ResponseEntity.ok().body(response);
         } catch (ApiException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
