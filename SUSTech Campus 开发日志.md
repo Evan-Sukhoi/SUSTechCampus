@@ -122,17 +122,18 @@ GPT给出的解释是：
   启动时分别启动两个，同时确保各自的配置文件被配置、端口号被指定（否则会从8080往上加）
 
 ### 12.7 
--使用url携带参数中包含链接时，会导致传输后链接不正确
- ```
+- 使用url携带参数中包含链接时，会导致传输后链接不正确
+   ```
   http://localhost:8081/admin/login?username=admin&password=C7nS1SD6rPkbuIWKgzuEFBQToRrYtJbktQGtmPOAOp0Lu03rcEHFAUxGIxTsuYuEykXKJKAdgh9H6YgOP4i8rxTvMwuJE5pidekoYgBAMwHo0uISshwLZx5FGQKPDdSnY5LGSworGjU8+O71dC9PBQxVR/Rt5I4W2rPZxHzgnzs=
- ```
- url里面的+变成了空格，因为url会对特殊字符作转换
- 因此需要加上`\`到链接中的这些字符之前，但最好的办法是把链接参数放到body里面，使用json格式传输。
+  ```
+  url里面的+变成了空格，因为url会对特殊字符作转换。
+  
+  因此需要加上`\`到链接中的这些字符之前，但最好的办法是把链接参数放到body里面，使用json格式传输。
 
 - 跨域
   首先要配置好，像这样
   ```
-      @Override
+    @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") //允许所有API
                 .allowedOriginPatterns("*") //允许所有域名
