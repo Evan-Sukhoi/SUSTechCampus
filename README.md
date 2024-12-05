@@ -1,6 +1,10 @@
 # 南科大导航 - Sustech Campus
 
 ## 项目简介 / Project Overview  
+> 本项目是南方科技大学计算机科学与工程开设的CS309（面向对象分析与设计）课程项目，获评高分优秀项目。
+> 
+> This project is a CS309 (Object-oriented Analysis and Design) course project offered by Dept. of Computer Science and Engineering of Southern University of Science and Technology (SUSTech), and has been rated as an excellent project.
+
 南科大导航是一个在线网站，旨在为游客和注册用户提供便捷的校园导航服务。游客可以查看南科大的建筑信息和公交线路，注册用户可以访问更详细的校园资源，还可以进行资源预订和评价学校设施。系统管理员可以高效管理网站内容和用户交互。  
 **Sustech Campus** is an online platform designed to provide convenient campus navigation services for visitors and registered users. Visitors can view information about SUSTech's buildings and bus routes, while registered users can access more detailed campus resources, make reservations, and evaluate campus facilities. System administrators can efficiently manage site content and user interactions.
 
