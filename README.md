@@ -1,38 +1,132 @@
-# SUSTechCampus
+# 南科大导航 - Sustech Campus
 
-数据库采用MySQL，同时搭配Redis作为缓存
+## 项目简介 / Project Overview  
+南科大导航是一个在线网站，旨在为游客和注册用户提供便捷的校园导航服务。游客可以查看南科大的建筑信息和公交线路，注册用户可以访问更详细的校园资源，还可以进行资源预订和评价学校设施。系统管理员可以高效管理网站内容和用户交互。  
+**Sustech Campus** is an online platform designed to provide convenient campus navigation services for visitors and registered users. Visitors can view information about SUSTech's buildings and bus routes, while registered users can access more detailed campus resources, make reservations, and evaluate campus facilities. System administrators can efficiently manage site content and user interactions.
 
-服务器采用Nginx
+---
 
-后端管理使用mybatis（无需安装，在maven中执行即可）
+## 功能特点 / Features  
 
+### 页面美观 / User-Friendly Interface  
+- 动漫角色导游（看板娘+语音）  
+  Animated character guides (mascot + voice).  
+- 兼具用户界面和管理员界面  
+  Supports both user and administrator interfaces.  
+- 用户和管理员界面分离  
+  Separate user and admin interfaces.  
+- 前端支持中英双语切换  
+  Frontend supports bilingual (Chinese and English) switching.  
 
-## 后端数据持久化方法简介
-### DAO（data access object）
-此类文件位于backend/database/src/main/java/com/sustech/campus/database/dao
+### 交通导航 / Transportation Navigation  
+- 根据两点经纬度实现步行路线和校内公交线路计算  
+  Calculates walking routes and on-campus bus routes based on two geographic coordinates.  
+- 提供动态路径演示（基于用户位置实现导航）  
+  Offers dynamic path demonstrations with navigation based on user location.  
+- 使用 HTTPS 协议提升数据安全性  
+  Ensures data security with HTTPS protocol.  
 
-每个文件实现了一个DAO接口，该接口继承自MPJBaseMapper<City>，这是一个泛型接口，其使用了MyBatis Plus框架。
+### 支付功能与文创购买 / Payment System & Cultural Product Sales  
+- 支持完整的支付宝支付系统  
+  Fully supports the Alipay payment system.  
+- 提供文创产品购买服务平台  
+  Provides a platform for purchasing cultural products.  
 
-MyBatis Plus是MyBatis的一个增强工具，用于简化MyBatis的操作。MPJBaseMapper 是MyBatis Plus提供的基础Mapper接口之一，它提供了常用的数据库操作方法，如插入、更新、删除和查询等，可以通过泛型来指定操作的实体类型（在这里是City）。
+### 移动端与社交功能 / Mobile-Responsive Design & Social Features  
+- 响应式页面设计  
+  Mobile-responsive page design.  
+- 支持多图评价  
+  Supports multi-image reviews.  
+- 评论点赞功能  
+  Allows users to like comments.  
 
-因此，这个DAO接口使用了MyBatis Plus框架用于与数据库进行交互，并且它将实体（PO中）与数据库中的表进行了映射。这意味着可以使用这个接口来执行与城市表相关的数据库操作，而不必手动编写SQL查询和更新语句。 MyBatis Plus会帮助生成和执行这些SQL语句。
+### 优质数据 / High-Quality Data  
+- 提供自制建筑介绍视频  
+  Includes self-produced building introduction videos.  
+- 使用真实南科大数据，包括建筑、房间、文创信息  
+  Utilizes real SUSTech data, including buildings, rooms, and cultural product information.  
 
-### PO（persistent object）
+### 安全设计 / Secure Design  
+- 使用 token 进行鉴权，防止恶意访问  
+  Authenticates users with tokens to prevent unauthorized access.  
+- 数据加密传输，邮件验证码验证  
+  Encrypts data transmission and uses email verification codes.  
+- 日志记录访问信息  
+  Logs access information.  
+- 前端设置路由拦截  
+  Implements route interception on the frontend.  
 
-此类文件位于backend/database/src/main/java/com/sustech/campus/database/po
+### 微服务架构 / Microservice Architecture  
+- 前后端分离的微服务架构  
+  Microservice architecture with frontend-backend separation.  
+- 使用 Nginx 作为反向代理  
+  Utilizes Nginx as a reverse proxy.  
 
-每个文件都实现了一个PO（Persistence Object）类，也可以称为实体类。在持久层开发中，PO类通常用于表示数据库中的表结构，每个PO类的字段对应数据库表中的列。
+### 预约高并发 / High-Concurrency Reservation System  
+- 采用 Redis 实现高并发处理  
+  Handles high concurrency using Redis.  
 
-这些PO类使用了一些Java技术和框架：
+---
 
-Lombok注解： 自动生成常见的Java类方法，如Getter、Setter、构造函数等。这些注解包括@Data、@AllArgsConstructor、@NoArgsConstructor 和 @Builder。例如，@Data 注解自动生成了类的Getter和Setter方法，@AllArgsConstructor 自动生成了一个包含所有属性的全参构造函数，@NoArgsConstructor 自动生成了一个无参构造函数，@Builder 自动生成了一个Builder模式的构建器。Lombok可以减少开发人员的样板代码编写工作，提高了代码的可读性。
+## 主要模块及技术实现 / Key Modules and Technical Implementation  
 
-MyBatis Plus注解： @TableId 和 @IdType.AUTO 是MyBatis Plus的注解。@TableId 用于标识实体类中的主键字段，@IdType.AUTO 表示主键的生成策略是自增长（通常用于自动递增的主键字段）。
+1. **权限管理 / User Roles**  
+   - 游客、注册用户和系统管理员三种权限  
+     Three roles: visitors, registered users, and system administrators.  
 
-字段定义： 比如一个City类，它包含了一些属性，如 id、name、provinceId 和 isProvincialCapital，这些属性对应了数据库表中的列。
+2. **校园平面图 / Campus Map**  
+   - 显示关键建筑和道路信息，支持建筑介绍查询  
+     Displays key buildings and roads, supports building information queries.  
 
-## 接下来后端需要做的工作
+3. **评价功能 / Review System**  
+   - 注册用户可以对建筑进行文字和图片评价，需审批通过后展示  
+     Registered users can submit text and image reviews, which are displayed after approval.  
 
-根据数据库的设计，仿照学习链接，完成Dao和Po的填充。
+4. **预定功能 / Reservation System**  
+   - 支持教室预定、食堂订餐、体育馆场地预定等  
+     Supports classroom reservations, canteen orders, and sports venue bookings.  
 
-学习链接：[https://github.com/QuanQuan-CHO/SUSTech-Regency](https://github.com/QuanQuan-CHO/SUSTech-Regency)
+5. **系统管理员功能 / Admin Features**  
+   - 审核评论、批量注册账号、数据分析和预约量统计  
+     Approves reviews, registers accounts in batches, analyzes data, and tracks reservation statistics.  
+
+---
+
+## 技术栈 / Tech Stack  
+
+- **后端 / Backend**: Spring Boot, Redis, MySQL  
+- **前端 / Frontend**: Vue.js  
+- **部署 / Deployment**: Nginx, Microservice Architecture  
+- **安全 / Security**: RSA+AES encryption, Spring Security  
+- **支付 / Payment**: Integrated Alipay  
+
+---
+
+## 如何运行 / How to Run  
+
+1. 克隆本项目 / Clone this repository:  
+   ```bash
+   git clone https://github.com/your-repo/Sustech-Campus.git
+   ```  
+
+2. 配置数据库 / Configure the database:  
+   - 在 `application.yml` 中配置 MySQL 和 Redis 信息。  
+     Update MySQL and Redis information in `application.yml`.  
+
+3. 启动后端 / Start the backend:  
+   ```bash
+   mvn spring-boot:run
+   ```  
+
+4. 启动前端 / Start the frontend:  
+   ```bash
+   npm install
+   npm run serve
+   ```  
+
+5. 使用浏览器访问 `http://localhost:8080` / Open `http://localhost:8080` in your browser.  
+
+---
+
+欢迎大家对本项目提出意见与建议！🎉  
+Feel free to share your feedback and suggestions for this project! 🎉  
